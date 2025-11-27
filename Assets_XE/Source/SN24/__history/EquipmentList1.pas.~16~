@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, DB, DBTables, GridsEh, DBGridEh, StdCtrls, ComCtrls, ExtCtrls, Comobj,
+  Dialogs, DB, DBTables, GridsEh, DBGridEh, StdCtrls, ComCtrls, ExtCtrls, ComObj, Excel2000,
   DBGridEhGrouping, ToolCtrlsEh, DBGridEhToolCtrls, DynVarsEh, EhLibVCL,ShellAPI,
   DBAxisGridsEh, Vcl.Menus;
 
@@ -212,7 +212,11 @@ type
     cbT: TCheckBox;
     Button7: TButton;
     PDF_export: TCheckBox;
-    CheckBox1: TCheckBox;
+    IT_KK: TButton;
+    CK2: TCheckBox;
+    CK1: TCheckBox;
+    TSCDQryLicense: TStringField;
+    RB4: TRadioButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -229,6 +233,7 @@ type
     procedure Button5Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
+    procedure IT_KKClick(Sender: TObject);
   private
     NDate:TDate;
     AppDir:string;
@@ -293,6 +298,31 @@ begin
   EquipmentList:=nil;
 end;
 
+procedure TEquipmentList.IT_KKClick(Sender: TObject);
+begin
+  with TSCDQry do
+      begin
+          if IT_KK.Visible= true then
+        begin
+          active:=false;
+          if ((ck1.Checked= false) and (ck2.Checked=false))or ((ck1.Checked= true) and (ck2.Checked=true)) then
+            begin
+             showmessage('Vui long chon TSCD hoac CCDC');
+             abort;
+            end;
+          // bo sung phan biet thiet bi CCDC va TSCD cua IT
+      if CK1.Checked then
+          SQL.Add('delete TSCD_KK where Unit_Name = 1 ');
+      if CK2.Checked then
+          SQL.Add('delete TSCD_KK where Unit_Name is NULL ');
+        //////////////////////////////////////////////
+          sql.Add('insert into TSCD_KK');
+          SQL.Add('select STT,TSID,TSBH,SBBH,DepID,RFID_Tag,DepName,Unit_Name from #tmp');
+          active:=true;
+        end;
+      end;
+end;
+
 procedure TEquipmentList.MenuItem1Click(Sender: TObject);
 begin
   ExportExcel(TSCDDetQry,nil);
@@ -345,8 +375,13 @@ begin
       SQL.Add('where TSCD.LB=1 ');
       //SQL.add('and TSCD.Status is not null ');
       SQL.Add('Union all ');
-      SQL.Add('Select TSCD.*');
-          if RB2.Checked= true then            // thiet bi IT
+      SQL.Add('Select TSCD.TSID, TSCD.TSBH, TSCD.SBBH, TSCD.Qty, TSCD.XSBH, TSCD.NSX,');
+      SQL.Add(' ISNULL(TSCD.InDATE,KCRKS.USERDATE),');
+      SQL.Add(' TSCD.DepID, TSCD.DepID_Memo, TSCD.JDTS, TSCD.JDBDATE, TSCD.JDEDATE, TSCD.JRTS, TSCD.JRBDATE, TSCD.JREDATE, TSCD.Status, TSCD.USERID, TSCD.USERDATE, TSCD.CFMID, TSCD.CFMDATE, TSCD.YN, TSCD.CFMID_LL, TSCD.CFMDATE_LL, TSCD.LLNO, ');
+      SQL.Add(' TSCD.CFMID_RK, TSCD.CFMDATE_RK, TSCD.RKNO, TSCD.LB, TSCD.RFID_Tag, TSCD.LABEL_Tag, TSCD.USERID_Tag,');
+      SQL.Add(' TSCD.USERDATE_Tag, TSCD.Memo, TSCD.MSBBH, TSCD.VND, TSCD.USD, TSCD.USERID_Price, TSCD.USERDATE_Price, TSCD.CycleDate_M, TSCD.Machine_Type, TSCD.Lean_ID, TSCD.CycleDate_S, TSCD.CycleDate_Y, ');
+      SQL.Add('      TSCD.Machine_Status, TSCD.USERID_Modify, TSCD.USERDATE_Modify, TSCD.Unit_Name,TSCD.License');
+          if RB2.Checked= true or RB4.Checked= true then            // thiet bi IT
             begin
             SQL.Add('       ,TSCD_IT.NameVN as YWPM,TSCD_IT.NameVN as VWPM,TSCD_IT.NameTW as zwpm');
             end else
@@ -369,7 +404,7 @@ begin
       SQL.Add('left join BDepartment JDBDep on JDBDep.ID=TSCD.JDTS ');
       SQL.Add('left join TSCD_BDepartment Lean_Dep on Lean_Dep.ID=TSCD.Lean_ID ');
       SQL.Add('left join TSCD_IT on TSCD_IT.TSBH = SUBSTRING(TSCD.TSBH, 1, CHARINDEX(''0'', TSCD.TSBH) - 1)');
-      SQL.Add('where TSCD.LB=2');
+      SQL.Add('where TSCD.LB in (2,3)');
       //ERP 入庫單來源
       SQL.Add(') TSCD where 1=1 ');
       if TSIDEdit.Text<>'' then
@@ -403,7 +438,15 @@ begin
       if RB1.Checked=true then
         SQl.Add('and TSCD.LB=1 ');
       if RB2.Checked=true then
-        SQl.Add('and TSCD.LB=2 and TSCD.Label_Tag like ''A%'' ');
+          SQl.Add('and TSCD.LB=2 and TSCD.Label_Tag like ''A%'' ');
+      if RB4.Checked=true then
+          SQl.Add('and TSCD.LB=3 and TSCD.Label_Tag like ''A%'' ');
+          // bo sung phan biet thiet bi CCDC va TSCD cua IT
+      if CK1.Checked then
+          SQl.Add('and Unit_Name = 1 ');
+      if CK2.Checked then
+          SQl.Add('and Unit_Name is NULL ');
+        //////////////////////////////////////////////
       if RB3.Checked=true then
         SQl.Add('and TSCD.LB=2 and TSCD.Label_Tag like ''B%'' ');
       if LabelEdit.Text<>'' then
@@ -469,6 +512,23 @@ begin
       SQL.Add('left join BDepartment JDBDep on JDBDep.ID=TSCD.JDTS ');
       SQL.Add('left join CLZL MCLZL on MCLZL.CLDH = TSCD.MSBBH ');
       SQL.Add('where TSCD.LB=2');
+      //  bo sung lb 3 IT DC
+      SQL.Add('Union all ');
+      SQL.Add('Select TSCD.*');
+      SQL.Add('       ,CLZL.YWPM,NULL as VWPM,CLZL.zwpm,null as HGPM,null as QUCBH,null as LSBH,CLZL.dwbh,KCRK.ZSBH,CLZL.cqdh,null as AuthCompany,null as AuthCE,null as SB_Memo');
+      SQL.Add('       ,ZSZL.zsjc,zszl.zsywjc,zszl.fpdz,zszl.dh,zszl.cz,zszl.fzr,zszl.llr');
+      SQL.Add('       ,null as LB1_Memo,null as LB2_Memo,null LB3_Memo,null as ZSZL_AuthCE,null as AuthCE_Memo,null as AuthZSDH,null as AuthZSDH_Memo,null as IsZSDH,null as ZSZL_Memo');
+      SQL.Add('       ,IsNull(JDBDep.DepName,BDepartment.DepName) as DepName,IsNull(JDBDep.DepMemo,BDepartment.DepMemo) as DepMemo  ');
+      SQL.Add('       ,KCRKS.USPrice,KCRKS.VNPrice,KCRKS.DOCNO,null as JRTS_Dep,null as JRTSDep,MCLZL.YWPM as MYWPM,MCLZL.ZWPM as MZWPM,BDepartment.ID,BDepartment.SFL  ');
+      SQL.Add('from TSCD');
+      SQL.Add('left join CLZL on CLZL.CLDH = TSCD.SBBH');
+      SQL.Add('left join KCRK  on KCRK.RKNO=TSCD.RKNO ');
+      SQL.Add('left join KCRKS on KCRKS.RKNO=KCRK.RKNO and KCRKS.CLBH=TSCD.SBBH ');
+      SQL.Add('left join TSCD_BDepartment BDepartment on BDepartment.ID=TSCD.DepID');
+      SQL.Add('left join ZSZL on ZSZL.ZSDH=KCRK.ZSBH');
+      SQL.Add('left join BDepartment JDBDep on JDBDep.ID=TSCD.JDTS ');
+      SQL.Add('left join CLZL MCLZL on MCLZL.CLDH = TSCD.MSBBH ');
+      SQL.Add('where TSCD.LB=3');
       //ERP 入庫單來源
       SQL.Add(') TSCD where 1=1 ');
       if TSIDEdit.Text<>'' then
@@ -501,6 +561,8 @@ begin
         SQl.Add('and TSCD.LB=2 and TSCD.Label_Tag like ''A%'' ');
       if RB3.Checked=true then
         SQl.Add('and TSCD.LB=2 and TSCD.Label_Tag like ''B%'' ');
+      if RB4.Checked=true then
+        SQl.Add('and TSCD.LB=3 and TSCD.Label_Tag like ''A%'' ');
       if LabelEdit.Text<>'' then
         SQL.Add('and Label_Tag like '''+LabelEdit.Text+'%'' ');
       if MemoEdit.Text<>'' then
@@ -563,6 +625,22 @@ begin
       SQL.Add('left join CLZL MCLZL on MCLZL.CLDH = TSCD.MSBBH ');
       SQL.Add('left join lbzls on lbzls.lb=''02'' and lbzls.lbdh=IsNull(MCLZL.dwbh,CLZL.dwbh) ');
       SQL.Add('where TSCD.LB=2');
+      // bo sung lb3
+      SQL.Add('Union all ');
+      SQL.Add('Select TSCD.*');
+      SQL.Add('       ,CLZL.YWPM,NULL as VWPM,CLZL.ZWPM,null as HGPM,null as QUCBH,null as LSBH,CLZL.dwbh,KCRK.ZSBH,CLZL.cqdh,null as AuthCompany,null as AuthCE');
+      SQL.Add('       ,IsNull(JDBDep.DepName,BDepartment.DepName) as DepName,IsNull(JDBDep.DepMemo,BDepartment.DepMemo) as DepMemo  ');
+      SQL.Add('       ,null as JRTS_Dep,null as JRTSDep,IsNull(MCLZL.YWPM,CLZL.YWPM) as MYWPM,IsNull(MCLZL.ZWPM,CLZL.ZWPM) as MZWPM,lbzls.zwsm as ZDWBH,lbzls.ywsm as YDWBH  ');
+      SQL.Add('from TSCD');
+      SQL.Add('left join CLZL on CLZL.CLDH = TSCD.SBBH');
+      SQL.Add('left join KCRK  on KCRK.RKNO=TSCD.RKNO ');
+      SQL.Add('left join KCRKS on KCRKS.RKNO=KCRK.RKNO and KCRKS.CLBH=TSCD.SBBH ');
+      SQL.Add('left join TSCD_BDepartment BDepartment on BDepartment.ID=TSCD.DepID');
+      SQL.Add('left join ZSZL on ZSZL.ZSDH=KCRK.ZSBH');
+      SQL.Add('left join BDepartment JDBDep on JDBDep.ID=TSCD.JDTS ');
+      SQL.Add('left join CLZL MCLZL on MCLZL.CLDH = TSCD.MSBBH ');
+      SQL.Add('left join lbzls on lbzls.lb=''02'' and lbzls.lbdh=IsNull(MCLZL.dwbh,CLZL.dwbh) ');
+      SQL.Add('where TSCD.LB=3');
       //ERP 入庫單來源
       SQL.Add(') TSCD where 1=1 ');
       if TSIDEdit.Text<>'' then
@@ -598,6 +676,8 @@ begin
         SQl.Add('and TSCD.LB=2 and TSCD.Label_Tag like ''A%'' ');
       if RB3.Checked=true then
         SQl.Add('and TSCD.LB=2 and TSCD.Label_Tag like ''B%'' ');
+      if RB4.Checked=true then
+        SQl.Add('and TSCD.LB=3 and TSCD.Label_Tag like ''A%'' ');
       if LabelEdit.Text<>'' then
         SQL.Add('and Label_Tag like '''+LabelEdit.Text+'%'' ');
       if MemoEdit.Text<>'' then
@@ -729,6 +809,23 @@ procedure TEquipmentList.Export_KTList_Page2();
       SQL.Add('left join BDepartment JDBDep on JDBDep.ID=TSCD.JDTS ');
       SQL.Add('left join CLZL MCLZL on MCLZL.CLDH = TSCD.MSBBH ');
       SQL.Add('where TSCD.LB=2');
+       //bo sung lb3
+      SQL.Add('Union all ');
+      SQL.Add('Select TSCD.*');
+      SQL.Add('       ,CLZL.YWPM,NULL as VWPM,CLZL.zwpm,null as HGPM,null as QUCBH,null as LSBH,CLZL.dwbh,KCRK.ZSBH,CLZL.cqdh,null as AuthCompany,null as AuthCE,null as SB_Memo');
+      SQL.Add('       ,ZSZL.zsjc,zszl.zsywjc,zszl.fpdz,zszl.dh,zszl.cz,zszl.fzr,zszl.llr');
+      SQL.Add('       ,null as LB1_Memo,null as LB2_Memo,null LB3_Memo,null as ZSZL_AuthCE,null as AuthCE_Memo,null as AuthZSDH,null as AuthZSDH_Memo,null as IsZSDH,null as ZSZL_Memo');
+      SQL.Add('       ,IsNull(JDBDep.DepName,BDepartment.DepName) as DepName,IsNull(JDBDep.DepMemo,BDepartment.DepMemo) as DepMemo  ');
+      SQL.Add('       ,KCRKS.USPrice,KCRKS.VNPrice,KCRKS.DOCNO,null as JRTS_Dep,null as JRTSDep,MCLZL.YWPM as MYWPM,MCLZL.ZWPM as MZWPM,BDepartment.ID,BDepartment.SFL ');
+      SQL.Add('from TSCD');
+      SQL.Add('left join CLZL on CLZL.CLDH = TSCD.SBBH');
+      SQL.Add('left join KCRK  on KCRK.RKNO=TSCD.RKNO ');
+      SQL.Add('left join KCRKS on KCRKS.RKNO=KCRK.RKNO and KCRKS.CLBH=TSCD.SBBH ');
+      SQL.Add('left join TSCD_BDepartment BDepartment on BDepartment.ID=TSCD.DepID');
+      SQL.Add('left join ZSZL on ZSZL.ZSDH=KCRK.ZSBH');
+      SQL.Add('left join BDepartment JDBDep on JDBDep.ID=TSCD.JDTS ');
+      SQL.Add('left join CLZL MCLZL on MCLZL.CLDH = TSCD.MSBBH ');
+      SQL.Add('where TSCD.LB=3');
       //ERP 入庫單來源
       SQL.Add(') TSCD where 1=1 ');
       if TSIDEdit.Text<>'' then
@@ -1168,7 +1265,7 @@ begin
           eclApp.ActiveSheet.Rows[4].Delete;
           for i:=0 to TSCDQry.RecordCount-1  do
           begin
-            eclApp.ActiveSheet.Rows[j].Font.Size := 6;
+            eclApp.ActiveSheet.Rows[j].Font.Size := 8;
             eclApp.ActiveSheet.Rows[j].font.name := 'Arial';
             eclApp.Cells(j,1):=inttostr(j-3);
             eclApp.Cells(j,2):=TSCDQry.FieldByName('ZWPM').AsString;
@@ -1184,6 +1281,13 @@ begin
             eclApp.Cells(j,10):=TSCDQry.FieldByName('DepID_Memo').AsString;
             eclApp.Cells(j,11):=TSCDQry.FieldByName('DepName').AsString;
             eclApp.Cells(j,12):=TSCDQry.FieldByName('Qty').AsString;
+
+            // Kích hoạt tự động xuống hàng trong ô
+           eclApp.ActiveSheet.Rows[4].Copy;
+            eclApp.ActiveSheet.Rows[5].PasteSpecial(-4122); // -4122 là xlPasteFormats
+
+            // Tự động điều chỉnh chiều cao dòng dựa trên nội dung
+            eclApp.ActiveSheet.Rows[j].AutoFit;
             //
             TSCDQry.Next;
             Inc(j);
@@ -1268,7 +1372,7 @@ begin
           eclApp.ActiveSheet.Rows[4].Delete;
           for i:=0 to TSCDQry.RecordCount-1  do
           begin
-            eclApp.ActiveSheet.Rows[j].Font.Size := 6;
+            eclApp.ActiveSheet.Rows[j].Font.Size := 8;
             eclApp.ActiveSheet.Rows[j].font.name := 'Arial';
             eclApp.Cells(j,1):=inttostr(j-3);
             eclApp.Cells(j,2):=TSCDQry.FieldByName('ZWPM').AsString;
@@ -1285,6 +1389,13 @@ begin
             eclApp.Cells(j,11):=TSCDQry.FieldByName('DepName').AsString;
             eclApp.Cells(j,12):=TSCDQry.FieldByName('Qty').AsString;
             //eclApp.Cells(j,13):=TSCDQry.FieldByName('STT').AsString;
+            // Kích hoạt tự động xuống hàng trong ô
+            eclApp.ActiveSheet.Rows[4].Copy;
+            eclApp.ActiveSheet.Rows[5].PasteSpecial(-4122); // -4122 là xlPasteFormats
+
+            // Tự động điều chỉnh chiều cao dòng dựa trên nội dung
+            eclApp.ActiveSheet.Rows[j].AutoFit;
+
             //
             TSCDQry.Next;
             Inc(j);
@@ -1377,6 +1488,23 @@ procedure TEquipmentList.Export_TV_Page2();
       SQL.Add('left join BDepartment JDBDep on JDBDep.ID=TSCD.JDTS ');
       SQL.Add('left join CLZL MCLZL on MCLZL.CLDH = TSCD.MSBBH ');
       SQL.Add('where TSCD.LB=2');
+       //bo sung lb3
+      SQL.Add('Union all ');
+      SQL.Add('Select TSCD.*');
+      SQL.Add('       ,CLZL.YWPM,NULL as VWPM,CLZL.zwpm,null as HGPM,null as QUCBH,null as LSBH,CLZL.dwbh,KCRK.ZSBH,CLZL.cqdh,null as AuthCompany,null as AuthCE,null as SB_Memo');
+      SQL.Add('       ,ZSZL.zsjc,zszl.zsywjc,zszl.fpdz,zszl.dh,zszl.cz,zszl.fzr,zszl.llr');
+      SQL.Add('       ,null as LB1_Memo,null as LB2_Memo,null LB3_Memo,null as ZSZL_AuthCE,null as AuthCE_Memo,null as AuthZSDH,null as AuthZSDH_Memo,null as IsZSDH,null as ZSZL_Memo');
+      SQL.Add('       ,IsNull(JDBDep.DepName,BDepartment.DepName) as DepName,IsNull(JDBDep.DepMemo,BDepartment.DepMemo) as DepMemo  ');
+      SQL.Add('       ,KCRKS.USPrice,KCRKS.VNPrice,KCRKS.DOCNO,null as JRTS_Dep,null as JRTSDep,MCLZL.YWPM as MYWPM,MCLZL.ZWPM as MZWPM,BDepartment.ID,BDepartment.SFL ');
+      SQL.Add('from TSCD');
+      SQL.Add('left join CLZL on CLZL.CLDH = TSCD.SBBH');
+      SQL.Add('left join KCRK  on KCRK.RKNO=TSCD.RKNO ');
+      SQL.Add('left join KCRKS on KCRKS.RKNO=KCRK.RKNO and KCRKS.CLBH=TSCD.SBBH ');
+      SQL.Add('left join TSCD_BDepartment BDepartment on BDepartment.ID=TSCD.DepID');
+      SQL.Add('left join ZSZL on ZSZL.ZSDH=KCRK.ZSBH');
+      SQL.Add('left join BDepartment JDBDep on JDBDep.ID=TSCD.JDTS ');
+      SQL.Add('left join CLZL MCLZL on MCLZL.CLDH = TSCD.MSBBH ');
+      SQL.Add('where TSCD.LB=3');
       //ERP 入庫單來源
       SQL.Add(') TSCD where 1=1 ');
       if TSIDEdit.Text<>'' then
@@ -1419,9 +1547,11 @@ procedure TEquipmentList.Export_TV_Page2();
       {if RB1.Checked=true then
         SQl.Add('and TSCD.LB=1 ');
       if RB2.Checked=true then
-        SQl.Add('and TSCD.LB=2 and TSCD.Label_Tag like ''A%'' ');
-      if RB3.Checked=true then   }
+        SQl.Add('and TSCD.LB=2 and TSCD.Label_Tag like ''A%'' ');}
+      if RB3.Checked=true then
       SQl.Add('and TSCD.LB=2 and TSCD.Label_Tag like ''B%'' ');
+      if RB4.Checked=true then
+      SQl.Add('and TSCD.LB=3 and TSCD.Label_Tag like ''B%'' ');
       if LabelEdit.Text<>'' then
         SQL.Add('and Label_Tag like '''+LabelEdit.Text+'%'' ');
       if MemoEdit.Text<>'' then
@@ -1866,6 +1996,8 @@ begin
   CheckUserID();
   if IsAdmin=true then Button3.Enabled:=true;
   if IsAdmin=true then Button6.Enabled:=true;
+  if main.edit1.text ='316503' then IT_KK.Visible := true;
+
   PC1.ActivePage:=TabSheet1;
 end;
 

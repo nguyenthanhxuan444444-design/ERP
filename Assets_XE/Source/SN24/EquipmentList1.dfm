@@ -1032,6 +1032,14 @@ object EquipmentList: TEquipmentList
             FieldName = 'License'
             Footers = <>
             Width = 150
+          end
+          item
+            CellButtons = <>
+            DynProps = <>
+            EditButtons = <>
+            FieldName = 'Fullname'
+            Footers = <>
+            Width = 200
           end>
         object RowDetailData: TRowDetailPanelControlEh
         end
@@ -1434,7 +1442,7 @@ object EquipmentList: TEquipmentList
         'as YWSM,TSCD_LB.ZWSM,TSCD.CycleDate_M,TSCD.Machine_Type,TSCD.Cyc' +
         'leDate_S,TSCD.CycleDate_Y,TSCD.Lean_ID,Lean_DEP.Depname as LeanD' +
         'ep,Lean_Dep.Depmemo as LeanMemo,TSCD.Machine_Status,'#39#39' as Unit_N' +
-        'ame,TSCD.License'
+        'ame,TSCD.License,'#39#39' as Fullname'
       'from TSCD_History TSCD'
       
         'left join TSCD_KCLLS on TSCD.TSID=TSCD_KCLLS.TSID and TSCD.LLNO=' +
@@ -1458,7 +1466,7 @@ object EquipmentList: TEquipmentList
         'as YWSM,TSCD_LB.ZWSM,TSCD.CycleDate_M,TSCD.Machine_Type,TSCD.Cyc' +
         'leDate_S,TSCD.CycleDate_Y,TSCD.Lean_ID,Lean_DEP.Depname as LeanD' +
         'ep,Lean_Dep.Depmemo as LeanMemo,TSCD.Machine_Status,TSCD.Unit_Na' +
-        'me,TSCD.License'
+        'me,TSCD.License,'#39#39' as Fullname'
       'from TSCD'
       
         'left join TSCD_KCLLS on TSCD.TSID=TSCD_KCLLS.TSID and TSCD.LLNO=' +
@@ -1797,6 +1805,11 @@ object EquipmentList: TEquipmentList
       FieldName = 'License'
       FixedChar = True
       Size = 100
+    end
+    object TSCDQryFullname: TStringField
+      FieldName = 'Fullname'
+      FixedChar = True
+      Size = 1
     end
   end
   object DS1: TDataSource
