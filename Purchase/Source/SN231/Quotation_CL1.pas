@@ -123,7 +123,7 @@ begin
           active:=false;
           sql.Clear;
           sql.add('select IsNull((select top 1 CWHL from CWHLS  where HLYEAR=Year(GetDate()) and HLMONTH=Month(GetDate()) and HLDay=Day(GetDate())-1),0)as CWHL,');
-          sql.add('(case when month(GETDATE())<07 then ''FH''+SUBSTRING(CAST(YEAR(GETDATE()) as VARCHAR),3,2) ');
+          sql.add('(case when month(GETDATE())<07 then ''F''+SUBSTRING(CAST(YEAR(GETDATE()) as VARCHAR),3,2) ');
           sql.add('else ''S''+SUBSTRING(CAST(YEAR(GETDATE())+1 as VARCHAR),3,2) end )as season');
           active:=true;
       end;

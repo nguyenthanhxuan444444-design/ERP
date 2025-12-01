@@ -102,6 +102,8 @@ type
     Label3: TLabel;
     ComboBox5: TComboBox;
     XXMQFreight: TStringField;
+    Label2: TLabel;
+    Edit1: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure Button3Click(Sender: TObject);
@@ -154,18 +156,14 @@ begin
     showmessage('Please input  keypoint ');
     abort;
   end;
-  if (Not(BuyNoEdit.Text='') and (Length(BuyNoEdit.Text)<6) ) then
-  begin
-    showmessage('Please input BuyNo likes 202406');
-    abort;
-  end;
   with XXMQ do
   begin
     Active:=false;
     SQL.Clear;
     SQL.Add('select XXZLS.CLBH,CLZL.YWPM, CLZL.ZWPM,CLZL.DWBH,Max(XXZLS.CSBH) as ZSDH,Max(ZSZL.ZSYWJC) as ZSYWJC,CLZL.CLZMLB,');
     sql.Add('       MaterialCBD.Season,MaterialCBD.SamplePrice,MaterialCBD.userID,MaterialCBD.userdate,MaterialCBD.Freight');
-    SQL.Add('FROM (');
+    SQL.Add('FROM DDZL');
+    SQL.Add('Left JOIN(');
     SQL.Add(' select XXZLS.XieXing,XXZLS.Shehao,XXZLS.CLBH,XXZLS.CSBH,XXZLS.BWLB ');
     SQL.Add(' from XXZLS ');
     SQL.Add(' union all ');
@@ -178,7 +176,7 @@ begin
     SQL.Add(' from XXZLS ');
     SQL.Add(' inner join CLZHZL on CLZHZL.CLDH=XXZLS.CLBH ) XXZLS ');
     SQL.Add(' inner join CLZHZL on CLZHZL.CLDH=XXZLS.CLBH  ');
-    SQL.Add(' ) XXZLS ');
+    SQL.Add(' ) XXZLS on DDZL.XieXing=XXZLS.XieXing and DDZL.SheHao=XXZLS.SheHao');
     SQL.Add('Left join XXZL on XXZL.XieXIng=XXZLS.XieXing and XXZL.Shehao=XXZLS.SheHao ');          
     sql.add(' and XXZL.KFCQ=''YIH'' ');
     if ComboBox5.ItemIndex=0 then
@@ -190,41 +188,21 @@ begin
     SQL.Add('LEFT JOIN CLZL   ON XXZLS.CLBH = CLZL.cldh');
     SQL.Add('LEFT JOIN ZSZL on ZSZL.ZSDH=XXZLS.CSBH');
     sql.Add('Left JOIN KFXXZL on XXZLS.XieXing=KFXXZL.XieXing and XXZLS.SheHao=KFXXZL.SheHao ');
-    SQL.Add('Left JOIN DDZL on DDZL.XieXing=XXZLS.XieXing and DDZL.SheHao=XXZLS.SheHao ');
-         if BuyNoEdit.Text<>'' then
-            sql.Add('and DDZL.BUYNO like '''+BuyNoEdit.Text+'%'' ');
-         if DDBHEdit.Text<>'' then
-            sql.Add('and DDZL.DDBH like '''+DDBHEdit.Text+'%'' ');
     //sql.add('Left Join MaterialCBD ON MaterialCBD.CLBH=XXZLS.CLBH  ');
     //20240626 穝糤厨基﹗竊  ノ块buy琩高
     sql.add('Left Join MaterialCBD_his MaterialCBD ON MaterialCBD.CLBH=XXZLS.CLBH');
-    sql.add('   and MaterialCBD.Season like (');
-    sql.add('   case when DDZL.BUYNO is null then ''%''');
+    sql.add('   and MaterialCBD.Season ='''+Edit1.text+'''');
 
     if ComboBox5.ItemIndex=0 then
       begin
-        sql.add('   when CAST(SUBSTRING(DDZL.BUYNO,5,2) as NUMERIC(10, 0))<7 then ''FH''+SUBSTRING(DDZL.BUYNO,3,2)');
-        sql.add('   else ''S''+CAST(CAST(SUBSTRING(DDZL.BUYNO,3,2)as NUMERIC(10, 0))+1 as VARCHAR)  end )');
         sql.add('   and MaterialCBD.KHDH=''0062'' ')
       end
     else if ComboBox5.ItemIndex=1 then
       begin
-        sql.add('   when (left(DDZL.BUYNO,1)=''F'' or left(DDZL.BUYNO,1)=''W'')then ''FW''+Right(DDZL.BUYNO,2)');
-        sql.add('   else ''S''+CAST(CAST(Right(DDZL.BUYNO,2)as NUMERIC(10, 0))+1 as VARCHAR)  end )');
         sql.add('   and MaterialCBD.KHDH=''0054'' ')
-      end
-    else if ComboBox5.ItemIndex=2 then
-      begin
-        sql.add('   when CAST(SUBSTRING(DDZL.BUYNO,5,2) as NUMERIC(10, 0))<7 then ''FH''+SUBSTRING(DDZL.BUYNO,3,2)');
-        sql.add('   else ''SS''+CAST(CAST(SUBSTRING(DDZL.BUYNO,3,2)as NUMERIC(10, 0))+1 as VARCHAR)  end )');
-        sql.add('   and MaterialCBD.KHDH=''0078'' ')
       end;
     sql.add(' and MaterialCBD.YN=0'); // Τ基蛤⊿基常穦╰参  YN=0ъΤ基
-    sql.add('and MaterialCBD.KFCQ=''YIH'' ');
-    if ((main.Edit2.Text='CDC') or  (main.Edit2.Text='VA12')) then
-      sql.add('and  MaterialCBD.GSBH=''CDC''')
-    else if ((main.Edit2.Text='VC1') or  (main.Edit2.Text='VC2')) then
-      sql.add('and  MaterialCBD.GSBH=''VC1''');     //Cariuma
+    //sql.add('and MaterialCBD.KFCQ=''YIH'' ');     two factories share the same
     //else if ((main.Edit2.Text='VB1') then
     //  sql.add('and  MaterialCBD.GSBH=''VB1''')     //LYI use
     //sql.add('and MaterialCBD.GSBH='''+main.Edit2.Text+'''');
@@ -232,7 +210,11 @@ begin
     SQL.Add('where XXZL.Article like '''+ArticleEdit.Text+'%'+'''   AND CLZL.CLZMLB=''N''');
     sql.Add('and XXZLS.CLBH like '''+CLBHEdit.Text+'%''');
     sql.add('and CLZL.YWPM like '+''''+'%'+MatNMEEdit.Text+'%'+'''');
-    sql.add('and CLZL.ZWPM like '+''''+'%'+MatNMCEdit.Text+'%'+'''');
+    sql.add('and CLZL.ZWPM like '+''''+'%'+MatNMCEdit.Text+'%'+'''');   
+   if BuyNoEdit.Text<>'' then
+      sql.Add('and DDZL.BUYNO like '''+BuyNoEdit.Text+'%'' ');
+   if DDBHEdit.Text<>'' then
+      sql.Add('and DDZL.DDBH like '''+DDBHEdit.Text+'%'' ');
     if edit16.Text<>'' then
        sql.add('and ZSZL.ZSYWJC like '+''''+'%'+edit16.Text+'%'+'''');
     if CB1.ItemIndex=1 then
@@ -280,7 +262,7 @@ begin
     SQL.Add('        CLZL.CQDH,XXZLS.BWLB,isnull(sum(ZLZLS2.CLSL),0) as CLSL     ');
     SQL.add('        ,MaterialCBD.samplePrice,Round(convert(money,MaterialCBD.samplePrice)*convert(money,MaterialCBDEx.CWHL),0) as samplePriceVN ,MaterialCBDEx.CWHL as sampleEx,Convert(Bit,IsNull(Max(MaterialCBDNo.YN),0)) as CYN,Max(CLZL.YN) as MYN  ');
     SQL.Add('from ZLZLS2 with (nolock)  ');
-    SQL.Add('inner join DDZl  with (nolock) on DDZl.DDBH=ZLZLS2.ZLBH and DDZL.GSBH='''+main.Edit2.Text+''' and DDZL.DDBH like '''+DDBHEdit.Text+'%'' ');
+    SQL.Add('left join ddzl  with (nolock) on DDZl.DDBH=ZLZLS2.ZLBH and DDZL.GSBH='''+main.Edit2.Text+''' and DDZL.DDBH like '''+DDBHEdit.Text+'%'' ');
     SQL.Add('left join DDZLTW with (nolock) on DDZLTW.DDBH=ZLZLS2.ZLBH');
     SQL.Add('left join CLZL  with (nolock) on CLZL.CLDH=ZLZLs2.CLBH ');
     SQL.Add('left join KFZL  with (nolock) on KFZl.KFDH=DDZLTW.KHBH ');
@@ -302,7 +284,7 @@ begin
     SQL.Add('                  max(CGZLSS.CFMDate) as CFMDate,max(CGZL.CGDate) as CGDate,');
     SQL.Add('                  max(CGZL.CGNO) as CGNO,max(CGZLSS.YQDate) as YQDate,max(CGZLS.QUSPrice) as USPrice,max(CGZLS.QVNPrice) as VNPrice, CGBJS.season ');
     SQL.Add('           from CGZLSS with (nolock) ');
-    SQL.Add('           inner join DDZL on DDZL.DDBH = CGZLSS.ZLBH and DDZL.GSBH='''+main.Edit2.Text+''' and DDZL.DDBH like '''+DDBHEdit.Text+'%'' ');
+    SQL.Add('           left join ddzl on DDZL.DDBH = CGZLSS.ZLBH and DDZL.GSBH='''+main.Edit2.Text+''' and DDZL.DDBH like '''+DDBHEdit.Text+'%'' ');
     SQL.Add('           left join CGZLS with (nolock)  on CGZLS.CGNO=CGZLSS.CGNO and CGZLS.CLBH=CGZLSS.CLBH ');
     SQL.Add('           left join  CGZL with (nolock)  on CGZl.CGNO=CGZLSS.CGNO');
     SQL.Add('           left join CGBJS on CGZLS.BJNO=CGBJS.BJNO and CGBJS.CLBH=CGZLS.CLBH ');
@@ -312,7 +294,7 @@ begin
     SQL.Add('           group by CGZLSS.ZLBH,CGZLSS.CLBH, CGBJS.season ');
     SQL.Add('           union all');
     SQL.Add('           select YWDD.YSBH as ZLBH,YWBZPO.CLBH,sum(YWBZPO.Qty) as CGQty,getdate() as CFMDate,max(CGZL.CGDate) as CGDate');
-    SQL.Add('                  ,max(CGZL.CGNO) as CGNO,getdate() as YQDate,0 as USPrice,0 as VNPrice, 0 as season');
+    SQL.Add('                  ,max(CGZL.CGNO) as CGNO,getdate() as YQDate,0 as USPrice,0 as VNPrice, '''' as season');
     SQL.Add('           from (select YWBZPO.DDBH,YWBZPO.CLBH,sum(CTS) as Qty from YWBZPO,YWDD where YWBZPO.ddbh=YWDD.DDBH and YWDD.YSBH like '''+DDBHEdit.Text+'%'' group by YWBZPO.DDBH,YWBZPO.CLBH');
     SQL.Add('                 union all select DDBH,CLBH,sum(CTS) as Qty from YWBZPOE where ddbh like '''+DDBHEdit.Text+'%'' group by DDBH,CLBH )ywbzpo');
     //
@@ -329,7 +311,7 @@ begin
     SQL.Add('                  max(KCRKS.RKNO) as RKNO,max(KCRK.USERDate) as RKDate, ');
     SQL.Add('                  max(kcrks.usprice) as usprice,max(kcrks.vnprice) as vnprice ');
     SQL.Add('           from  KCRKS with (nolock)  ');
-    SQL.Add('           inner join DDZL on DDZL.DDBH=KCRKS.CGBH and DDZL.GSBH='''+main.Edit2.Text+''' and DDZL.DDBH like '''+DDBHEdit.Text+'%'' ');
+    SQL.Add('           left join ddzl on DDZL.DDBH=KCRKS.CGBH and DDZL.GSBH='''+main.Edit2.Text+''' and DDZL.DDBH like '''+DDBHEdit.Text+'%'' ');
     SQL.Add('           left join KCRK with (nolock)  on KCRK.RKNO=KCRKS.RKNO ');
     SQL.Add('           where DDZL.GSBH='''+main.Edit2.Text+'''');
     SQL.Add('                 and KCRKS.CGBH like '''+DDBHEdit.Text+'%''');
@@ -338,36 +320,18 @@ begin
     SQL.Add('                 on RKZL.ZLBH=ZLZLS2.ZLBH and RKZL.CLBH=ZLZLS2.CLBH ');
     //SQL.add('Left Join MaterialCBD ON MaterialCBD.CLBH=ZLZLS2.CLBH and  ');
     // 20240626 穝糤﹗耞   ノCGZL.CGDate耞
-    SQL.add('left join MaterialCBD_His MaterialCBD on ZLZLS2.CLBH = MaterialCBD.CLBH and MaterialCBD.Season=(');
-     if ComboBox5.ItemIndex=0 then
-      begin
-        sql.add('   case when CAST(SUBSTRING(DDZL.BUYNO,5,2) as NUMERIC(10, 0))<7 then ''FH''+SUBSTRING(DDZL.BUYNO,3,2)');
-        sql.add('   else ''S''+CAST(CAST(SUBSTRING(DDZL.BUYNO,3,2)as NUMERIC(10, 0))+1 as VARCHAR)  end )');
-        sql.add('   and MaterialCBD.KHDH=''0062''');
-      end
-    else if ComboBox5.ItemIndex=1 then
-      begin
-        sql.add('   case when (left(DDZL.BUYNO,1)=''F'' or left(DDZL.BUYNO,1)=''W'')then ''FW''+Right(DDZL.BUYNO,2)');
-        sql.add('   else ''S''+CAST(CAST(Right(DDZL.BUYNO,2)as NUMERIC(10, 0))+1 as VARCHAR)  end )');
-        sql.add('   and MaterialCBD.KHDH=''0054''');
-      end
-    else if ComboBox5.ItemIndex=2 then
-    begin              
-      sql.add('   and MaterialCBD.KHDH=''0078''');
-      showmessage('Uniqlo season not yet define');
-      Exit;
-    end;
+    SQL.add('left join MaterialCBD_His MaterialCBD on ZLZLS2.CLBH = MaterialCBD.CLBH and MaterialCBD.Season='''+Edit1.text+'''');
     //SQL.add('(case when SUBSTRING(DDZLTW.BUYNO,10,1)=''F'' then ''FH''+SUBSTRING(DDZLTW.BUYNO,8,2)');
     //SQL.add('when  SUBSTRING(DDZLTW.BUYNO,10,1)=''H'' then ''FH''+SUBSTRING(DDZLTW.BUYNO,8,2)');
     //SQL.add('else ''SS''+SUBSTRING(DDZLTW.BUYNO,8,2) end)');
     SQL.add('and MaterialCBD.YN=0');  // Τ基蛤⊿基常穦╰参  YN=0ъΤ基
-    SQL.add('and MaterialCBD.KFCQ=''YIH''');  // Τ基蛤⊿基常穦╰参  YN=0ъΤ基
+    //SQL.add('and MaterialCBD.KFCQ=''YIH''');  // share
 
     //﹗穝糤蹲瞯   CGZL.CGDate 璸衡﹗
-    SQL.Add('left join MaterialCBDEx on MaterialCBD.Season=MaterialCBDEx.Season and MaterialCBD.KHDH=MaterialCBDEx.KHBH');
+    SQL.Add('left join MaterialCBDEx on MaterialCBD.Season='''+Edit1.text+''' and MaterialCBD.KHDH=MaterialCBDEx.KHBH');
 
     SQL.Add('Left Join MaterialCBDFilter on MaterialCBDFilter.CLBH=zlzls2.CLBH and MaterialCBDFilter.GSBH='''+main.Edit2.Text+'''      ');
-    SQL.Add('Left join MaterialCBDNo on MaterialCBDNo.XieXing=DDZL.XieXing and MaterialCBDNo.SheHao=DDZL.SheHao and MaterialCBDNo.CLBH=zlzls2.CLBH and  MaterialCBDNo.Season=SUBSTRING(DDZLTW.BUYNO,8,3) ');
+    SQL.Add('Left join MaterialCBDNo on MaterialCBDNo.XieXing=DDZL.XieXing and MaterialCBDNo.SheHao=DDZL.SheHao and MaterialCBDNo.CLBH=zlzls2.CLBH and  MaterialCBDNo.Season='''+Edit1.text+'''');
      //20181018 add not show UseStock
     if  chkUseStock.Checked  then
     begin
@@ -476,60 +440,12 @@ end;
 //
 
 procedure TMaterialCBDPrice.Button3Click(Sender: TObject);
-begin
-      if BuyNoEdit.text='' then
-         if ((main.Edit2.Text='CDC') or  (main.Edit2.Text='VA12'))  then
-          BuyNoEdit.Text:=formatdatetime('yyyyMM',now())
-         else if ((main.Edit2.Text='VC1') or  (main.Edit2.Text='VC2'))  then
-          if  (formatdatetime('MM',now())='01') or (formatdatetime('MM',now())='02') or (formatdatetime('MM',now())='03') then
-            BuyNoEdit.Text:='FALL '+formatdatetime('yy',now())
-          else if  (formatdatetime('MM',now())='04') or (formatdatetime('MM',now())='05') or (formatdatetime('MM',now())='06') then
-            BuyNoEdit.Text:='WINTER '+formatdatetime('yy',now())
-          else if  (formatdatetime('MM',now())='07') or (formatdatetime('MM',now())='082') or (formatdatetime('MM',now())='09') then
-            BuyNoEdit.Text:='SPRING '+formatdatetime('yy',now())
-          else if  (formatdatetime('MM',now())='10') or (formatdatetime('MM',now())='11') or (formatdatetime('MM',now())='12') then
-            BuyNoEdit.Text:='SUMMER '+formatdatetime('yy',now());
-
-
-          //BuyNoEdit.Text:=formatdatetime('yyyyMM',now());
-            with TmpQry do
-            begin
-              Active:=false;
-              SQL.Clear;
-              
-              sql.Add('select MaterialCBDEx.CWHL,MaterialCBDEx.Season from');
-              SQL.Add('MaterialCBDEx');
-
-             sql.add('   where MaterialCBDEx.Season = (');
-             sql.add('   select  (case when CAST(SUBSTRING('''+BuyNoEdit.text+''',5,2) as INT)<7 then ''FH''+SUBSTRING('''+BuyNoEdit.text+''',3,2)');
-             sql.add('   else ''S''+CAST(CAST(SUBSTRING('''+BuyNoEdit.text+''',3,2)as INT)+1 as VARCHAR)  end ))');
-            { if ComboBox5.ItemIndex=0 then
-                begin
-                  sql.add('   select  (case when CAST(SUBSTRING('''+BuyNoEdit.text+''',5,2) as INT)<7 then ''FH''+SUBSTRING('''+BuyNoEdit.text+''',3,2)');
-                  sql.add('   else ''S''+CAST(CAST(SUBSTRING('''+BuyNoEdit.text+''',3,2)as INT)+1 as VARCHAR)  end ))');
-                  //sql.add('and MaterialCBDEx.GSBH=''CDC''')
-                end
-             else if ComboBox5.ItemIndex=1 then //Cariuma
-                begin
-                  if ((LeftStr(BuyNoEdit.text,1)='F') or (LeftStr(BuyNoEdit.text,1)='W') ) then
-                    sql.add('  ''FW'+RightStr(BuyNoEdit.text,2)+'''')
-                  else
-                    sql.add('  ''S'+IntToStr(StrToInt(RightStr(BuyNoEdit.text,2))+1)+'''');
-                  sql.add('  )');
-                  sql.add('and MaterialCBDEx.GSBH=''VC1''');
-                end
-             else if ComboBox5.ItemIndex=2 then  //Uniqlo
-                begin
-                  sql.add('   select  (case when CAST(SUBSTRING('''+BuyNoEdit.text+''',5,2) as INT)<7 then ''FW''+SUBSTRING('''+BuyNoEdit.text+''',3,2)');
-                  sql.add('   else ''S''+CAST(CAST(SUBSTRING('''+BuyNoEdit.text+''',3,2)as INT)+1 as VARCHAR)  end ))');
-                  //sql.add('and MaterialCBDEx.GSBH=''CDC''')
-                end;
-              //SQl.Add('End ');
-              //showmessage(SQL.text);  }
-              Active:=true;
-             // Label2.caption:='CostingSeason:'+TmpQry.FieldByName('Season').AsString+';Exchange Rate:'+TmpQry.FieldByName('CWHL').AsString;
-              Active:=false;
-            end;
+begin    
+  if Edit1.Text='' then
+    begin
+      ShowMessage('Please fill the season. EX:S26');
+      exit;
+    end;
   if mainPC.ActivePageIndex=0 then
     QueryZLZLS2()
   else
@@ -715,7 +631,6 @@ begin
     end;
 
 end;
-//
 procedure TMaterialCBDPrice.bbt6Click(Sender: TObject);
 begin
 

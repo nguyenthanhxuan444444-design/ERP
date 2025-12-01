@@ -78,6 +78,8 @@ type
     SN1C: TMenuItem;
     SN15A: TMenuItem;
     SN35: TMenuItem;
+    NB1: TMenuItem;
+    NB11: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SN11Click(Sender: TObject);
@@ -129,6 +131,7 @@ type
     procedure SN1CClick(Sender: TObject);
     procedure SN15AClick(Sender: TObject);
     procedure SN35Click(Sender: TObject);
+    procedure NB11Click(Sender: TObject);
   private
      MKID:String;
      LanguageID:String;
@@ -164,7 +167,7 @@ implementation
   Traceability_Material_Receiving1, MaHaiQuan_NK1, MaHoaDon_HD1,
   MaHaiQuan_TC1, MaHaiQuan_KD1, Bill_ShippingFG1,
   Traceability_Shipping_FG1, MaHaiQuanNQ1, MaHaiQuanNKNQ1, MaiHaiQuan14161,
-  ShippingUsage1;
+  ShippingUsage1, ScanInvoice1;
 
 {$R *.dfm}
 procedure Tmain.showFm(var fm: Pointer; parentClass: TPersistentClass; miname: string);  //
@@ -754,6 +757,11 @@ end;
 procedure Tmain.SN35Click(Sender: TObject);
 begin
   showFm(Pointer(ShippingUsage), TShippingUsage, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.NB11Click(Sender: TObject);
+begin
+  showFm(Pointer(ScanInvoice), TScanInvoice, TMenuItem(Sender).Name);
 end;
 
 end.

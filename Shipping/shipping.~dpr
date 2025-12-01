@@ -104,7 +104,8 @@ uses
   MaiHaiQuan14161 in 'Source\SN15A\MaiHaiQuan14161.pas' {MaiHaiQuan1416},
   TimMaHQN15A1 in 'Source\SN15A\TimMaHQN15A1.pas' {TimMaHQN15A},
   ImportHaiQuan1 in 'Source\SN35\ImportHaiQuan1.pas' {ImportHaiQuan},
-  ShippingUsage1 in 'Source\SN35\ShippingUsage1.pas' {ShippingUsage};
+  ShippingUsage1 in 'Source\SN35\ShippingUsage1.pas' {ShippingUsage},
+  ScanInvoice1 in 'Source\SNB1\ScanInvoice1.pas' {ScanInvoice};
 
 {$R *.res}
 

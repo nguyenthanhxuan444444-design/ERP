@@ -771,7 +771,8 @@ begin
     SQL.Add('  SELECT ZLZLS2.DDBH, ZLZLS2.CLBH, CASE WHEN (LEFT(ZLZLS2.CLBH, 1) IN (''A'', ''C'', ''F'', ''K'', ''B'') OR (LEFT(ZLZLS2.CLBH, 3) = ''P21'' AND CLZL.DWBH <> ''PRS'') OR (ZLZLS2.CSBH = ''M251'' AND CLZL.DWBH = ''YRD'')) OR');
     SQL.Add('  (((LEFT(ZLZLS2.CLBH, 1) IN (''E'', ''G'', ''L'', ''M'', ''N'') OR LEFT(ZLZLS2.CLBH, 3) IN (''D01'', ''D02'', ''D11'')) AND CASE WHEN LEFT(ZLZLS2.CLBH, 3) = ''G01'' THEN CLZL.DWBH ELSE ''X'' END <> ''PRS'') OR ZLZLS2.CSBH = ''A390'') OR');
     SQL.Add('  ((LEFT(ZLZLS2.CLBH, 1) IN (''D'', ''H'', ''I'', ''O'') AND LEFT(ZLZLS2.CLBH, 3) NOT IN (''D01'', ''D02'', ''D11'')) OR (LEFT(ZLZLS2.CLBH, 3) = ''G01'' AND CLZL.DWBH = ''PRS'') OR');
-    SQL.Add('  (ZLZLS2.CSBH = ''V204'' AND LEFT(ZLZLS2.CLBH, 1) = ''L'') OR (ZLZLS2.CSBH = ''M251'' AND CLZL.DWBH = ''PRS'') OR ZLZLS2.CSBH IN (''P144'', ''V214''))');
+    SQL.Add('  (ZLZLS2.CSBH = ''V204'' AND LEFT(ZLZLS2.CLBH, 1) = ''L'') OR (ZLZLS2.CSBH = ''M251'' AND CLZL.DWBH = ''PRS'') OR ZLZLS2.CSBH IN (''P144'', ''V214'')) OR');
+    SQL.Add('  ((LEFT(CLBH, 1) IN (''J'', ''P'') AND LEFT(CLBH, 3) NOT IN (''P21'')) OR SupID = ''V097'')');
     SQL.Add('  THEN CASE WHEN ISNULL(KCRK.RKQty, 0) + ISNULL(CGKCUSE.Qty, 0) >= SUM(ZLZLS2.CLSL) THEN CASE WHEN ISNULL(CGKCUSE.UserDate, ''2000/01/01'') > ISNULL(KCRK.CFMDate, ''2000/01/01'') THEN CGKCUSE.UserDate ELSE KCRK.CFMDate END');
     SQL.Add('  ELSE ISNULL(SM.ArrivalDate, ''2079/01/01'') END END AS ArrivalDate,');
     SQL.Add('  CASE WHEN ISNULL(KCRK.RKQty, 0) + ISNULL(CGKCUSE.Qty, 0) >= SUM(ZLZLS2.CLSL) THEN CASE WHEN ISNULL(CGKCUSE.UserDate, ''2000/01/01'') > ISNULL(KCRK.CFMDate, ''2000/01/01'') THEN CGKCUSE.UserDate ELSE KCRK.CFMDate END ELSE SM.UserDate END AS UserDate FROM (');
@@ -983,7 +984,6 @@ begin
           SQL.Add('  WHERE SC.building_no = ''' + Building + ''' AND SC.lean_no = ''' + Lean + ''' AND SC.schedule_date = ''' + FormatDateTime('yyyy/MM/dd', PlanDate) + ''' AND DDZL.DDBH = ''' + RY + ''' AND KCSAFE.CLBH IS NULL AND CLZL.YWPM NOT LIKE ''%QC%LABEL%''');
           SQL.Add('  GROUP BY SC.schedule_date, DDZL.ARTICLE, DDZL.DDBH, ZLZLS2.CSBH, ZSZL.ZSYWJC, ZLZLS2.CLBH, ZLZLS2.CLSL, CLZL.YWPM, CLZL.DWBH, CLZL.CQDH, KCRK.RKQty, CGKCUSE.Qty, CGKCUSE.UserDate, KCRK.CFMDate, SM.ArrivalDate, SM.UserDate');
           SQL.Add(') AS MS');
-          ShowMessage(SQL.Text);
 
           SQL.Add('SELECT '''' AS Indicator, MS.*, CAST(ROW_NUMBER() OVER(ORDER BY CASE WHEN DayDiff IS NOT NULL THEN DayDiff ELSE -100 END, MS.Supplier, MS.CLBH) AS INT) AS Seq FROM (');
           SQL.Add('  SELECT MSP.DDBH, ISNULL(CLZHZL.CLDH1, MSP.CLBH) AS CLBH, MAX(MSP.LeadTime) + 3 AS LeadTime FROM (');

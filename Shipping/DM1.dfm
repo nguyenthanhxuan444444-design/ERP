@@ -6,7 +6,8 @@ object DM: TDM
   Height = 210
   Width = 309
   object DB1: TDatabase
-    AliasName = 'LIY_ERP'
+    AliasName = 'LYS_ERP'
+    Connected = True
     DatabaseName = 'DB'
     Params.Strings = (
       'USER NAME=tyxuan'

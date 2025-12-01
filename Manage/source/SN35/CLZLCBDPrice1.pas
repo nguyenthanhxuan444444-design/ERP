@@ -107,9 +107,9 @@ begin
      Showmessage('Please input Mat No or SupID(3) or Season(3) !');
      Exit;
    end;
-   if (Not(Edit1.Text='') and (length(Edit1.Text)<4)  ) then
+   if (Not(Edit1.Text='') and (length(Edit1.Text)<3)  ) then
    begin
-     Showmessage('Please input Costing Season like FH24 or %%24 !');
+     Showmessage('Please input Costing Season like F24 or S24 !');
      Exit;
    end;
    with CLZLQry do
@@ -123,19 +123,15 @@ begin
      //20240627  ·s¼W©u«×
      SQL.Add('Left Join MaterialCBD_His MaterialCBD ON MaterialCBD.CLBH=CLZL.CLDH and  MaterialCBD.season like '''+Edit1.text+'%''');
          if ComboBox5.itemindex=0 then
-            sql.add('and MaterialCBD.KHDH=''036''')
+            sql.add('and MaterialCBD.KHDH=''0062''')
          else if ComboBox5.itemindex=1 then
-            sql.add('and MaterialCBD.KHDH=''0079''')     //Cariuma
-         else if ComboBox5.itemindex=2 then
-            sql.add('and MaterialCBD.KHDH=''0078''');
+            sql.add('and MaterialCBD.KHDH=''0054''');
      SQL.Add('Left Join MaterialCBDFilter on MaterialCBDFilter.CLBH=CLZL.CLDH and MaterialCBDFilter.GSBH='''+main.Edit2.Text+'''  ');
      SQL.Add('Left Join MaterialCBDEx on MaterialCBDEx.season=MaterialCBD.Season');         
          if ComboBox5.itemindex=0 then
-            sql.add('and MaterialCBDEx.KHDH=''036''')
+            sql.add('and MaterialCBDEx.KHDH=''0062''')
          else if ComboBox5.itemindex=1 then
-            sql.add('and MaterialCBDEx.KHDH=''0079''')     //Cariuma
-         else if ComboBox5.itemindex=2 then
-            sql.add('and MaterialCBDEx.KHDH=''0078''');
+            sql.add('and MaterialCBDEx.KHDH=''0054''');
      SQL.Add('where CLZL.CLDH like '''+CLBHEdit.Text+'%'' ');
      sql.add('and CLZL.YWPM like '+''''+'%'+MatNMEEdit.Text+'%'+'''');
      sql.add('and CLZL.ZWPM like '+''''+'%'+MatNMCEdit.Text+'%'+'''');

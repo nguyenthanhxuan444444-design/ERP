@@ -1,6 +1,6 @@
 object ProductionPlanTracking: TProductionPlanTracking
-  Left = 338
-  Top = 203
+  Left = 292
+  Top = 208
   Width = 1555
   Height = 730
   Caption = 'ProductionPlanTracking'

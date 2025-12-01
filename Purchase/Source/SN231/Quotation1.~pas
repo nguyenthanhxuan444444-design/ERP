@@ -809,9 +809,9 @@ begin
                   //20180324 Check if Costing Price> Price
                   if (((GSBH_SFL='PD') and (GSBH_Check = main.Edit2.Text))) then  //量產
                   begin
-                    if (( BJDet.FieldByName('Season').IsNull) or ((copy(BJDet.fieldbyname('Season').AsString,1,1)<>'S') and (copy(BJDet.fieldbyname('Season').AsString,1,2)<>'FH'))) then
+                    if (( BJDet.FieldByName('Season').IsNull) or ((copy(BJDet.fieldbyname('Season').AsString,1,2)<>'S') and (copy(BJDet.fieldbyname('Season').AsString,1,2)<>'F'))) then
                     begin
-                        showmessage('Season should be like SS24 or FH24(24 can be changed)!');
+                        showmessage('Season should be like S24 or F24(24 can be changed)!');
                         abort;
                     end;
                     with Qtemp do
@@ -892,10 +892,10 @@ begin
                   BJDet.FieldByName('userID').Value:=main.edit1.text;
                   BJDet.FieldByName('userdate').Value:=formatdatetime('yyyy/MM/dd',Ndate);
                   if (((GSBH_SFL='PD') and (GSBH_Check = main.Edit2.Text)) ) then  //量產&有開發報價匯率
-                  begin   
-                    if (( BJDet.FieldByName('Season').IsNull) or ((copy(BJDet.fieldbyname('Season').AsString,1,2)<>'SS') and (copy(BJDet.fieldbyname('Season').AsString,1,2)<>'FH'))) then
+                  begin
+                    if (( BJDet.FieldByName('Season').IsNull) or ((copy(BJDet.fieldbyname('Season').AsString,1,2)<>'S') and (copy(BJDet.fieldbyname('Season').AsString,1,2)<>'F'))) then
                     begin
-                        showmessage('Season should be like SS24 or FH24(24 can be changed)!');
+                        showmessage('Season should be like S24 or F24(24 can be changed)!');
                         abort;
                     end;            
                     with Qtemp do

@@ -627,8 +627,8 @@ begin
           sql.add('inner join XXZL with (nolock) on CostingPriceList.SKU = left(XXZL.article,LEN(CostingPriceList.SKU))  and XXZL.JiJie is not null ');
          sql.add('and XXZL.KFCQ='''+KFCQ+''' ');   
          sql.add('and XXZL.KHDH='''+KHDH+'''');
-         sql.add('inner join KFXXZL on xxzl.XieXing=KFXXZL.XieXing and xxzl.SheHao=KFXXZL.SheHao ');
-         sql.add('inner join KFZL on KFZL.KFDH=XXZL.KHDH ');
+         sql.add('left join KFXXZL on xxzl.XieXing=KFXXZL.XieXing and xxzl.SheHao=KFXXZL.SheHao ');
+         sql.add('left join KFZL on KFZL.KFDH=XXZL.KHDH ');
          //SQL.Add('left join(select XXZLS.XieXing,XXZLS.SheHao');
          //24U
          SQL.Add('left join(select XXZLS.XieXing,XXZLS.SheHao,CostingPriceList.PricingSeason  ---,XXZLS.CLBH,MaterialCBD_His.PriceFormula ---維修查找不正常反紅');
@@ -754,7 +754,7 @@ begin
          sql.add('		XXZL.XieMing,XXZL.YSSM,KFZL.KFJC,XXZL.BZCC,XXZL.IMGName,XXZL.DAOMH,KFXXZL.DEVCODE,CostingPriceList.PricingSeason,XXZL.KFCQ');
          sql.add(' order by xxzls.SheHao desc,XXZL.XieXing,XXZL.Shehao');
          //funcobj.WriteErrorLog(sql.Text);
-         if CheckBox9.Checked =true then
+         //if CheckBox9.Checked =true then
             showmessage(SQL.Text);
          active:=true;
       end;
@@ -1698,7 +1698,7 @@ end;
 
 procedure TDevQuota.Button4Click(Sender: TObject);
 begin
-
+  GetSpeedButton();
     if Edit21.Text<>'' then
     Edit22.Text:=GetSpeedSeason(Edit21.Text);
   if ( (Edit17.Text='') and  (Edit19.Text='') and (Edit20.Text='') and (Edit22.Text='') ) then
@@ -2385,7 +2385,8 @@ end;
 
 
 procedure TDevQuota.BitBtn6Click(Sender: TObject);
-begin
+begin               
+  GetSpeedButton();
   with UploadQuery do
   begin
     Active:=false;
@@ -2417,7 +2418,7 @@ begin
             sql.Add('and MaterialCBD_His.Season like ''SS'+RightStr(Edit4.Text,2)+'''' );
       end;     
      sql.add('and MaterialCBD_His.KHDH='''+KHDH+'''');
-
+     sql.Add('and MaterialCBD_His.season like '+''''+'%'+Edit4.Text+'%'+'''');
     if ((checkbox12.Checked=true) and (checkbox13.Checked=false)) then
       sql.add('       and CLZL.CQDH=''TW''');
     if ((checkbox12.Checked=false) and (checkbox13.Checked=true)) then

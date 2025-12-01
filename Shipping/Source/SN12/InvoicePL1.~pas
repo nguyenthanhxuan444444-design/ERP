@@ -1589,7 +1589,7 @@ begin //共用報表抬頭
   xls.WorkSheets[index].Activate;
   xls.WorkSheets[index].Name := SheetName;
   //---
-  xls.Cells(1, 1) := ComFullName;
+  xls.Cells(1, 3) := ComFullName;
   xls.Range['A1'].Font.Bold := True;
   xls.Cells(2, 1) := SheetName;
   xls.Cells(3, 1) := 'INV NO:';
@@ -1612,8 +1612,10 @@ begin //共用報表抬頭
   xls.Range['K4:L4'].Font.Size := 10;
   xls.Range['A5:Q7'].Font.Size := 12;
   //跨欄置中
-  xls.Range['A1:L1'].Merge;
-  xls.Range['A1', 'L1'].HorizontalAlignment := $FFFFEFF4;
+  xls.Range['C1:G1'].Merge;
+  xls.Range['H1:L1'].Merge;
+  xls.Range['C1', 'L1'].HorizontalAlignment := -4108;
+  //xls.Range['A1', 'L1'].HorizontalAlignment := $FFFFEFF4;
   //xls.Range['A1','M1'].VerticalAlignment := $FFFFEFF4; //(垂直置中)
   xls.Range['A2:L2'].Merge;
   xls.Range['A2', 'L2'].HorizontalAlignment := $FFFFEFF4;
@@ -1628,7 +1630,10 @@ begin //共用報表抬頭
   xls.Range['K7:L7'].Merge;
   xls.Range['B7:H7'].Merge;
   //xls.Range['L7:O7'].Merge;
-  //邊框 Borders  1-左 2-右 3-頂 4-底 5-斜( \ ) 6-斜( / )
+  //barcode
+  xls.Cells[1, 8] := '*' + Query1.FieldByName('INV_NO').AsString + '*';
+  //XLS.Range['H1:L1'].Font.Name := 'Arial';   // ? d�ng
+  //////////
   xls.Cells(3, 2) := Query1.FieldByName('INV_NO').AsString;
   xls.Range['B3'].Font.Bold := True;
   //xls.Cells(3, 12) :=Query1.FieldByName('INV_DATE').AsString;
@@ -2566,6 +2571,9 @@ xls.Cells[i + 6, 12].Font.Bold := True;}
   //--- Packing List 報表完成
   xls.Visible := True; //把Excel 呼叫出來
   xls.Cells.Font.Name := 'Times New Roman';
+  XLS.Range['H1:L1'].Font.Name := 'Code39AzaleaNarrow3';
+  XLS.Range['H1:L1'].HorizontalAlignment := -4108;  // xlCenter = -4108
+  XLS.Range['H1:L1'].VerticalAlignment := -4108;    // xlCenter = -4108
 end;
 procedure TInvoicePL.btnExcel_TTClick(Sender: TObject);
 begin

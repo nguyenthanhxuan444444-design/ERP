@@ -1,6 +1,6 @@
 object MaterialCBDPrice: TMaterialCBDPrice
-  Left = 292
-  Top = 107
+  Left = 291
+  Top = 186
   Width = 1418
   Height = 535
   Caption = 'MaterialCBDPrice'
@@ -1032,13 +1032,28 @@ object MaterialCBDPrice: TMaterialCBDPrice
       ParentFont = False
     end
     object Label3: TLabel
-      Left = 920
+      Left = 1096
       Top = 11
       Width = 60
       Height = 16
       Alignment = taRightJustify
       AutoSize = False
       Caption = 'Customer:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 911
+      Top = 7
+      Width = 67
+      Height = 16
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'Season:'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -1254,17 +1269,35 @@ object MaterialCBDPrice: TMaterialCBDPrice
       TabOrder = 13
     end
     object ComboBox5: TComboBox
-      Left = 982
+      Left = 1158
       Top = 6
       Width = 89
       Height = 21
       Style = csDropDownList
       Color = clMoneyGreen
       ItemHeight = 13
+      ItemIndex = 0
       TabOrder = 14
+      Text = 'HOKA'
       Items.Strings = (
         'HOKA'
         'TEVA')
+    end
+    object Edit1: TEdit
+      Left = 988
+      Top = 3
+      Width = 93
+      Height = 24
+      CharCase = ecUpperCase
+      Color = clYellow
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 15
+      Text = 'S26'
     end
   end
   object XXMQ: TQuery
