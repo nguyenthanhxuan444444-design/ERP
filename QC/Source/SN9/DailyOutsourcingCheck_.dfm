@@ -2,7 +2,7 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
   Left = 252
   Top = 168
   Width = 1305
-  Height = 675
+  Height = 676
   Caption = 'DailyOutsourcingCheck'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -36,9 +36,9 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
     object Label1: TLabel
       Left = 304
       Top = 16
-      Width = 51
+      Width = 52
       Height = 20
-      Caption = 'DDBH:'
+      Caption = 'Orders:'
     end
     object Label2: TLabel
       Left = 488
@@ -53,6 +53,13 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       Width = 70
       Height = 20
       Caption = 'ReportID:'
+    end
+    object Label4: TLabel
+      Left = 528
+      Top = 56
+      Width = 68
+      Height = 20
+      Caption = 'Colorway:'
     end
     object BB1: TBitBtn
       Left = 8
@@ -101,6 +108,7 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       Font.Style = []
       ParentFont = False
       TabOrder = 2
+      Visible = False
       OnClick = BB2Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -269,6 +277,7 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       Font.Style = []
       ParentFont = False
       TabOrder = 7
+      Visible = False
       OnClick = bbt6Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -407,8 +416,8 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       TabOrder = 16
     end
     object MenuCode: TEdit
-      Left = 568
-      Top = 64
+      Left = 792
+      Top = 72
       Width = 121
       Height = 28
       ReadOnly = True
@@ -423,12 +432,19 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       Height = 28
       TabOrder = 18
     end
+    object edtSKU: TEdit
+      Left = 600
+      Top = 56
+      Width = 121
+      Height = 28
+      TabOrder = 19
+    end
   end
   object DBGrid1: TDBGridEh
     Left = 0
     Top = 120
     Width = 1289
-    Height = 516
+    Height = 517
     Align = alClient
     DataSource = DS1
     Flat = False
@@ -452,6 +468,9 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
     TitleFont.Height = -16
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    TitleLines = 2
+    UseMultiTitle = True
+    OnCellClick = DBGrid1CellClick
     OnGetCellParams = DBGrid1GetCellParams
     OnKeyPress = DBGrid1KeyPress
     Columns = <
@@ -465,47 +484,70 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       end
       item
         EditButtons = <>
+        FieldName = 'Supplier'
+        Footers = <>
+        Title.Caption = 'Supplier '#20379#25033#21830
+        Width = 143
+      end
+      item
+        EditButtons = <>
+        FieldName = 'VIDate'
+        Footers = <>
+        Title.Caption = 'Visual Inspection date  '#27298#39511#26085#26399
+        Width = 119
+      end
+      item
+        EditButtons = <>
         FieldName = 'XieMing'
         Footers = <>
-        Width = 200
+        Title.Caption = 'Style '#22411#39636
+        Width = 131
       end
       item
         EditButtons = <>
         FieldName = 'Parts'
         Footers = <>
-        Width = 200
+        Title.Caption = 'Parts '#37096#20301
+        Width = 124
       end
       item
         EditButtons = <>
         FieldName = 'Article'
         Footers = <>
-        Width = 120
+        Title.Caption = 'Colorway '#37197#33394
+        Width = 108
       end
       item
         EditButtons = <>
         FieldName = 'DDBH'
         Footers = <>
-        Width = 120
+        Title.Caption = 'Orders '#35330#21934
+        Width = 98
       end
       item
         EditButtons = <>
         FieldName = 'RQty'
         Footers = <>
+        Title.Caption = 'Q'#39'TY received '#25910#36008#25976#37327
+        Width = 67
       end
       item
         EditButtons = <>
         FieldName = 'IQty'
         Footers = <>
+        Title.Caption = 'Visual inspection '#22806#35264#27298#39511'|Q'#39'TY inspected '#27298#39511#25976#37327
       end
       item
         EditButtons = <>
         FieldName = 'DeQty'
         Footers = <>
+        Title.Caption = 'Visual inspection '#22806#35264#27298#39511'|Defects '#19981#33391#25976
       end
       item
         EditButtons = <>
         FieldName = 'Issues'
         Footers = <>
+        Title.Caption = 'Visual inspection '#22806#35264#27298#39511'|Issues '#21839#38988
         Width = 200
       end
       item
@@ -514,11 +556,8 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
         FieldName = 'DeRate'
         Footers = <>
         ReadOnly = True
-      end
-      item
-        EditButtons = <>
-        FieldName = 'VIDate'
-        Footers = <>
+        Title.Caption = 'Visual inspection '#22806#35264#27298#39511'|Defect rate '#19981#33391#29575
+        Width = 86
       end
       item
         EditButtons = <>
@@ -531,12 +570,6 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
         FieldName = 'USERID'
         Footers = <>
         ReadOnly = True
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Supplier'
-        Footers = <>
-        Width = 200
       end
       item
         EditButtons = <>
@@ -557,6 +590,28 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       item
         EditButtons = <>
         FieldName = 'LCFDate'
+        Footers = <>
+        ReadOnly = True
+      end
+      item
+        EditButtons = <>
+        FieldName = 'DepUID'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'DepInputDate'
+        Footers = <>
+        ReadOnly = True
+      end
+      item
+        EditButtons = <>
+        FieldName = 'PreparedID'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'PreparedDate'
         Footers = <>
         ReadOnly = True
       end>
@@ -590,7 +645,7 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
     object Query1DDBH: TStringField
       FieldName = 'DDBH'
       FixedChar = True
-      Size = 50
+      Size = 1000
     end
     object Query1RQty: TIntegerField
       FieldName = 'RQty'
@@ -604,7 +659,7 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
     object Query1Issues: TStringField
       FieldName = 'Issues'
       FixedChar = True
-      Size = 255
+      Size = 1000
     end
     object Query1DeRate: TFloatField
       FieldName = 'DeRate'
@@ -641,6 +696,21 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
     object Query1LCFDate: TDateTimeField
       FieldName = 'LCFDate'
     end
+    object Query1DepUID: TStringField
+      FieldName = 'DepUID'
+      FixedChar = True
+    end
+    object Query1DepInputDate: TDateTimeField
+      FieldName = 'DepInputDate'
+    end
+    object Query1PreparedID: TStringField
+      FieldName = 'PreparedID'
+      FixedChar = True
+      Size = 50
+    end
+    object Query1PreparedDate: TDateTimeField
+      FieldName = 'PreparedDate'
+    end
   end
   object DS1: TDataSource
     DataSet = Query1
@@ -669,7 +739,11 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       '  SCFID = :SCFID,'
       '  SCFDate = :SCFDate,'
       '  LCFID = :LCFID,'
-      '  LCFDate = :LCFDate'
+      '  LCFDate = :LCFDate,'
+      '  DepUID = :DepUID,'
+      '  DepInputDate = :DepInputDate,'
+      '  PreparedID = :PreparedID,'
+      '  PreparedDate = :PreparedDate'
       'where'
       '  ReportID = :OLD_ReportID')
     InsertSQL.Strings = (
@@ -703,16 +777,21 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
     Top = 280
   end
   object OpenDialog1: TOpenDialog
-    Left = 800
+    Left = 1008
     Top = 80
   end
   object SaveDialog: TSaveDialog
-    Left = 848
-    Top = 80
+    Left = 1072
+    Top = 72
   end
   object QGetID: TQuery
     DatabaseName = 'DB'
     Left = 376
     Top = 280
+  end
+  object QSig: TQuery
+    DatabaseName = 'DB'
+    Left = 376
+    Top = 416
   end
 end

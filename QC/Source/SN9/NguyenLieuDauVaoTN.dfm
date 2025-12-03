@@ -1,7 +1,7 @@
 object IncomingMatTest: TIncomingMatTest
-  Left = 222
-  Top = 185
-  Width = 1460
+  Left = 209
+  Top = 155
+  Width = 1544
   Height = 675
   Caption = 'IncomingMatTest'
   Color = clBtnFace
@@ -23,7 +23,7 @@ object IncomingMatTest: TIncomingMatTest
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1444
+    Width = 1528
     Height = 200
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -122,6 +122,7 @@ object IncomingMatTest: TIncomingMatTest
       Font.Style = []
       ParentFont = False
       TabOrder = 2
+      Visible = False
       OnClick = BB2Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -497,7 +498,7 @@ object IncomingMatTest: TIncomingMatTest
   object DBGrid1: TDBGridEh
     Left = 0
     Top = 200
-    Width = 1444
+    Width = 1528
     Height = 436
     Align = alClient
     DataSource = DS1
@@ -522,6 +523,9 @@ object IncomingMatTest: TIncomingMatTest
     TitleFont.Height = -16
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
+    TitleLines = 2
+    UseMultiTitle = True
+    OnCellClick = DBGrid1CellClick
     OnGetCellParams = DBGrid1GetCellParams
     OnKeyPress = DBGrid1KeyPress
     Columns = <
@@ -579,25 +583,21 @@ object IncomingMatTest: TIncomingMatTest
         EditButtons = <>
         FieldName = 'LabID'
         Footers = <>
+        Title.Caption = 'LabTest|LabID'
         Width = 100
       end
       item
         EditButtons = <>
         FieldName = 'Result'
         Footers = <>
+        Title.Caption = 'LabTest|Result'
         Width = 100
       end
       item
         EditButtons = <>
         FieldName = 'Defects'
         Footers = <>
-        Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'USERID'
-        Footers = <>
-        ReadOnly = True
+        Title.Caption = 'LabTest|Defects'
         Width = 100
       end
       item
@@ -614,13 +614,6 @@ object IncomingMatTest: TIncomingMatTest
       end
       item
         EditButtons = <>
-        FieldName = 'USERDate'
-        Footers = <>
-        ReadOnly = True
-        Width = 100
-      end
-      item
-        EditButtons = <>
         FieldName = 'ZSBH'
         Footers = <>
         Title.Caption = 'Supplier'
@@ -629,6 +622,19 @@ object IncomingMatTest: TIncomingMatTest
       item
         EditButtons = <>
         FieldName = 'Brand'
+        Footers = <>
+        Width = 100
+      end
+      item
+        EditButtons = <>
+        FieldName = 'USERDate'
+        Footers = <>
+        ReadOnly = True
+        Width = 100
+      end
+      item
+        EditButtons = <>
+        FieldName = 'USERID'
         Footers = <>
         ReadOnly = True
         Width = 100
@@ -654,6 +660,16 @@ object IncomingMatTest: TIncomingMatTest
         FieldName = 'LCFDate'
         Footers = <>
         ReadOnly = True
+      end
+      item
+        EditButtons = <>
+        FieldName = 'PreparedID'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'PreparedDate'
+        Footers = <>
       end>
   end
   object Query1: TQuery
@@ -664,8 +680,8 @@ object IncomingMatTest: TIncomingMatTest
       'select *  from MaterialIncomTest'
       'where 1=2')
     UpdateObject = UpSQL1
-    Left = 456
-    Top = 280
+    Left = 448
+    Top = 392
     object Query1ReportID: TAutoIncField
       FieldName = 'ReportID'
     end
@@ -755,11 +771,19 @@ object IncomingMatTest: TIncomingMatTest
     object Query1LCFDate: TDateTimeField
       FieldName = 'LCFDate'
     end
+    object Query1PreparedID: TStringField
+      FieldName = 'PreparedID'
+      FixedChar = True
+      Size = 50
+    end
+    object Query1PreparedDate: TDateTimeField
+      FieldName = 'PreparedDate'
+    end
   end
   object DS1: TDataSource
     DataSet = Query1
-    Left = 496
-    Top = 280
+    Left = 488
+    Top = 392
   end
   object UpSQL1: TUpdateSQL
     ModifySQL.Strings = (
@@ -785,7 +809,9 @@ object IncomingMatTest: TIncomingMatTest
       '  SCFID = :SCFID,'
       '  SCFDate = :SCFDate,'
       '  LCFID = :LCFID,'
-      '  LCFDate = :LCFDate'
+      '  LCFDate = :LCFDate,'
+      '  PreparedID = :PreparedID,'
+      '  PreparedDate = :PreparedDate'
       'where'
       '  ReportID = :OLD_ReportID')
     InsertSQL.Strings = (
@@ -795,7 +821,8 @@ object IncomingMatTest: TIncomingMatTest
         'uest, LabID,'
       
         '   Result, Defects, USERID, SendDate, ResultDate, USERDate, ZSBH' +
-        ', YN, Brand, SCFID, SCFDate, LCFID, LCFDate)'
+        ', YN, Brand,'
+      '   SCFID, SCFDate, LCFID, LCFDate, PreparedID, PreparedDate)'
       'values'
       
         '  (:ReportID, :MatName, :XieMing, :Article, :CLBH, :DDBH, :RQty,' +
@@ -803,7 +830,9 @@ object IncomingMatTest: TIncomingMatTest
       
         '   :LabID, :Result, :Defects, :USERID, :SendDate, :ResultDate, :' +
         'USERDate, '
-      '   :ZSBH, 1, :Brand, :SCFID, :SCFDate, :LCFID, :LCFDate)')
+      
+        '   :ZSBH, 1, :Brand, :SCFID, :SCFDate, :LCFID, :LCFDate, :Prepar' +
+        'edID, :PreparedDate)')
     DeleteSQL.Strings = (
       'update MaterialIncomTest'
       'set YN  = 0,'
@@ -811,13 +840,13 @@ object IncomingMatTest: TIncomingMatTest
       'USERID = :USERID'
       'where'
       '  ReportID = :OLD_ReportID')
-    Left = 536
-    Top = 280
+    Left = 528
+    Top = 392
   end
   object Qtemp: TQuery
     DatabaseName = 'DB'
-    Left = 416
-    Top = 280
+    Left = 408
+    Top = 392
   end
   object OpenDialog1: TOpenDialog
     Left = 992
@@ -829,7 +858,12 @@ object IncomingMatTest: TIncomingMatTest
   end
   object QGetID: TQuery
     DatabaseName = 'DB'
-    Left = 384
-    Top = 280
+    Left = 376
+    Top = 392
+  end
+  object QSig: TQuery
+    DatabaseName = 'DB'
+    Left = 336
+    Top = 392
   end
 end

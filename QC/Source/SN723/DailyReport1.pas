@@ -264,6 +264,8 @@ begin
             sql.Add(')');
         end;
 
+        SQL.Add('order by DateInput');
+
         //funcObj.WriteErrorLog(sql.Text);
         active:=true;
     end;

@@ -1,0 +1,897 @@
+unit IncomeMatEvaPaintings;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, DBTables, DB, GridsEh, DBGridEh, StdCtrls, Mask, DBCtrls,
+  Buttons, ExtCtrls, ComObj, ShellAPI, ComCtrls;
+
+type
+  TIncomeMatEvaPainting = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    BB1: TBitBtn;
+    BB2: TBitBtn;
+    BB3: TBitBtn;
+    BB4: TBitBtn;
+    BB5: TBitBtn;
+    BB6: TBitBtn;
+    Button1: TButton;
+    bbt6: TBitBtn;
+    edtDDBH: TEdit;
+    bExcel: TBitBtn;
+    bExF: TBitBtn;
+    cbPDF: TCheckBox;
+    edtZSBH: TEdit;
+    ckUSERDate: TCheckBox;
+    dtpUSERDate: TDateTimePicker;
+    edtCLBH: TEdit;
+    MenuCode: TEdit;
+    edtRID: TEdit;
+    DBGrid1: TDBGridEh;
+    Query1: TQuery;
+    DS1: TDataSource;
+    UpSQL1: TUpdateSQL;
+    Qtemp: TQuery;
+    OpenDialog1: TOpenDialog;
+    SaveDialog: TSaveDialog;
+    QGetID: TQuery;
+    Query1ReportID: TIntegerField;
+    Query1InspecDate: TDateTimeField;
+    Query1CLBH: TStringField;
+    Query1Supplier: TStringField;
+    Query1DDBH: TStringField;
+    Query1Size: TStringField;
+    Query1InQty: TIntegerField;
+    Query1RandomQty: TIntegerField;
+    Query1Issues: TStringField;
+    Query1DeQty: TIntegerField;
+    Query1Remark: TStringField;
+    Query1XieMing: TStringField;
+    Query1ARTICLE: TStringField;
+    Query1SCFID: TStringField;
+    Query1SCFDate: TDateTimeField;
+    Query1LCFID: TStringField;
+    Query1LCFDate: TDateTimeField;
+    Query1MSCFID: TStringField;
+    Query1MSCFDate: TDateTimeField;
+    Query1USERID: TStringField;
+    Query1USERDate: TDateTimeField;
+    ckInsDate: TCheckBox;
+    dtpInsDate: TDateTimePicker;
+    SKU: TLabel;
+    edtSKU: TEdit;
+    Label3: TLabel;
+    edtStyle: TEdit;
+    QIssues: TQuery;
+    QDeQty: TQuery;
+    Label4: TLabel;
+    edtSize: TEdit;
+    QSize: TQuery;
+    Query1YN: TSmallintField;
+    Query1PreparedID: TStringField;
+    Query1PreparedDate: TDateTimeField;
+    QSig: TQuery;
+    QRemark: TQuery;
+    procedure Button1Click(Sender: TObject);
+    procedure Query1AfterOpen(DataSet: TDataSet);
+    procedure bExFClick(Sender: TObject);
+    procedure DBGrid1CellClick(Column: TColumnEh);
+    procedure BB1Click(Sender: TObject);
+    procedure BB3Click(Sender: TObject);
+    procedure bExcelClick(Sender: TObject);
+    procedure BB4Click(Sender: TObject);
+    function NewID: string;
+    function GetUsernameByID(const AID: string): string;
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure BB6Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BB5Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure SetColumnsReadOnly;
+    procedure DBGrid1GetCellParams(Sender: TObject; Column: TColumnEh;
+      AFont: TFont; var Background: TColor; State: TGridDrawState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  IncomeMatEvaPainting: TIncomeMatEvaPainting;
+
+implementation
+
+uses main1;
+
+{$R *.dfm}
+
+function TIncomeMatEvaPainting.GetUsernameByID(const AID: string): string;
+begin
+  Result := '';
+  if AID = '' then Exit;
+
+  with QSig do
+  begin
+    Active := False;
+    SQL.Clear;
+    SQL.Add('select USERNAME from Busers where USERID = :USERID');
+    ParamByName('USERID').AsString := AID;
+    Active := True;
+
+    if not EOF then
+      Result := FieldByName('USERNAME').AsString;
+  end;
+end;
+
+function TIncomeMatEvaPainting.NewID: string;
+var
+  Prefix, LastID: string;
+  Seq: Integer;
+begin
+  Prefix := FormatDateTime('yymm', Date);
+
+  with QGetID do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add(
+      'select top 1 ReportID ' +
+      'from QC_EvaPainting ' +
+      'where left(ReportID, 4) = :P ' +
+      'order by ReportID desc');
+    ParamByName('P').AsString := Prefix;
+    Active := true;
+  end;
+
+  if QGetID.IsEmpty then
+    Seq := 1
+  else
+  begin
+    LastID := QGetID.FieldByName('ReportID').AsString;
+    Seq := StrToInt(Copy(LastID, 5, 4)) + 1;
+  end;
+
+  Result := Prefix + FormatFloat('0000', Seq);
+end;
+
+procedure TIncomeMatEvaPainting.Button1Click(Sender: TObject);
+begin
+SetColumnsReadOnly;
+  with query1 do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add('select QC_EvaPainting.*, xxzl.XieMing, DDZL.ARTICLE from QC_EvaPainting ');
+    SQL.Add('left join DDZL on DDZL.DDBH = QC_EvaPainting.DDBH ');
+    SQL.Add('left join xxzl on DDZL.XieXing = xxzl.XieXing and DDZL.SheHao = xxzl.SheHao ');
+    SQL.Add('where QC_EvaPainting.DDBH like ''' +edtDDBH.Text+ '%'' ');
+
+    if edtRID.Text <> '' then
+      SQL.Add('and ReportID like '''+edtRID.Text+'%'' ');
+    if edtCLBH.Text <> '' then
+      SQL.Add('and CLBH like ''' +edtCLBH.Text+ '%'' ');
+    if edtZSBH.Text <> '' then
+      SQL.Add('and Supplier like ''' +edtZSBH.Text+ '%'' ');
+    if edtSize.Text <> '' then
+      SQL.Add('and Size = '''+edtSize.Text+''' ');
+    if ckUSERDate.Checked then
+      SQL.Add('and CAST(USERDate as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date) + ''' ');
+    if ckInsDate.Checked then
+      SQL.Add('and CAST(InspecDate as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpInsDate.Date) + ''' ');
+    Active := true;
+  end;
+end;
+
+procedure TIncomeMatEvaPainting.Query1AfterOpen(DataSet: TDataSet);
+begin
+  BB1.Enabled:=true;
+  BB2.Enabled:=true;
+  BB3.Enabled:=true;
+  bbt6.Enabled:=true;
+  bExcel.Enabled := true;
+  bExF.Enabled := true;
+end;
+
+procedure TIncomeMatEvaPainting.bExFClick(Sender: TObject);
+var
+  ExcelApp, Workbook, Worksheet, rng: OleVariant;
+  StartRow, InsertRow: Integer;
+  DuongDanFile, SaveFile, PdfFile, qty, issue, size, checksize: string;
+  s: WideString;
+  i, j, p, tdeqty, tinqty, traqty, tisqty, valInt: Integer;
+  derate: Double;
+  SigS, SigMS, SigL, SigP: Boolean;
+begin
+  DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-04B.xlsx';
+
+  StartRow := 7;
+
+  SaveDialog := TSaveDialog.Create(nil);
+  try
+    if not cbPDF.Checked then
+    begin
+      SaveDialog.Filter := 'Excel Files (*.xlsx)|*.xlsx';
+      SaveDialog.DefaultExt := 'xlsx';
+      SaveDialog.FileName := 'A-QIP-WS001-04B_' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', Now) + '.xlsx';
+      SaveDialog.Title := 'Chon noi luu file Excel moi';
+    end else
+    begin
+      SaveDialog.Filter := 'PDF (*.pdf)|*.pdf';
+      SaveDialog.DefaultExt := 'pdf';
+      SaveDialog.FileName := 'A-QIP-WS001-04B_' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', Now) + '.pdf';
+      SaveDialog.Title := 'Chon noi luu file PDF moi';
+    end;
+
+    if not SaveDialog.Execute then
+      Exit;
+
+    SaveFile := SaveDialog.FileName;
+  finally
+    SaveDialog.Free;
+  end;
+
+  ExcelApp := CreateOleObject('Excel.Application');
+
+  Workbook := ExcelApp.Workbooks.Open(DuongDanFile);
+  Worksheet := Workbook.WorkSheets[1];
+
+  for i := 1 to 20 do
+  begin
+    s := Worksheet.Cells[2, i].Value;
+    case i of
+      1:  Worksheet.Cells[2, i].Value := s + ' ' + FormatDateTime('dd-mm-yyyy', dtpInsdate.Date);
+      6:  Worksheet.Cells[2, i].Value := s + ' ' + edtCLBH.Text;
+      10: Worksheet.Cells[2, i].Value := s + ' ' + edtZSBH.Text;
+    end;
+  end;
+
+  for i := 1 to 20 do
+  begin
+    s := Worksheet.Cells[3, i].Value;
+    case i of
+      1:  Worksheet.Cells[3, i].Value := s + ' ' + edtStyle.Text;
+      10:  Worksheet.Cells[3, i].Value := s + ' ' + edtSKU.Text;
+    end;
+  end;
+
+  if edtDDBH.Text <> '' then
+  begin
+    s := Worksheet.Cells[4, 1].Value;
+    Worksheet.Cells[4, 1].Value := s + ' ' + edtDDBH.Text;
+  end;
+
+  Query1.First;
+  InsertRow := StartRow;
+
+  while not Query1.Eof do
+  begin
+    Worksheet.Rows[Format('%d:%d', [InsertRow, InsertRow])].Insert;
+
+    Worksheet.Cells[InsertRow, 1].Value := Query1.FieldByName('Size').AsString;
+
+    //xoa size trung
+    i := 7;
+    while i < InsertRow do
+    begin
+      checksize := Worksheet.Cells[i, 1].Value;
+      if checksize = Worksheet.Cells[i + 1, 1].Value then
+      begin
+        Worksheet.Rows[i + 1].EntireRow.Delete;
+        Dec(InsertRow);
+      end
+      else
+        Inc(i);
+    end;
+
+    Worksheet.Cells[InsertRow, 2].Value := Query1.FieldByName('InQty').AsString;
+    Worksheet.Cells[InsertRow, 3].Value := Query1.FieldByName('RandomQty').AsInteger;
+
+    //insert Size vao excel
+    with QIssues do
+    begin
+      Active := False;
+      SQL.Clear;
+      SQL.Add('select distinct Issues from QC_EvaPainting where DDBH = ''' + edtDDBH.Text + '''');
+      Active := True;
+
+      First;
+
+      i := 4;
+      while (not Eof) and (i <= 12) do
+      begin
+        Worksheet.Cells[6, i].Value := FieldByName('Issues').AsString;
+        Next;
+        Inc(i);
+      end;
+    end;
+
+    //insert Defect qty
+    begin
+      i := 4;
+      while i <= 12 do
+      begin
+        issue := Worksheet.Cells[6, i].Value;
+        size := Worksheet.Cells[InsertRow, 1].Value;
+        if issue <> '' then
+        begin
+          with QDeQty do
+          begin
+            Active := False;
+            SQL.Clear;
+            SQL.Add('select DeQty from QC_EvaPainting');
+            SQL.Add('where DDBH = ''' + edtDDBH.Text + '''');
+            SQL.Add('  and Issues = ''' + issue + '''');
+            SQL.Add('  and Size = ''' + size + '''');
+            Active := True;
+            if not IsEmpty then
+            begin
+              qty := FieldByName('DeQty').AsString;
+              Worksheet.Cells[InsertRow, i].Value := qty;
+            end;
+          end;
+        end;
+        i := i + 1;
+      end;
+    end;
+
+    //tinh tong defectqty
+    begin
+      i := 4;
+      tdeqty := 0;
+      while i <= 12 do
+      begin
+        size := Worksheet.Cells[InsertRow, 1].Value;
+        tdeqty := tdeqty + Worksheet.Cells[InsertRow, i].Value;
+        i := i + 1;
+      end;
+    end;
+
+    //tinh tong incomingqty
+    begin
+      i := 7;
+      tinqty := 0;
+      while i <= InsertRow do
+      begin
+        tinqty := tinqty + Worksheet.Cells[i, 2].Value;
+        Inc(i);
+      end;
+    end;
+
+    //tinh tong randomqty
+    begin
+      i := 7;
+      traqty := 0;
+      while i <= InsertRow do
+      begin
+        traqty := traqty + Worksheet.Cells[i, 3].Value;
+        Inc(i);
+      end;
+    end;
+
+    //tinh tong defect qty
+    begin
+      for j := 4 to 12 do
+      begin
+        tisqty := 0;
+
+        for i := 7 to InsertRow do
+        begin
+          valInt := 0;
+
+          if not VarIsNull(Worksheet.Cells[i, j].Value) then
+          begin
+            try
+              valInt := Worksheet.Cells[i, j].Value;
+            except
+              valInt := 0;
+            end;
+          end;
+
+          tisqty := tisqty + valInt;
+          Worksheet.Cells[InsertRow + 2, j].Value := tisqty;
+        end;
+        if Worksheet.Cells[InsertRow + 2, j].Value = '0' then
+          Worksheet.Cells[InsertRow + 2, j].Value := '';
+      end;
+    end;
+
+
+    //tinh ti le khong dat
+    begin
+      for i := 4 to 12 do
+      begin
+
+        try
+          valInt := Worksheet.Cells[InsertRow + 2, i].Value;
+        except
+          valInt := 0;
+        end;
+
+        derate := valInt / traqty * 100;
+
+        if derate = 0 then
+          Worksheet.Cells[InsertRow + 3, i].Value := ''
+        else
+        Worksheet.Cells[InsertRow + 3, i].Value :=
+          FormatFloat('0.00', derate) + '%';
+      end;
+    end;
+
+
+    Worksheet.Cells[InsertRow + 2, 2].Value := tinqty;
+    Worksheet.Cells[InsertRow + 2, 3].Value := traqty;
+    Worksheet.Cells[InsertRow, 13].Value := tdeqty;
+
+    //insert Remark
+    begin
+      i := 4;
+      while i <= 12 do
+      begin
+        size := Worksheet.Cells[InsertRow, 1].Value;
+        if size <> '' then
+        begin
+          s := '';
+
+          with QRemark do
+          begin
+            Active := False;
+            SQL.Clear;
+            SQL.Add('select Remark from QC_EvaPainting');
+            SQL.Add('where DDBH = ''' + edtDDBH.Text + '''');
+            SQL.Add('  and Size = ''' + size + '''');
+            Active := True;
+
+            if not IsEmpty then
+            begin
+              First;
+              while not Eof do
+              begin
+                if s <> '' then s := s + ', ';
+                s := s + FieldByName('Remark').AsString;
+                Next;
+              end;
+
+              Worksheet.Cells[InsertRow, 14].WrapText := True;
+              Worksheet.Cells[InsertRow, 14].Value := s;
+            end;
+          end;
+        end;
+
+        i := i + 1;
+      end;
+    end;
+
+    Worksheet.Rows[InsertRow].AutoFit;
+    Inc(InsertRow);
+    Query1.Next;
+  end;
+
+  Worksheet.Rows[Format('%d:%d', [InsertRow, InsertRow])].Delete;
+
+  //Kiem tra ky KCS Super
+  Query1.First;
+  SigS := false;
+  while not Query1.Eof do
+  begin
+    if (Query1.FieldByName('SCFID').AsString = '') or Query1.FieldByName('SCFID').IsNull then
+      SigS := true;
+  Query1.Next
+  end;
+
+  if SigS = false then
+  begin
+    Worksheet.Cells[InsertRow + 4, 5].WrapText := True;
+    Worksheet.Cells[InsertRow + 4, 5].Value := GetUsernameByID(Query1.FieldByName('SCFID').AsString)
+    + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('SCFDate').AsDateTime);
+  end;
+
+  //Kiem tra ky Material Super
+  Query1.First;
+  SigMS := false;
+  while not Query1.Eof do
+  begin
+    if (Query1.FieldByName('MSCFID').AsString = '') or Query1.FieldByName('MSCFID').IsNull then
+      SigMS := true;
+  Query1.Next
+  end;
+
+  if SigMS = false then
+  begin
+    Worksheet.Cells[InsertRow + 4, 1].WrapText := True;
+    Worksheet.Cells[InsertRow + 4, 1].Value := GetUsernameByID(Query1.FieldByName('MSCFID').AsString)
+    + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('MSCFDate').AsDateTime);
+  end;
+
+  //Kiem tra ky KCS Leader
+  Query1.First;
+  SigL := false;
+  while not Query1.Eof do
+  begin
+    if (Query1.FieldByName('LCFID').AsString = '') or Query1.FieldByName('LCFID').IsNull then
+      SigL := true;
+  Query1.Next
+  end;
+
+  if SigL = false then
+  begin
+    Worksheet.Cells[InsertRow + 4, 10].WrapText := True;
+    Worksheet.Cells[InsertRow + 4, 10].Value := GetUsernameByID(Query1.FieldByName('LCFID').AsString)
+    + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('LCFDate').AsDateTime);
+  end;
+
+  //Kiem tra ky PreparedID
+  Query1.First;
+  SigP := false;
+  while not Query1.Eof do
+  begin
+    if (Query1.FieldByName('PreparedID').AsString = '') or Query1.FieldByName('PreparedID').IsNull then
+      SigP := true;
+  Query1.Next
+  end;
+
+  if SigP = false then
+  begin
+    Worksheet.Cells[InsertRow + 4, 13].WrapText := True;
+    Worksheet.Cells[InsertRow + 4, 13].Value := Query1.FieldByName('PreparedID').AsString
+    + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('PreparedDate').AsDateTime);
+  end;
+
+  Worksheet.Rows[InsertRow + 1].WrapText := True;
+  Worksheet.Rows[InsertRow + 1].RowHeight := 35;
+  Worksheet.Rows[InsertRow].WrapText := True;
+  Worksheet.Rows[InsertRow].RowHeight := 35;
+
+
+  if cbPDF.Checked then
+  begin
+    Worksheet.PageSetup.PrintTitleRows := '$1:$6';
+    Worksheet.PageSetup.RightHeader := '&P / &N';
+    Workbook.ExportAsFixedFormat(0, SaveFile);
+    ShowMessage('Duong dan PDF: ' + SaveFile);
+    ShellExecute(0, 'open', PChar(SaveFile), nil, nil, SW_SHOWNORMAL);
+  end
+  else
+  begin
+    Worksheet.PageSetup.PrintTitleRows := '$1:$6';
+    Worksheet.PageSetup.RightHeader := '&P / &N';
+    Workbook.SaveAs(SaveFile);
+    ShowMessage('Duong dan Excel: ' + SaveFile);
+    ExcelApp.Visible := True;
+  end;
+
+  ExcelApp := Unassigned;
+  Workbook := Unassigned;
+  Worksheet := Unassigned;
+end;
+
+procedure TIncomeMatEvaPainting.DBGrid1CellClick(Column: TColumnEh);
+begin
+if not Query1.Active then exit;
+if Query1.RecordCount = 0 then exit;
+if (Query1.RecordCount > 0)  and not Query1.CachedUpdates then
+  begin
+    dtpInsDate.Date := Query1.FieldByName('InspecDate').AsDateTime;
+    edtStyle.Text := Query1.FieldByName('XieMing').AsString;
+    edtSKU.Text := Query1.FieldByName('Article').AsString;
+    edtDDBH.Text := Query1.FieldByName('DDBH').AsString;
+    edtCLBH.Text := Query1.FieldByName('CLBH').AsString;
+    edtZSBH.Text := Query1.FieldByName('Supplier').AsString;
+    edtSize.Text := Query1.FieldByName('Size').AsString;
+    dtpUSERDate.Date := Query1.FieldByName('USERDate').AsDateTime;
+  end;
+end;
+
+procedure TIncomeMatEvaPainting.BB1Click(Sender: TObject);
+begin
+  with query1 do
+  begin
+  RequestLive :=  true;
+  CachedUpdates:= true;
+  Insert;
+  end;
+bb4.enabled:=true;
+bb5.enabled:=true;
+end;
+
+procedure TIncomeMatEvaPainting.BB3Click(Sender: TObject);
+begin
+with query1 do
+  begin
+    cachedupdates:=true;
+    requestlive:=true;
+    query1.edit;
+  end;
+bb4.enabled:=true;
+bb5.enabled:=true;
+end;
+
+procedure TIncomeMatEvaPainting.bExcelClick(Sender: TObject);
+var
+  ExcelApp, Workbook, Worksheet: OleVariant;
+  Row, Col: Integer;
+begin
+  ExcelApp := CreateOleObject('Excel.Application');
+  ExcelApp.Visible := True;
+
+  Workbook := ExcelApp.Workbooks.Add;
+  Worksheet := Workbook.Worksheets[1];
+
+  for Col := 0 to Query1.FieldCount - 1 do
+    Worksheet.Cells[1, Col + 1] := Query1.Fields[Col].FieldName;
+
+  Row := 2;
+  Query1.First;
+  while not Query1.Eof do
+  begin
+    for Col := 0 to Query1.FieldCount - 1 do
+      Worksheet.Cells[Row, Col + 1] := Query1.Fields[Col].AsString;
+    Inc(Row);
+    Query1.Next;
+  end;
+  Worksheet.Columns.AutoFit;
+end;
+
+procedure TIncomeMatEvaPainting.SetColumnsReadOnly;
+begin
+if MenuCode.Text = 'N951' then
+begin
+  DBGrid1.FieldColumns['SCFID'].ReadOnly := True;
+  DBGrid1.FieldColumns['SCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['LCFID'].ReadOnly := True;
+  DBGrid1.FieldColumns['LCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['MSCFID'].ReadOnly := True;
+  DBGrid1.FieldColumns['MSCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['USERID'].ReadOnly := True;
+  DBGrid1.FieldColumns['USERDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['YN'].ReadOnly := True;
+end else if MenuCode.Text = 'N952' then
+begin
+  DBGrid1.FieldColumns['ReportID'].ReadOnly := True;
+  DBGrid1.FieldColumns['InspecDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['CLBH'].ReadOnly := True;
+  DBGrid1.FieldColumns['Supplier'].ReadOnly := True;
+  DBGrid1.FieldColumns['DDBH'].ReadOnly := True;
+  DBGrid1.FieldColumns['Size'].ReadOnly := True;
+  DBGrid1.FieldColumns['InQty'].ReadOnly := True;
+  DBGrid1.FieldColumns['RandomQty'].ReadOnly := True;
+  DBGrid1.FieldColumns['Issues'].ReadOnly := True;
+  DBGrid1.FieldColumns['DeQty'].ReadOnly := True;
+  DBGrid1.FieldColumns['Remark'].ReadOnly := True;
+  DBGrid1.FieldColumns['SCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['LCFID'].ReadOnly := True;
+  DBGrid1.FieldColumns['LCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['MSCFID'].ReadOnly := True;
+  DBGrid1.FieldColumns['MSCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['USERID'].ReadOnly := True;
+  DBGrid1.FieldColumns['USERDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['YN'].ReadOnly := True;
+end else if MenuCode.Text = 'N953' then
+begin
+  DBGrid1.FieldColumns['ReportID'].ReadOnly := True;
+  DBGrid1.FieldColumns['InspecDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['CLBH'].ReadOnly := True;
+  DBGrid1.FieldColumns['Supplier'].ReadOnly := True;
+  DBGrid1.FieldColumns['DDBH'].ReadOnly := True;
+  DBGrid1.FieldColumns['Size'].ReadOnly := True;
+  DBGrid1.FieldColumns['InQty'].ReadOnly := True;
+  DBGrid1.FieldColumns['RandomQty'].ReadOnly := True;
+  DBGrid1.FieldColumns['Issues'].ReadOnly := True;
+  DBGrid1.FieldColumns['DeQty'].ReadOnly := True;
+  DBGrid1.FieldColumns['Remark'].ReadOnly := True;
+  DBGrid1.FieldColumns['SCFID'].ReadOnly := True;
+  DBGrid1.FieldColumns['SCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['LCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['MSCFID'].ReadOnly := True;
+  DBGrid1.FieldColumns['MSCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['USERID'].ReadOnly := True;
+  DBGrid1.FieldColumns['USERDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['YN'].ReadOnly := True;
+end else if MenuCode.Text = 'N954' then
+begin
+  DBGrid1.FieldColumns['ReportID'].ReadOnly := True;
+  DBGrid1.FieldColumns['InspecDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['CLBH'].ReadOnly := True;
+  DBGrid1.FieldColumns['Supplier'].ReadOnly := True;
+  DBGrid1.FieldColumns['DDBH'].ReadOnly := True;
+  DBGrid1.FieldColumns['Size'].ReadOnly := True;
+  DBGrid1.FieldColumns['InQty'].ReadOnly := True;
+  DBGrid1.FieldColumns['RandomQty'].ReadOnly := True;
+  DBGrid1.FieldColumns['Issues'].ReadOnly := True;
+  DBGrid1.FieldColumns['DeQty'].ReadOnly := True;
+  DBGrid1.FieldColumns['Remark'].ReadOnly := True;
+  DBGrid1.FieldColumns['SCFID'].ReadOnly := True;
+  DBGrid1.FieldColumns['SCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['LCFID'].ReadOnly := True;
+  DBGrid1.FieldColumns['LCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['MSCFDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['USERID'].ReadOnly := True;
+  DBGrid1.FieldColumns['USERDate'].ReadOnly := True;
+  DBGrid1.FieldColumns['YN'].ReadOnly := True;
+end;
+end;
+
+procedure TIncomeMatEvaPainting.BB4Click(Sender: TObject);
+var i: integer;
+begin
+  if not QGetID.Active then QGetID.Active;
+  try
+    query1.first;
+    for i:=1 to query1.RecordCount do
+      begin
+        case query1.updatestatus of
+          usinserted:
+            begin
+              if query1.fieldbyname('DDBH').isnull then
+              begin
+                query1.delete;
+              end else
+              begin
+                Query1.Edit;
+                Query1.FieldByName('ReportID').Value := NewID;
+                Query1.FieldByName('USERID').Value := main.Edit1.Text;
+                Query1.FieldByName('YN').Value := 1;
+                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                upsql1.apply(ukinsert);
+              end;
+            end;
+          usmodified:
+             begin
+               if query1.FieldByName('YN').value='0' then
+                 begin
+                   if messagedlg('Are you sure you want to delete?',mtconfirmation,[mbYes,mbNo],0)=mrYes then
+                   begin
+                    Query1.Edit;
+                    Query1.FieldByName('USERID').Value := main.Edit1.Text;
+                    UpSQL1.Apply(ukdelete)
+                   end;
+                 end else
+                 begin
+                  Query1.Edit;
+                  if DBGrid1.SelectedField.FieldName = 'PreparedID' then
+                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
+                  else if MenuCode.Text = 'N951' then
+                    begin
+                      Query1.FieldByName('USERID').Value := main.Edit1.Text;
+                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                    end;
+                  if MenuCode.Text = 'N952' then
+                    begin
+                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                    end;
+                  if MenuCode.Text = 'N953' then
+                    begin
+                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                    end;
+                  if MenuCode.Text = 'N954' then
+                    begin
+                      Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                    end;
+                  upsql1.apply(ukmodify);
+                 end;
+              end;
+        end;
+        query1.next;
+      end;
+    query1.active:=false;
+    query1.cachedupdates:=false;
+    query1.requestlive:=false;
+    query1.active:=true;
+    bb4.enabled:=false;
+    bb5.enabled:=false;
+    dbgrid1.ReadOnly := false;
+  except
+   Messagedlg('Have wrong, can not save data!',mtwarning,[mbyes],0);
+  end;
+end;
+
+procedure TIncomeMatEvaPainting.DBGrid1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  // Neu nhan Enter
+  if Key = #13 then
+  begin
+
+    if (DBGrid1.SelectedField.FieldName = 'SCFID') and (MenuCode.Text = 'N952') and Query1.CachedUpdates then
+    begin
+      Query1.Edit;
+      Query1.FieldByName('SCFID').AsString := main.Edit1.Text;
+      Query1.Post;
+    end;
+
+    if (DBGrid1.SelectedField.FieldName = 'LCFID') and (MenuCode.Text = 'N953') and Query1.CachedUpdates then
+    begin
+      Query1.Edit;
+      Query1.FieldByName('LCFID').AsString := main.Edit1.Text;
+      Query1.Post;
+    end;
+    if (DBGrid1.SelectedField.FieldName = 'MSCFID') and (MenuCode.Text = 'N954') and Query1.CachedUpdates then
+    begin
+      Query1.Edit;
+      Query1.FieldByName('MSCFID').AsString := main.Edit1.Text;
+      Query1.Post;
+    end;
+
+    if DBGrid1.SelectedField.FieldName = 'DDBH' then
+    begin
+      if Query1.CachedUpdates then
+      begin
+        Qtemp.Close;
+        Qtemp.SQL.Clear;
+        Qtemp.SQL.Add('select DDZL.DDBH, DDZL.ARTICLE, DDZL.Pairs, xxzl.XieMing from DDZL ');
+        Qtemp.SQL.Add('left join xxzl on xxzl.XieXing = DDZL.XieXing and xxzl.SheHao = DDZL.SheHao ');
+        Qtemp.SQL.Add('where DDZL.DDBH = :DDBH');
+        Qtemp.ParamByName('DDBH').AsString := DBGrid1.SelectedField.AsString;
+        Qtemp.Open;
+
+        if not Qtemp.IsEmpty then
+        begin
+          Query1.Edit;
+          Query1.FieldByName('ARTICLE').AsString := Qtemp.FieldByName('ARTICLE').AsString;
+          Query1.FieldByName('XieMing').AsString := Qtemp.FieldByName('XieMing').AsString;
+          Query1.Post;
+        end else
+        begin
+          Query1.Edit;
+          Query1.FieldByName('ARTICLE').AsString := '';
+          Query1.FieldByName('XieMing').AsString := '';
+          Query1.Post;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TIncomeMatEvaPainting.BB6Click(Sender: TObject);
+begin
+ Close;
+end;
+
+procedure TIncomeMatEvaPainting.FormDestroy(Sender: TObject);
+begin
+  IncomeMatEvaPainting := nil;
+end;
+
+procedure TIncomeMatEvaPainting.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+if query1.requestlive then
+  begin
+    messagedlg('You have to save data first.',mtwarning,[mbyes],0);
+    action:=canone;
+  end
+  else
+   action:=Cafree;
+end;
+
+procedure TIncomeMatEvaPainting.BB5Click(Sender: TObject);
+begin
+  with Query1 do
+  begin
+    CachedUpdates := false;
+    RequestLive := false;
+    BB4.Enabled := false;
+    BB5.Enabled := false;
+    dbgrid1.ReadOnly := false;
+  end;
+end;
+
+procedure TIncomeMatEvaPainting.FormCreate(Sender: TObject);
+begin
+  DBGrid1.FrozenCols := 10;
+end;
+
+procedure TIncomeMatEvaPainting.DBGrid1GetCellParams(Sender: TObject;
+  Column: TColumnEh; AFont: TFont; var Background: TColor;
+  State: TGridDrawState);
+begin
+  if Query1.FieldByName('YN').Value = '0' then
+    DBGrid1.Canvas.Font.Color := clRed;
+end;
+
+end.

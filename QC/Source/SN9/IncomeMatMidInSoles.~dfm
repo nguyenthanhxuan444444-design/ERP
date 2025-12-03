@@ -1,9 +1,9 @@
-object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
-  Left = 251
-  Top = 195
+object IncomeMatMidInSole: TIncomeMatMidInSole
+  Left = 192
+  Top = 125
   Width = 1305
   Height = 675
-  Caption = 'IncomeMatRubberOutsoles'
+  Caption = 'IncomeMatMidInSole'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -34,11 +34,11 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
     ParentFont = False
     TabOrder = 0
     object Label1: TLabel
-      Left = 256
+      Left = 272
       Top = 72
-      Width = 51
+      Width = 27
       Height = 20
-      Caption = 'DDBH:'
+      Caption = 'RY:'
     end
     object Label2: TLabel
       Left = 488
@@ -92,9 +92,9 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
     object Label4: TLabel
       Left = 272
       Top = 8
-      Width = 50
+      Width = 105
       Height = 20
-      Caption = 'SHard:'
+      Caption = 'StandardHard:'
     end
     object BB1: TBitBtn
       Left = 0
@@ -312,6 +312,7 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       Font.Style = []
       ParentFont = False
       TabOrder = 7
+      Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -510,7 +511,7 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       TabOrder = 24
     end
     object edtSHard: TEdit
-      Left = 360
+      Left = 384
       Top = 8
       Width = 121
       Height = 28
@@ -519,7 +520,7 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
     object btCopy: TButton
       Left = 336
       Top = 144
-      Width = 65
+      Width = 73
       Height = 49
       Caption = 'Copy'
       TabOrder = 26
@@ -569,50 +570,73 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       end
       item
         EditButtons = <>
+        FieldName = 'TempRoom'
+        Footers = <>
+        Title.Caption = #27298#39511#25151#38291#28331#24230' TempRoom'
+        Width = 90
+      end
+      item
+        EditButtons = <>
         FieldName = 'InspecDate'
         Footers = <>
-        Title.Caption = #27298#39511#26085#26399' Inspection date'
-        Width = 113
+        Title.Caption = #27298#39511#26085#26399' InspecDate'
+        Width = 112
       end
       item
         EditButtons = <>
         FieldName = 'CLBH'
         Footers = <>
-        Title.Caption = #26448#26009#32232#34399' Material code'
-        Width = 105
+        Title.Caption = #26448#26009#32232#34399' MatID'
+        Width = 89
+      end
+      item
+        EditButtons = <>
+        FieldName = 'MatName'
+        Footers = <>
+        Title.Caption = #26448#26009#21517#31281' MatName'
+        Visible = False
+        Width = 116
       end
       item
         EditButtons = <>
         FieldName = 'Supplier'
         Footers = <>
         Title.Caption = #20379#25033#21830' Supplier'
-        Width = 119
+        Width = 95
       end
       item
         EditButtons = <>
         FieldName = 'XieMing'
         Footers = <>
-        Title.Caption = #22411#39636#32232#34399' Style'
-        Width = 157
+        Title.Caption = 'Dang giay/'#22411#39636#32232#34399'/Style'
+        Width = 147
       end
       item
         EditButtons = <>
         FieldName = 'DDBH'
         Footers = <>
-        Title.Caption = #35330#21934' RY'
-        Width = 140
+        Title.Caption = 'Lenh/ '#35330#21934'/RY'
+        Width = 133
+      end
+      item
+        EditButtons = <>
+        FieldName = 'Mold'
+        Footers = <>
+        Title.Caption = 'TenHinhThe/'#22411#39636#21517#31281'/Mold'
+        Width = 107
       end
       item
         EditButtons = <>
         FieldName = 'TOderQty'
         Footers = <>
-        Title.Caption = #35330#25976#32317#20849' Total order quantity'
+        Title.Caption = 'TongSLDonHang/'#35330#25976#32317#20849'/Total order quantity'
+        Width = 134
       end
       item
         EditButtons = <>
         FieldName = 'RQty'
         Footers = <>
-        Title.Caption = #25910#36008#25976#37327' Q'#39'TY received'
+        Title.Caption = 'SLNhan/'#25910#36008#25976#37327'/Q'#39'TY received'
       end
       item
         EditButtons = <>
@@ -630,34 +654,45 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
         EditButtons = <>
         FieldName = 'TArrQty'
         Footers = <>
-        Title.Caption = 'Total Q'#39'TY arrival'
+        Title.Caption = 'TongSLHangVe/Total Q'#39'TY arrival'
+        Width = 166
       end
       item
         EditButtons = <>
         FieldName = 'IQty'
         Footers = <>
-        Title.Caption = 'Q'#39'TY Inspected'
+        Title.Caption = 'SLKiemNghiem/Q'#39'TY Inspected'
+        Width = 177
       end
       item
         EditButtons = <>
-        FieldName = 'LHard'
+        FieldName = 'ALeftHard'
         Footers = <>
-        Title.Caption = 'Hardness '#30828#24230'|'#23526#38555'('#24038#65289'Actual (Left)'
-        Width = 109
+        Title.Caption = 'Hardness '#30828#24230'|'#23526#38555'('#24038#65289'Actual (Left)/ A '#40670' A. Point'
       end
       item
         EditButtons = <>
-        FieldName = 'RHard'
+        FieldName = 'BLeftHard'
         Footers = <>
-        Title.Caption = 'Hardness '#30828#24230'|'#23526#38555'('#21491') Actual (Right)'
-        Width = 104
+        Title.Caption = 'Hardness '#30828#24230'|'#23526#38555'('#24038#65289'Actual (Left)/ B '#40670' B. Point'
+      end
+      item
+        EditButtons = <>
+        FieldName = 'ARightHard'
+        Footers = <>
+        Title.Caption = 'Hardness '#30828#24230'|'#23526#38555'('#21491') Actual (Right)A '#40670' A. Point'
+      end
+      item
+        EditButtons = <>
+        FieldName = 'BRightHard'
+        Footers = <>
+        Title.Caption = 'Hardness '#30828#24230'|'#23526#38555'('#21491') Actual (Right)B '#40670' B. Point'
       end
       item
         EditButtons = <>
         FieldName = 'SHard'
         Footers = <>
-        Title.Caption = 'Hardness '#30828#24230'|'#27161#28310' Standard'
-        Width = 99
+        Title.Caption = 'Hardness '#30828#24230'|'#27161#28310'Standard'
       end
       item
         EditButtons = <>
@@ -669,7 +704,7 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
         EditButtons = <>
         FieldName = 'RWeight'
         Footers = <>
-        Title.Caption = 'Weight '#37325#37327'|'#23526#38555' ('#21491') Actual (Right)'
+        Title.Caption = 'Weight '#37325#37327'|'#23526#38555'('#21491') Actual (Right)'
       end
       item
         EditButtons = <>
@@ -682,6 +717,7 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
         FieldName = 'Issues'
         Footers = <>
         Title.Caption = 'Appearance '#22806#35264'|'#21839#38988' Issues'
+        Width = 300
       end
       item
         EditButtons = <>
@@ -701,25 +737,26 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
         EditButtons = <>
         FieldName = 'WPLLen'
         Footers = <>
-        Title.Caption = 'Wooden pattern '#26408#27169'|'#38263#30701' Long - Short / '#24038' Left '
+        Title.Caption = 'Wooden pattern '#26408#27169'|'#38263#30701' Long - Short/ '#24038' Left'
+        Width = 80
       end
       item
         EditButtons = <>
         FieldName = 'WPRLen'
         Footers = <>
-        Title.Caption = 'Wooden pattern '#26408#27169'|'#38263#30701' Long - Short / '#21491' Right'
+        Title.Caption = 'Wooden pattern '#26408#27169'|'#38263#30701' Long - Short/ '#21491' Right'
       end
       item
         EditButtons = <>
         FieldName = 'WPLSize'
         Footers = <>
-        Title.Caption = 'Wooden pattern '#26408#27169'|'#22823#23567' Big - small / '#24038' Left'
+        Title.Caption = 'Wooden pattern '#26408#27169'|'#22823#23567' Big - small/ '#24038' Left'
       end
       item
         EditButtons = <>
         FieldName = 'WPRSize'
         Footers = <>
-        Title.Caption = 'Wooden pattern '#26408#27169'|'#22823#23567' Big - small / '#21491' Right'
+        Title.Caption = 'Wooden pattern '#26408#27169'|'#22823#23567' Big - small/ '#21491' Right'
       end
       item
         EditButtons = <>
@@ -737,13 +774,13 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
         EditButtons = <>
         FieldName = 'LabResult'
         Footers = <>
-        Title.Caption = 'LabTest '#29289#24615#27298#28204'|'#28204#35430#32080#26524' Lab Test Result'
+        Title.Caption = 'LabTest '#29289#24615#27298#28204'|'#28204#35430#32080#26524'LabTestResult'
       end
       item
         EditButtons = <>
         FieldName = 'Reject'
         Footers = <>
-        Title.Caption = 'LabTest '#29289#24615#27298#28204'|'#22833#25943#38917#30446' Rejected'
+        Title.Caption = 'LabTest '#29289#24615#27298#28204'|'#22833#25943#38917#30446'Rejected'
       end
       item
         EditButtons = <>
@@ -769,7 +806,12 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       end
       item
         EditButtons = <>
-        FieldName = 'USERID'
+        FieldName = 'MSCFID'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'MSCFDate'
         Footers = <>
         ReadOnly = True
       end
@@ -781,12 +823,7 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       end
       item
         EditButtons = <>
-        FieldName = 'MSCFID'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'MSCFDate'
+        FieldName = 'USERID'
         Footers = <>
         ReadOnly = True
       end
@@ -805,11 +842,12 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
     AfterOpen = Query1AfterOpen
     DatabaseName = 'DB'
     SQL.Strings = (
-      'select * from QC_RubSole where 1=2')
+      'select * from QC_MidInSole where 1=3'
+      '')
     UpdateObject = UpSQL1
     Left = 448
     Top = 400
-    object Query1ReportID: TAutoIncField
+    object Query1ReportID: TIntegerField
       FieldName = 'ReportID'
     end
     object Query1InspecDate: TDateTimeField
@@ -819,10 +857,22 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       FieldName = 'CLBH'
       FixedChar = True
     end
+    object Query1MatName: TStringField
+      FieldName = 'MatName'
+      FixedChar = True
+    end
+    object Query1TempRoom: TStringField
+      FieldName = 'TempRoom'
+      FixedChar = True
+    end
     object Query1Supplier: TStringField
       FieldName = 'Supplier'
       FixedChar = True
       Size = 30
+    end
+    object Query1Mold: TStringField
+      FieldName = 'Mold'
+      FixedChar = True
     end
     object Query1XieMing: TStringField
       FieldName = 'XieMing'
@@ -855,12 +905,20 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
     object Query1IQty: TIntegerField
       FieldName = 'IQty'
     end
-    object Query1LHard: TStringField
-      FieldName = 'LHard'
+    object Query1ALeftHard: TStringField
+      FieldName = 'ALeftHard'
       FixedChar = True
     end
-    object Query1RHard: TStringField
-      FieldName = 'RHard'
+    object Query1BLeftHard: TStringField
+      FieldName = 'BLeftHard'
+      FixedChar = True
+    end
+    object Query1ARightHard: TStringField
+      FieldName = 'ARightHard'
+      FixedChar = True
+    end
+    object Query1BRightHard: TStringField
+      FieldName = 'BRightHard'
       FixedChar = True
     end
     object Query1SHard: TStringField
@@ -880,10 +938,9 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       FixedChar = True
     end
     object Query1Issues: TStringField
-      DisplayWidth = 50
       FieldName = 'Issues'
       FixedChar = True
-      Size = 300
+      Size = 255
     end
     object Query1DeQty: TIntegerField
       FieldName = 'DeQty'
@@ -949,6 +1006,13 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
     object Query1USERDate: TDateTimeField
       FieldName = 'USERDate'
     end
+    object Query1LabUID: TStringField
+      FieldName = 'LabUID'
+      FixedChar = True
+    end
+    object Query1LabChgDate: TDateTimeField
+      FieldName = 'LabChgDate'
+    end
     object Query1PreparedID: TStringField
       FieldName = 'PreparedID'
       FixedChar = True
@@ -965,12 +1029,15 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
   end
   object UpSQL1: TUpdateSQL
     ModifySQL.Strings = (
-      'update QC_RubSole'
+      'update QC_MidInSole'
       'set'
       '  ReportID = :ReportID,'
       '  InspecDate = :InspecDate,'
       '  CLBH = :CLBH,'
+      '  MatName = :MatName,'
+      '  TempRoom = :TempRoom,'
       '  Supplier = :Supplier,'
+      '  Mold = :Mold,'
       '  XieMing = :XieMing,'
       '  DDBH = :DDBH,'
       '  TOderQty = :TOderQty,'
@@ -979,8 +1046,10 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       '  Size = :Size,'
       '  TArrQty = :TArrQty,'
       '  IQty = :IQty,'
-      '  LHard = :LHard,'
-      '  RHard = :RHard,'
+      '  ALeftHard = :ALeftHard,'
+      '  BLeftHard = :BLeftHard,'
+      '  ARightHard = :ARightHard,'
+      '  BRightHard = :BRightHard,'
       '  SHard = :SHard,'
       '  LWeight = :LWeight,'
       '  RWeight = :RWeight,'
@@ -1005,32 +1074,40 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       '  YN = :YN,'
       '  USERID = :USERID,'
       '  USERDate = :USERDate,'
+      '  LabUID = :LabUID,'
+      '  LabChgDate = :LabChgDate,'
       '  PreparedID = :PreparedID,'
       '  PreparedDate = :PreparedDate'
       'where'
       '  ReportID = :OLD_ReportID')
     InsertSQL.Strings = (
-      'insert into QC_RubSole'
+      'insert into QC_MidInSole'
       
-        '  (ReportID, InspecDate, CLBH, Supplier, XieMing, DDBH, TOderQty' +
-        ', RQty, '
+        '  (ReportID, InspecDate, CLBH, MatName, TempRoom, Supplier, Mold' +
+        ', XieMing, '
       
-        '   Article, Size, TArrQty, IQty, LHard, RHard, SHard, LWeight, R' +
-        'Weight, '
+        '   DDBH, TOderQty, RQty, Article, Size, TArrQty, IQty, ALeftHard' +
+        ', BLeftHard, '
       
-        '   SWeight, Issues, DeQty, DeRate, WPLLen, WPRLen, WPLSize, WPRS' +
-        'ize, SendDate, '
+        '   ARightHard, BRightHard, SHard, LWeight, RWeight, SWeight, Iss' +
+        'ues, DeQty, '
       
-        '   LabID, LabResult, Reject, SCFID, SCFDate, LCFID, LCFDate, MSC' +
-        'FID, MSCFDate,'
-      '   YN, USERID, USERDate, PreparedID, PreparedDate)'
+        '   DeRate, WPLLen, WPRLen, WPLSize, WPRSize, SendDate, LabID, La' +
+        'bResult, '
+      
+        '   Reject, SCFID, SCFDate, LCFID, LCFDate, MSCFID, MSCFDate, YN,' +
+        ' USERID, '
+      '   USERDate, LabUID, LabChgDate, PreparedID, PreparedDate)'
       'values'
       
-        '  (:ReportID, :InspecDate, :CLBH, :Supplier, :XieMing, :DDBH, :T' +
-        'OderQty, '
+        '  (:ReportID, :InspecDate, :CLBH, :MatName, :TempRoom, :Supplier' +
+        ', :Mold, '
       
-        '   :RQty, :Article, :Size, :TArrQty, :IQty, :LHard, :RHard, :SHa' +
-        'rd, :LWeight, '
+        '   :XieMing, :DDBH, :TOderQty, :RQty, :Article, :Size, :TArrQty,' +
+        ' :IQty, '
+      
+        '   :ALeftHard, :BLeftHard, :ARightHard, :BRightHard, :SHard, :LW' +
+        'eight, '
       
         '   :RWeight, :SWeight, :Issues, :DeQty, :DeRate, :WPLLen, :WPRLe' +
         'n, :WPLSize, '
@@ -1039,9 +1116,10 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
         'FDate, '
       
         '   :LCFID, :LCFDate, :MSCFID, :MSCFDate, :YN, :USERID, :USERDate' +
-        ', :PreparedID, :PreparedDate)')
+        ', :LabUID, '
+      '   :LabChgDate, :PreparedID, :PreparedDate)')
     DeleteSQL.Strings = (
-      'update QC_RubSole'
+      'update QC_MidInSole'
       'set YN = 0'
       'where'
       '  ReportID = :OLD_ReportID')

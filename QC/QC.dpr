@@ -152,7 +152,11 @@ uses
   InventoryBC_Print1 in 'Source\SN35\InventoryBC_Print1.pas' {InventoryBC_Print},
   NguyenLieuDauVaoTN in 'Source\SN9\NguyenLieuDauVaoTN.pas' {IncomingMatTest},
   DailyOutsourcingCheck_ in 'Source\SN9\DailyOutsourcingCheck_.pas' {DailyOutsourcingCheck},
-  IncomeMatRubberOutsole in 'Source\SN9\IncomeMatRubberOutsole.pas' {IncomeMatRubberOutsoles};
+  IncomeMatRubberOutsole in 'Source\SN9\IncomeMatRubberOutsole.pas' {IncomeMatRubberOutsoles},
+  IncomeMatMidInSoles in 'Source\SN9\IncomeMatMidInSoles.pas' {IncomeMatMidInSole},
+  IncomeMatEvaPaintings in 'Source\SN9\IncomeMatEvaPaintings.pas' {IncomeMatEvaPainting},
+  ProduceMatFailure in 'Source\SN9\ProduceMatFailure.pas' {ProducMatFailure},
+  IncomeUpperMaterials in 'Source\SN9\IncomeUpperMaterials.pas' {IncomeUpperMaterial};
 
 {$R *.res}
 

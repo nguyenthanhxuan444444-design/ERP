@@ -104,23 +104,46 @@ type
     SN5K: TMenuItem;
     SN49: TMenuItem;
     SN4A: TMenuItem;
-    N91: TMenuItem;
-    SN91IncomingMatTest1: TMenuItem;
-    N92DailyOutsourcingCheck1: TMenuItem;
-    N93IncomeMatRubberOutsole1: TMenuItem;
-    N911QC1: TMenuItem;
-    N912LabTest1: TMenuItem;
-    N913Supervisor1: TMenuItem;
-    N914Inspection1: TMenuItem;
-    N921QCInput1: TMenuItem;
-    N922LabTestInput1: TMenuItem;
-    N923KCSSupervisor1: TMenuItem;
-    N924KCSLeader1: TMenuItem;
-    N931QCInput1: TMenuItem;
-    N932LabTestInput1: TMenuItem;
-    N933KCSSupervisorCfm1: TMenuItem;
-    N934KCSLeaderCfm1: TMenuItem;
-    N935MaterialSupervisorCfm1: TMenuItem;
+    SN9: TMenuItem;
+    SN91: TMenuItem;
+    SN92: TMenuItem;
+    SN93: TMenuItem;
+    SN911: TMenuItem;
+    SN912: TMenuItem;
+    SN913: TMenuItem;
+    SN914: TMenuItem;
+    SN921: TMenuItem;
+    SN922: TMenuItem;
+    SN923: TMenuItem;
+    SN924: TMenuItem;
+    SN931: TMenuItem;
+    SN932: TMenuItem;
+    SN933: TMenuItem;
+    SN934: TMenuItem;
+    SN935: TMenuItem;
+    SN94: TMenuItem;
+    SN941: TMenuItem;
+    SN942: TMenuItem;
+    SN943: TMenuItem;
+    SN944: TMenuItem;
+    SN945: TMenuItem;
+    SN95: TMenuItem;
+    SN96: TMenuItem;
+    SN961: TMenuItem;
+    SN962: TMenuItem;
+    SN963: TMenuItem;
+    SN964: TMenuItem;
+    SN965: TMenuItem;
+    SN951: TMenuItem;
+    SN952: TMenuItem;
+    SN953: TMenuItem;
+    SN954: TMenuItem;
+    SN97: TMenuItem;
+    SN971: TMenuItem;
+    SN972: TMenuItem;
+    SN973: TMenuItem;
+    SN974: TMenuItem;
+    SN975: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SN11Click(Sender: TObject);
@@ -190,19 +213,38 @@ type
     procedure SN5KClick(Sender: TObject);
     procedure SN49Click(Sender: TObject);
     procedure SN4AClick(Sender: TObject);
-    procedure N911QC1Click(Sender: TObject);
-    procedure N912LabTest1Click(Sender: TObject);
-    procedure N913Supervisor1Click(Sender: TObject);
-    procedure N914Inspection1Click(Sender: TObject);
-    procedure N921QCInput1Click(Sender: TObject);
-    procedure N922LabTestInput1Click(Sender: TObject);
-    procedure N923KCSSupervisor1Click(Sender: TObject);
-    procedure N924KCSLeader1Click(Sender: TObject);
-    procedure N931QCInput1Click(Sender: TObject);
-    procedure N932LabTestInput1Click(Sender: TObject);
-    procedure N933KCSSupervisorCfm1Click(Sender: TObject);
-    procedure N934KCSLeaderCfm1Click(Sender: TObject);
-    procedure N935MaterialSupervisorCfm1Click(Sender: TObject);
+    procedure SN911Click(Sender: TObject);
+    procedure SN912Click(Sender: TObject);
+    procedure SN913Click(Sender: TObject);
+    procedure SN914Click(Sender: TObject);
+    procedure SN921Click(Sender: TObject);
+    procedure SN922Click(Sender: TObject);
+    procedure SN923Click(Sender: TObject);
+    procedure SN924Click(Sender: TObject);
+    procedure SN931Click(Sender: TObject);
+    procedure SN932Click(Sender: TObject);
+    procedure SN933Click(Sender: TObject);
+    procedure SN934Click(Sender: TObject);
+    procedure SN935Click(Sender: TObject);
+    procedure SN941Click(Sender: TObject);
+    procedure SN942Click(Sender: TObject);
+    procedure SN943Click(Sender: TObject);
+    procedure SN944Click(Sender: TObject);
+    procedure SN945Click(Sender: TObject);
+    procedure SN961Click(Sender: TObject);
+    procedure SN962Click(Sender: TObject);
+    procedure SN963Click(Sender: TObject);
+    procedure SN964Click(Sender: TObject);
+    procedure SN965Click(Sender: TObject);
+    procedure SN951Click(Sender: TObject);
+    procedure SN952Click(Sender: TObject);
+    procedure SN953Click(Sender: TObject);
+    procedure SN954Click(Sender: TObject);
+    procedure SN971Click(Sender: TObject);
+    procedure SN972Click(Sender: TObject);
+    procedure SN973Click(Sender: TObject);
+    procedure SN974Click(Sender: TObject);
+    procedure SN975Click(Sender: TObject);
 
   private
     MKID: string;
@@ -243,7 +285,8 @@ uses DM3, QAStationP, Ontime1, QCIssue1, QCOntime1, QCDailyReport1, FeedbackWast
   R_Factory_QC1, CheckingReport1, R_Factory_QCReport1, MA_Box1,
   Inspection_report1, Single_inspection_report1, QCParamtConfig,
   RY_Inspection_Status1, Failed_Cartons_Input1, NguyenLieuDauVaoTN,
-  DailyOutsourcingCheck_, IncomeMatRubberOutsole;
+  DailyOutsourcingCheck_, IncomeMatRubberOutsole, IncomeMatMidInSoles,
+  IncomeMatEvaPaintings, ProduceMatFailure, IncomeUpperMaterials;
 
 {$R *.dfm}
 //
@@ -956,82 +999,196 @@ begin
   ShowFm(Pointer(Failed_Cartons_Input), TFailed_Cartons_Input, TMenuItem(Sender).Name);
 end;
 
-procedure Tmain.N911QC1Click(Sender: TObject);
+procedure Tmain.SN911Click(Sender: TObject);
 begin
   ShowFm(Pointer(IncomingMatTest), TIncomingMatTest, TMenuItem(Sender).Name);
   IncomingMatTest.MenuCode.Text := 'N911';
 end;
 
-procedure Tmain.N912LabTest1Click(Sender: TObject);
+procedure Tmain.SN912Click(Sender: TObject);
 begin
     ShowFm(Pointer(IncomingMatTest), TIncomingMatTest, TMenuItem(Sender).Name);
   IncomingMatTest.MenuCode.Text := 'N912';
 end;
 
-procedure Tmain.N913Supervisor1Click(Sender: TObject);
+procedure Tmain.SN913Click(Sender: TObject);
 begin
   ShowFm(Pointer(IncomingMatTest), TIncomingMatTest, TMenuItem(Sender).Name);
   IncomingMatTest.MenuCode.Text := 'N913';
 end;
 
-procedure Tmain.N914Inspection1Click(Sender: TObject);
+procedure Tmain.SN914Click(Sender: TObject);
 begin
   ShowFm(Pointer(IncomingMatTest), TIncomingMatTest, TMenuItem(Sender).Name);
   IncomingMatTest.MenuCode.Text := 'N914';
 end;
 
-procedure Tmain.N921QCInput1Click(Sender: TObject);
+procedure Tmain.SN921Click(Sender: TObject);
 begin
   ShowFm(Pointer(DailyOutsourcingCheck), TDailyOutsourcingCheck, TMenuItem(Sender).Name);
   DailyOutsourcingCheck.MenuCode.Text := 'N921';
 end;
 
-procedure Tmain.N922LabTestInput1Click(Sender: TObject);
+procedure Tmain.SN922Click(Sender: TObject);
 begin
   ShowFm(Pointer(DailyOutsourcingCheck), TDailyOutsourcingCheck, TMenuItem(Sender).Name);
   DailyOutsourcingCheck.MenuCode.Text := 'N922';
 end;
 
-procedure Tmain.N923KCSSupervisor1Click(Sender: TObject);
+procedure Tmain.SN923Click(Sender: TObject);
 begin
   ShowFm(Pointer(DailyOutsourcingCheck), TDailyOutsourcingCheck, TMenuItem(Sender).Name);
   DailyOutsourcingCheck.MenuCode.Text := 'N923';
 end;
 
-procedure Tmain.N924KCSLeader1Click(Sender: TObject);
+procedure Tmain.SN924Click(Sender: TObject);
 begin
   ShowFm(Pointer(DailyOutsourcingCheck), TDailyOutsourcingCheck, TMenuItem(Sender).Name);
   DailyOutsourcingCheck.MenuCode.Text := 'N924';
 end;
 
-procedure Tmain.N931QCInput1Click(Sender: TObject);
+procedure Tmain.SN931Click(Sender: TObject);
 begin
   ShowFm(Pointer(IncomeMatRubberOutsoles), TIncomeMatRubberOutsoles, TMenuItem(Sender).Name);
   IncomeMatRubberOutsoles.MenuCode.Text := 'N931'
 end;
 
-procedure Tmain.N932LabTestInput1Click(Sender: TObject);
+procedure Tmain.SN932Click(Sender: TObject);
 begin
   ShowFm(Pointer(IncomeMatRubberOutsoles), TIncomeMatRubberOutsoles, TMenuItem(Sender).Name);
   IncomeMatRubberOutsoles.MenuCode.Text := 'N932'
 end;
 
-procedure Tmain.N933KCSSupervisorCfm1Click(Sender: TObject);
+procedure Tmain.SN933Click(Sender: TObject);
 begin
   ShowFm(Pointer(IncomeMatRubberOutsoles), TIncomeMatRubberOutsoles, TMenuItem(Sender).Name);
   IncomeMatRubberOutsoles.MenuCode.Text := 'N933'
 end;
 
-procedure Tmain.N934KCSLeaderCfm1Click(Sender: TObject);
+procedure Tmain.SN934Click(Sender: TObject);
 begin
   ShowFm(Pointer(IncomeMatRubberOutsoles), TIncomeMatRubberOutsoles, TMenuItem(Sender).Name);
   IncomeMatRubberOutsoles.MenuCode.Text := 'N934'
 end;
 
-procedure Tmain.N935MaterialSupervisorCfm1Click(Sender: TObject);
+procedure Tmain.SN935Click(Sender: TObject);
 begin
   ShowFm(Pointer(IncomeMatRubberOutsoles), TIncomeMatRubberOutsoles, TMenuItem(Sender).Name);
   IncomeMatRubberOutsoles.MenuCode.Text := 'N935'
+end;
+
+procedure Tmain.SN941Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeMatMidInSole), TIncomeMatMidInSole, TMenuItem(Sender).Name);
+  IncomeMatMidInSole.MenuCode.Text := 'N941'
+end;
+
+procedure Tmain.SN942Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeMatMidInSole), TIncomeMatMidInSole, TMenuItem(Sender).Name);
+  IncomeMatMidInSole.MenuCode.Text := 'N942'
+end;
+
+procedure Tmain.SN943Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeMatMidInSole), TIncomeMatMidInSole, TMenuItem(Sender).Name);
+  IncomeMatMidInSole.MenuCode.Text := 'N943'
+end;
+
+procedure Tmain.SN944Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeMatMidInSole), TIncomeMatMidInSole, TMenuItem(Sender).Name);
+  IncomeMatMidInSole.MenuCode.Text := 'N944'
+end;
+
+procedure Tmain.SN945Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeMatMidInSole), TIncomeMatMidInSole, TMenuItem(Sender).Name);
+  IncomeMatMidInSole.MenuCode.Text := 'N945'
+end;
+
+procedure Tmain.SN961Click(Sender: TObject);
+begin
+  ShowFm(Pointer(ProducMatFailure), TProducMatFailure, TMenuItem(Sender).Name);
+  ProducMatFailure.MenuCode.Text := 'N961'
+end;
+
+procedure Tmain.SN962Click(Sender: TObject);
+begin
+  ShowFm(Pointer(ProducMatFailure), TProducMatFailure, TMenuItem(Sender).Name);
+  ProducMatFailure.MenuCode.Text := 'N962'
+end;
+
+procedure Tmain.SN963Click(Sender: TObject);
+begin
+  ShowFm(Pointer(ProducMatFailure), TProducMatFailure, TMenuItem(Sender).Name);
+  ProducMatFailure.MenuCode.Text := 'N963'
+end;
+
+procedure Tmain.SN964Click(Sender: TObject);
+begin
+  ShowFm(Pointer(ProducMatFailure), TProducMatFailure, TMenuItem(Sender).Name);
+  ProducMatFailure.MenuCode.Text := 'N964'
+end;
+
+procedure Tmain.SN965Click(Sender: TObject);
+begin
+  ShowFm(Pointer(ProducMatFailure), TProducMatFailure, TMenuItem(Sender).Name);
+  ProducMatFailure.MenuCode.Text := 'N965'
+end;
+
+procedure Tmain.SN951Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeMatEvaPainting), TIncomeMatEvaPainting, TMenuItem(Sender).Name);
+  IncomeMatEvaPainting.MenuCode.Text := 'N951'
+end;
+
+procedure Tmain.SN952Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeMatEvaPainting), TIncomeMatEvaPainting, TMenuItem(Sender).Name);
+  IncomeMatEvaPainting.MenuCode.Text := 'N952'
+end;
+
+procedure Tmain.SN953Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeMatEvaPainting), TIncomeMatEvaPainting, TMenuItem(Sender).Name);
+  IncomeMatEvaPainting.MenuCode.Text := 'N953'
+end;
+
+procedure Tmain.SN954Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeMatEvaPainting), TIncomeMatEvaPainting, TMenuItem(Sender).Name);
+  IncomeMatEvaPainting.MenuCode.Text := 'N954'
+end;
+
+procedure Tmain.SN971Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeUpperMaterial), TIncomeUpperMaterial, TMenuItem(Sender).Name);
+  IncomeUpperMaterial.MenuCode.Text := 'N971'
+end;
+
+procedure Tmain.SN972Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeUpperMaterial), TIncomeUpperMaterial, TMenuItem(Sender).Name);
+  IncomeUpperMaterial.MenuCode.Text := 'N972'
+end;
+
+procedure Tmain.SN973Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeUpperMaterial), TIncomeUpperMaterial, TMenuItem(Sender).Name);
+  IncomeUpperMaterial.MenuCode.Text := 'N973'
+end;
+
+procedure Tmain.SN974Click(Sender: TObject);
+begin
+  ShowFm(Pointer(IncomeUpperMaterial), TIncomeUpperMaterial, TMenuItem(Sender).Name);
+  IncomeUpperMaterial.MenuCode.Text := 'N974'
+end;
+
+procedure Tmain.SN975Click(Sender: TObject);
+begin
+ShowFm(Pointer(IncomeUpperMaterial), TIncomeUpperMaterial, TMenuItem(Sender).Name);
+  IncomeUpperMaterial.MenuCode.Text := 'N975'
 end;
 
 end.
