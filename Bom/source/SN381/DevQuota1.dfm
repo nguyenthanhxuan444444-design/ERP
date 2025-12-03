@@ -1,6 +1,6 @@
 object DevQuota: TDevQuota
-  Left = 291
-  Top = 401
+  Left = 649
+  Top = 213
   Width = 1130
   Height = 578
   Caption = 'CostingMTL cost'
@@ -270,7 +270,7 @@ object DevQuota: TDevQuota
     Top = 65
     Width = 1114
     Height = 474
-    ActivePage = TabSheet3
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
     object TabSheet2: TTabSheet
@@ -885,7 +885,7 @@ object DevQuota: TDevQuota
         Top = 0
         Width = 1106
         Height = 446
-        ActivePage = TS2
+        ActivePage = TS1
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -1313,7 +1313,7 @@ object DevQuota: TDevQuota
                 Footer.Font.Style = []
                 Footers = <>
                 Title.Caption = 'SKU#|Article'
-                Width = 59
+                Width = 114
               end
               item
                 EditButtons = <>
@@ -3380,7 +3380,10 @@ object DevQuota: TDevQuota
           item
             EditButtons = <>
             FieldName = 'CLBH'
-            Footers = <>
+            Footers = <
+              item
+                ValueType = fvtCount
+              end>
           end
           item
             EditButtons = <>
@@ -4417,7 +4420,7 @@ object DevQuota: TDevQuota
       'and MaterialCBD_His.CLBH like '#39'%'#39
       'and CLZL.YWPM like '#39'%%'#39
       'and CLZL.ZWPM like '#39'%%'#39
-      'and MaterialCBD_His.Season like '#39'SS25'#39
+      'and MaterialCBD_His.Season like '#39'S25'#39
       
         'group by MaterialCBD_His.YN,MaterialCBD_His.CLBH,CLZL.YWPM, CLZL' +
         '.ZWPM,CLZL.DWBH,CLZL.CQDH,MaterialCBD_His.ZSBH,'

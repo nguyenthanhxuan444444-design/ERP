@@ -804,10 +804,10 @@ object CLZLCBDPrice: TCLZLCBDPrice
       ItemHeight = 13
       ItemIndex = 0
       TabOrder = 13
-      Text = 'CONVERSE'
+      Text = 'HOKA'
       Items.Strings = (
-        'CONVERSE'
-        'Cariuma')
+        'HOKA'
+        'TEVA')
     end
   end
   object DBGrid1: TDBGridEh

@@ -146,10 +146,7 @@ type
     Query_3DPlanType: TStringField;
     Query_3DRY: TStringField;
     Query_3DShipDate: TDateTimeField;
-    Query_3DNT: TStringField;
-    Query_3DBUYNO: TStringField;
     Query_3DARTICLE: TStringField;
-    Query_3DDAOMH: TStringField;
     Query_3DCycleStart: TIntegerField;
     Query_3DCycleEnd: TIntegerField;
     Query_3DPairs: TIntegerField;
@@ -183,11 +180,8 @@ type
     DateTimeField12: TDateTimeField;
     StringField41: TStringField;
     DateTimeField13: TDateTimeField;
-    StringField42: TStringField;
-    StringField43: TStringField;
     StringField44: TStringField;
     IntegerField10: TIntegerField;
-    StringField45: TStringField;
     IntegerField11: TIntegerField;
     IntegerField12: TIntegerField;
     StringField46: TStringField;
@@ -198,7 +192,6 @@ type
     UpdateSQL_1D: TUpdateSQL;
     Query_1DRYPairs: TIntegerField;
     Query_1DDeliveryTime: TStringField;
-    Query_1DAssemblyTime: TStringField;
     Query_1DXTMH: TStringField;
     Query_3DRYPairs: TIntegerField;
     Query_3DRemark: TStringField;
@@ -317,6 +310,8 @@ type
     Query_Spairs_in: TStringField;
     Query_Spairs_in_lack: TStringField;
     Query_SEXE_date: TStringField;
+    Query_3DXieMing: TStringField;
+    Query_1DXieMing: TStringField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -2227,19 +2222,10 @@ begin
     RequestLive := false;
     CachedUpdates := false;
     SQL.Clear;
-    SQL.Add('SELECT PP.Building, PP.Lean, PP.PlanType, PP.PlanDate, PP.Seq, PP.RY, PP.SubRY, DDZL.ShipDate, PP.NT, CASE WHEN PP.RY LIKE ''C%'' THEN '''' ELSE SUBSTRING(DDZL.BUYNO, 5, 2) + '' BUY'' END AS BUYNO,');
-    SQL.Add('CASE WHEN PP.RY LIKE ''C%'' THEN KFXXZL.DEVCODE ELSE DDZL.ARTICLE END AS ARTICLE, CASE WHEN PP.RY LIKE ''C%'' THEN REPLACE(KFXXZL.DAOMH, ''LY-'', '''') ELSE REPLACE(XXZL.DAOMH, ''LY-'', '''') END AS DAOMH,');
-    SQL.Add('CASE WHEN PP.RY LIKE ''C%'' THEN PP.Pairs ELSE SC.RYPairs END AS RYPairs, PP.Pairs, PP.CycleStart, PP.CycleEnd, SMDD.MinCycle, SMDD.MaxCycle, PP.Remark, PP.UserID, PP.UserDate, PP.GSBH, PP.YN FROM ProductionPlan AS PP');
+    SQL.Add('SELECT PP.Building, PP.Lean, PP.PlanType, PP.PlanDate, PP.Seq, PP.RY, PP.SubRY, XXZL.ARTICLE, XXZL.XieMing, DDZL.ShipDate, DDZL.Pairs AS RYPairs, PP.Pairs,');
+    SQL.Add('PP.CycleStart, PP.CycleEnd, SMDD.MinCycle, SMDD.MaxCycle, PP.Remark, PP.UserID, PP.UserDate, PP.GSBH, PP.YN FROM ProductionPlan AS PP');
     SQL.Add('LEFT JOIN DDZL ON DDZL.DDBH = PP.RY');
     SQL.Add('LEFT JOIN XXZL ON XXZL.XieXing = DDZL.XieXing AND XXZL.SheHao = DDZL.SheHao');
-    SQL.Add('LEFT JOIN (');
-    SQL.Add('  SELECT DEVCODE, DAOMH FROM (');
-    SQL.Add('    SELECT KFXXZL.DEVCODE, KFXXZL.DAOMH, ROW_NUMBER() OVER(PARTITION BY KFXXZL.DEVCODE ORDER BY KFXXZL.USERDATE DESC) AS Seq FROM ProductionPlan AS PP');
-    SQL.Add('    LEFT JOIN KFXXZL ON KFXXZL.DEVCODE = PP.SubRY');
-    SQL.Add('    WHERE PP.Building = ''' + CB_Building_3D.Text + ''' AND PP.Lean = ''' + CB_Lean_3D.Text + ''' AND PP.PlanType = ''' + TypeList3D[CB_Type_3D.ItemIndex] + ''' AND PP.PlanDate = ''' + FormatDateTime('yyyy/MM/dd', DTP_3D.Date) + ''' AND PP.RY LIKE ''C%''');
-    SQL.Add('  ) AS KFXXZL');
-    SQL.Add('  WHERE Seq = 1');
-    SQL.Add(') AS KFXXZL ON KFXXZL.DEVCODE = PP.SubRY');
     SQL.Add('LEFT JOIN (');
     SQL.Add('  SELECT building_no, lean_no, CASE WHEN LEN(ry) - LEN(REPLACE(ry, ''-'', '''')) < 2 THEN ry ELSE SUBSTRING(ry, 1, LEN(ry) - CHARINDEX(''-'', REVERSE(ry))) END AS RY,');
     SQL.Add('  MAX(CONVERT(VARCHAR, schedule_date, 111) + ''-'' + CAST(ry_index AS VARCHAR)) AS Date, SUM(CASE WHEN ISNUMERIC(sl) = 1 THEN CAST(sl AS INT) ELSE 0 END) AS RYPairs FROM schedule_crawler');
@@ -2272,7 +2258,7 @@ begin
   B3D5.Enabled := false;
   B3D6.Enabled := false;
   DBGridEh_3D.Columns[4].ButtonStyle := cbsNone; 
-  DBGridEh_3D.Columns[14].ButtonStyle := cbsNone;
+  DBGridEh_3D.Columns[12].ButtonStyle := cbsNone;
 end;
 
 procedure TScheduleUpload.B3D2Click(Sender: TObject);
@@ -2286,7 +2272,7 @@ begin
   end;
 
   DBGridEh_3D.Columns[4].ButtonStyle := cbsEllipsis;
-  DBGridEh_3D.Columns[14].ButtonStyle := cbsAuto;
+  DBGridEh_3D.Columns[12].ButtonStyle := cbsAuto;
   B3D5.Enabled := true;
   B3D6.Enabled := true;
 end;
@@ -2315,7 +2301,7 @@ begin
   end;
 
   DBGridEh_3D.Columns[4].ButtonStyle := cbsEllipsis;
-  DBGridEh_3D.Columns[14].ButtonStyle := cbsAuto;
+  DBGridEh_3D.Columns[12].ButtonStyle := cbsAuto;
   B3D5.Enabled := true;
   B3D6.Enabled := true;
 end;
@@ -2409,7 +2395,7 @@ begin
     Query_3D.RequestLive := false;
     Query_3D.Active := true;
     DBGridEh_3D.Columns[4].ButtonStyle := cbsNone;
-    DBGridEh_3D.Columns[14].ButtonStyle := cbsNone;
+    DBGridEh_3D.Columns[12].ButtonStyle := cbsNone;
     B3D5.Enabled := false;
     B3D6.Enabled := false;
     if (P3D_Mode = 'Import') then
@@ -2433,7 +2419,7 @@ begin
   end;
 
   DBGridEh_3D.Columns[4].ButtonStyle := cbsNone;
-  DBGridEh_3D.Columns[14].ButtonStyle := cbsNone;
+  DBGridEh_3D.Columns[12].ButtonStyle := cbsNone;
   P3D_Mode := 'Normal';
   B3D5.Enabled := false;
   B3D6.Enabled := false;
@@ -2528,7 +2514,8 @@ begin
       SQL.Add('AND CASE WHEN DDBH = YSBH THEN 1 ELSE CAST(SUBSTRING(DDBH, LEN(DDBH)-2, 3) AS INT) END BETWEEN ' + Query_3D.FieldByName('CycleStart').AsString + ' AND ' + Query_3D.FieldByName('CycleEnd').AsString);
       Active := true;
 
-      Query_3D.FieldByName('Pairs').Value := FieldByName('Pairs').AsInteger;
+      if (Query_3D.FieldByName('Pairs').Value > FieldByName('Pairs').AsInteger) then
+        Query_3D.FieldByName('Pairs').Value := FieldByName('Pairs').AsInteger;
     end;
   end;
 end;
@@ -2669,20 +2656,10 @@ begin
     RequestLive := false;
     CachedUpdates := false;
     SQL.Clear;
-    SQL.Add('SELECT PP.Building, PP.Lean, PP.PlanType, PP.PlanDate, PP.Seq, PP.RY, PP.SubRY, DDZL.ShipDate, PP.NT, SUBSTRING(DDZL.BUYNO, 5, 2) + '' BUY'' AS BUYNO,');
-    SQL.Add('CASE WHEN PP.RY LIKE ''C%'' THEN KFXXZL.DEVCODE ELSE DDZL.ARTICLE END AS ARTICLE, CASE WHEN PP.RY LIKE ''C%'' THEN PP.Pairs ELSE SC.RYPairs END AS RYPairs,');
-    SQL.Add('CASE WHEN PP.RY LIKE ''C%'' THEN REPLACE(KFXXZL.DAOMH, ''LY-'', '''') ELSE REPLACE(XXZL.DAOMH, ''LY-'', '''') END AS DAOMH, PP.Pairs, PP.CycleStart, PP.CycleEnd, SMDD.MinCycle, SMDD.MaxCycle,');
-    SQL.Add('CASE WHEN PP.RY LIKE ''C%'' THEN REPLACE(KFXXZL.XTMH, ''TV-'', '''') ELSE REPLACE(XXZL.XTMH, ''TV-'', '''') END AS XTMH, PP.DeliveryTime, PP.AssemblyTime, PP.Remark, PP.Reason, PP.UserID, PP.UserDate, PP.GSBH, PP.YN FROM ProductionPlan AS PP');
+    SQL.Add('SELECT PP.Building, PP.Lean, PP.PlanType, PP.PlanDate, PP.Seq, PP.RY, PP.SubRY, XXZL.ARTICLE, XXZL.XieMing, XXZL.XTMH, DDZL.ShipDate, DDZL.Pairs AS RYPairs,');
+    SQL.Add('PP.Pairs, PP.CycleStart, PP.CycleEnd, SMDD.MinCycle, SMDD.MaxCycle, PP.DeliveryTime, PP.Remark, PP.Reason, PP.UserID, PP.UserDate, PP.GSBH, PP.YN FROM ProductionPlan AS PP');
     SQL.Add('LEFT JOIN DDZL ON DDZL.DDBH = PP.RY');
     SQL.Add('LEFT JOIN XXZL ON XXZL.XieXing = DDZL.XieXing AND XXZL.SheHao = DDZL.SheHao');
-    SQL.Add('LEFT JOIN (');
-    SQL.Add('  SELECT DEVCODE, DAOMH, XTMH FROM (');
-    SQL.Add('    SELECT KFXXZL.DEVCODE, KFXXZL.DAOMH, KFXXZL.XTMH, ROW_NUMBER() OVER(PARTITION BY KFXXZL.DEVCODE ORDER BY KFXXZL.USERDATE DESC) AS Seq FROM ProductionPlan AS PP');
-    SQL.Add('    LEFT JOIN KFXXZL ON KFXXZL.DEVCODE = PP.SubRY');
-    SQL.Add('    WHERE PP.Building = ''' + CB_Building_1D.Text + ''' AND PP.Lean = ''' + CB_Lean_1D.Text + ''' AND PP.PlanType = ''' + TypeList1D[CB_Type_1D.ItemIndex] + ''' AND PP.PlanDate = ''' + FormatDateTime('yyyy/MM/dd', DTP_1D.Date) + ''' AND PP.RY LIKE ''C%''');
-    SQL.Add('  ) AS KFXXZL');
-    SQL.Add('  WHERE Seq = 1');
-    SQL.Add(') AS KFXXZL ON KFXXZL.DEVCODE = PP.SubRY');
     SQL.Add('LEFT JOIN (');
     SQL.Add('  SELECT building_no, lean_no, CASE WHEN LEN(ry) - LEN(REPLACE(ry, ''-'', '''')) < 2 THEN ry ELSE SUBSTRING(ry, 1, LEN(ry) - CHARINDEX(''-'', REVERSE(ry))) END AS RY,');
     SQL.Add('  MAX(CONVERT(VARCHAR, schedule_date, 111) + ''-'' + CAST(ry_index AS VARCHAR)) AS Date, SUM(CASE WHEN ISNUMERIC(sl) = 1 THEN CAST(sl AS INT) ELSE 0 END) AS RYPairs FROM schedule_crawler');
@@ -2717,8 +2694,8 @@ begin
   end;
 
   DBGridEh_1D.Columns[5].ButtonStyle := cbsEllipsis;
-  DBGridEh_1D.Columns[19].ButtonStyle := cbsAuto;
-  DBGridEh_1D.Columns[20].ButtonStyle := cbsAuto;
+  DBGridEh_1D.Columns[16].ButtonStyle := cbsAuto;
+  DBGridEh_1D.Columns[17].ButtonStyle := cbsAuto;
   B1D5.Enabled := true;
   B1D6.Enabled := true;
 end;
@@ -2747,8 +2724,8 @@ begin
   end;
 
   DBGridEh_1D.Columns[5].ButtonStyle := cbsEllipsis;
-  DBGridEh_1D.Columns[19].ButtonStyle := cbsAuto;
-  DBGridEh_1D.Columns[20].ButtonStyle := cbsAuto;
+  DBGridEh_1D.Columns[16].ButtonStyle := cbsAuto;
+  DBGridEh_1D.Columns[17].ButtonStyle := cbsAuto;
   B1D5.Enabled := true;
   B1D6.Enabled := true;
 end;
@@ -2883,8 +2860,8 @@ begin
     Query_1D.RequestLive := false;
     Query_1D.Active := true;
     DBGridEh_1D.Columns[5].ButtonStyle := cbsNone;
-    DBGridEh_1D.Columns[19].ButtonStyle := cbsNone;
-    DBGridEh_1D.Columns[20].ButtonStyle := cbsNone;
+    DBGridEh_1D.Columns[16].ButtonStyle := cbsNone;
+    DBGridEh_1D.Columns[17].ButtonStyle := cbsNone;
     B1D5.Enabled := false;
     B1D6.Enabled := false;
     if (P1D_Mode = 'Import') then
@@ -2908,8 +2885,8 @@ begin
   end;
 
   DBGridEh_1D.Columns[5].ButtonStyle := cbsNone;
-  DBGridEh_1D.Columns[19].ButtonStyle := cbsNone;
-  DBGridEh_1D.Columns[20].ButtonStyle := cbsNone;
+  DBGridEh_1D.Columns[16].ButtonStyle := cbsNone;
+  DBGridEh_1D.Columns[17].ButtonStyle := cbsNone;
   P1D_Mode := 'Normal';
   B1D5.Enabled := false;
   B1D6.Enabled := false;
@@ -2931,8 +2908,8 @@ begin
   B1D5.Enabled := false;
   B1D6.Enabled := false;
   DBGridEh_1D.Columns[5].ButtonStyle := cbsNone;
-  DBGridEh_1D.Columns[19].ButtonStyle := cbsNone;  
-  DBGridEh_1D.Columns[20].ButtonStyle := cbsNone;
+  DBGridEh_1D.Columns[16].ButtonStyle := cbsNone;
+  DBGridEh_1D.Columns[17].ButtonStyle := cbsNone;
 end;
 
 procedure TScheduleUpload.Query_1DNewRecord(DataSet: TDataSet);
@@ -3049,7 +3026,8 @@ begin
       SQL.Add('AND CASE WHEN DDBH = YSBH THEN 1 ELSE CAST(SUBSTRING(DDBH, LEN(DDBH)-2, 3) AS INT) END BETWEEN ' + Query_1D.FieldByName('CycleStart').AsString + ' AND ' + Query_1D.FieldByName('CycleEnd').AsString);
       Active := true;
 
-      Query_1D.FieldByName('Pairs').Value := FieldByName('Pairs').AsInteger;
+      if (Query_1D.FieldByName('Pairs').Value > FieldByName('Pairs').AsInteger) then
+        Query_1D.FieldByName('Pairs').Value := FieldByName('Pairs').AsInteger;
     end;
   end;
 end;
@@ -3103,12 +3081,10 @@ begin
       begin
         Active := false;
         SQL.Clear;
-        SQL.Add('SELECT PP.Building, PP.Lean, PP.PlanType, PP.PlanDate, PP.Seq, PP.RY, PP.SubRY, DDZL.ShipDate, PP.NT, SUBSTRING(DDZL.BUYNO, 5, 2) + '' BUY'' AS BUYNO,');
-        SQL.Add('DDZL.ARTICLE, REPLACE(XXZL.DAOMH, ''LY-'', '''') AS DAOMH, CASE WHEN ISNUMERIC(SC.sl) = 1 THEN CAST(SC.sl AS INT) ELSE 0 END AS RYPairs,');
-        SQL.Add('PP.Pairs, PP.CycleStart, PP.CycleEnd, SMDD.MinCycle, SMDD.MaxCycle, PP.Remark, PP.UserID, PP.UserDate, PP.GSBH, PP.YN FROM ProductionPlan AS PP');
+        SQL.Add('SELECT PP.Building, PP.Lean, PP.PlanType, PP.PlanDate, PP.Seq, PP.RY, PP.SubRY, XXZL.ARTICLE, XXZL.XieMing, DDZL.ShipDate, DDZL.Pairs AS RYPairs, PP.Pairs,');
+        SQL.Add('PP.CycleStart, PP.CycleEnd, SMDD.MinCycle, SMDD.MaxCycle, PP.Remark, PP.UserID, PP.UserDate, PP.GSBH, PP.YN FROM ProductionPlan AS PP');
         SQL.Add('LEFT JOIN DDZL ON DDZL.DDBH = PP.RY');
         SQL.Add('LEFT JOIN XXZL ON XXZL.XieXing = DDZL.XieXing AND XXZL.SheHao = DDZL.SheHao');
-        SQL.Add('LEFT JOIN schedule_crawler AS SC ON SC.building_no = PP.Building AND SC.lean_no = PP.Lean AND CASE WHEN LEN(SC.ry) - LEN(REPLACE(SC.ry, ''-'', '''')) < 2 THEN SC.ry ELSE SUBSTRING(SC.ry, 1, LEN(SC.ry) - CHARINDEX(''-'', REVERSE(SC.ry))) END = PP.RY');
         SQL.Add('LEFT JOIN (');
         SQL.Add('  SELECT YSBH, MIN(CASE WHEN DDBH = YSBH THEN 1 ELSE CAST(SUBSTRING(DDBH, LEN(DDBH)-2, 3) AS INT) END) AS MinCycle,');
         SQL.Add('  MAX(CASE WHEN DDBH = YSBH THEN 1 ELSE CAST(SUBSTRING(DDBH, LEN(DDBH)-2, 3) AS INT) END) AS MaxCycle FROM SMDD');
@@ -3162,27 +3138,25 @@ begin
             for Col := TCol to TCol + 8 do
             begin
               if (Pos('RY', Sheet.Cells[TRow, Col].Text) > 0) then
-              begin
+              begin        
                 PlanBlock[0][0] := Col;
                 PlanDate[0] := Sheet.Cells[TRow-1, Col].Value;
               end
-              else if (Pos('XH', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('Art', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[0][1] := Col
-              else if (Pos('NT', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('Shoe', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[0][2] := Col
-              else if (Pos('MG', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('XF', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[0][3] := Col
-              else if (Pos('SKU', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('SLKH', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[0][4] := Col
-              else if (Pos('SL', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('TUA', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[0][5] := Col
-              else if (Pos('LY', Sheet.Cells[TRow, Col]) > 0) then
-                PlanBlock[0][6] := Col
-              else if (Pos('回轉數', Sheet.Cells[TRow, Col]) > 0) then
-                PlanBlock[0][7] := Col;
+              else if (Pos('REMARK', Sheet.Cells[TRow, Col]) > 0) then
+                PlanBlock[0][6] := Col;
             end;
 
-            for Col := PlanBlock[0][7] to PlanBlock[0][7] + 10 do
+            for Col := PlanBlock[0][6] to PlanBlock[0][6] + 10 do
             begin
               if (Sheet.Cells[TRow, Col].Text = 'RY') then
               begin
@@ -3198,23 +3172,21 @@ begin
                 PlanBlock[1][0] := Col;
                 PlanDate[1] := Sheet.Cells[TRow-1, Col].Value;
               end
-              else if (Pos('XH', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('Art', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[1][1] := Col
-              else if (Pos('NT', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('Shoe', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[1][2] := Col
-              else if (Pos('MG', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('XF', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[1][3] := Col
-              else if (Pos('SKU', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('SLKH', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[1][4] := Col
-              else if (Pos('SL', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('TUA', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[1][5] := Col
-              else if (Pos('LY', Sheet.Cells[TRow, Col]) > 0) then
-                PlanBlock[1][6] := Col
-              else if (Pos('回轉數', Sheet.Cells[TRow, Col]) > 0) then
-                PlanBlock[1][7] := Col;
+              else if (Pos('REMARK', Sheet.Cells[TRow, Col]) > 0) then
+                PlanBlock[1][6] := Col;
             end;
 
-            for Col := PlanBlock[1][7] to PlanBlock[1][7] + 10 do
+            for Col := PlanBlock[1][6] to PlanBlock[1][6] + 10 do
             begin
               if (Sheet.Cells[TRow, Col].Text = 'RY') then
               begin
@@ -3230,20 +3202,18 @@ begin
                 PlanBlock[2][0] := Col;
                 PlanDate[2] := Sheet.Cells[TRow-1, Col].Value;
               end
-              else if (Pos('XH', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('Art', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[2][1] := Col
-              else if (Pos('NT', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('Shoe', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[2][2] := Col
-              else if (Pos('MG', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('XF', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[2][3] := Col
-              else if (Pos('SKU', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('SLKH', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[2][4] := Col
-              else if (Pos('SL', Sheet.Cells[TRow, Col]) > 0) then
+              else if (Pos('TUA', Sheet.Cells[TRow, Col]) > 0) then
                 PlanBlock[2][5] := Col
-              else if (Pos('LY', Sheet.Cells[TRow, Col]) > 0) then
-                PlanBlock[2][6] := Col
-              else if (Pos('回轉數', Sheet.Cells[TRow, Col]) > 0) then
-                PlanBlock[2][7] := Col;
+              else if (Pos('REMARK', Sheet.Cells[TRow, Col]) > 0) then
+                PlanBlock[2][6] := Col;
             end;
 
             for i := 0 to 2 do
@@ -3254,24 +3224,15 @@ begin
               begin
                 if (Sheet.Cells[CRow, PlanBlock[i][0]].Text = 'RY') then
                 begin
-                  TempStr := UpperCase(StringReplace(Sheet.Cells[CRow, 1].Text, ' ', '', [rfReplaceAll]));
-                  Area := Copy(TempStr, 1, 1);
-                  if (Pos(#$A, TempStr) > 0) then
-                    TempStr := Copy(TempStr, 1, Pos(#$A, TempStr)-1);
-                  Building := Copy(TempStr, 2, Pos('L', TempStr)-2);
-                  if (Length(Building) = 1) then
-                    Building := '0' + Building;
-                  Building := Area + Building;
-                  Lean := 'Lean0' + Copy(TempStr, Pos('N', TempStr)+1, Length(TempStr)-Pos('N', TempStr));
                   Inc(CRow);
                   Counter := 0;
                 end;
 
-                if (Copy(Sheet.Cells[CRow, PlanBlock[i][0]].Text, 1, 1) = 'Y') OR (Copy(Sheet.Cells[CRow, PlanBlock[i][0]].Text, 1, 2) = 'SJ') then
+                if (Pos('-', Sheet.Cells[CRow, PlanBlock[i][0]].Text) > 0) then
                 begin
-                  if (PlanBlock[i][7] > 0) then
+                  if (PlanBlock[i][5] > 0) then
                   begin
-                    TempStr := StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[i][7]].Text, 'T', '', [rfReplaceAll]), ' ', '', [rfReplaceAll]);
+                    TempStr := StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[i][5]].Text, 'T', '', [rfReplaceAll]), ' ', '', [rfReplaceAll]);
 
                     if Pos('-', TempStr) > 0 then
                     begin
@@ -3290,12 +3251,13 @@ begin
                     Fields.Clear;
                     SQL.Clear;
                     SQL.Add('DECLARE @RY VARCHAR(20) = ''' + Sheet.Cells[CRow, PlanBlock[i][0]].Text + ''';');
-                    SQL.Add('SELECT DDZL.DDBH, DDZL.RYTYPE,');
+                    SQL.Add('SELECT DDZL.DDBH, DDZL.Pairs, DDZL.ARTICLE, XXZL.XieMing, DDZL.RYTYPE,');
                     SQL.Add('MIN(CASE WHEN SMDD.DDBH = SMDD.YSBH THEN 1 ELSE CAST(SUBSTRING(SMDD.DDBH, LEN(SMDD.DDBH)-2, 3) AS INT) END) AS MinCycle,');
                     SQL.Add('MAX(CASE WHEN SMDD.DDBH = SMDD.YSBH THEN 1 ELSE CAST(SUBSTRING(SMDD.DDBH, LEN(SMDD.DDBH)-2, 3) AS INT) END) AS MaxCycle FROM DDZL');
+                    SQL.Add('LEFT JOIN XXZL ON XXZL.XieXing = DDZL.XieXing AND XXZL.SheHao = DDZL.SheHao');
                     SQL.Add('LEFT JOIN SMDD ON SMDD.YSBH = DDZL.DDBH');
                     SQL.Add('WHERE SMDD.GXLB = ''A'' AND DDZL.DDBH = CASE WHEN LEN(@RY) - LEN(REPLACE(@RY, ''-'', '''')) < 2 THEN @RY ELSE SUBSTRING(@RY, 1, LEN(@RY) - CHARINDEX(''-'', REVERSE(@RY))) END');
-                    SQL.Add('GROUP BY DDZL.DDBH, DDZL.RYTYPE');
+                    SQL.Add('GROUP BY DDZL.DDBH, DDZL.Pairs, DDZL.ARTICLE, XXZL.XieMing, DDZL.RYTYPE');
                     Active := true;
 
                     NotExistRY := '';
@@ -3306,103 +3268,31 @@ begin
                   with Query_3D do
                   begin
                     Append;
-                    FieldByName('Building').Value := Building;
-                    FieldByName('Lean').Value := Lean;
+                    FieldByName('Building').Value := 'DT';
+                    if (Sheet.Cells[CRow, 1].MergeCells) then
+                      FieldByName('Lean').Value := StringReplace(Sheet.Cells[CRow, 1].MergeArea.Cells[1, 1].Text, #$A, '', [rfReplaceAll])
+                    else
+                      FieldByName('Lean').Value := StringReplace(Sheet.Cells[CRow, 1].Text, #$A, '', [rfReplaceAll]);
                     FieldByName('PlanDate').Value := PlanDate[i];
                     if (PlanBlock[i][0] > 0) then
                       FieldByName('RY').Value := QTemp.FieldByName('DDBH').AsString;
-                    if (PlanBlock[i][1] > 0) then
-                      FieldByName('ShipDate').Value := Sheet.Cells[CRow, PlanBlock[i][1]].Text;
+                    FieldByName('ARTICLE').Value := QTemp.FieldByName('ARTICLE').AsString;
                     if (PlanBlock[i][2] > 0) then
-                      FieldByName('NT').Value := StringReplace(StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[i][2]].Text, ' ', '', [rfReplaceAll]), '(', ' (', [rfReplaceAll]), '亮', '', [rfReplaceAll]);
+                      FieldByName('XieMing').Value := QTemp.FieldByName('XieMing').AsString;
                     if (PlanBlock[i][3] > 0) then
-                      FieldByName('BUYNO').Value := Sheet.Cells[CRow, PlanBlock[i][3]].Text;
+                      FieldByName('ShipDate').Value := Sheet.Cells[CRow, PlanBlock[i][3]].Text;
+                    FieldByName('RYPairs').Value := QTemp.FieldByName('Pairs').AsInteger;
                     if (PlanBlock[i][4] > 0) then
-                      FieldByName('ARTICLE').Value := Sheet.Cells[CRow, PlanBlock[i][4]].Text;
+                      FieldByName('Pairs').Value := Sheet.Cells[CRow, PlanBlock[i][4]].Value;
                     if (PlanBlock[i][5] > 0) then
-                      FieldByName('RYPairs').Value := Sheet.Cells[CRow, PlanBlock[i][5]].Text;
-                    if (PlanBlock[i][6] > 0) then
-                      FieldByName('DAOMH').Value := Sheet.Cells[CRow, PlanBlock[i][6]].Text;
-                    if (QTemp.FieldByName('RYTYPE').AsString = 'SLT') then
-                      FieldByName('Remark').Value := 'DON HANG XUAT NHANH (快速訂單)';
-                    if (PlanBlock[i][7] > 0) then
                     begin
                       FieldByName('MinCycle').Value := QTemp.FieldByName('MinCycle').AsInteger;
                       FieldByName('MaxCycle').Value := QTemp.FieldByName('MaxCycle').AsInteger;
                       FieldByName('CycleStart').Value := CycleStart;
                       FieldByName('CycleEnd').Value := CycleEnd;
                     end;
-                  end;
-
-                  Counter := 0;
-                  if (NotExistRY <> '') then
-                  begin
-                    Application.MessageBox(PChar('The following RY does not exist in database:' + #13#10#13#10 + '　Building: ' + Query_3D.FieldByName('Building').AsString + #13#10 + '　Lean: ' + Query_3D.FieldByName('Lean').AsString + #13#10 + '　RY: ' + NotExistRY), 'WARNING', MB_OK + MB_ICONWARNING);
-                    Query_3D.FieldByName('YN').Value := '2';
-                  end;
-                end
-                else if (Copy(Sheet.Cells[CRow, PlanBlock[i][0]].Text, 1, 2) = 'C-') then
-                begin
-                  if (PlanBlock[i][7] > 0) then
-                  begin
-                    TempStr := StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[i][7]].Text, 'T', '', [rfReplaceAll]), ' ', '', [rfReplaceAll]);
-
-                    if Pos('-', TempStr) > 0 then
-                    begin
-                      CycleStart := StrToInt(Copy(TempStr, 1, Pos('-', TempStr)-1));
-                      CycleEnd := StrToInt(Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr)));
-                    end
-                    else begin
-                      CycleStart := StrToInt(TempStr);
-                      CycleEnd := StrToInt(TempStr);
-                    end;
-                  end;
-
-                  for Col := PlanBlock[i][1] to PlanBlock[i][5] do
-                  begin
-                    if (Sheet.Cells[CRow, Col].Text <> '') then
-                    begin
-                      SubRY := Sheet.Cells[CRow, Col].Text;
-                      Break;
-                    end;
-                  end;
-
-                  with QTemp do
-                  begin
-                    Active := false;
-                    Fields.Clear;
-                    SQL.Clear;
-                    SQL.Add('SELECT DEVCODE, REPLACE(DAOMH, ''LY-'', '''') AS DAOMH, REPLACE(XTMH, ''TV-'', '''') AS XTMH FROM KFXXZL');
-                    SQL.Add('WHERE DEVCODE = ''' + SubRY + '''');
-                    Active := true;
-
-                    NotExistRY := '';
-                    if (RecordCount = 0) then
-                      NotExistRY := SubRY;
-                  end;
-
-                  with Query_3D do
-                  begin
-                    Append;
-                    FieldByName('Building').Value := Building;
-                    FieldByName('Lean').Value := Lean;
-                    FieldByName('PlanDate').Value := PlanDate[i];
-                    if (PlanBlock[i][0] > 0) then
-                    begin
-                      FieldByName('RY').Value := Sheet.Cells[CRow, PlanBlock[i][0]].Text;
-                      FieldByName('SubRY').Value := SubRY;
-                    end;
-                    if (PlanBlock[i][5] > 0) AND (Sheet.Cells[CRow, PlanBlock[i][5]].Text <> '') then
-                      FieldByName('RYPairs').Value := Sheet.Cells[CRow, PlanBlock[i][5]].Text;
                     if (PlanBlock[i][6] > 0) then
-                      FieldByName('DAOMH').Value := QTemp.FieldByName('DAOMH').AsString;
-                    if (PlanBlock[i][7] > 0) then
-                    begin
-                      FieldByName('MinCycle').Value := CycleStart;
-                      FieldByName('MaxCycle').Value := CycleEnd;
-                      FieldByName('CycleStart').Value := CycleStart;
-                      FieldByName('CycleEnd').Value := CycleEnd;
-                    end;
+                      FieldByName('Remark').Value := Sheet.Cells[CRow, PlanBlock[i][6]].Text;
                   end;
 
                   Counter := 0;
@@ -3410,23 +3300,6 @@ begin
                   begin
                     Application.MessageBox(PChar('The following RY does not exist in database:' + #13#10#13#10 + '　Building: ' + Query_3D.FieldByName('Building').AsString + #13#10 + '　Lean: ' + Query_3D.FieldByName('Lean').AsString + #13#10 + '　RY: ' + NotExistRY), 'WARNING', MB_OK + MB_ICONWARNING);
                     Query_3D.FieldByName('YN').Value := '2';
-                  end;
-                end
-                else if (Copy(Sheet.Cells[CRow, PlanBlock[i][0]].Text, 1, 3) = 'SLT') then
-                begin
-                  with Query_3D do
-                  begin
-                    Append;
-                    FieldByName('Building').Value := Building;
-                    FieldByName('Lean').Value := Lean;
-                    FieldByName('PlanDate').Value := PlanDate[i];
-                    if (PlanBlock[i][0] > 0) then
-                      FieldByName('RY').Value := 'SLT';
-                    FieldByName('MinCycle').Value := 0;
-                    FieldByName('MaxCycle').Value := 0;
-                    FieldByName('CycleStart').Value := 0;
-                    FieldByName('CycleEnd').Value := 0;
-                    FieldByName('Remark').Value := 'DON HANG XUAT NHANH (快速訂單)';
                   end;
                 end;
 
@@ -3471,7 +3344,7 @@ var
   Counter, CycleStart, CycleEnd: integer;
   eclApp, Sheet: OleVariant;
   SelectedFileName, Area, Building, Lean, TempStr, NotExistRY: string;
-  RY, SubRY, NT, BUYNO, SKU, DAOMH, XTMH, DeliveryTime, AssemblyTime, Remark: string;
+  RY, SubRY, ShoeName, BUYNO, SKU, DAOMH, XTMH, DeliveryTime, AssemblyTime, Remark: string;
   RYPairs, MinCycle, MaxCycle, TempPairs: integer;
   StartTime, EndTime: string;
   PlanBlock: array[0..11] of integer;
@@ -3482,20 +3355,17 @@ begin
     if (OpenDialog1.Execute) then
     begin
       SelectedFileName := ExtractFileName(OpenDialog1.FileName); 
-      DBGridEh_1D.Columns[19].ButtonStyle := cbsAuto;
-      DBGridEh_1D.Columns[20].ButtonStyle := cbsAuto;
+      DBGridEh_1D.Columns[16].ButtonStyle := cbsAuto;
+      DBGridEh_1D.Columns[17].ButtonStyle := cbsAuto;
 
       with Query_1D do
       begin
         Active := false;
         SQL.Clear;
-        SQL.Add('SELECT PP.Building, PP.Lean, PP.PlanType, PP.PlanDate, PP.Seq, PP.RY, PP.SubRY, DDZL.ShipDate, PP.NT, SUBSTRING(DDZL.BUYNO, 5, 2) + '' BUY'' AS BUYNO,');
-        SQL.Add('DDZL.ARTICLE, CASE WHEN ISNUMERIC(SC.sl) = 1 THEN CAST(SC.sl AS INT) ELSE 0 END AS RYPairs, REPLACE(XXZL.DAOMH, ''LY-'', '''') AS DAOMH,');
-        SQL.Add('PP.Pairs, PP.CycleStart, PP.CycleEnd, SMDD.MinCycle, SMDD.MaxCycle, REPLACE(XXZL.XTMH, ''TV-'', '''') AS XTMH,');
-        SQL.Add('PP.DeliveryTime, PP.AssemblyTime, PP.Remark, PP.Reason, PP.UserID, PP.UserDate, PP.GSBH, PP.YN FROM ProductionPlan AS PP');
+        SQL.Add('SELECT PP.Building, PP.Lean, PP.PlanType, PP.PlanDate, PP.Seq, PP.RY, PP.SubRY, XXZL.ARTICLE, XXZL.XieMing, XXZL.XTMH, DDZL.ShipDate, DDZL.Pairs AS RYPairs,');
+        SQL.Add('PP.Pairs, PP.CycleStart, PP.CycleEnd, SMDD.MinCycle, SMDD.MaxCycle, PP.DeliveryTime, PP.Remark, PP.Reason, PP.UserID, PP.UserDate, PP.GSBH, PP.YN FROM ProductionPlan AS PP');
         SQL.Add('LEFT JOIN DDZL ON DDZL.DDBH = PP.RY');
         SQL.Add('LEFT JOIN XXZL ON XXZL.XieXing = DDZL.XieXing AND XXZL.SheHao = DDZL.SheHao');
-        SQL.Add('LEFT JOIN schedule_crawler AS SC ON SC.building_no = PP.Building AND SC.lean_no = PP.Lean AND CASE WHEN LEN(SC.ry) - LEN(REPLACE(SC.ry, ''-'', '''')) < 2 THEN SC.ry ELSE SUBSTRING(SC.ry, 1, LEN(SC.ry) - CHARINDEX(''-'', REVERSE(SC.ry))) END = PP.RY');
         SQL.Add('LEFT JOIN (');
         SQL.Add('  SELECT YSBH, MIN(CASE WHEN DDBH = YSBH THEN 1 ELSE CAST(SUBSTRING(DDBH, LEN(DDBH)-2, 3) AS INT) END) AS MinCycle,');
         SQL.Add('  MAX(CASE WHEN DDBH = YSBH THEN 1 ELSE CAST(SUBSTRING(DDBH, LEN(DDBH)-2, 3) AS INT) END) AS MaxCycle FROM SMDD');
@@ -3560,28 +3430,22 @@ begin
             begin
               if (Pos('RY', Sheet.Cells[TRow, Col].Text) > 0) then
                 PlanBlock[0] := Col
-              else if (Pos('NXH', Sheet.Cells[TRow, Col].Text) > 0) then
+              else if (Pos('Art', Sheet.Cells[TRow, Col].Text) > 0) then
                 PlanBlock[1] := Col
-              else if (Pos('DTT', Sheet.Cells[TRow, Col].Text) > 0) then
+              else if (Pos('Shoe', Sheet.Cells[TRow, Col].Text) > 0) then
                 PlanBlock[2] := Col
-              else if (Pos('MG', Sheet.Cells[TRow, Col].Text) > 0) then
+              else if (Pos('Last', Sheet.Cells[TRow, Col].Text) > 0) then
                 PlanBlock[3] := Col
-              else if (Pos('SKU', Sheet.Cells[TRow, Col].Text) > 0) then
+              else if (Pos('XF Date', Sheet.Cells[TRow, Col].Text) > 0) then
                 PlanBlock[4] := Col
-              else if (Pos('DH', Sheet.Cells[TRow, Col].Text) > 0) then
+              else if (Pos('SLDH', Sheet.Cells[TRow, Col].Text) > 0) then
                 PlanBlock[5] := Col
-              else if (Pos('LY', Sheet.Cells[TRow, Col].Text) > 0) then
+              else if (Pos('SLKH', Sheet.Cells[TRow, Col].Text) > 0) then
                 PlanBlock[6] := Col
-              else if (Pos('KH', Sheet.Cells[TRow, Col].Text) > 0) then
+              else if (Pos('TUA', Sheet.Cells[TRow, Col].Text) > 0) then
                 PlanBlock[7] := Col
-              else if (Pos('迴轉', Sheet.Cells[TRow, Col].Text) > 0) then
-                PlanBlock[8] := Col
-              else if (Pos('FOM', Sheet.Cells[TRow, Col].Text) > 0) then
-                PlanBlock[9] := Col
-              else if (Pos('送料', Sheet.Cells[TRow, Col].Text) > 0) then
-                PlanBlock[10] := Col
-              else if (Pos('成型', Sheet.Cells[TRow, Col].Text) > 0) then
-                PlanBlock[11] := Col;
+              else if (Pos('GIAN', Sheet.Cells[TRow, Col].Text) > 0) then
+                PlanBlock[8] := Col;
             end;
 
             CRow := TRow;
@@ -3591,407 +3455,103 @@ begin
               if (Sheet.Cells[CRow, PlanBlock[0]].Text = 'RY') then
                 Inc(CRow);
 
-              if (Copy(Sheet.Cells[CRow, PlanBlock[0]].Text, 1, 1) = 'Y') OR (Copy(Sheet.Cells[CRow, PlanBlock[0]].Text, 1, 2) = 'SJ') OR (Copy(Sheet.Cells[CRow, PlanBlock[0]].Text, 1, 3) = 'SLT') OR (Copy(Sheet.Cells[CRow, PlanBlock[0]].Text, 1, 2) = 'C-') OR (Copy(Sheet.Cells[CRow, PlanBlock[0]].Text, 1, 2) = 'HT') then
+              if (Pos('-', Sheet.Cells[CRow, PlanBlock[0]].Text) > 0) then
               begin
-                if (Sheet.Cells[CRow, 1].Text <> '') then
+                if(Sheet.Cells[CRow, PlanBlock[6]].Text <> '') then
                 begin
-                  TempStr := UpperCase(StringReplace(Sheet.Cells[CRow, 1].Text, ' ', '', [rfReplaceAll]));
-                  Area := Copy(TempStr, 1, 1);
-                  if (Pos(#$A, TempStr) > 0) then
-                    TempStr := Copy(TempStr, 1, Pos(#$A, TempStr)-1);
-                  Building := Copy(TempStr, 2, Pos('L', TempStr)-2);
-                  if (Length(Building) = 1) then
-                    Building := '0' + Building;
-                  Building := Area + Building;
-                  Lean := Copy(TempStr, Pos('N', TempStr)+1, Length(TempStr)-Pos('N', TempStr));
-                  if (Length(Lean) = 1) then
-                    Lean := 'Lean0' + Lean;
-                end;
-
-                if (Copy(Sheet.Cells[CRow, PlanBlock[0]].Text, 1, 1) = 'Y') OR (Copy(Sheet.Cells[CRow, PlanBlock[0]].Text, 1, 2) = 'SJ') then
-                begin
-                  if(Sheet.Cells[CRow, PlanBlock[7]].Text <> '') then
+                  if (PlanBlock[7] > 0) then
                   begin
+                    TempStr := StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[7]].Text, 'T', '', [rfReplaceAll]), ' ', '', [rfReplaceAll]);
+
+                    if Pos('-', TempStr) > 0 then
+                    begin
+                      CycleStart := StrToInt(Copy(TempStr, 1, Pos('-', TempStr)-1));
+                      CycleEnd := StrToInt(Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr)));
+                    end
+                    else begin
+                      CycleStart := StrToInt(TempStr);
+                      CycleEnd := StrToInt(TempStr);
+                    end;
+                  end;
+
+                  with QTemp do
+                  begin
+                    Active := false;
+                    Fields.Clear;
+                    SQL.Clear;
+                    SQL.Add('DECLARE @RY VARCHAR(20) = ''' + Sheet.Cells[CRow, PlanBlock[0]].Text + ''';');
+                    SQL.Add('SELECT DDZL.DDBH, DDZL.ARTICLE, XXZL.XTMH, XXZL.XieMing, DDZL.Pairs, DDZL.RYTYPE,');
+                    SQL.Add('MIN(CASE WHEN SMDD.DDBH = SMDD.YSBH THEN 1 ELSE CAST(SUBSTRING(SMDD.DDBH, LEN(SMDD.DDBH)-2, 3) AS INT) END) AS MinCycle,');
+                    SQL.Add('MAX(CASE WHEN SMDD.DDBH = SMDD.YSBH THEN 1 ELSE CAST(SUBSTRING(SMDD.DDBH, LEN(SMDD.DDBH)-2, 3) AS INT) END) AS MaxCycle FROM DDZL');
+                    SQL.Add('LEFT JOIN XXZL ON XXZL.XieXing = DDZL.XieXing AND XXZL.SheHao = DDZL.SheHao');
+                    SQL.Add('LEFT JOIN SMDD ON SMDD.YSBH = DDZL.DDBH');
+                    SQL.Add('WHERE SMDD.GXLB = ''A'' AND DDZL.DDBH = CASE WHEN LEN(@RY) - LEN(REPLACE(@RY, ''-'', '''')) < 2 THEN @RY ELSE SUBSTRING(@RY, 1, LEN(@RY) - CHARINDEX(''-'', REVERSE(@RY))) END');
+                    SQL.Add('GROUP BY DDZL.DDBH, DDZL.ARTICLE, XXZL.XTMH, XXZL.XieMing, DDZL.Pairs, DDZL.RYTYPE');
+                    Active := true;
+
+                    NotExistRY := '';
+                    if (RecordCount = 0) then
+                      NotExistRY := Sheet.Cells[CRow, PlanBlock[0]].Text;
+                  end;
+
+                  with Query_1D do
+                  begin
+                    Append;
+                    FieldByName('Building').Value := 'DT';
+                    if (Sheet.Cells[CRow, 1].MergeCells) then
+                      FieldByName('Lean').Value := StringReplace(Sheet.Cells[CRow, 1].MergeArea.Cells[1, 1].Text, #$A, '', [rfReplaceAll])
+                    else
+                      FieldByName('Lean').Value := StringReplace(Sheet.Cells[CRow, 1].Text, #$A, '', [rfReplaceAll]);
+                    FieldByName('PlanDate').Value := PlanDate;
+                    if (PlanBlock[0] > 0) then
+                    begin
+                      FieldByName('RY').Value := QTemp.FieldByName('DDBH').AsString;
+                      RY := FieldByName('RY').AsString;
+                    end;
+                    if (PlanBlock[1] > 0) then
+                    begin
+                      FieldByName('ARTICLE').Value := QTemp.FieldByName('ARTICLE').AsString;
+                      SKU := FieldByName('ARTICLE').AsString;
+                    end;
+                    if (PlanBlock[2] > 0) then
+                    begin
+                      FieldByName('XieMing').Value := QTemp.FieldByName('XieMing').AsString;
+                      ShoeName := FieldByName('XieMing').AsString;
+                    end;
+                    if (PlanBlock[3] > 0) then
+                    begin
+                      FieldByName('XTMH').Value := QTemp.FieldByName('XTMH').AsString;
+                      XTMH := FieldByName('XTMH').AsString;
+                    end;
+                    if (PlanBlock[4] > 0) then
+                    begin
+                      FieldByName('ShipDate').Value := Sheet.Cells[CRow, PlanBlock[4]].Text;
+                      ShipDate := FieldByName('ShipDate').AsDateTime;
+                    end;
+                    if (PlanBlock[5] > 0) then
+                    begin
+                      FieldByName('RYPairs').Value := QTemp.FieldByName('Pairs').AsInteger;
+                      RYPairs := FieldByName('RYPairs').AsInteger;
+                    end;
+                    if (PlanBlock[6] > 0) then
+                    begin
+                      FieldByName('Pairs').Value := Sheet.Cells[CRow, PlanBlock[6]].Text;
+                    end;
+                    if (PlanBlock[7] > 0) then
+                    begin
+                      FieldByName('MinCycle').Value := QTemp.FieldByName('MinCycle').AsInteger;
+                      FieldByName('MaxCycle').Value := QTemp.FieldByName('MaxCycle').AsInteger;
+                      FieldByName('CycleStart').Value := CycleStart;
+                      FieldByName('CycleEnd').Value := CycleEnd;
+                      MinCycle := FieldByName('MinCycle').AsInteger;
+                      MaxCycle := FieldByName('MaxCycle').AsInteger;
+                    end;
                     if (PlanBlock[8] > 0) then
                     begin
-                      TempStr := StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[8]].Text, 'T', '', [rfReplaceAll]), ' ', '', [rfReplaceAll]);
-
-                      if Pos('-', TempStr) > 0 then
-                      begin
-                        CycleStart := StrToInt(Copy(TempStr, 1, Pos('-', TempStr)-1));
-                        CycleEnd := StrToInt(Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr)));
-                      end
-                      else begin
-                        CycleStart := StrToInt(TempStr);
-                        CycleEnd := StrToInt(TempStr);
-                      end;
-                    end;
-
-                    with QTemp do
-                    begin
-                      Active := false;
-                      Fields.Clear;
-                      SQL.Clear;
-                      SQL.Add('DECLARE @RY VARCHAR(20) = ''' + Sheet.Cells[CRow, PlanBlock[0]].Text + ''';');
-                      SQL.Add('SELECT DDZL.DDBH, DDZL.RYTYPE,');
-                      SQL.Add('MIN(CASE WHEN SMDD.DDBH = SMDD.YSBH THEN 1 ELSE CAST(SUBSTRING(SMDD.DDBH, LEN(SMDD.DDBH)-2, 3) AS INT) END) AS MinCycle,');
-                      SQL.Add('MAX(CASE WHEN SMDD.DDBH = SMDD.YSBH THEN 1 ELSE CAST(SUBSTRING(SMDD.DDBH, LEN(SMDD.DDBH)-2, 3) AS INT) END) AS MaxCycle FROM DDZL');
-                      SQL.Add('LEFT JOIN SMDD ON SMDD.YSBH = DDZL.DDBH');
-                      SQL.Add('WHERE SMDD.GXLB = ''A'' AND DDZL.DDBH = CASE WHEN LEN(@RY) - LEN(REPLACE(@RY, ''-'', '''')) < 2 THEN @RY ELSE SUBSTRING(@RY, 1, LEN(@RY) - CHARINDEX(''-'', REVERSE(@RY))) END');
-                      SQL.Add('GROUP BY DDZL.DDBH, DDZL.RYTYPE');
-                      Active := true;
-
-                      NotExistRY := '';
-                      if (RecordCount = 0) then
-                        NotExistRY := Sheet.Cells[CRow, PlanBlock[0]].Text;
-                    end;
-
-                    with Query_1D do
-                    begin
-                      Append;
-                      FieldByName('Building').Value := Building;
-                      FieldByName('Lean').Value := Lean;
-                      FieldByName('PlanDate').Value := PlanDate;
-                      if (PlanBlock[0] > 0) then
-                      begin
-                        FieldByName('RY').Value := QTemp.FieldByName('DDBH').AsString;
-                        RY := FieldByName('RY').AsString;
-                      end;
-                      if (PlanBlock[1] > 0) then
-                      begin
-                        FieldByName('ShipDate').Value := Sheet.Cells[CRow, PlanBlock[1]].Text;
-                        ShipDate := FieldByName('ShipDate').AsDateTime;
-                      end;
-                      if (PlanBlock[2] > 0) then
-                      begin
-                        FieldByName('NT').Value := StringReplace(StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[2]].Text, ' ', '', [rfReplaceAll]), '(', ' (', [rfReplaceAll]), '亮', '', [rfReplaceAll]);
-                        NT := FieldByName('NT').AsString;
-                      end;
-                      if (PlanBlock[3] > 0) then
-                      begin
-                        FieldByName('BUYNO').Value := Sheet.Cells[CRow, PlanBlock[3]].Text;
-                        BUYNO := FieldByName('BUYNO').AsString;
-                      end;
-                      if (PlanBlock[4] > 0) then
-                      begin
-                        FieldByName('ARTICLE').Value := Sheet.Cells[CRow, PlanBlock[4]].Text;
-                        SKU := FieldByName('ARTICLE').AsString;
-                      end;
-                      if (PlanBlock[5] > 0) then
-                      begin
-                        FieldByName('RYPairs').Value := Sheet.Cells[CRow, PlanBlock[5]].Text;
-                        RYPairs := FieldByName('RYPairs').AsInteger;
-                      end;
-                      if (PlanBlock[6] > 0) then
-                      begin
-                        FieldByName('DAOMH').Value := Sheet.Cells[CRow, PlanBlock[6]].Text;
-                        DAOMH := FieldByName('DAOMH').AsString;
-                      end;
-                      if (PlanBlock[9] > 0) then
-                      begin
-                        FieldByName('XTMH').Value := Sheet.Cells[CRow, PlanBlock[9]].Text;
-                        XTMH := FieldByName('XTMH').AsString;
-                      end;
-                      if (PlanBlock[10] > 0) then
-                      begin
-                        TempStr := Sheet.Cells[CRow, PlanBlock[10]].Text;
-                        if (TempStr <> '') then
-                        begin
-                          TempStr := StringReplace(Copy(TempStr, Pos(' ', TempStr), Length(TempStr)-Pos(' ', TempStr)+1), ' ', '', [rfReplaceAll]);
-                          StartTime := Copy(TempStr, 1, Pos('-', TempStr)-1);
-                          if (Pos(':', StartTime) = 2) then
-                            StartTime := '0' + StartTime;
-                          EndTime := Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr));
-                          if (Pos(':', EndTime) = 2) then
-                            EndTime := '0' + EndTime;
-                          FieldByName('DeliveryTime').Value := StartTime + ' - ' + EndTime;
-                          DeliveryTime := StartTime + ' - ' + EndTime;
-                        end
-                        else begin
-                          FieldByName('DeliveryTime').Value := DeliveryTime;
-                        end;
-                      end;
-                      if (PlanBlock[11] > 0) then
-                      begin
-                        TempStr := Sheet.Cells[CRow, PlanBlock[11]].Text;
-                        if (TempStr <> '') then
-                        begin
-                          TempStr := StringReplace(TempStr, ' ', '', [rfReplaceAll]);
-                          StartTime := Copy(TempStr, 1, Pos('-', TempStr)-1);
-                          if (Pos(':', StartTime) = 2) then
-                            StartTime := '0' + StartTime;
-                          EndTime := Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr));
-                          if (Pos(':', EndTime) = 2) then
-                            EndTime := '0' + EndTime;
-                          FieldByName('AssemblyTime').Value := StartTime + ' - ' + EndTime;
-                          AssemblyTime := StartTime + ' - ' + EndTime;
-                        end
-                        else begin
-                          FieldByName('AssemblyTime').Value := AssemblyTime;
-                        end;
-                      end;
-                      if (QTemp.FieldByName('RYTYPE').AsString = 'SLT') then
-                      begin
-                        FieldByName('Remark').Value := 'DON HANG XUAT NHANH (快速訂單)';
-                        Remark := FieldByName('Remark').AsString;
-                      end
-                      else begin
-                        Remark := '';
-                      end;
-                      if (PlanBlock[8] > 0) then
-                      begin
-                        FieldByName('MinCycle').Value := QTemp.FieldByName('MinCycle').AsInteger;
-                        FieldByName('MaxCycle').Value := QTemp.FieldByName('MaxCycle').AsInteger;
-                        FieldByName('CycleStart').Value := CycleStart;
-                        FieldByName('CycleEnd').Value := CycleEnd;
-                        MinCycle := FieldByName('MinCycle').AsInteger;
-                        MaxCycle := FieldByName('MaxCycle').AsInteger;
-                      end;
-                      if (PlanBlock[7] > 0) then
-                        FieldByName('Pairs').Value := Sheet.Cells[CRow, PlanBlock[7]].Text;
-                    end;
-
-                    Counter := 0;
-                    if (NotExistRY <> '') then
-                    begin
-                      Application.MessageBox(PChar('The following RY does not exist in database:' + #13#10#13#10 + '　Building: ' + Query_1D.FieldByName('Building').AsString + #13#10 + '　Lean: ' + Query_1D.FieldByName('Lean').AsString + #13#10 + '　RY: ' + NotExistRY), 'WARNING', MB_OK + MB_ICONWARNING);
-                      Query_1D.FieldByName('YN').Value := '2';
-                    end;
-                  end
-                  else begin
-                    with QTemp do
-                    begin
-                      Active := false;
-                      Fields.Clear;
-                      SQL.Clear;
-                      SQL.Add('DECLARE @RY VARCHAR(20) = ''' + Sheet.Cells[CRow, PlanBlock[0]].Text + ''';');
-                      SQL.Add('SELECT DDZL.DDBH, DDZL.RYTYPE,');
-                      SQL.Add('MIN(CASE WHEN SMDD.DDBH = SMDD.YSBH THEN 1 ELSE CAST(SUBSTRING(SMDD.DDBH, LEN(SMDD.DDBH)-2, 3) AS INT) END) AS MinCycle,');
-                      SQL.Add('MAX(CASE WHEN SMDD.DDBH = SMDD.YSBH THEN 1 ELSE CAST(SUBSTRING(SMDD.DDBH, LEN(SMDD.DDBH)-2, 3) AS INT) END) AS MaxCycle FROM DDZL');
-                      SQL.Add('LEFT JOIN SMDD ON SMDD.YSBH = DDZL.DDBH');
-                      SQL.Add('WHERE SMDD.GXLB = ''A'' AND DDZL.DDBH = CASE WHEN LEN(@RY) - LEN(REPLACE(@RY, ''-'', '''')) < 2 THEN @RY ELSE SUBSTRING(@RY, 1, LEN(@RY) - CHARINDEX(''-'', REVERSE(@RY))) END');
-                      SQL.Add('GROUP BY DDZL.DDBH, DDZL.RYTYPE');
-                      Active := true;
-
-                      NotExistRY := '';
-                      if (RecordCount = 0) then
-                        NotExistRY := Sheet.Cells[CRow, PlanBlock[0]].Text;
-                    end;
-
-                    RY := QTemp.FieldByName('DDBH').AsString;
-                    ShipDate := Sheet.Cells[CRow, PlanBlock[1]];
-                    NT := StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[2]].Text, ' ', '', [rfReplaceAll]), '(', ' (', [rfReplaceAll]);
-                    BUYNO := Sheet.Cells[CRow, PlanBlock[3]].Text;
-                    SKU := Sheet.Cells[CRow, PlanBlock[4]].Text;
-                    RYPairs := Sheet.Cells[CRow, PlanBlock[5]].Text;
-                    DAOMH := Sheet.Cells[CRow, PlanBlock[6]].Text;
-                    XTMH := Sheet.Cells[CRow, PlanBlock[9]].Text;
-                    MinCycle := QTemp.FieldByName('MinCycle').AsInteger;
-                    MaxCycle := QTemp.FieldByName('MaxCycle').AsInteger;
-                    Remark := '';
-                  end;
-                end
-                else if (Copy(Sheet.Cells[CRow, PlanBlock[0]].Text, 1, 2) = 'C-') then
-                begin
-                  if(Sheet.Cells[CRow, PlanBlock[7]].Text <> '') then
-                  begin
-                    if (PlanBlock[8] > 0) then
-                    begin
-                      TempStr := StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[8]].Text, 'T', '', [rfReplaceAll]), ' ', '', [rfReplaceAll]);
-
-                      if Pos('-', TempStr) > 0 then
-                      begin
-                        CycleStart := StrToInt(Copy(TempStr, 1, Pos('-', TempStr)-1));
-                        CycleEnd := StrToInt(Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr)));
-                      end
-                      else begin
-                        CycleStart := StrToInt(TempStr);
-                        CycleEnd := StrToInt(TempStr);
-                      end;
-                    end;
-
-                    for Col := PlanBlock[1] to PlanBlock[5] do
-                    begin
-                      if (Sheet.Cells[CRow, Col].Text <> '') then
-                      begin
-                        SubRY := Sheet.Cells[CRow, Col].Text;
-                        Break;
-                      end;
-                    end;
-
-                    with QTemp do
-                    begin
-                      Active := false;
-                      Fields.Clear;
-                      SQL.Clear;
-                      SQL.Add('SELECT DEVCODE, REPLACE(DAOMH, ''LY-'', '''') AS DAOMH, REPLACE(XTMH, ''TV-'', '''') AS XTMH FROM KFXXZL');
-                      SQL.Add('WHERE DEVCODE = ''' + SubRY + '''');
-                      Active := true;
-
-                      NotExistRY := '';
-                      if (RecordCount = 0) then
-                        NotExistRY := SubRY;
-                    end;
-
-                    with Query_1D do
-                    begin
-                      Append;
-                      FieldByName('Building').Value := Building;
-                      FieldByName('Lean').Value := Lean;
-                      FieldByName('PlanDate').Value := PlanDate;
-                      if (PlanBlock[0] > 0) then
-                      begin
-                        FieldByName('RY').Value := Sheet.Cells[CRow, PlanBlock[0]].Text;
-                        FieldByName('SubRY').Value := SubRY;
-                        RY := FieldByName('RY').AsString;
-                      end;
-                      if (PlanBlock[4] > 0) then
-                      begin
-                        FieldByName('ARTICLE').Value := QTemp.FieldByName('DEVCODE').AsString;
-                        SKU := FieldByName('ARTICLE').AsString;
-                      end;
-                      if (PlanBlock[7] > 0) then
-                      begin
-                        FieldByName('RYPairs').Value := Sheet.Cells[CRow, PlanBlock[7]].Text;
-                        RYPairs := FieldByName('RYPairs').AsInteger;
-                      end;
-                      if (PlanBlock[6] > 0) then
-                      begin
-                        FieldByName('DAOMH').Value := QTemp.FieldByName('DAOMH').AsString;
-                        DAOMH := FieldByName('DAOMH').AsString;
-                      end;
-                      if (PlanBlock[9] > 0) then
-                      begin
-                        FieldByName('XTMH').Value := QTemp.FieldByName('XTMH').AsString;
-                        XTMH := FieldByName('XTMH').AsString;
-                      end;
-                      if (PlanBlock[10] > 0) then
-                      begin
-                        TempStr := Sheet.Cells[CRow, PlanBlock[10]].Text;
-                        if (TempStr <> '') then
-                        begin
-                          TempStr := StringReplace(Copy(TempStr, Pos(' ', TempStr), Length(TempStr)-Pos(' ', TempStr)+1), ' ', '', [rfReplaceAll]);
-                          StartTime := Copy(TempStr, 1, Pos('-', TempStr)-1);
-                          if (Pos(':', StartTime) = 2) then
-                            StartTime := '0' + StartTime;
-                          EndTime := Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr));
-                          if (Pos(':', EndTime) = 2) then
-                            EndTime := '0' + EndTime;
-                          FieldByName('DeliveryTime').Value := StartTime + ' - ' + EndTime;
-                          DeliveryTime := StartTime + ' - ' + EndTime;
-                        end
-                        else begin
-                          FieldByName('DeliveryTime').Value := DeliveryTime;
-                        end;
-                      end;
-                      if (PlanBlock[11] > 0) then
-                      begin
-                        TempStr := Sheet.Cells[CRow, PlanBlock[11]].Text;
-                        if (TempStr <> '') then
-                        begin
-                          TempStr := StringReplace(TempStr, ' ', '', [rfReplaceAll]);
-                          StartTime := Copy(TempStr, 1, Pos('-', TempStr)-1);
-                          if (Pos(':', StartTime) = 2) then
-                            StartTime := '0' + StartTime;
-                          EndTime := Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr));
-                          if (Pos(':', EndTime) = 2) then
-                            EndTime := '0' + EndTime;
-                          FieldByName('AssemblyTime').Value := StartTime + ' - ' + EndTime;
-                          AssemblyTime := StartTime + ' - ' + EndTime;
-                        end
-                        else begin
-                          FieldByName('AssemblyTime').Value := AssemblyTime;
-                        end;
-                      end;
-                      if (PlanBlock[6] > 0) then
-                      begin
-                        FieldByName('Remark').Value := Sheet.Cells[CRow, PlanBlock[6]].Text;
-                        Remark := FieldByName('Remark').AsString;
-                      end;
-                      if (PlanBlock[8] > 0) then
-                      begin
-                        FieldByName('MinCycle').Value := CycleStart;
-                        FieldByName('MaxCycle').Value := CycleEnd;
-                        FieldByName('CycleStart').Value := CycleStart;
-                        FieldByName('CycleEnd').Value := CycleEnd;
-                        MinCycle := FieldByName('MinCycle').AsInteger;
-                        MaxCycle := FieldByName('MaxCycle').AsInteger;
-                      end;
-                      if (PlanBlock[7] > 0) then
-                        FieldByName('Pairs').Value := Sheet.Cells[CRow, PlanBlock[7]].Text;
-                    end;
-
-                    Counter := 0;
-                    if (NotExistRY <> '') then
-                    begin
-                      Application.MessageBox(PChar('The following RY does not exist in database:' + #13#10#13#10 + '　Building: ' + Query_1D.FieldByName('Building').AsString + #13#10 + '　Lean: ' + Query_1D.FieldByName('Lean').AsString + #13#10 + '　RY: ' + NotExistRY), 'WARNING', MB_OK + MB_ICONWARNING);
-                      Query_1D.FieldByName('YN').Value := '2';
-                    end;
-                  end;
-                end
-                else if (Sheet.Cells[CRow, PlanBlock[0]].Text = 'HT') then
-                begin
-                  with Query_1D do
-                  begin
-                    Append;
-                    FieldByName('Building').Value := Building;
-                    FieldByName('Lean').Value := Lean;
-                    FieldByName('PlanDate').Value := PlanDate;
-                    FieldByName('RY').Value := 'HT';
-                    FieldByName('MinCycle').Value := 0;
-                    FieldByName('MaxCycle').Value := 0;
-                    FieldByName('CycleStart').Value := 0;
-                    FieldByName('CycleEnd').Value := 0;
-                    FieldByName('Remark').Value := 'HANG TON (使用庫存)';
-                  end;
-                end
-                else if (Sheet.Cells[CRow, PlanBlock[0]].Text = 'SLT') then
-                begin
-                  with Query_1D do
-                  begin
-                    Append;
-                    FieldByName('Building').Value := Building;
-                    FieldByName('Lean').Value := Lean;
-                    FieldByName('PlanDate').Value := PlanDate;
-                    FieldByName('RY').Value := 'SLT';
-                    FieldByName('Remark').Value := 'DON HANG XUAT NHANH (快速訂單)';
-                  end;
-                end;
-              end
-              else begin
-                TempStr := StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[8]].Text, 'T', '', [rfReplaceAll]), ' ', '', [rfReplaceAll]);
-                if (TryStrToInt(Sheet.Cells[CRow, PlanBlock[7]].Text, TempPairs)) AND (TempStr <> '') then
-                begin
-                  if Pos('-', TempStr) > 0 then
-                  begin
-                    CycleStart := StrToInt(Copy(TempStr, 1, Pos('-', TempStr)-1));
-                    CycleEnd := StrToInt(Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr)));
-                  end
-                  else begin
-                    CycleStart := StrToInt(TempStr);
-                    CycleEnd := StrToInt(TempStr);
-                  end;
-
-                  with Query_1D do
-                  begin
-                    Append;
-                    FieldByName('Building').Value := Building;
-                    FieldByName('Lean').Value := Lean;
-                    FieldByName('PlanDate').Value := PlanDate;
-                    FieldByName('RY').Value := RY;
-                    FieldByName('ShipDate').Value := ShipDate;
-                    FieldByName('NT').Value := NT;
-                    FieldByName('BUYNO').Value := BUYNO;
-                    FieldByName('ARTICLE').Value := SKU;
-                    FieldByName('RYPairs').Value := RYPairs;
-                    FieldByName('DAOMH').Value := DAOMH;
-                    FieldByName('XTMH').Value := XTMH;
-                    if (PlanBlock[10] > 0) then
-                    begin
-                      TempStr := Sheet.Cells[CRow, PlanBlock[10]].Text;
+                      TempStr := Sheet.Cells[CRow, PlanBlock[8]].Text;
                       if (TempStr <> '') then
                       begin
-                        TempStr := StringReplace(Copy(TempStr, Pos(' ', TempStr), Length(TempStr)-Pos(' ', TempStr)+1), ' ', '', [rfReplaceAll]);
+                        TempStr := StringReplace(UpperCase(StringReplace(Copy(TempStr, Pos(' ', TempStr), Length(TempStr)-Pos(' ', TempStr)+1), ' ', '', [rfReplaceAll])), 'H', ':', [rfReplaceAll]);
                         StartTime := Copy(TempStr, 1, Pos('-', TempStr)-1);
                         if (Pos(':', StartTime) = 2) then
                           StartTime := '0' + StartTime;
@@ -4005,35 +3565,7 @@ begin
                         FieldByName('DeliveryTime').Value := DeliveryTime;
                       end;
                     end;
-                    if (PlanBlock[11] > 0) then
-                    begin
-                      TempStr := Sheet.Cells[CRow, PlanBlock[11]].Text;
-                      if (TempStr <> '') then
-                      begin
-                        TempStr := StringReplace(TempStr, ' ', '', [rfReplaceAll]);
-                        StartTime := Copy(TempStr, 1, Pos('-', TempStr)-1);
-                        if (Pos(':', StartTime) = 2) then
-                          StartTime := '0' + StartTime;
-                        EndTime := Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr));
-                        if (Pos(':', EndTime) = 2) then
-                          EndTime := '0' + EndTime;
-                        FieldByName('AssemblyTime').Value := StartTime + ' - ' + EndTime;
-                        AssemblyTime := StartTime + ' - ' + EndTime;
-                      end
-                      else begin
-                        FieldByName('AssemblyTime').Value := AssemblyTime;
-                      end;
-                    end;
-                    FieldByName('Remark').Value := Remark;
-                    if (PlanBlock[8] > 0) then
-                    begin
-                      FieldByName('MinCycle').Value := MinCycle;
-                      FieldByName('MaxCycle').Value := MaxCycle;
-                      FieldByName('CycleStart').Value := CycleStart;
-                      FieldByName('CycleEnd').Value := CycleEnd;
-                    end;
-                    if (PlanBlock[7] > 0) then
-                      FieldByName('Pairs').Value := Sheet.Cells[CRow, PlanBlock[7]].Text;
+                    Remark := '';
                   end;
 
                   Counter := 0;
@@ -4042,6 +3574,36 @@ begin
                     Application.MessageBox(PChar('The following RY does not exist in database:' + #13#10#13#10 + '　Building: ' + Query_1D.FieldByName('Building').AsString + #13#10 + '　Lean: ' + Query_1D.FieldByName('Lean').AsString + #13#10 + '　RY: ' + NotExistRY), 'WARNING', MB_OK + MB_ICONWARNING);
                     Query_1D.FieldByName('YN').Value := '2';
                   end;
+                end
+                else begin
+                  with QTemp do
+                  begin
+                    Active := false;
+                    Fields.Clear;
+                    SQL.Clear;
+                    SQL.Add('DECLARE @RY VARCHAR(20) = ''' + Sheet.Cells[CRow, PlanBlock[0]].Text + ''';');
+                    SQL.Add('SELECT DDZL.DDBH, DDZL.RYTYPE,');
+                    SQL.Add('MIN(CASE WHEN SMDD.DDBH = SMDD.YSBH THEN 1 ELSE CAST(SUBSTRING(SMDD.DDBH, LEN(SMDD.DDBH)-2, 3) AS INT) END) AS MinCycle,');
+                    SQL.Add('MAX(CASE WHEN SMDD.DDBH = SMDD.YSBH THEN 1 ELSE CAST(SUBSTRING(SMDD.DDBH, LEN(SMDD.DDBH)-2, 3) AS INT) END) AS MaxCycle FROM DDZL');
+                    SQL.Add('LEFT JOIN SMDD ON SMDD.YSBH = DDZL.DDBH');
+                    SQL.Add('WHERE SMDD.GXLB = ''A'' AND DDZL.DDBH = CASE WHEN LEN(@RY) - LEN(REPLACE(@RY, ''-'', '''')) < 2 THEN @RY ELSE SUBSTRING(@RY, 1, LEN(@RY) - CHARINDEX(''-'', REVERSE(@RY))) END');
+                    SQL.Add('GROUP BY DDZL.DDBH, DDZL.RYTYPE');
+                    Active := true;
+
+                    NotExistRY := '';
+                    if (RecordCount = 0) then
+                      NotExistRY := Sheet.Cells[CRow, PlanBlock[0]].Text;
+                  end;
+
+                  RY := QTemp.FieldByName('DDBH').AsString;
+                  ShipDate := Sheet.Cells[CRow, PlanBlock[1]];
+                  SKU := Sheet.Cells[CRow, PlanBlock[4]].Text;
+                  ShoeName := Sheet.Cells[CRow, PlanBlock[2]].Text;
+                  RYPairs := Sheet.Cells[CRow, PlanBlock[5]].Text;
+                  XTMH := Sheet.Cells[CRow, PlanBlock[9]].Text;
+                  MinCycle := QTemp.FieldByName('MinCycle').AsInteger;
+                  MaxCycle := QTemp.FieldByName('MaxCycle').AsInteger;
+                  Remark := '';
                 end;
               end;
 

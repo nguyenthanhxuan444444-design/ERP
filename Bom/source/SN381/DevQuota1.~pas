@@ -1698,7 +1698,7 @@ end;
 
 procedure TDevQuota.Button4Click(Sender: TObject);
 begin
-
+  GetSpeedButton();
     if Edit21.Text<>'' then
     Edit22.Text:=GetSpeedSeason(Edit21.Text);
   if ( (Edit17.Text='') and  (Edit19.Text='') and (Edit20.Text='') and (Edit22.Text='') ) then
@@ -2385,7 +2385,8 @@ end;
 
 
 procedure TDevQuota.BitBtn6Click(Sender: TObject);
-begin
+begin               
+  GetSpeedButton();
   with UploadQuery do
   begin
     Active:=false;
@@ -2417,7 +2418,7 @@ begin
             sql.Add('and MaterialCBD_His.Season like ''SS'+RightStr(Edit4.Text,2)+'''' );
       end;     
      sql.add('and MaterialCBD_His.KHDH='''+KHDH+'''');
-
+     sql.Add('and MaterialCBD_His.season like '+''''+'%'+Edit4.Text+'%'+'''');
     if ((checkbox12.Checked=true) and (checkbox13.Checked=false)) then
       sql.add('       and CLZL.CQDH=''TW''');
     if ((checkbox12.Checked=false) and (checkbox13.Checked=true)) then

@@ -2290,9 +2290,9 @@ object Quotation: TQuotation
       'left join MaterialCBD on MaterialCBD.CLBH=CGBJS.CLBH'
       
         'left join MaterialCBDEx on MaterialCBDEx.Season=(case when month' +
-        '(GETDATE())<07 then '#39'S'#39'+SUBSTRING(CAST(YEAR(GETDATE())+1 as VARC' +
-        'HAR),3,2) else '#39'FH'#39'+SUBSTRING(CAST(YEAR(GETDATE()) as VARCHAR),3' +
-        ',2) end )'
+        '(GETDATE())<07 then '#39'SS'#39'+SUBSTRING(CAST(YEAR(GETDATE())+1 as VAR' +
+        'CHAR),3,2) else '#39'FH'#39'+SUBSTRING(CAST(YEAR(GETDATE()) as VARCHAR),' +
+        '3,2) end )'
       'left join MaterialCBDFilter on MaterialCBDFilter.CLBH=CGBJS.CLBH'
       'where CGBJS.BJNO=:BJNO'
       'order by CGBJS.CLBH')

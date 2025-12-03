@@ -1,6 +1,6 @@
 object ScheduleUpload: TScheduleUpload
-  Left = 451
-  Top = 233
+  Left = 372
+  Top = 228
   Width = 1386
   Height = 654
   Caption = 'Production Plan'
@@ -25,7 +25,7 @@ object ScheduleUpload: TScheduleUpload
     Top = 0
     Width = 1370
     Height = 615
-    ActivePage = TabSheet1
+    ActivePage = TabSheet7
     Align = alClient
     TabOrder = 0
     object TabSheet1: TTabSheet
@@ -1204,7 +1204,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 2
           OnChange = CB_Building_GCDChange
@@ -1220,7 +1220,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 3
         end
@@ -1539,7 +1539,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 2
           OnChange = CB_Building_3DChange
@@ -1555,7 +1555,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 3
         end
@@ -1593,8 +1593,8 @@ object ScheduleUpload: TScheduleUpload
         object DBGridEh_3D: TDBGridEh
           Left = 0
           Top = 0
-          Width = 1422
-          Height = 479
+          Width = 1362
+          Height = 471
           Align = alClient
           DataSource = DS_3D
           Flat = False
@@ -1664,34 +1664,6 @@ object ScheduleUpload: TScheduleUpload
               OnEditButtonClick = DBGridEh_3DColumns0EditButtonClick
             end
             item
-              DisplayFormat = 'M/d'
-              EditButtons = <>
-              FieldName = 'ShipDate'
-              Footers = <>
-              ReadOnly = True
-              Title.Caption = #20986#36008#26085#26399'|XH'
-              Width = 60
-            end
-            item
-              Color = clYellow
-              EditButtons = <>
-              FieldName = 'NT'
-              Footers = <>
-              PickList.Strings = (
-                #24067' (VAI)'
-                #30382' (DA)')
-              Title.Caption = #39006#22411'|NT'
-              Width = 60
-            end
-            item
-              EditButtons = <>
-              FieldName = 'BUYNO'
-              Footers = <>
-              ReadOnly = True
-              Title.Caption = 'BUY'#21029'|MG'
-              Width = 60
-            end
-            item
               EditButtons = <>
               FieldName = 'ARTICLE'
               Footers = <>
@@ -1701,10 +1673,26 @@ object ScheduleUpload: TScheduleUpload
             end
             item
               EditButtons = <>
+              FieldName = 'XieMing'
+              Footers = <>
+              Title.Caption = #38795#21517'|Shoe Name'
+              Width = 150
+            end
+            item
+              DisplayFormat = 'M/d'
+              EditButtons = <>
+              FieldName = 'ShipDate'
+              Footers = <>
+              ReadOnly = True
+              Title.Caption = #20986#36008#26085#26399'|XF Date'
+              Width = 60
+            end
+            item
+              EditButtons = <>
               FieldName = 'RYPairs'
               Footers = <>
               ReadOnly = True
-              Title.Caption = #35330#21934#38617#25976'|RY Pairs'
+              Title.Caption = #35330#21934#38617#25976'|DH Pairs'
               Width = 60
             end
             item
@@ -1713,16 +1701,8 @@ object ScheduleUpload: TScheduleUpload
               FieldName = 'Pairs'
               Footer.ValueType = fvtSum
               Footers = <>
-              Title.Caption = #27966#24037#38617#25976'|Pairs'
+              Title.Caption = #27966#24037#38617#25976'|KH Pairs'
               Width = 60
-            end
-            item
-              EditButtons = <>
-              FieldName = 'DAOMH'
-              Footers = <>
-              ReadOnly = True
-              Title.Caption = #22411#39636'|LY'
-              Width = 100
             end
             item
               Color = clYellow
@@ -2222,7 +2202,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 2
           OnChange = CB_Building_1DChange
@@ -2238,7 +2218,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 3
         end
@@ -2690,34 +2670,6 @@ object ScheduleUpload: TScheduleUpload
             OnEditButtonClick = DBGridEh_1DColumns0EditButtonClick
           end
           item
-            DisplayFormat = 'M/d'
-            EditButtons = <>
-            FieldName = 'ShipDate'
-            Footers = <>
-            ReadOnly = True
-            Title.Caption = #20986#36008#26085#26399'|NXH'
-            Width = 60
-          end
-          item
-            Color = clYellow
-            EditButtons = <>
-            FieldName = 'NT'
-            Footers = <>
-            PickList.Strings = (
-              #24067' (VAI)'
-              #30382' (DA)')
-            Title.Caption = #39006#22411'|DTT'
-            Width = 60
-          end
-          item
-            EditButtons = <>
-            FieldName = 'BUYNO'
-            Footers = <>
-            ReadOnly = True
-            Title.Caption = 'BUY'#21029'|MG'
-            Width = 60
-          end
-          item
             EditButtons = <>
             FieldName = 'ARTICLE'
             Footers = <>
@@ -2727,18 +2679,34 @@ object ScheduleUpload: TScheduleUpload
           end
           item
             EditButtons = <>
+            FieldName = 'XieMing'
+            Footers = <>
+            Title.Caption = #38795#21517'|Shoe Name'
+            Width = 150
+          end
+          item
+            EditButtons = <>
+            FieldName = 'XTMH'
+            Footers = <>
+            ReadOnly = True
+            Title.Caption = #26982#38957'|Last'
+            Width = 100
+          end
+          item
+            DisplayFormat = 'M/d'
+            EditButtons = <>
+            FieldName = 'ShipDate'
+            Footers = <>
+            ReadOnly = True
+            Title.Caption = #20986#36008#26085#26399'|XF Date'
+            Width = 60
+          end
+          item
+            EditButtons = <>
             FieldName = 'RYPairs'
             Footers = <>
             ReadOnly = True
             Title.Caption = #35330#21934#38617#25976'|RY Pairs'
-          end
-          item
-            EditButtons = <>
-            FieldName = 'DAOMH'
-            Footers = <>
-            ReadOnly = True
-            Title.Caption = #22411#39636'|LY'
-            Width = 100
           end
           item
             Color = clYellow
@@ -2768,14 +2736,6 @@ object ScheduleUpload: TScheduleUpload
             Width = 40
           end
           item
-            EditButtons = <>
-            FieldName = 'XTMH'
-            Footers = <>
-            ReadOnly = True
-            Title.Caption = #26982#38957'|Mold'
-            Width = 100
-          end
-          item
             DisplayFormat = 'M/d'
             EditButtons = <>
             FieldName = 'PlanDate'
@@ -2789,47 +2749,7 @@ object ScheduleUpload: TScheduleUpload
             EditButtons = <>
             FieldName = 'DeliveryTime'
             Footers = <>
-            KeyList.Strings = (
-              '07:30 - 09:30'
-              '09:30 - 11:30'
-              '12:30 - 14:30'
-              '14:30 - 16:30'
-              '16:30 - 18:00'
-              '16:30 - 18:30'
-              '18:30 - 20:30')
-            PickList.Strings = (
-              '07:30 - 09:30'
-              '09:30 - 11:30'
-              '12:30 - 14:30'
-              '14:30 - 16:30'
-              '16:30 - 18:00'
-              '16:30 - 18:30'
-              '18:30 - 20:30')
             Title.Caption = #36865#26009#26178#38291'|Time'
-            Width = 120
-          end
-          item
-            Color = clYellow
-            EditButtons = <>
-            FieldName = 'AssemblyTime'
-            Footers = <>
-            KeyList.Strings = (
-              '07:30 - 09:30'
-              '09:30 - 11:30'
-              '12:30 - 14:30'
-              '14:30 - 16:30'
-              '16:30 - 18:00'
-              '16:30 - 18:30'
-              '18:30 - 20:30')
-            PickList.Strings = (
-              '07:30 - 09:30'
-              '09:30 - 11:30'
-              '12:30 - 14:30'
-              '14:30 - 16:30'
-              '16:30 - 18:00'
-              '16:30 - 18:30'
-              '18:30 - 20:30')
-            Title.Caption = #25104#22411#29983#29986#26178#38291'|Assembly Time'
             Width = 120
           end
           item
@@ -3013,7 +2933,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 2
           OnChange = CB_Building_HCChange
@@ -3029,7 +2949,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 3
         end
@@ -3641,7 +3561,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 3
           OnChange = CB_Building_SQChange
@@ -3657,7 +3577,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 4
         end
@@ -4562,23 +4482,11 @@ object ScheduleUpload: TScheduleUpload
     object Query_3DShipDate: TDateTimeField
       FieldName = 'ShipDate'
     end
-    object Query_3DNT: TStringField
-      FieldName = 'NT'
-      Size = 10
-    end
-    object Query_3DBUYNO: TStringField
-      FieldName = 'BUYNO'
-      Size = 10
-    end
     object Query_3DARTICLE: TStringField
       FieldName = 'ARTICLE'
     end
     object Query_3DPairs: TIntegerField
       FieldName = 'Pairs'
-    end
-    object Query_3DDAOMH: TStringField
-      FieldName = 'DAOMH'
-      Size = 30
     end
     object Query_3DCycleStart: TIntegerField
       FieldName = 'CycleStart'
@@ -4622,6 +4530,10 @@ object ScheduleUpload: TScheduleUpload
       FieldName = 'GSBH'
       Size = 10
     end
+    object Query_3DXieMing: TStringField
+      FieldName = 'XieMing'
+      Size = 50
+    end
   end
   object UpdateSQL_3D: TUpdateSQL
     ModifySQL.Strings = (
@@ -4652,9 +4564,9 @@ object ScheduleUpload: TScheduleUpload
         'ID, UserDate, GSBH, YN)'
       'VALUES'
       
-        '  (:Building, :Lean, :PlanType, :PlanDate, :RY, :SubRY, :Seq, :N' +
-        'T, :CycleStart, :CycleEnd, :Pairs, '#39#39', '#39#39', :Remark, :UserID, Get' +
-        'Date(), :GSBH, '#39'1'#39')')
+        '  (:Building, :Lean, :PlanType, :PlanDate, :RY, :SubRY, :Seq, '#39#39 +
+        ', :CycleStart, :CycleEnd, :Pairs, '#39#39', '#39#39', :Remark, :UserID, GetD' +
+        'ate(), :GSBH, '#39'1'#39')')
     DeleteSQL.Strings = (
       'DELETE FROM ProductionPlan'
       'WHERE '
@@ -4697,23 +4609,11 @@ object ScheduleUpload: TScheduleUpload
     object DateTimeField13: TDateTimeField
       FieldName = 'ShipDate'
     end
-    object StringField42: TStringField
-      FieldName = 'NT'
-      Size = 10
-    end
-    object StringField43: TStringField
-      FieldName = 'BUYNO'
-      Size = 10
-    end
     object StringField44: TStringField
       FieldName = 'ARTICLE'
     end
     object Query_1DRYPairs: TIntegerField
       FieldName = 'RYPairs'
-    end
-    object StringField45: TStringField
-      FieldName = 'DAOMH'
-      Size = 30
     end
     object IntegerField10: TIntegerField
       FieldName = 'Pairs'
@@ -4751,10 +4651,6 @@ object ScheduleUpload: TScheduleUpload
       FieldName = 'DeliveryTime'
       Size = 15
     end
-    object Query_1DAssemblyTime: TStringField
-      FieldName = 'AssemblyTime'
-      Size = 15
-    end
     object Query_1DRemark: TStringField
       FieldName = 'Remark'
       Size = 100
@@ -4772,6 +4668,10 @@ object ScheduleUpload: TScheduleUpload
     object Query_1DGSBH: TStringField
       FieldName = 'GSBH'
       Size = 10
+    end
+    object Query_1DXieMing: TStringField
+      FieldName = 'XieMing'
+      Size = 50
     end
   end
   object UpdateSQL_1D: TUpdateSQL
@@ -4806,9 +4706,9 @@ object ScheduleUpload: TScheduleUpload
         'on, UserID, UserDate, GSBH, YN)'
       'VALUES'
       
-        '  (:Building, :Lean, :PlanType, :PlanDate, :RY, :SubRY, :Seq, :N' +
-        'T, :CycleStart, :CycleEnd, :Pairs, :DeliveryTime, :AssemblyTime,' +
-        ' :Remark, :Reason, :UserID, GetDate(), :GSBH, '#39'1'#39')')
+        '  (:Building, :Lean, :PlanType, :PlanDate, :RY, :SubRY, :Seq, '#39#39 +
+        ', :CycleStart, :CycleEnd, :Pairs, :DeliveryTime, '#39#39', :Remark, :R' +
+        'eason, :UserID, GetDate(), :GSBH, '#39'1'#39')')
     DeleteSQL.Strings = (
       'DELETE FROM ProductionPlan'
       'WHERE '

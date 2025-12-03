@@ -1,8 +1,8 @@
 object main: Tmain
-  Left = 304
-  Top = 191
+  Left = 555
+  Top = 194
   Width = 902
-  Height = 496
+  Height = 673
   Caption = ' '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -24,7 +24,7 @@ object main: Tmain
     Left = 0
     Top = 0
     Width = 886
-    Height = 401
+    Height = 578
     Align = alClient
     AutoSize = True
     Stretch = True
@@ -40,7 +40,7 @@ object main: Tmain
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 401
+    Top = 578
     Width = 886
     Height = 36
     Panels = <>
@@ -259,6 +259,10 @@ object main: Tmain
           Caption = 'N3H6 Embroidery'
           OnClick = SN3H6Click
         end
+      end
+      object SN3I: TMenuItem
+        Caption = 'N3I Weekly Shipping Plan'
+        OnClick = SN3IClick
       end
     end
     object SN4: TMenuItem
@@ -626,6 +630,7 @@ object main: Tmain
     end
     object SN8: TMenuItem
       Caption = 'N8 Import'
+      Visible = False
       object SN81: TMenuItem
         Caption = 'N81 Import Yesterday Scan Data '
         Visible = False

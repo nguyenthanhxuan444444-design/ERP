@@ -169,6 +169,7 @@ type
     SN729: TMenuItem;
     SN72A: TMenuItem;
     SN72B: TMenuItem;
+    SN3I: TMenuItem;
     procedure SN14Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -303,6 +304,7 @@ type
     procedure SN729Click(Sender: TObject);
     procedure SN72AClick(Sender: TObject);
     procedure SN72BClick(Sender: TObject);
+    procedure SN3IClick(Sender: TObject);
  
   private
      MKID:String;
@@ -358,7 +360,7 @@ uses OrderList1, Prodsend1, PlanDate1, EmbroiderRep1, EmbroiderSend1,
   ShoeUpperInventory1, Article_List1, SP_ModelSetup1, SP_RYTracking1,
   SP_Printing_A51, SP_Printing_C91, SP_HeatPressing_A51, SP_Embroidery1,
   Worker_Attendance1, QRScanTotal1, QRScanIn1, QRScanOut1, QRScanIsHours1,
-  PrintQR1, ScanoutO1;
+  PrintQR1, ScanoutO1, WeeklyShippingPlan1;
 
 
 {$R *.dfm}
@@ -1417,6 +1419,11 @@ end;
 procedure Tmain.SN72BClick(Sender: TObject);
 begin
   showFm(Pointer(ScanoutO), TScanoutO, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.SN3IClick(Sender: TObject);
+begin
+  showFm(Pointer(WeeklyShippingPlan), TWeeklyShippingPlan, TMenuItem(Sender).Name);
 end;
 
 end.

@@ -217,6 +217,7 @@ type
     CK1: TCheckBox;
     TSCDQryLicense: TStringField;
     RB4: TRadioButton;
+    TSCDQryFullname: TStringField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -361,7 +362,7 @@ begin
       SQL.Add('       ,TSCD_ZSZL.LB1_Memo,TSCD_ZSZL.LB2_Memo,TSCD_ZSZL.LB3_Memo,TSCD_ZSZL.AuthCE as ZSZL_AuthCE,TSCD_ZSZL.AuthCE_Memo,TSCD_ZSZL.AuthZSDH,TSCD_ZSZL.AuthZSDH_Memo,TSCD_ZSZL.IsZSDH,TSCD_ZSZL.Memo as ZSZL_Memo ');
       SQL.Add('       ,BDepartment.DepName,BDepartment.DepMemo ');
       SQL.Add('       ,isnull(TSCD_KCRKS.USPrice,TSCD.USD) USPrice,isnull(TSCD_KCRKS.VNPrice,TSCD.VND) VNPrice,TSCD_KCRK.DOCNO,JDTS_Dep.DepName as JDTSDep,JRTS_Dep.DepName as JRTSDep    ');
-      SQL.Add('       ,Lean_DEP.Depname as LeanDep,Lean_Dep.Depmemo as LeanMemo');
+      SQL.Add('       ,Lean_DEP.Depname as LeanDep,Lean_Dep.Depmemo as LeanMemo, tscd_sb.VWPM as Fullname');
       SQL.Add('from TSCD');
       SQL.Add('left join TSCD_SB on TSCD_SB.SBBH = TSCD.SBBH');
       SQL.Add('left join TSCD_KCRKS on TSCD_KCRKS.RKNO=TSCD.RKNO and TSCD_KCRKS.SBBH=TSCD.SBBH  ');
@@ -394,7 +395,7 @@ begin
       SQL.Add('       ,null as LB1_Memo,null as LB2_Memo,null LB3_Memo,null as ZSZL_AuthCE,null as AuthCE_Memo,null as AuthZSDH,null as AuthZSDH_Memo,null as IsZSDH,null as ZSZL_Memo');
       SQL.Add('       ,BDepartment.DepName,BDepartment.DepMemo  ');
       SQL.Add('       ,KCRKS.USPrice,KCRKS.VNPrice,KCRKS.DOCNO,null as JRTS_Dep,null as JRTSDep    ');
-      SQL.Add('       ,Lean_DEP.Depname as LeanDep,Lean_Dep.Depmemo as LeanMemo  ');
+      SQL.Add('       ,Lean_DEP.Depname as LeanDep,Lean_Dep.Depmemo as LeanMemo, ISNULL(TSCD_SB.VWPM,clzl.zwpm) as Fullname  ');
       SQL.Add('from TSCD');
       SQL.Add('left join CLZL on CLZL.CLDH = TSCD.SBBH');
       SQL.Add('left join KCRK  on KCRK.RKNO=TSCD.RKNO ');
@@ -404,6 +405,7 @@ begin
       SQL.Add('left join BDepartment JDBDep on JDBDep.ID=TSCD.JDTS ');
       SQL.Add('left join TSCD_BDepartment Lean_Dep on Lean_Dep.ID=TSCD.Lean_ID ');
       SQL.Add('left join TSCD_IT on TSCD_IT.TSBH = SUBSTRING(TSCD.TSBH, 1, CHARINDEX(''0'', TSCD.TSBH) - 1)');
+      SQL.Add('left join TSCD_SB on TSCD_SB.SBBH = TSCD.SBBH');
       SQL.Add('where TSCD.LB in (2,3)');
       //ERP 入庫單來源
       SQL.Add(') TSCD where 1=1 ');
