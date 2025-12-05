@@ -1,22 +1,16 @@
-object ProducMatFailure: TProducMatFailure
+object LeatherMatInspection: TLeatherMatInspection
   Left = 192
   Top = 125
   Width = 1305
   Height = 675
-  Caption = 'ProducMatFailure'
+  Caption = 'LeatherMatInspection'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  FormStyle = fsMDIChild
   OldCreateOrder = False
-  Position = poDefault
-  Visible = True
-  WindowState = wsMaximized
-  OnClose = FormClose
-  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -74,27 +68,6 @@ object ProducMatFailure: TProducMatFailure
       Height = 20
       Caption = 'RefStand:'
     end
-    object Image1: TImage
-      Left = 960
-      Top = 8
-      Width = 180
-      Height = 180
-      Stretch = True
-    end
-    object Label6: TLabel
-      Left = 448
-      Top = 104
-      Width = 85
-      Height = 20
-      Caption = 'Image path:'
-    end
-    object Label8: TLabel
-      Left = 784
-      Top = 16
-      Width = 170
-      Height = 20
-      Caption = 'Visual inspection image:'
-    end
     object BB1: TBitBtn
       Left = 0
       Top = 144
@@ -109,8 +82,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 2
-      OnClick = BB1Click
+      TabOrder = 1
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -141,7 +113,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 2
       Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -173,8 +145,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
-      OnClick = BB3Click
+      TabOrder = 3
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -205,8 +176,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
-      OnClick = BB4Click
+      TabOrder = 4
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -237,8 +207,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
-      OnClick = BB5Click
+      TabOrder = 5
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -268,8 +237,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 7
-      OnClick = BB6Click
+      TabOrder = 6
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -292,8 +260,7 @@ object ProducMatFailure: TProducMatFailure
       Width = 81
       Height = 33
       Caption = 'Search'
-      TabOrder = 1
-      OnClick = Button1Click
+      TabOrder = 0
     end
     object bbt6: TBitBtn
       Left = 440
@@ -309,7 +276,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 8
+      TabOrder = 7
       Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -332,7 +299,7 @@ object ProducMatFailure: TProducMatFailure
       Top = 72
       Width = 121
       Height = 28
-      TabOrder = 9
+      TabOrder = 8
     end
     object bExcel: TBitBtn
       Left = 520
@@ -348,8 +315,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 10
-      OnClick = bExcelClick
+      TabOrder = 9
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -380,8 +346,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 11
-      OnClick = bExFClick
+      TabOrder = 10
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -404,14 +369,14 @@ object ProducMatFailure: TProducMatFailure
       Width = 57
       Height = 17
       Caption = 'PDF'
-      TabOrder = 12
+      TabOrder = 11
     end
     object edtZSBH: TEdit
       Left = 536
       Top = 40
       Width = 121
       Height = 28
-      TabOrder = 13
+      TabOrder = 12
     end
     object ckUSERDate: TCheckBox
       Left = 8
@@ -419,7 +384,7 @@ object ProducMatFailure: TProducMatFailure
       Width = 105
       Height = 17
       Caption = 'USERDate:'
-      TabOrder = 14
+      TabOrder = 13
     end
     object dtpUSERDate: TDateTimePicker
       Left = 152
@@ -429,7 +394,7 @@ object ProducMatFailure: TProducMatFailure
       Date = 45973.457989131940000000
       Format = 'dd/MM/yyyy'
       Time = 45973.457989131940000000
-      TabOrder = 15
+      TabOrder = 14
     end
     object MenuCode: TEdit
       Left = 696
@@ -437,7 +402,7 @@ object ProducMatFailure: TProducMatFailure
       Width = 121
       Height = 28
       ReadOnly = True
-      TabOrder = 16
+      TabOrder = 15
       Text = 'MenuCode'
       Visible = False
     end
@@ -446,7 +411,7 @@ object ProducMatFailure: TProducMatFailure
       Top = 72
       Width = 121
       Height = 28
-      TabOrder = 17
+      TabOrder = 16
     end
     object dtpInsDate: TDateTimePicker
       Left = 152
@@ -456,21 +421,21 @@ object ProducMatFailure: TProducMatFailure
       Date = 45981.575782071760000000
       Format = 'dd/MM/yyyy'
       Time = 45981.575782071760000000
-      TabOrder = 18
+      TabOrder = 17
     end
     object edtStyle: TEdit
       Left = 328
       Top = 8
       Width = 121
       Height = 28
-      TabOrder = 19
+      TabOrder = 18
     end
     object edtMatID: TEdit
       Left = 328
       Top = 40
       Width = 121
       Height = 28
-      TabOrder = 20
+      TabOrder = 19
     end
     object btClear: TButton
       Left = 683
@@ -478,8 +443,7 @@ object ProducMatFailure: TProducMatFailure
       Width = 81
       Height = 33
       Caption = 'Clear'
-      TabOrder = 21
-      OnClick = btClearClick
+      TabOrder = 20
     end
     object ckInsDate: TCheckBox
       Left = 8
@@ -487,7 +451,7 @@ object ProducMatFailure: TProducMatFailure
       Width = 137
       Height = 17
       Caption = 'Inspection date:'
-      TabOrder = 22
+      TabOrder = 21
     end
     object ckArrDate: TCheckBox
       Left = 8
@@ -495,7 +459,7 @@ object ProducMatFailure: TProducMatFailure
       Width = 121
       Height = 17
       Caption = 'Date of arrival:'
-      TabOrder = 23
+      TabOrder = 22
     end
     object dtpArrDate: TDateTimePicker
       Left = 152
@@ -505,7 +469,7 @@ object ProducMatFailure: TProducMatFailure
       Date = 45986.417474988430000000
       Format = 'dd/MM/yyyy'
       Time = 45986.417474988430000000
-      TabOrder = 24
+      TabOrder = 23
     end
     object edtRefStand: TDBEdit
       Left = 536
@@ -514,24 +478,7 @@ object ProducMatFailure: TProducMatFailure
       Height = 28
       DataField = 'RefStand'
       DataSource = DS1
-      TabOrder = 25
-    end
-    object edtImagePath: TEdit
-      Left = 536
-      Top = 104
-      Width = 121
-      Height = 28
-      ReadOnly = True
-      TabOrder = 26
-    end
-    object UpImage: TButton
-      Left = 683
-      Top = 96
-      Width = 81
-      Height = 33
-      Caption = 'UpImage'
-      TabOrder = 0
-      OnClick = UpImageClick
+      TabOrder = 24
     end
   end
   object DBGrid1: TDBGridEh
@@ -564,9 +511,6 @@ object ProducMatFailure: TProducMatFailure
     TitleFont.Style = []
     TitleLines = 2
     UseMultiTitle = True
-    OnCellClick = DBGrid1CellClick
-    OnGetCellParams = DBGrid1GetCellParams
-    OnKeyPress = DBGrid1KeyPress
     Columns = <
       item
         EditButtons = <>
@@ -575,89 +519,110 @@ object ProducMatFailure: TProducMatFailure
       end
       item
         EditButtons = <>
-        FieldName = 'ArrDate'
+        FieldName = 'Cont'
         Footers = <>
-        Title.Caption = ' Date of arrival'
       end
       item
         EditButtons = <>
-        FieldName = 'InspecDate'
+        FieldName = 'Time'
         Footers = <>
-        Title.Caption = ' Date of Inspection'
       end
       item
         EditButtons = <>
-        FieldName = 'Supplier'
+        FieldName = 'IQty'
         Footers = <>
-        Title.Caption = ' Material Supplier/Cont'
-        Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'XFDate'
-        Footers = <>
-        Title.Caption = ' XF-Date/ Country'
-        Width = 200
-      end
-      item
-        EditButtons = <>
-        FieldName = 'MatID'
-        Footers = <>
-        Title.Caption = 'Material#/Name'
       end
       item
         EditButtons = <>
         FieldName = 'MatName'
         Footers = <>
-        ReadOnly = True
-        Title.Caption = 'Material Description'
-        Width = 300
+        Width = 200
       end
       item
         EditButtons = <>
-        FieldName = 'XieMing'
+        FieldName = 'PONo'
         Footers = <>
-        Title.Caption = ' Style No./Name'
-        Width = 153
+        Width = 200
       end
       item
         EditButtons = <>
-        FieldName = 'Qty'
+        FieldName = 'ThickStand'
         Footers = <>
       end
       item
         EditButtons = <>
-        FieldName = 'DDBH'
+        FieldName = 'Reality'
         Footers = <>
-        Title.Caption = 'PO'
-        Width = 300
       end
       item
         EditButtons = <>
-        FieldName = 'Image'
+        FieldName = 'Color'
         Footers = <>
-        Width = 100
       end
       item
         EditButtons = <>
-        FieldName = 'VisualCheck'
+        FieldName = 'AA'
         Footers = <>
-        Title.Caption = 'Visual Inspection'
-        Width = 103
       end
       item
         EditButtons = <>
-        FieldName = 'PhysCheck'
+        FieldName = 'BB'
         Footers = <>
-        Title.Caption = 'Physical Property Test'
-        Width = 125
       end
       item
         EditButtons = <>
-        FieldName = 'RefStand'
+        FieldName = 'CC'
         Footers = <>
-        Title.Caption = 'Referenced Override Standard'
-        Width = 300
+      end
+      item
+        EditButtons = <>
+        FieldName = 'DD'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'Grade'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'TotalSF'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'PercentGrade'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'UseSF'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'PercentNCU'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'CompenSF'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'TestCon'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'IsCompen'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'CompenQty'
+        Footers = <>
       end
       item
         EditButtons = <>
@@ -668,7 +633,6 @@ object ProducMatFailure: TProducMatFailure
         EditButtons = <>
         FieldName = 'SCFDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
@@ -679,112 +643,140 @@ object ProducMatFailure: TProducMatFailure
         EditButtons = <>
         FieldName = 'LCFDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
-        FieldName = 'WMSCFID'
+        FieldName = 'PreparedID'
         Footers = <>
       end
       item
         EditButtons = <>
-        FieldName = 'WMSCFDate'
+        FieldName = 'PreparedDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
         FieldName = 'USERID'
         Footers = <>
-        Visible = False
       end
       item
         EditButtons = <>
         FieldName = 'USERDate'
         Footers = <>
-        Visible = False
-      end
-      item
-        EditButtons = <>
-        FieldName = 'YN'
-        Footers = <>
-        Visible = False
-      end
-      item
-        EditButtons = <>
-        FieldName = 'PurID'
-        Footers = <>
-        Visible = False
-      end
-      item
-        EditButtons = <>
-        FieldName = 'PurDate'
-        Footers = <>
-        Visible = False
-      end
-      item
-        EditButtons = <>
-        FieldName = 'InspecID'
-        Footers = <>
-        Width = 200
       end>
   end
   object Query1: TQuery
-    AfterOpen = Query1AfterOpen
     DatabaseName = 'DB'
     SQL.Strings = (
-      'select QC_ProMatFail.*, clzl.ywpm as MatName from QC_ProMatFail'
-      'left join clzl on QC_ProMatFail.MatID  = clzl.cldh'
-      'where 1=3')
+      'SELECT ReportID, Cont, Time, IQty, MatName, PONo, '
+      
+        'ThickStand, Reality, Color, AA, BB, CC, DD, Grade, TotalSF, Perc' +
+        'entGrade,'
+      
+        'CONVERT(numeric(18,2), TotalSF/PercentGrade*100) as UseSF, Perce' +
+        'ntNCU,'
+      
+        'CONVERT(numeric(18,2), (PercentGrade-PercentNCU)*TotalSF/100) as' +
+        ' CompenSF, '
+      
+        'TestCon, IsCompen, CompenQty, SCFID, SCFDate, LCFID, LCFDate, Pr' +
+        'eparedID, PreparedDate, USERID, USERDate'
+      'FROM QC_LeatherInspec')
     UpdateObject = UpSQL1
     Left = 448
     Top = 400
     object Query1ReportID: TIntegerField
       FieldName = 'ReportID'
     end
-    object Query1ArrDate: TDateTimeField
-      FieldName = 'ArrDate'
-    end
-    object Query1InspecDate: TDateTimeField
-      FieldName = 'InspecDate'
-    end
-    object Query1Supplier: TStringField
-      FieldName = 'Supplier'
+    object Query1Cont: TStringField
+      FieldName = 'Cont'
       FixedChar = True
-      Size = 100
+      Size = 40
     end
-    object Query1XFDate: TStringField
-      FieldName = 'XFDate'
-      FixedChar = True
-      Size = 100
+    object Query1Time: TDateTimeField
+      FieldName = 'Time'
     end
-    object Query1MatID: TStringField
-      FieldName = 'MatID'
+    object Query1IQty: TStringField
+      FieldName = 'IQty'
       FixedChar = True
     end
-    object Query1XieMing: TStringField
-      FieldName = 'XieMing'
-      FixedChar = True
-      Size = 30
-    end
-    object Query1Qty: TStringField
-      FieldName = 'Qty'
-      FixedChar = True
-    end
-    object Query1DDBH: TStringField
-      FieldName = 'DDBH'
-      FixedChar = True
-      Size = 1000
-    end
-    object Query1VisualCheck: TStringField
-      FieldName = 'VisualCheck'
+    object Query1MatName: TStringField
+      FieldName = 'MatName'
       FixedChar = True
       Size = 255
     end
-    object Query1PhysCheck: TStringField
-      FieldName = 'PhysCheck'
+    object Query1PONo: TStringField
+      FieldName = 'PONo'
+      FixedChar = True
+      Size = 100
+    end
+    object Query1ThickStand: TStringField
+      FieldName = 'ThickStand'
+      FixedChar = True
+      Size = 40
+    end
+    object Query1Reality: TStringField
+      FieldName = 'Reality'
+      FixedChar = True
+      Size = 40
+    end
+    object Query1Color: TStringField
+      FieldName = 'Color'
+      FixedChar = True
+    end
+    object Query1AA: TStringField
+      FieldName = 'AA'
       FixedChar = True
       Size = 255
+    end
+    object Query1BB: TStringField
+      FieldName = 'BB'
+      FixedChar = True
+      Size = 255
+    end
+    object Query1CC: TStringField
+      FieldName = 'CC'
+      FixedChar = True
+      Size = 255
+    end
+    object Query1DD: TStringField
+      FieldName = 'DD'
+      FixedChar = True
+      Size = 255
+    end
+    object Query1Grade: TStringField
+      FieldName = 'Grade'
+      FixedChar = True
+    end
+    object Query1TotalSF: TFloatField
+      FieldName = 'TotalSF'
+    end
+    object Query1PercentGrade: TIntegerField
+      FieldName = 'PercentGrade'
+    end
+    object Query1UseSF: TFloatField
+      FieldName = 'UseSF'
+    end
+    object Query1PercentNCU: TIntegerField
+      FieldName = 'PercentNCU'
+    end
+    object Query1CompenSF: TFloatField
+      FieldName = 'CompenSF'
+    end
+    object Query1TestCon: TStringField
+      FieldName = 'TestCon'
+      FixedChar = True
+      Size = 200
+    end
+    object Query1IsCompen: TStringField
+      FieldName = 'IsCompen'
+      FixedChar = True
+      Size = 200
+    end
+    object Query1CompenQty: TStringField
+      FieldName = 'CompenQty'
+      FixedChar = True
+      Size = 200
     end
     object Query1SCFID: TStringField
       FieldName = 'SCFID'
@@ -800,22 +792,12 @@ object ProducMatFailure: TProducMatFailure
     object Query1LCFDate: TDateTimeField
       FieldName = 'LCFDate'
     end
-    object Query1WMSCFID: TStringField
-      FieldName = 'WMSCFID'
+    object Query1PreparedID: TStringField
+      FieldName = 'PreparedID'
       FixedChar = True
     end
-    object Query1WMSCFDate: TDateTimeField
-      FieldName = 'WMSCFDate'
-    end
-    object Query1RefStand: TStringField
-      FieldName = 'RefStand'
-      FixedChar = True
-      Size = 255
-    end
-    object Query1MatName: TStringField
-      FieldName = 'MatName'
-      FixedChar = True
-      Size = 200
+    object Query1PreparedDate: TDateTimeField
+      FieldName = 'PreparedDate'
     end
     object Query1USERID: TStringField
       FieldName = 'USERID'
@@ -823,26 +805,6 @@ object ProducMatFailure: TProducMatFailure
     end
     object Query1USERDate: TDateTimeField
       FieldName = 'USERDate'
-    end
-    object Query1YN: TSmallintField
-      FieldName = 'YN'
-    end
-    object Query1PurID: TStringField
-      FieldName = 'PurID'
-      FixedChar = True
-    end
-    object Query1PurDate: TDateTimeField
-      FieldName = 'PurDate'
-    end
-    object Query1InspecID: TStringField
-      FieldName = 'InspecID'
-      FixedChar = True
-      Size = 50
-    end
-    object Query1Image: TStringField
-      FieldName = 'Image'
-      FixedChar = True
-      Size = 200
     end
   end
   object DS1: TDataSource

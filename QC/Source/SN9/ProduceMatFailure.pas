@@ -75,6 +75,13 @@ type
     Label4: TLabel;
     Query1InspecID: TStringField;
     QSig: TQuery;
+    edtImagePath: TEdit;
+    OpenPictureDialog1: TOpenDialog;
+    Image1: TImage;
+    UpImage: TButton;
+    Label6: TLabel;
+    Label8: TLabel;
+    Query1Image: TStringField;
     procedure bExFClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumnEh);
@@ -94,6 +101,9 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure DBGrid1GetCellParams(Sender: TObject; Column: TColumnEh;
       AFont: TFont; var Background: TColor; State: TGridDrawState);
+    procedure UpImageClick(Sender: TObject);
+    procedure InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
+  const FieldName: string; Row, Column: Integer);
   private
     { Private declarations }
   public
@@ -109,6 +119,52 @@ uses main1;
 
 {$R *.dfm}
 
+
+procedure TProducMatFailure.InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
+  const FieldName: string; Row, Column: Integer);
+var
+  Pic: OleVariant;
+  Rg: OleVariant;
+  CellLeft, CellTop, CellWidth, CellHeight: Double;
+  origW, origH, newW, newH: Double;
+begin
+  // Chen anh tu duong dan trong field
+  Pic := Worksheet.Pictures.Insert(Query.FieldByName(FieldName).AsString);
+
+  // Lay vung merge cua o Row, Column
+  Rg := Worksheet.Cells[Row, Column].MergeArea;
+
+  CellLeft := Rg.Left;
+  CellTop := Rg.Top;
+  CellWidth := Rg.Width;
+  CellHeight := Rg.Height;
+
+  // Lay kich thuoc goc cua anh
+  origW := Pic.Width;
+  origH := Pic.Height;
+
+  // Scale theo chieu ngang truoc
+  newW := CellWidth * 0.95;   // chua 5% margin
+  newH := newW * (origH / origW);
+
+  // Neu chieu cao vuot vung merge thi scale lai theo chieu doc
+  if newH > CellHeight * 0.95 then
+  begin
+    newH := CellHeight * 0.95;
+    newW := newH * (origW / origH);
+  end;
+
+  // Ap dung kich thuoc moi
+  Pic.Width := newW;
+  Pic.Height := newH;
+
+  // Can giua anh trong vung merge
+  Pic.Left := CellLeft + (CellWidth - Pic.Width) / 2;
+  //Pic.Top  := CellTop + (CellHeight - Pic.Height) / 2;
+  
+  // Dat anh gan phia tren (top) voi margin 5% vung merge
+  Pic.Top := CellTop + (CellHeight * 0.03);  // 3% margin tu tren
+end;
 
 function TProducMatFailure.GetUsernameByID(const AID: string): string;
 begin
@@ -276,8 +332,8 @@ end;
 
 procedure TProducMatFailure.bExFClick(Sender: TObject);
 var
-  ExcelApp, Workbook, Worksheet, borderRange, Pic: OleVariant;
-  StartRow, InsertRow, g, k: Integer;
+  ExcelApp, Workbook, Worksheet, borderRange, Pic, Rg, TB: OleVariant;
+  StartRow, InsertRow: Integer;
   DuongDanFile, SaveFile: string;
   SigS, SigWMS, SigL, SigI: Boolean;
   s: WideString;
@@ -286,8 +342,8 @@ var
   c: array[0..11] of Integer;
   v: array[0..11] of WideString;
   cur: WideString;
-  MaxHeight, CellLeft, CellTop, CellWidth, CellHeight, Side, MarginScale: Double;
 begin
+
   DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-07C.xlsx';
   SaveDialog := TSaveDialog.Create(nil);
   try
@@ -340,12 +396,22 @@ begin
   v[6] := Query1.FieldByName('XieMing').AsString;
   v[7] := Query1.FieldByName('MatName').AsString;
   v[8] := Query1.FieldByName('Qty').AsString;
-  v[9] := Query1.FieldByName('VisualCheck').AsString;
+  //v[9] := Query1.FieldByName('VisualCheck').AsString;
   v[10]:= Query1.FieldByName('PhysCheck').AsString;
   v[11]:= edtRefStand.Text;
 
   for i := 0 to 11 do
   begin
+    //chen hinh Visual Inspection
+    if i = 9 then
+      begin
+        InsertImageToExcel(Worksheet, Query1, 'Image', 11, 1);
+
+        //ghi noi dung textbox
+        TB := Worksheet.Shapes.Item('TextBox 3');
+        TB.TextFrame.Characters.Text := Query1.FieldByName('VisualCheck').AsString;
+      end;
+
     cur := Trim(Worksheet.Cells[r[i], c[i]].Value);
     if cur = '' then
       Worksheet.Cells[r[i], c[i]].Value := v[i]
@@ -454,7 +520,8 @@ begin
 
     Pic.Left := CellLeft + (CellWidth - Side) / 2;
     Pic.Top := CellTop + (CellHeight - Side) / 2;}
-
+    
+  //dinh dang header
   if cbPDF.Checked then
   begin
     Worksheet.PageSetup.RightHeader := '&P / &N';
@@ -521,6 +588,15 @@ if (Query1.RecordCount > 0)  and not Query1.CachedUpdates then
     edtZSBH.Text := Query1.FieldByName('Supplier').AsString;
     dtpUSERDate.Date := Query1.FieldByName('USERDate').AsDateTime;
     dtpArrDate.Date := Query1.FieldByName('ArrDate').AsDateTime;
+    edtImagePath.Text := Query1.FieldByName('Image').AsString;
+      if FileExists(edtImagePath.Text) then
+      begin
+        Image1.Picture.LoadFromFile(edtImagePath.Text);
+      end
+      else
+      begin
+        Image1.Picture := nil;        // neu khong co file thi xoa anh
+      end;
   end;
 end;
 
@@ -708,6 +784,7 @@ begin
   edtZSBH.Clear;
   edtRID.Clear;
   edtStyle.Clear;
+  edtImagePath.Clear;
 end;
 
 procedure TProducMatFailure.bExcelClick(Sender: TObject);
@@ -764,6 +841,40 @@ procedure TProducMatFailure.DBGrid1GetCellParams(Sender: TObject;
 begin
   if Query1.FieldByName('YN').Value = '0' then
     DBGrid1.Canvas.Font.Color := clRed;
+end;
+
+procedure TProducMatFailure.UpImageClick(Sender: TObject);
+var
+  SourceFile, DestFile: string;
+begin
+  OpenPictureDialog1.Filter :=
+    'JPEG Images (*.jpg;*.jpeg)|*.jpg;*.jpeg|' +
+    'PNG Images (*.png)|*.png|' +
+    'Bitmap Images (*.bmp)|*.bmp|' +
+    'GIF Images (*.gif)|*.gif|' +
+    'All Pictures (*.jpg;*.jpeg;*.png;*.bmp;*.gif)|*.jpg;*.jpeg;*.png;*.bmp;*.gif';
+
+  if OpenPictureDialog1.Execute then
+  begin
+    SourceFile := OpenPictureDialog1.FileName;
+    
+    // Tao duong dan den o mang
+    DestFile := '\\192.168.71.102\Anh\' + ExtractFileName(SourceFile);
+
+    try
+      // Copy file len o mang, ghi de neu da ton tai
+      CopyFile(PChar(SourceFile), PChar(DestFile), False);
+
+      // Update TEdit va TImage
+      edtImagePath.Text := DestFile;
+      Image1.Picture.LoadFromFile(SourceFile);
+
+      ShowMessage('Upload thanh cong: ' + DestFile);
+    except
+      on E: Exception do
+        ShowMessage('Loi khi upload: ' + E.Message);
+    end;
+  end;
 end;
 
 end.

@@ -1,0 +1,100 @@
+unit LeatherMatInspections;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, DBTables, DB, GridsEh, DBGridEh, Mask, DBCtrls, ComCtrls,
+  StdCtrls, Buttons, ExtCtrls;
+
+type
+  TLeatherMatInspection = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label5: TLabel;
+    Label7: TLabel;
+    Label4: TLabel;
+    Label6: TLabel;
+    BB1: TBitBtn;
+    BB2: TBitBtn;
+    BB3: TBitBtn;
+    BB4: TBitBtn;
+    BB5: TBitBtn;
+    BB6: TBitBtn;
+    Button1: TButton;
+    bbt6: TBitBtn;
+    edtDDBH: TEdit;
+    bExcel: TBitBtn;
+    bExF: TBitBtn;
+    cbPDF: TCheckBox;
+    edtZSBH: TEdit;
+    ckUSERDate: TCheckBox;
+    dtpUSERDate: TDateTimePicker;
+    MenuCode: TEdit;
+    edtRID: TEdit;
+    dtpInsDate: TDateTimePicker;
+    edtStyle: TEdit;
+    edtMatID: TEdit;
+    btClear: TButton;
+    ckInsDate: TCheckBox;
+    ckArrDate: TCheckBox;
+    dtpArrDate: TDateTimePicker;
+    edtRefStand: TDBEdit;
+    edtImagePath: TEdit;
+    UpImage: TButton;
+    DBGrid1: TDBGridEh;
+    Query1: TQuery;
+    DS1: TDataSource;
+    UpSQL1: TUpdateSQL;
+    Qtemp: TQuery;
+    OpenDialog1: TOpenDialog;
+    SaveDialog: TSaveDialog;
+    QGetID: TQuery;
+    QSig: TQuery;
+    OpenPictureDialog1: TOpenDialog;
+    Query1ReportID: TIntegerField;
+    Query1Cont: TStringField;
+    Query1Time: TDateTimeField;
+    Query1IQty: TStringField;
+    Query1MatName: TStringField;
+    Query1PONo: TStringField;
+    Query1ThickStand: TStringField;
+    Query1Reality: TStringField;
+    Query1Color: TStringField;
+    Query1AA: TStringField;
+    Query1BB: TStringField;
+    Query1CC: TStringField;
+    Query1DD: TStringField;
+    Query1Grade: TStringField;
+    Query1TotalSF: TFloatField;
+    Query1PercentGrade: TIntegerField;
+    Query1UseSF: TFloatField;
+    Query1PercentNCU: TIntegerField;
+    Query1CompenSF: TFloatField;
+    Query1TestCon: TStringField;
+    Query1IsCompen: TStringField;
+    Query1CompenQty: TStringField;
+    Query1SCFID: TStringField;
+    Query1SCFDate: TDateTimeField;
+    Query1LCFID: TStringField;
+    Query1LCFDate: TDateTimeField;
+    Query1PreparedID: TStringField;
+    Query1PreparedDate: TDateTimeField;
+    Query1USERID: TStringField;
+    Query1USERDate: TDateTimeField;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  LeatherMatInspection: TLeatherMatInspection;
+
+implementation
+
+{$R *.dfm}
+
+end.

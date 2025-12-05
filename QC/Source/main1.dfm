@@ -547,6 +547,29 @@ object main: Tmain
           OnClick = SN975Click
         end
       end
+      object SN98: TMenuItem
+        Caption = 'N98 Leather Mat Inscpection'
+        object SN981: TMenuItem
+          Caption = 'N981 QC Input'
+          OnClick = SN981Click
+        end
+        object SN982: TMenuItem
+          Caption = 'N982 Lab Test Input'
+          OnClick = SN982Click
+        end
+        object SN983: TMenuItem
+          Caption = 'N983 KCS Supervisor Cfm'
+          OnClick = SN983Click
+        end
+        object SN984: TMenuItem
+          Caption = 'N984 KCS Leader Cfm'
+          OnClick = SN984Click
+        end
+        object SN985: TMenuItem
+          Caption = 'N985 Material Supervisor Cfm'
+          OnClick = SN985Click
+        end
+      end
     end
   end
   object Query1: TQuery

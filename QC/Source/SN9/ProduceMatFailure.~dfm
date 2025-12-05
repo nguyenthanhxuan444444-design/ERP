@@ -74,6 +74,27 @@ object ProducMatFailure: TProducMatFailure
       Height = 20
       Caption = 'RefStand:'
     end
+    object Image1: TImage
+      Left = 960
+      Top = 8
+      Width = 180
+      Height = 180
+      Stretch = True
+    end
+    object Label6: TLabel
+      Left = 448
+      Top = 104
+      Width = 85
+      Height = 20
+      Caption = 'Image path:'
+    end
+    object Label8: TLabel
+      Left = 784
+      Top = 16
+      Width = 170
+      Height = 20
+      Caption = 'Visual inspection image:'
+    end
     object BB1: TBitBtn
       Left = 0
       Top = 144
@@ -88,7 +109,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 2
       OnClick = BB1Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -120,7 +141,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 3
       Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -152,7 +173,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 4
       OnClick = BB3Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -184,7 +205,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 5
       OnClick = BB4Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -216,7 +237,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 6
       OnClick = BB5Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -247,7 +268,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 7
       OnClick = BB6Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -267,11 +288,11 @@ object ProducMatFailure: TProducMatFailure
     end
     object Button1: TButton
       Left = 683
-      Top = 65
+      Top = 57
       Width = 81
       Height = 33
       Caption = 'Search'
-      TabOrder = 0
+      TabOrder = 1
       OnClick = Button1Click
     end
     object bbt6: TBitBtn
@@ -288,7 +309,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 7
+      TabOrder = 8
       Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -311,7 +332,7 @@ object ProducMatFailure: TProducMatFailure
       Top = 72
       Width = 121
       Height = 28
-      TabOrder = 8
+      TabOrder = 9
     end
     object bExcel: TBitBtn
       Left = 520
@@ -327,7 +348,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 9
+      TabOrder = 10
       OnClick = bExcelClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -359,7 +380,7 @@ object ProducMatFailure: TProducMatFailure
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 10
+      TabOrder = 11
       OnClick = bExFClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -383,14 +404,14 @@ object ProducMatFailure: TProducMatFailure
       Width = 57
       Height = 17
       Caption = 'PDF'
-      TabOrder = 11
+      TabOrder = 12
     end
     object edtZSBH: TEdit
       Left = 536
       Top = 40
       Width = 121
       Height = 28
-      TabOrder = 12
+      TabOrder = 13
     end
     object ckUSERDate: TCheckBox
       Left = 8
@@ -398,7 +419,7 @@ object ProducMatFailure: TProducMatFailure
       Width = 105
       Height = 17
       Caption = 'USERDate:'
-      TabOrder = 13
+      TabOrder = 14
     end
     object dtpUSERDate: TDateTimePicker
       Left = 152
@@ -408,15 +429,15 @@ object ProducMatFailure: TProducMatFailure
       Date = 45973.457989131940000000
       Format = 'dd/MM/yyyy'
       Time = 45973.457989131940000000
-      TabOrder = 14
+      TabOrder = 15
     end
     object MenuCode: TEdit
-      Left = 840
-      Top = 48
+      Left = 696
+      Top = 168
       Width = 121
       Height = 28
       ReadOnly = True
-      TabOrder = 15
+      TabOrder = 16
       Text = 'MenuCode'
       Visible = False
     end
@@ -425,7 +446,7 @@ object ProducMatFailure: TProducMatFailure
       Top = 72
       Width = 121
       Height = 28
-      TabOrder = 16
+      TabOrder = 17
     end
     object dtpInsDate: TDateTimePicker
       Left = 152
@@ -435,29 +456,29 @@ object ProducMatFailure: TProducMatFailure
       Date = 45981.575782071760000000
       Format = 'dd/MM/yyyy'
       Time = 45981.575782071760000000
-      TabOrder = 17
+      TabOrder = 18
     end
     object edtStyle: TEdit
       Left = 328
       Top = 8
       Width = 121
       Height = 28
-      TabOrder = 18
+      TabOrder = 19
     end
     object edtMatID: TEdit
       Left = 328
       Top = 40
       Width = 121
       Height = 28
-      TabOrder = 19
+      TabOrder = 20
     end
     object btClear: TButton
-      Left = 680
-      Top = 24
-      Width = 83
+      Left = 683
+      Top = 16
+      Width = 81
       Height = 33
       Caption = 'Clear'
-      TabOrder = 20
+      TabOrder = 21
       OnClick = btClearClick
     end
     object ckInsDate: TCheckBox
@@ -466,7 +487,7 @@ object ProducMatFailure: TProducMatFailure
       Width = 137
       Height = 17
       Caption = 'Inspection date:'
-      TabOrder = 21
+      TabOrder = 22
     end
     object ckArrDate: TCheckBox
       Left = 8
@@ -474,7 +495,7 @@ object ProducMatFailure: TProducMatFailure
       Width = 121
       Height = 17
       Caption = 'Date of arrival:'
-      TabOrder = 22
+      TabOrder = 23
     end
     object dtpArrDate: TDateTimePicker
       Left = 152
@@ -484,7 +505,7 @@ object ProducMatFailure: TProducMatFailure
       Date = 45986.417474988430000000
       Format = 'dd/MM/yyyy'
       Time = 45986.417474988430000000
-      TabOrder = 23
+      TabOrder = 24
     end
     object edtRefStand: TDBEdit
       Left = 536
@@ -493,7 +514,24 @@ object ProducMatFailure: TProducMatFailure
       Height = 28
       DataField = 'RefStand'
       DataSource = DS1
-      TabOrder = 24
+      TabOrder = 25
+    end
+    object edtImagePath: TEdit
+      Left = 536
+      Top = 104
+      Width = 121
+      Height = 28
+      ReadOnly = True
+      TabOrder = 26
+    end
+    object UpImage: TButton
+      Left = 683
+      Top = 96
+      Width = 81
+      Height = 33
+      Caption = 'UpImage'
+      TabOrder = 0
+      OnClick = UpImageClick
     end
   end
   object DBGrid1: TDBGridEh
@@ -596,6 +634,12 @@ object ProducMatFailure: TProducMatFailure
       end
       item
         EditButtons = <>
+        FieldName = 'Image'
+        Footers = <>
+        Width = 100
+      end
+      item
+        EditButtons = <>
         FieldName = 'VisualCheck'
         Footers = <>
         Title.Caption = 'Visual Inspection'
@@ -682,6 +726,7 @@ object ProducMatFailure: TProducMatFailure
         EditButtons = <>
         FieldName = 'InspecID'
         Footers = <>
+        Width = 200
       end>
   end
   object Query1: TQuery
@@ -794,6 +839,11 @@ object ProducMatFailure: TProducMatFailure
       FixedChar = True
       Size = 50
     end
+    object Query1Image: TStringField
+      FieldName = 'Image'
+      FixedChar = True
+      Size = 200
+    end
   end
   object DS1: TDataSource
     DataSet = Query1
@@ -827,7 +877,8 @@ object ProducMatFailure: TProducMatFailure
       '  YN = :YN,'
       '  PurID = :PurID,'
       '  PurDate = :PurDate,'
-      '  InspecID = :InspecID'
+      '  InspecID = :InspecID,'
+      '  Image = :Image'
       'where'
       '  ReportID = :OLD_ReportID')
     InsertSQL.Strings = (
@@ -840,17 +891,17 @@ object ProducMatFailure: TProducMatFailure
         ' WMSCFID, '
       
         '   WMSCFDate, RefStand, USERID, USERDate, YN, PurID, PurDate, In' +
-        'specID)'
+        'specID, Image)'
       'values'
       
         '  (:ReportID, :ArrDate, :InspecDate, :Supplier, :XFDate, :MatID,' +
         ' :XieMing, '
       
         '   :Qty, :DDBH, :VisualCheck, :PhysCheck, :SCFID, :SCFDate, :LCF' +
-        'ID, :LCFDate, '
+        'ID, :LCFDate,'
       
         '   :WMSCFID, :WMSCFDate, :RefStand, :USERID, :USERDate, :YN, :Pu' +
-        'rID, :PurDate, :InspecID)')
+        'rID, :PurDate, :InspecID, :Image)')
     DeleteSQL.Strings = (
       'delete from QC_ProMatFail'
       'where'
@@ -887,12 +938,12 @@ object ProducMatFailure: TProducMatFailure
     Top = 400
   end
   object OpenDialog1: TOpenDialog
-    Left = 832
-    Top = 160
+    Left = 368
+    Top = 144
   end
   object SaveDialog: TSaveDialog
-    Left = 832
-    Top = 120
+    Left = 328
+    Top = 152
   end
   object QGetID: TQuery
     DatabaseName = 'DB'
@@ -903,5 +954,9 @@ object ProducMatFailure: TProducMatFailure
     DatabaseName = 'DB'
     Left = 336
     Top = 400
+  end
+  object OpenPictureDialog1: TOpenDialog
+    Left = 312
+    Top = 112
   end
 end

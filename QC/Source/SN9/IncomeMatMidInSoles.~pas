@@ -390,7 +390,7 @@ begin
     if edtRID.Text <> '' then
       SQL.Add('and ReportID like '''+edtRID.Text+'%'' ');
     if edtSHard.Text <> '' then
-      SQL.Add('and SHard = '''+edtSHard.Text+'%'' ');
+      SQL.Add('and SHard = '''+edtSHard.Text+''' ');
     if ckUSERDate.Checked then
       SQL.Add('and CAST(QC_MidInSole.USERDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date)+''' ');
     if edtStyle.Text <> '' then
