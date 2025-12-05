@@ -521,6 +521,7 @@ object LeatherMatInspection: TLeatherMatInspection
         EditButtons = <>
         FieldName = 'Cont'
         Footers = <>
+        Width = 100
       end
       item
         EditButtons = <>
@@ -563,26 +564,39 @@ object LeatherMatInspection: TLeatherMatInspection
         EditButtons = <>
         FieldName = 'AA'
         Footers = <>
+        Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'BB'
         Footers = <>
+        Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'CC'
         Footers = <>
+        Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'DD'
         Footers = <>
+        Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'Grade'
         Footers = <>
+        PickList.Strings = (
+          'I'
+          'II'
+          'III'
+          'IV'
+          'V'
+          'VI'
+          'VII')
+        Width = 50
       end
       item
         EditButtons = <>
@@ -613,16 +627,19 @@ object LeatherMatInspection: TLeatherMatInspection
         EditButtons = <>
         FieldName = 'TestCon'
         Footers = <>
+        Width = 100
       end
       item
         EditButtons = <>
         FieldName = 'IsCompen'
         Footers = <>
+        Width = 100
       end
       item
         EditButtons = <>
         FieldName = 'CompenQty'
         Footers = <>
+        Width = 100
       end
       item
         EditButtons = <>

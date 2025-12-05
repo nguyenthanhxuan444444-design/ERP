@@ -68,13 +68,6 @@ object LeatherMatInspection: TLeatherMatInspection
       Height = 20
       Caption = 'RefStand:'
     end
-    object Label6: TLabel
-      Left = 448
-      Top = 104
-      Width = 85
-      Height = 20
-      Caption = 'Image path:'
-    end
     object BB1: TBitBtn
       Left = 0
       Top = 144
@@ -89,7 +82,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 2
+      TabOrder = 1
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -120,7 +113,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 2
       Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -152,7 +145,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 3
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -183,7 +176,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 4
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -214,7 +207,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 5
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -244,7 +237,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 7
+      TabOrder = 6
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -267,7 +260,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Width = 81
       Height = 33
       Caption = 'Search'
-      TabOrder = 1
+      TabOrder = 0
     end
     object bbt6: TBitBtn
       Left = 440
@@ -283,7 +276,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 8
+      TabOrder = 7
       Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -306,7 +299,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Top = 72
       Width = 121
       Height = 28
-      TabOrder = 9
+      TabOrder = 8
     end
     object bExcel: TBitBtn
       Left = 520
@@ -322,7 +315,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 10
+      TabOrder = 9
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -353,7 +346,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 11
+      TabOrder = 10
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -376,14 +369,14 @@ object LeatherMatInspection: TLeatherMatInspection
       Width = 57
       Height = 17
       Caption = 'PDF'
-      TabOrder = 12
+      TabOrder = 11
     end
     object edtZSBH: TEdit
       Left = 536
       Top = 40
       Width = 121
       Height = 28
-      TabOrder = 13
+      TabOrder = 12
     end
     object ckUSERDate: TCheckBox
       Left = 8
@@ -391,7 +384,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Width = 105
       Height = 17
       Caption = 'USERDate:'
-      TabOrder = 14
+      TabOrder = 13
     end
     object dtpUSERDate: TDateTimePicker
       Left = 152
@@ -401,7 +394,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Date = 45973.457989131940000000
       Format = 'dd/MM/yyyy'
       Time = 45973.457989131940000000
-      TabOrder = 15
+      TabOrder = 14
     end
     object MenuCode: TEdit
       Left = 696
@@ -409,7 +402,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Width = 121
       Height = 28
       ReadOnly = True
-      TabOrder = 16
+      TabOrder = 15
       Text = 'MenuCode'
       Visible = False
     end
@@ -418,7 +411,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Top = 72
       Width = 121
       Height = 28
-      TabOrder = 17
+      TabOrder = 16
     end
     object dtpInsDate: TDateTimePicker
       Left = 152
@@ -428,21 +421,21 @@ object LeatherMatInspection: TLeatherMatInspection
       Date = 45981.575782071760000000
       Format = 'dd/MM/yyyy'
       Time = 45981.575782071760000000
-      TabOrder = 18
+      TabOrder = 17
     end
     object edtStyle: TEdit
       Left = 328
       Top = 8
       Width = 121
       Height = 28
-      TabOrder = 19
+      TabOrder = 18
     end
     object edtMatID: TEdit
       Left = 328
       Top = 40
       Width = 121
       Height = 28
-      TabOrder = 20
+      TabOrder = 19
     end
     object btClear: TButton
       Left = 683
@@ -450,7 +443,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Width = 81
       Height = 33
       Caption = 'Clear'
-      TabOrder = 21
+      TabOrder = 20
     end
     object ckInsDate: TCheckBox
       Left = 8
@@ -458,7 +451,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Width = 137
       Height = 17
       Caption = 'Inspection date:'
-      TabOrder = 22
+      TabOrder = 21
     end
     object ckArrDate: TCheckBox
       Left = 8
@@ -466,7 +459,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Width = 121
       Height = 17
       Caption = 'Date of arrival:'
-      TabOrder = 23
+      TabOrder = 22
     end
     object dtpArrDate: TDateTimePicker
       Left = 152
@@ -476,7 +469,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Date = 45986.417474988430000000
       Format = 'dd/MM/yyyy'
       Time = 45986.417474988430000000
-      TabOrder = 24
+      TabOrder = 23
     end
     object edtRefStand: TDBEdit
       Left = 536
@@ -485,23 +478,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Height = 28
       DataField = 'RefStand'
       DataSource = DS1
-      TabOrder = 25
-    end
-    object edtImagePath: TEdit
-      Left = 536
-      Top = 104
-      Width = 121
-      Height = 28
-      ReadOnly = True
-      TabOrder = 26
-    end
-    object UpImage: TButton
-      Left = 683
-      Top = 96
-      Width = 81
-      Height = 33
-      Caption = 'UpImage'
-      TabOrder = 0
+      TabOrder = 24
     end
   end
   object DBGrid1: TDBGridEh
@@ -606,6 +583,14 @@ object LeatherMatInspection: TLeatherMatInspection
         EditButtons = <>
         FieldName = 'Grade'
         Footers = <>
+        PickList.Strings = (
+          'I'
+          'II'
+          'III'
+          'IV'
+          'V'
+          'VI'
+          'VII')
       end
       item
         EditButtons = <>

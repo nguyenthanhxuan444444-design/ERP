@@ -16,7 +16,6 @@ type
     Label5: TLabel;
     Label7: TLabel;
     Label4: TLabel;
-    Label6: TLabel;
     BB1: TBitBtn;
     BB2: TBitBtn;
     BB3: TBitBtn;
@@ -42,8 +41,6 @@ type
     ckArrDate: TCheckBox;
     dtpArrDate: TDateTimePicker;
     edtRefStand: TDBEdit;
-    edtImagePath: TEdit;
-    UpImage: TButton;
     DBGrid1: TDBGridEh;
     Query1: TQuery;
     DS1: TDataSource;
