@@ -57,16 +57,9 @@ object LeatherMatInspection: TLeatherMatInspection
     object Label7: TLabel
       Left = 272
       Top = 40
-      Width = 48
-      Height = 20
-      Caption = 'MatID:'
-    end
-    object Label4: TLabel
-      Left = 456
-      Top = 8
       Width = 73
       Height = 20
-      Caption = 'RefStand:'
+      Caption = 'MatName:'
     end
     object BB1: TBitBtn
       Left = 0
@@ -83,6 +76,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Style = []
       ParentFont = False
       TabOrder = 1
+      OnClick = BB1Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -146,6 +140,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Style = []
       ParentFont = False
       TabOrder = 3
+      OnClick = BB3Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -177,6 +172,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Style = []
       ParentFont = False
       TabOrder = 4
+      OnClick = BB4Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -208,6 +204,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Style = []
       ParentFont = False
       TabOrder = 5
+      OnClick = BB5Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -261,6 +258,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Height = 33
       Caption = 'Search'
       TabOrder = 0
+      OnClick = Button1Click
     end
     object bbt6: TBitBtn
       Left = 440
@@ -294,7 +292,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Layout = blGlyphTop
       NumGlyphs = 2
     end
-    object edtDDBH: TEdit
+    object edtPONo: TEdit
       Left = 328
       Top = 72
       Width = 121
@@ -413,7 +411,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Height = 28
       TabOrder = 16
     end
-    object dtpInsDate: TDateTimePicker
+    object dtpTime: TDateTimePicker
       Left = 152
       Top = 40
       Width = 113
@@ -430,7 +428,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Height = 28
       TabOrder = 18
     end
-    object edtMatID: TEdit
+    object edtMatName: TEdit
       Left = 328
       Top = 40
       Width = 121
@@ -445,40 +443,13 @@ object LeatherMatInspection: TLeatherMatInspection
       Caption = 'Clear'
       TabOrder = 20
     end
-    object ckInsDate: TCheckBox
+    object ckTime: TCheckBox
       Left = 8
       Top = 40
       Width = 137
       Height = 17
       Caption = 'Inspection date:'
       TabOrder = 21
-    end
-    object ckArrDate: TCheckBox
-      Left = 8
-      Top = 72
-      Width = 121
-      Height = 17
-      Caption = 'Date of arrival:'
-      TabOrder = 22
-    end
-    object dtpArrDate: TDateTimePicker
-      Left = 152
-      Top = 72
-      Width = 113
-      Height = 28
-      Date = 45986.417474988430000000
-      Format = 'dd/MM/yyyy'
-      Time = 45986.417474988430000000
-      TabOrder = 23
-    end
-    object edtRefStand: TDBEdit
-      Left = 536
-      Top = 8
-      Width = 121
-      Height = 28
-      DataField = 'RefStand'
-      DataSource = DS1
-      TabOrder = 24
     end
   end
   object DBGrid1: TDBGridEh
@@ -511,6 +482,7 @@ object LeatherMatInspection: TLeatherMatInspection
     TitleFont.Style = []
     TitleLines = 2
     UseMultiTitle = True
+    OnKeyPress = DBGrid1KeyPress
     Columns = <
       item
         EditButtons = <>
@@ -532,33 +504,37 @@ object LeatherMatInspection: TLeatherMatInspection
         EditButtons = <>
         FieldName = 'IQty'
         Footers = <>
+        Width = 80
       end
       item
         EditButtons = <>
         FieldName = 'MatName'
         Footers = <>
-        Width = 200
+        Width = 300
       end
       item
         EditButtons = <>
         FieldName = 'PONo'
         Footers = <>
-        Width = 200
+        Width = 300
       end
       item
         EditButtons = <>
         FieldName = 'ThickStand'
         Footers = <>
+        Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'Reality'
         Footers = <>
+        Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'Color'
         Footers = <>
+        Width = 100
       end
       item
         EditButtons = <>
@@ -673,6 +649,16 @@ object LeatherMatInspection: TLeatherMatInspection
       end
       item
         EditButtons = <>
+        FieldName = 'MSCFID'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'MSCFDate'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
         FieldName = 'USERID'
         Footers = <>
       end
@@ -680,9 +666,16 @@ object LeatherMatInspection: TLeatherMatInspection
         EditButtons = <>
         FieldName = 'USERDate'
         Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'YN'
+        Footers = <>
+        Visible = False
       end>
   end
   object Query1: TQuery
+    AfterOpen = Query1AfterOpen
     DatabaseName = 'DB'
     SQL.Strings = (
       'SELECT ReportID, Cont, Time, IQty, MatName, PONo, '
@@ -690,15 +683,17 @@ object LeatherMatInspection: TLeatherMatInspection
         'ThickStand, Reality, Color, AA, BB, CC, DD, Grade, TotalSF, Perc' +
         'entGrade,'
       
-        'CONVERT(numeric(18,2), TotalSF/PercentGrade*100) as UseSF, Perce' +
+        'CONVERT(numeric(18,2), TotalSF*PercentGrade/100) as UseSF, Perce' +
         'ntNCU,'
       
         'CONVERT(numeric(18,2), (PercentGrade-PercentNCU)*TotalSF/100) as' +
         ' CompenSF, '
       
         'TestCon, IsCompen, CompenQty, SCFID, SCFDate, LCFID, LCFDate, Pr' +
-        'eparedID, PreparedDate, USERID, USERDate'
-      'FROM QC_LeatherInspec')
+        'eparedID, PreparedDate, USERID, USERDate,'
+      'MSCFID, MSCFDate, YN'
+      'FROM QC_LeatherInspec'
+      'where 1=2')
     UpdateObject = UpSQL1
     Left = 448
     Top = 400
@@ -823,6 +818,16 @@ object LeatherMatInspection: TLeatherMatInspection
     object Query1USERDate: TDateTimeField
       FieldName = 'USERDate'
     end
+    object Query1MSCFID: TStringField
+      FieldName = 'MSCFID'
+      FixedChar = True
+    end
+    object Query1MSCFDate: TDateTimeField
+      FieldName = 'MSCFDate'
+    end
+    object Query1YN: TIntegerField
+      FieldName = 'YN'
+    end
   end
   object DS1: TDataSource
     DataSet = Query1
@@ -831,83 +836,99 @@ object LeatherMatInspection: TLeatherMatInspection
   end
   object UpSQL1: TUpdateSQL
     ModifySQL.Strings = (
-      'update QC_ProMatFail'
+      'update QC_LeatherInspec'
       'set'
       '  ReportID = :ReportID,'
-      '  ArrDate = :ArrDate,'
-      '  InspecDate = :InspecDate,'
-      '  Supplier = :Supplier,'
-      '  XFDate = :XFDate,'
-      '  MatID = :MatID,'
-      '  XieMing = :XieMing,'
-      '  Qty = :Qty,'
-      '  DDBH = :DDBH,'
-      '  VisualCheck = :VisualCheck,'
-      '  PhysCheck = :PhysCheck,'
+      '  Cont = :Cont,'
+      '  Time = :Time,'
+      '  IQty = :IQty,'
+      '  MatName = :MatName,'
+      '  PONo = :PONo,'
+      '  ThickStand = :ThickStand,'
+      '  Reality = :Reality,'
+      '  Color = :Color,'
+      '  AA = :AA,'
+      '  BB = :BB,'
+      '  CC = :CC,'
+      '  DD = :DD,'
+      '  Grade = :Grade,'
+      '  TotalSF = :TotalSF,'
+      '  PercentGrade = :PercentGrade,'
+      '  PercentNCU = :PercentNCU,'
+      '  TestCon = :TestCon,'
+      '  IsCompen = :IsCompen,'
+      '  CompenQty = :CompenQty,'
       '  SCFID = :SCFID,'
       '  SCFDate = :SCFDate,'
       '  LCFID = :LCFID,'
       '  LCFDate = :LCFDate,'
-      '  WMSCFID = :WMSCFID,'
-      '  WMSCFDate = :WMSCFDate,'
-      '  RefStand = :RefStand,'
+      '  PreparedID = :PreparedID,'
+      '  PreparedDate = :PreparedDate,'
       '  USERID = :USERID,'
       '  USERDate = :USERDate,'
-      '  YN = :YN,'
-      '  PurID = :PurID,'
-      '  PurDate = :PurDate,'
-      '  InspecID = :InspecID,'
-      '  Image = :Image'
+      '  MSCFID = :MSCFID,'
+      '  MSCFDate = :MSCFDate,'
+      '  YN = :YN'
       'where'
       '  ReportID = :OLD_ReportID')
     InsertSQL.Strings = (
-      'insert into QC_ProMatFail'
+      'insert into QC_LeatherInspec'
       
-        '  (ReportID, ArrDate, InspecDate, Supplier, XFDate, MatID, XieMi' +
-        'ng, Qty, '
+        '  (ReportID, Cont, Time, IQty, MatName, PONo, ThickStand, Realit' +
+        'y, Color, '
+      '   AA, BB, CC, DD, Grade, TotalSF, PercentGrade, PercentNCU, '
       
-        '   DDBH, VisualCheck, PhysCheck, SCFID, SCFDate, LCFID, LCFDate,' +
-        ' WMSCFID, '
-      
-        '   WMSCFDate, RefStand, USERID, USERDate, YN, PurID, PurDate, In' +
-        'specID, Image)'
+        '   TestCon, IsCompen, CompenQty, SCFID, SCFDate, LCFID, LCFDate,' +
+        ' PreparedID, '
+      '   PreparedDate, USERID, USERDate, MSCFID, MSCFDate, YN)'
       'values'
       
-        '  (:ReportID, :ArrDate, :InspecDate, :Supplier, :XFDate, :MatID,' +
-        ' :XieMing, '
+        '  (:ReportID, :Cont, :Time, :IQty, :MatName, :PONo, :ThickStand,' +
+        ' :Reality, '
+      '   :Color, :AA, :BB, :CC, :DD, :Grade, :TotalSF, :PercentGrade,'
       
-        '   :Qty, :DDBH, :VisualCheck, :PhysCheck, :SCFID, :SCFDate, :LCF' +
-        'ID, :LCFDate,'
+        '   :PercentNCU, :TestCon, :IsCompen, :CompenQty, :SCFID, :SCFDat' +
+        'e,'
       
-        '   :WMSCFID, :WMSCFDate, :RefStand, :USERID, :USERDate, :YN, :Pu' +
-        'rID, :PurDate, :InspecID, :Image)')
+        '   :LCFID, :LCFDate, :PreparedID, :PreparedDate, :USERID, :USERD' +
+        'ate, :MSCFID, '
+      '   :MSCFDate, :YN)')
     DeleteSQL.Strings = (
-      'delete from QC_ProMatFail'
+      'delete from QC_LeatherInspec'
       'where'
       '  ReportID = :OLD_ReportID and'
-      '  ArrDate = :OLD_ArrDate and'
-      '  InspecDate = :OLD_InspecDate and'
-      '  Supplier = :OLD_Supplier and'
-      '  XFDate = :OLD_XFDate and'
-      '  MatID = :OLD_MatID and'
-      '  XieMing = :OLD_XieMing and'
-      '  Qty = :OLD_Qty and'
-      '  DDBH = :OLD_DDBH and'
-      '  VisualCheck = :OLD_VisualCheck and'
-      '  PhysCheck = :OLD_PhysCheck and'
+      '  Cont = :OLD_Cont and'
+      '  Time = :OLD_Time and'
+      '  IQty = :OLD_IQty and'
+      '  MatName = :OLD_MatName and'
+      '  PONo = :OLD_PONo and'
+      '  ThickStand = :OLD_ThickStand and'
+      '  Reality = :OLD_Reality and'
+      '  Color = :OLD_Color and'
+      '  AA = :OLD_AA and'
+      '  BB = :OLD_BB and'
+      '  CC = :OLD_CC and'
+      '  DD = :OLD_DD and'
+      '  Grade = :OLD_Grade and'
+      '  TotalSF = :OLD_TotalSF and'
+      '  PercentGrade = :OLD_PercentGrade and'
+      '  UseSF = :OLD_UseSF and'
+      '  PercentNCU = :OLD_PercentNCU and'
+      '  CompenSF = :OLD_CompenSF and'
+      '  TestCon = :OLD_TestCon and'
+      '  IsCompen = :OLD_IsCompen and'
+      '  CompenQty = :OLD_CompenQty and'
       '  SCFID = :OLD_SCFID and'
       '  SCFDate = :OLD_SCFDate and'
       '  LCFID = :OLD_LCFID and'
       '  LCFDate = :OLD_LCFDate and'
-      '  WMSCFID = :OLD_WMSCFID and'
-      '  WMSCFDate = :OLD_WMSCFDate and'
-      '  RefStand = :OLD_RefStand and'
+      '  PreparedID = :OLD_PreparedID and'
+      '  PreparedDate = :OLD_PreparedDate and'
       '  USERID = :OLD_USERID and'
       '  USERDate = :OLD_USERDate and'
-      '  YN = :OLD_YN and'
-      '  PurID = :OLD_PurID and'
-      '  PurDate = :OLD_PurDate and'
-      '  MatName = :OLD_MatName')
+      '  MSCFID = :OLD_MSCFID and'
+      '  MSCFDate = :OLD_MSCFDate and'
+      '  YN = :OLD_YN')
     Left = 528
     Top = 400
   end
@@ -921,8 +942,8 @@ object LeatherMatInspection: TLeatherMatInspection
     Top = 144
   end
   object SaveDialog: TSaveDialog
-    Left = 328
-    Top = 152
+    Left = 320
+    Top = 160
   end
   object QGetID: TQuery
     DatabaseName = 'DB'

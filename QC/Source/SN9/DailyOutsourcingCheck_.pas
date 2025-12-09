@@ -549,7 +549,7 @@ begin
     SQL.Add('CONVERT(numeric(18,1),(CAST(DeQty as numeric(18,1))/CAST(IQty as numeric(18,1))*100)) as DeRate, ');
     SQL.Add('VIDate, USERDate, USERID, Supplier, YN, SCFID, SCFDate, LCFID, LCFDate, DepUID, DepInputDate, PreparedID, PreparedDate');
     SQL.Add('from JGDaily ');
-    SQL.Add('where DDBH like ''' + edtDDBH.Text + '%'' ');
+    SQL.Add('where DDBH like ''' + edtDDBH.Text + '%'' and YN <> 0 ');
     SQL.Add('and YN <> 0 ');
     if edtRID.Text <> '' then
       SQL.Add('and ReportID like '''+edtRID.Text+'%'' ');

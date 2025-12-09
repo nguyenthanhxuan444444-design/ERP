@@ -121,7 +121,6 @@ object IncomeUpperMaterial: TIncomeUpperMaterial
       Font.Style = []
       ParentFont = False
       TabOrder = 2
-      Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -562,6 +561,9 @@ object IncomeUpperMaterial: TIncomeUpperMaterial
         EditButtons = <>
         FieldName = 'Brand'
         Footers = <>
+        PickList.Strings = (
+          'HOKA'
+          'TEVA')
         Width = 100
       end
       item
@@ -943,37 +945,10 @@ object IncomeUpperMaterial: TIncomeUpperMaterial
         '   :USERID, :USERDate, :LabUID, :LabChgDate, :PreparedID, :Prepa' +
         'redDate)')
     DeleteSQL.Strings = (
-      'delete from QC_UpperMat'
+      'update QC_UpperMat'
+      'set YN <> 0'
       'where'
-      '  ReportID = :OLD_ReportID and'
-      '  InspecDate = :OLD_InspecDate and'
-      '  ArrDate = :OLD_ArrDate and'
-      '  Brand = :OLD_Brand and'
-      '  CLBH = :OLD_CLBH and'
-      '  Supplier = :OLD_Supplier and'
-      '  DDBH = :OLD_DDBH and'
-      '  RQty = :OLD_RQty and'
-      '  IQty = :OLD_IQty and'
-      '  DeReason = :OLD_DeReason and'
-      '  DeQty = :OLD_DeQty and'
-      '  InspecResult = :OLD_InspecResult and'
-      '  SendDate = :OLD_SendDate and'
-      '  LabID = :OLD_LabID and'
-      '  LabResult = :OLD_LabResult and'
-      '  Reject = :OLD_Reject and'
-      '  SCFID = :OLD_SCFID and'
-      '  SCFDate = :OLD_SCFDate and'
-      '  LCFID = :OLD_LCFID and'
-      '  LCFDate = :OLD_LCFDate and'
-      '  MSCFID = :OLD_MSCFID and'
-      '  MSCFDate = :OLD_MSCFDate and'
-      '  YN = :OLD_YN and'
-      '  USERID = :OLD_USERID and'
-      '  USERDate = :OLD_USERDate and'
-      '  LabUID = :OLD_LabUID and'
-      '  LabChgDate = :OLD_LabChgDate and'
-      '  PreparedID = :OLD_PreparedID and'
-      '  PreparedDate = :OLD_PreparedDate')
+      '  ReportID = :OLD_ReportID')
     Left = 528
     Top = 400
   end

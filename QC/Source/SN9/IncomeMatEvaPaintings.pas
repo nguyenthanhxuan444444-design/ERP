@@ -170,7 +170,7 @@ SetColumnsReadOnly;
     SQL.Add('select QC_EvaPainting.*, xxzl.XieMing, DDZL.ARTICLE from QC_EvaPainting ');
     SQL.Add('left join DDZL on DDZL.DDBH = QC_EvaPainting.DDBH ');
     SQL.Add('left join xxzl on DDZL.XieXing = xxzl.XieXing and DDZL.SheHao = xxzl.SheHao ');
-    SQL.Add('where QC_EvaPainting.DDBH like ''' +edtDDBH.Text+ '%'' ');
+    SQL.Add('where QC_EvaPainting.DDBH like ''' +edtDDBH.Text+ '%'' and QC_EvaPainting.YN <> 0');
 
     if edtRID.Text <> '' then
       SQL.Add('and ReportID like '''+edtRID.Text+'%'' ');

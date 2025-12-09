@@ -297,7 +297,8 @@ uses DM3, QAStationP, Ontime1, QCIssue1, QCOntime1, QCDailyReport1, FeedbackWast
   Inspection_report1, Single_inspection_report1, QCParamtConfig,
   RY_Inspection_Status1, Failed_Cartons_Input1, NguyenLieuDauVaoTN,
   DailyOutsourcingCheck_, IncomeMatRubberOutsole, IncomeMatMidInSoles,
-  IncomeMatEvaPaintings, ProduceMatFailure, IncomeUpperMaterials;
+  IncomeMatEvaPaintings, ProduceMatFailure, IncomeUpperMaterials,
+  LeatherMatInspections;
 
 {$R *.dfm}
 //
@@ -1205,31 +1206,31 @@ end;
 procedure Tmain.SN981Click(Sender: TObject);
 begin
   ShowFm(Pointer(LeatherMatInspection), TLeatherMatInspection, TMenuItem(Sender).Name);
-  IncomeUpperMaterial.MenuCode.Text := 'N981'
+  LeatherMatInspection.MenuCode.Text := 'N981'
 end;
 
 procedure Tmain.SN982Click(Sender: TObject);
 begin
   ShowFm(Pointer(LeatherMatInspection), TLeatherMatInspection, TMenuItem(Sender).Name);
-  IncomeUpperMaterial.MenuCode.Text := 'N982'
+  LeatherMatInspection.MenuCode.Text := 'N982'
 end;
 
 procedure Tmain.SN983Click(Sender: TObject);
 begin
   ShowFm(Pointer(LeatherMatInspection), TLeatherMatInspection, TMenuItem(Sender).Name);
-  IncomeUpperMaterial.MenuCode.Text := 'N983'
+  LeatherMatInspection.MenuCode.Text := 'N983'
 end;
 
 procedure Tmain.SN984Click(Sender: TObject);
 begin
   ShowFm(Pointer(LeatherMatInspection), TLeatherMatInspection, TMenuItem(Sender).Name);
-  IncomeUpperMaterial.MenuCode.Text := 'N984'
+  LeatherMatInspection.MenuCode.Text := 'N984'
 end;
 
 procedure Tmain.SN985Click(Sender: TObject);
 begin
   ShowFm(Pointer(LeatherMatInspection), TLeatherMatInspection, TMenuItem(Sender).Name);
-  IncomeUpperMaterial.MenuCode.Text := 'N985'
+  LeatherMatInspection.MenuCode.Text := 'N985'
 end;
 
 end.

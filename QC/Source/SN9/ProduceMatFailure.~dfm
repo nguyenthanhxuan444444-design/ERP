@@ -142,7 +142,6 @@ object ProducMatFailure: TProducMatFailure
       Font.Style = []
       ParentFont = False
       TabOrder = 3
-      Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -609,7 +608,6 @@ object ProducMatFailure: TProducMatFailure
         EditButtons = <>
         FieldName = 'MatName'
         Footers = <>
-        ReadOnly = True
         Title.Caption = 'Material Description'
         Width = 300
       end
@@ -733,8 +731,7 @@ object ProducMatFailure: TProducMatFailure
     AfterOpen = Query1AfterOpen
     DatabaseName = 'DB'
     SQL.Strings = (
-      'select QC_ProMatFail.*, clzl.ywpm as MatName from QC_ProMatFail'
-      'left join clzl on QC_ProMatFail.MatID  = clzl.cldh'
+      'select * from QC_ProMatFail'
       'where 1=3')
     UpdateObject = UpSQL1
     Left = 448
@@ -860,6 +857,7 @@ object ProducMatFailure: TProducMatFailure
       '  Supplier = :Supplier,'
       '  XFDate = :XFDate,'
       '  MatID = :MatID,'
+      '  MatName = :MatName,'
       '  XieMing = :XieMing,'
       '  Qty = :Qty,'
       '  DDBH = :DDBH,'
@@ -884,8 +882,8 @@ object ProducMatFailure: TProducMatFailure
     InsertSQL.Strings = (
       'insert into QC_ProMatFail'
       
-        '  (ReportID, ArrDate, InspecDate, Supplier, XFDate, MatID, XieMi' +
-        'ng, Qty, '
+        '  (ReportID, ArrDate, InspecDate, Supplier, XFDate, MatID, MatNa' +
+        'me, XieMing, Qty,'
       
         '   DDBH, VisualCheck, PhysCheck, SCFID, SCFDate, LCFID, LCFDate,' +
         ' WMSCFID, '
@@ -895,7 +893,7 @@ object ProducMatFailure: TProducMatFailure
       'values'
       
         '  (:ReportID, :ArrDate, :InspecDate, :Supplier, :XFDate, :MatID,' +
-        ' :XieMing, '
+        ' :MatName, :XieMing, '
       
         '   :Qty, :DDBH, :VisualCheck, :PhysCheck, :SCFID, :SCFDate, :LCF' +
         'ID, :LCFDate,'
@@ -903,32 +901,10 @@ object ProducMatFailure: TProducMatFailure
         '   :WMSCFID, :WMSCFDate, :RefStand, :USERID, :USERDate, :YN, :Pu' +
         'rID, :PurDate, :InspecID, :Image)')
     DeleteSQL.Strings = (
-      'delete from QC_ProMatFail'
+      'update QC_ProMatFail'
+      'set YN = 0'
       'where'
-      '  ReportID = :OLD_ReportID and'
-      '  ArrDate = :OLD_ArrDate and'
-      '  InspecDate = :OLD_InspecDate and'
-      '  Supplier = :OLD_Supplier and'
-      '  XFDate = :OLD_XFDate and'
-      '  MatID = :OLD_MatID and'
-      '  XieMing = :OLD_XieMing and'
-      '  Qty = :OLD_Qty and'
-      '  DDBH = :OLD_DDBH and'
-      '  VisualCheck = :OLD_VisualCheck and'
-      '  PhysCheck = :OLD_PhysCheck and'
-      '  SCFID = :OLD_SCFID and'
-      '  SCFDate = :OLD_SCFDate and'
-      '  LCFID = :OLD_LCFID and'
-      '  LCFDate = :OLD_LCFDate and'
-      '  WMSCFID = :OLD_WMSCFID and'
-      '  WMSCFDate = :OLD_WMSCFDate and'
-      '  RefStand = :OLD_RefStand and'
-      '  USERID = :OLD_USERID and'
-      '  USERDate = :OLD_USERDate and'
-      '  YN = :OLD_YN and'
-      '  PurID = :OLD_PurID and'
-      '  PurDate = :OLD_PurDate and'
-      '  MatName = :OLD_MatName')
+      '  ReportID = :OLD_ReportID')
     Left = 528
     Top = 400
   end

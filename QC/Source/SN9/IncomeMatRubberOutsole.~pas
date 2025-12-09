@@ -366,13 +366,13 @@ begin
     if ckInsDate.Checked then
       SQL.Add('and CAST(InspecDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpInsDate.Date)+''' ');
     if edtMatID.Text <> '' then
-      SQL.Add('and CLBH like '''+edtMatID.Text+''' ');
+      SQL.Add('and CLBH like '''+edtMatID.Text+'%'' ');
     if edtZSBH.Text <> '' then
-      SQL.Add('and Supplier like '''+edtZSBH.Text+''' ');
+      SQL.Add('and Supplier like '''+edtZSBH.Text+'%'' ');
     if edtSKU.Text <> '' then
-      SQL.Add('and Article like '''+edtSKU.Text+''' ');
+      SQL.Add('and Article like '''+edtSKU.Text+'%'' ');
     if edtRID.Text <> '' then
-      SQL.Add('and ReportID like '''+edtRID.Text+''' ');
+      SQL.Add('and ReportID like '''+edtRID.Text+'%'' ');
     if edtSHard.Text <> '' then
       SQL.Add('and SHard = '''+edtSHard.Text+''' ');
     if ckUSERDate.Checked then

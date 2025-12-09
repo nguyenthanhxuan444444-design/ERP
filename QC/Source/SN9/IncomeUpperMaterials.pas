@@ -392,7 +392,7 @@ begin
     SQL.Add('    xxzl ON DDZL.SheHao = xxzl.SheHao AND xxzl.XieXing = DDZL.XieXing');
     SQL.Add('LEFT JOIN');
     SQL.Add('    clzl ON clzl.cldh = QC_UpperMat_Cut.CLBH ');
-    SQL.Add('where QC_UpperMat_Cut.DDBH like '''+edtDDBH.Text+'%'' ');
+    SQL.Add('where QC_UpperMat_Cut.DDBH like '''+edtDDBH.Text+'%'' and QC_UpperMat_Cut.YN <> 0 ');
     if ckInsDate.Checked then
       SQL.Add('and CAST(InspecDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpInsDate.Date)+''' ');
     if ckArrDate.Checked then
@@ -767,6 +767,13 @@ end;
 procedure TIncomeUpperMaterial.DBGrid1KeyPress(Sender: TObject;
   var Key: Char);
 begin
+  // khong cho go vao o Brand
+  if DBGrid1.SelectedField.FieldName = 'Brand' then
+  begin
+    // chan het ky tu ngoai tru Enter de mo picklist
+    Key := #0;
+  end;
+
   // Neu nhan Enter
   if Key = #13 then
   begin

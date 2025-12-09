@@ -995,6 +995,22 @@ if (Query1.RecordCount > 0)  and not Query1.CachedUpdates then
     edtSHard.Text := Query1.FieldByName('SHard').AsString;
     dtpUSERDate.Date := Query1.FieldByName('USERDate').AsDateTime;
   end;
+
+  if Query1.CachedUpdates then
+  begin
+    with DBGrid1.FieldColumns['TempRoom'].PickList do
+    begin
+      Clear;
+      Add('I');
+      Add('II');
+      Add('III');
+      Add('IV');
+      Add('V');
+      Add('VI');
+      Add('VII');
+    end;
+  end else
+    DBGrid1.FieldColumns['TempRoom'].PickList.Clear;
 end;
 
 procedure TIncomeMatMidInSole.DBGrid1GetCellParams(Sender: TObject;

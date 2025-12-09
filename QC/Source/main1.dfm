@@ -554,19 +554,15 @@ object main: Tmain
           OnClick = SN981Click
         end
         object SN982: TMenuItem
-          Caption = 'N982 Lab Test Input'
-          OnClick = SN982Click
-        end
-        object SN983: TMenuItem
-          Caption = 'N983 KCS Supervisor Cfm'
+          Caption = 'N982 KCS Supervisor Cfm'
           OnClick = SN983Click
         end
-        object SN984: TMenuItem
-          Caption = 'N984 KCS Leader Cfm'
+        object SN983: TMenuItem
+          Caption = 'N983 KCS Leader Cfm'
           OnClick = SN984Click
         end
-        object SN985: TMenuItem
-          Caption = 'N985 Material Supervisor Cfm'
+        object SN984: TMenuItem
+          Caption = 'N984 Material Supervisor Cfm'
           OnClick = SN985Click
         end
       end

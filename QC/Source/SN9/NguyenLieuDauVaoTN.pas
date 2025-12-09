@@ -235,7 +235,7 @@ begin
     Active := false;
     SQL.Clear;
     SQL.Add('select * from MaterialIncomTest ');
-    SQL.Add('where DDBH like ''' +edtDDBH.Text+ '%'' ');
+    SQL.Add('where DDBH like ''' +edtDDBH.Text+ '%'' and YN <> 0 ');
 
     if edtRID.Text <> '' then
       SQL.Add('and ReportID like '''+edtRID.Text+'%'' ');
@@ -314,7 +314,7 @@ begin
                 Query1.FieldByName('USERID').Value := main.Edit1.Text;
                 Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
                 if BrandFlag = true then
-                  Query1.FieldByName('Brand').Value := cbxHT.Text;
+                  //Query1.FieldByName('Brand').Value := cbxHT.Text;
                 upsql1.apply(ukinsert);
               end;
             end;
@@ -707,6 +707,13 @@ end;
 
 procedure TIncomingMatTest.DBGrid1KeyPress(Sender: TObject; var Key: Char);
 begin
+
+  if DBGrid1.SelectedField.FieldName = 'Brand' then
+  begin
+    // chan het ky tu ngoai tru Enter de mo picklist
+    Key := #0;
+  end;
+
   // Neu nhan Enter
   if Key = #13 then
   begin

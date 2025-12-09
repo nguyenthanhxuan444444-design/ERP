@@ -108,7 +108,6 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       Font.Style = []
       ParentFont = False
       TabOrder = 2
-      Visible = False
       OnClick = BB2Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100

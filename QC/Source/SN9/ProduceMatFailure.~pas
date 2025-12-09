@@ -127,9 +127,21 @@ var
   Rg: OleVariant;
   CellLeft, CellTop, CellWidth, CellHeight: Double;
   origW, origH, newW, newH: Double;
+  ImagePath: string;
 begin
+  // Duong anh trong field
+  ImagePath := Trim(Query.FieldByName(FieldName).AsString);
+
+  // Neu rong thi khong lam gi het
+  if (ImagePath = '') then
+    Exit;
+
+  // Neu file khong ton tai thi cung exit nhe
+  if not FileExists(ImagePath) then
+    Exit;
+
   // Chen anh tu duong dan trong field
-  Pic := Worksheet.Pictures.Insert(Query.FieldByName(FieldName).AsString);
+  Pic := Worksheet.Pictures.Insert(ImagePath);
 
   // Lay vung merge cua o Row, Column
   Rg := Worksheet.Cells[Row, Column].MergeArea;
@@ -143,28 +155,25 @@ begin
   origW := Pic.Width;
   origH := Pic.Height;
 
-  // Scale theo chieu ngang truoc
-  newW := CellWidth * 0.95;   // chua 5% margin
+  // Scale theo chieu ngang
+  newW := CellWidth * 0.95;
   newH := newW * (origH / origW);
 
-  // Neu chieu cao vuot vung merge thi scale lai theo chieu doc
   if newH > CellHeight * 0.95 then
   begin
     newH := CellHeight * 0.95;
     newW := newH * (origW / origH);
   end;
 
-  // Ap dung kich thuoc moi
   Pic.Width := newW;
   Pic.Height := newH;
 
-  // Can giua anh trong vung merge
+  // Can duoi
   Pic.Left := CellLeft + (CellWidth - Pic.Width) / 2;
-  //Pic.Top  := CellTop + (CellHeight - Pic.Height) / 2;
-  
-  // Dat anh gan phia tren (top) voi margin 5% vung merge
-  Pic.Top := CellTop + (CellHeight * 0.03);  // 3% margin tu tren
+  Pic.Top  := CellTop + (CellHeight * 0.03);
+  //Pic.Top := CellTop + (CellHeight - Pic.Height) - (CellHeight * 0.03);
 end;
+
 
 function TProducMatFailure.GetUsernameByID(const AID: string): string;
 begin
@@ -240,6 +249,7 @@ begin
     DBGrid1.FieldColumns['Supplier'].ReadOnly     := True;
     DBGrid1.FieldColumns['XFDate'].ReadOnly       := True;
     DBGrid1.FieldColumns['MatID'].ReadOnly        := True;
+    DBGrid1.FieldColumns['MatName'].ReadOnly      := True;
     DBGrid1.FieldColumns['XieMing'].ReadOnly      := True;
     DBGrid1.FieldColumns['Qty'].ReadOnly          := True;
     DBGrid1.FieldColumns['DDBH'].ReadOnly         := True;
@@ -264,6 +274,7 @@ begin
     DBGrid1.FieldColumns['Supplier'].ReadOnly     := True;
     DBGrid1.FieldColumns['XFDate'].ReadOnly       := True;
     DBGrid1.FieldColumns['MatID'].ReadOnly        := True;
+    DBGrid1.FieldColumns['MatName'].ReadOnly      := True;
     DBGrid1.FieldColumns['XieMing'].ReadOnly      := True;
     DBGrid1.FieldColumns['Qty'].ReadOnly          := True;
     DBGrid1.FieldColumns['DDBH'].ReadOnly         := True;
@@ -288,6 +299,7 @@ begin
     DBGrid1.FieldColumns['Supplier'].ReadOnly     := True;
     DBGrid1.FieldColumns['XFDate'].ReadOnly       := True;
     DBGrid1.FieldColumns['MatID'].ReadOnly        := True;
+    DBGrid1.FieldColumns['MatName'].ReadOnly      := True;
     DBGrid1.FieldColumns['XieMing'].ReadOnly      := True;
     DBGrid1.FieldColumns['Qty'].ReadOnly          := True;
     DBGrid1.FieldColumns['DDBH'].ReadOnly         := True;
@@ -311,6 +323,7 @@ begin
     DBGrid1.FieldColumns['Supplier'].ReadOnly     := True;
     DBGrid1.FieldColumns['XFDate'].ReadOnly       := True;
     DBGrid1.FieldColumns['MatID'].ReadOnly        := True;
+    DBGrid1.FieldColumns['MatName'].ReadOnly      := True;
     DBGrid1.FieldColumns['XieMing'].ReadOnly      := True;
     DBGrid1.FieldColumns['Qty'].ReadOnly          := True;
     DBGrid1.FieldColumns['DDBH'].ReadOnly         := True;
@@ -405,11 +418,12 @@ begin
     //chen hinh Visual Inspection
     if i = 9 then
       begin
-        InsertImageToExcel(Worksheet, Query1, 'Image', 11, 1);
+        if (Query1.FieldByName('Image').Value <> '') or not Query1.FieldByName('Image').IsNull then
+          InsertImageToExcel(Worksheet, Query1, 'Image', 11, 1);
 
         //ghi noi dung textbox
         TB := Worksheet.Shapes.Item('TextBox 3');
-        TB.TextFrame.Characters.Text := Query1.FieldByName('VisualCheck').AsString;
+        TB.TextFrame.Characters.Text := StringReplace(Query1.FieldByName('VisualCheck').AsString, '_', #13#10, [rfReplaceAll]);
       end;
 
     cur := Trim(Worksheet.Cells[r[i], c[i]].Value);
@@ -550,9 +564,8 @@ begin
  begin
   Active:=false;
   SQL.Clear;
-  SQL.Add('select QC_ProMatFail.*, clzl.ywpm as MatName from QC_ProMatFail ');
-  SQL.Add('left join clzl on QC_ProMatFail.MatID  = clzl.cldh ');
-  SQL.Add('where DDBH like '''+edtDDBH.Text+'%'' ');
+  SQL.Add('select * from QC_ProMatFail ');
+  SQL.Add('where DDBH like '''+edtDDBH.Text+'%'' and YN <> 0 ');
 
   if edtRID.Text <> '' then
     SQL.Add('and ReportID like '''+edtRID.Text+'%'' ');
@@ -847,7 +860,7 @@ procedure TProducMatFailure.UpImageClick(Sender: TObject);
 var
   SourceFile, DestFile: string;
 begin
-  OpenPictureDialog1.Filter :=
+   OpenPictureDialog1.Filter :=
     'JPEG Images (*.jpg;*.jpeg)|*.jpg;*.jpeg|' +
     'PNG Images (*.png)|*.png|' +
     'Bitmap Images (*.bmp)|*.bmp|' +
@@ -859,7 +872,7 @@ begin
     SourceFile := OpenPictureDialog1.FileName;
     
     // Tao duong dan den o mang
-    DestFile := '\\192.168.71.102\Anh\' + ExtractFileName(SourceFile);
+    DestFile := '\\192.168.71.74\Anh\' + ExtractFileName(SourceFile);
 
     try
       // Copy file len o mang, ghi de neu da ton tai
