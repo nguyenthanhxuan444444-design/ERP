@@ -1,6 +1,6 @@
 object StockShoeMonth_Print: TStockShoeMonth_Print
-  Left = 706
-  Top = 227
+  Left = 1015
+  Top = 433
   Width = 1168
   Height = 675
   Caption = 'StockShoeMonth_Print'

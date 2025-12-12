@@ -755,7 +755,7 @@ begin
          sql.add(' order by xxzls.SheHao desc,XXZL.XieXing,XXZL.Shehao');
          //funcobj.WriteErrorLog(sql.Text);
          //if CheckBox9.Checked =true then
-            showmessage(SQL.Text);
+          //  showmessage(SQL.Text);
          active:=true;
       end;
       //Button2.Click;//XXZLS.Active:=true;
@@ -1318,7 +1318,7 @@ begin
             //寫入歷史資料
             active:=false;
             sql.Clear;
-            sql.Add(' select CLBH,GSBH from MaterialCBD_His where CLBH='''+Query.fieldbyname('CLBH').AsString+''' ');
+            sql.Add(' select CLBH,GSBH,SamplePrice from MaterialCBD_His where CLBH='''+Query.fieldbyname('CLBH').AsString+''' ');
             sql.Add(' and ZSBH='''+Query.fieldbyname('ZSDH').AsString+''' ');
             if Isflag=true then   //    Articel  存
                 sql.Add(' and Season = '''+XXZL.fieldbyname('Season').AsString+'''')
@@ -1331,128 +1331,157 @@ begin
             if (CB_FTY.ItemIndex=1) and (main.Edit2.Text='HBA')then
               sql.Add('and GSBH=''VB1''')
             else
-              sql.Add('and GSBH='''+main.Edit2.Text+'''');    
+              sql.Add('and GSBH='''+main.Edit2.Text+'''');
             sql.add('and KFCQ='''+KFCQ+''' ');      
             sql.add('and KHDH='''+KHDH+'''');
             active:=true;
-            if eof then
+            //如果價格有修改
+            //if TemQry.fieldbyname('SamplePrice').value<>Query.fieldbyname('SamplePrice').Value then
             begin
-              active:=false;
-              sql.Clear;
-              sql.Add(' insert MaterialCBD_His (CLBH,GSBH,ZSBH,SamplePrice,PriceFormula,Freight,CostingRemark,userID');
-              sql.Add(' ,userdate,YN,Season,ProdLeadTime,Forecast_Leadtime,ProdMOQ,ExtraPrice,Surcharge,Dyingfee,XieXing,SheHao,PurRemark,KFCQ,KHDH');
-              sql.Add(') values (');
-              sql.Add(' '''+Query.fieldbyname('CLBH').AsString+'''');
-              //sql.Add(','''+main.edit2.Text+'''');     //品牌選擇修改不同廠區
-              if (CB_FTY.ItemIndex=1) and (main.Edit2.Text='CDC')then
-                sql.Add(',''VB1''')
+              //檢查是否有量產採購單
+              TemQry1.active:=false;
+              TemQry1.sql.Clear;
+              if Isflag=true then
+                TemQry1.sql.Add(' select * from CGBJS where CLBH='''+Query.fieldbyname('CLBH').AsString+'''  and Season='''+XXZL.fieldbyname('Season').AsString+'''')
               else
-                sql.Add(','''+main.Edit2.Text+'''');
-              sql.Add(','''+Query.fieldbyname('ZSDH').AsString+''',');
-              //sql.Add(','''+Query.fieldbyname('Season').AsString+''',');
-              if Query.fieldbyname('flag').Value=true then
-              begin
-                sql.Add('null,null,null');
-                if (Query.FieldByName('CostingRemark').IsNull) or (Query.FieldByName('CostingRemark').AsString='') then
-                      sql.Add(' ,''CBD No use;'+Query.fieldbyname('CostingRemark').AsString+''',')
-                else
-                      sql.Add(' ,'''+Query.fieldbyname('CostingRemark').AsString+''',');
+                TemQry1.sql.Add(' select * from CGBJS where CLBH='''+Query.fieldbyname('CLBH').AsString+'''  and Season='''+Query.fieldbyname('Season').AsString+'''');
+              //ShowMessage(TemQry1.SQL.Text);
+
+              TemQry1.Active:=True;
+              if (TemQry1.RecordCount>0) and (main.Edit1.Text<>'351205') and (TemQry.fieldbyname('SamplePrice').value<>Eval(Query.fieldbyname('PriceFormula').AsString))then
+              begin                                                             
+                  if Isflag=true then
+                    ShowMessage('PUR N231 has the CLBH='+Query.fieldbyname('CLBH').AsString+' and Season='+XXZL.fieldbyname('Season').AsString+ sLineBreak + 'CAN NOT update this item!')
+                  else
+                    ShowMessage('PUR N231 has the CLBH='+Query.fieldbyname('CLBH').AsString+' and Season='+Query.fieldbyname('Season').AsString+ sLineBreak + 'CAN NOT update this item!');
+                TemQry1.active:=false;
+                TemQry1.sql.Clear;
               end
               else
               begin
-                //sql.Add(''''+Query.fieldbyname('SamplePrice').AsString+''',');
-                sql.Add(''''+Eval(Query.fieldbyname('PriceFormula').AsString)+''',');
-                sql.Add(''''+Query.fieldbyname('PriceFormula').AsString+''',');
-              sql.Add(''''+Query.fieldbyname('Freight').AsString+''',');
-                sql.Add(''''+Query.fieldbyname('CostingRemark').AsString+''',');
-              end;
-              sql.Add(''''+main.edit1.text+'''');
-              sql.Add(',CONVERT(varchar(100), GETDATE(), 120)');
-            if (Query.fieldbyname('flag').Value=true) then
-              sql.Add(',1') //打勾=1
-            else
-              sql.Add(',0');
-            if Isflag=true then
-                sql.Add(' ,'''+XXZL.fieldbyname('Season').AsString+''',')
-            else
-              sql.Add(' ,'''+Query.fieldbyname('Season').AsString+''',');
-              sql.Add(''''+Query.fieldbyname('ProdLeadTime').AsString+''',');
-              sql.Add(''''+Query.fieldbyname('Forecast_Leadtime').AsString+''',');
-              sql.Add(''''+Query.fieldbyname('ProdMOQ').AsString+''',');
-              sql.Add(''''+Query.fieldbyname('ExtraPrice').AsString+''',');
-              sql.Add(''''+Query.fieldbyname('Surcharge').AsString+''',');
-              sql.Add(''''+Query.fieldbyname('Dyingfee').AsString+''',');
-              sql.Add(''''+XXZL.fieldbyname('XieXing').AsString+''',');
-              sql.Add(''''+XXZL.fieldbyname('SheHao').AsString+''',');
-              sql.Add(''''+Query.fieldbyname('PurRemark').AsString+''',');
-              sql.add(''''+KFCQ+''',');
-              sql.add(''''+KHDH+'''');
-              sql.add(')');
-              //sql.Add(''''+Query.fieldbyname('Freight').AsString+''')');
-              if CheckBox10.Checked =true then
-                  showmessage(sql.text);
-              execsql;
-            end
-            else
-            begin
-              if (main.edit2.Text=TemQry.FieldByName('GSBH').AsString) or (TemQry.FieldByName('GSBH').AsString='VB1') then
-              begin
-                active:=false;
-                sql.Clear;
-                sql.Add(' update MaterialCBD_His set ');
-                if (Query.fieldbyname('flag').Value=true) then
-                  Begin
-                    sql.Add(' SamplePrice=null,PriceFormula=null,Freight=null');
-                    if (Query.FieldByName('CostingRemark').IsNull) or (Query.FieldByName('CostingRemark').AsString='') then
-                      sql.Add(' ,CostingRemark=''CBD No use;''')
-                    else
-                      sql.Add(' ,CostingRemark=''CBD No use;'+Query.fieldbyname('CostingRemark').AsString+'''');
-                  end
-                else
+                TemQry1.active:=false;
+                TemQry1.sql.Clear;
+                //資料保存
+                if eof then
+                begin
+                  active:=false;
+                  sql.Clear;
+                  sql.Add(' insert MaterialCBD_His (CLBH,GSBH,ZSBH,SamplePrice,PriceFormula,Freight,CostingRemark,userID');
+                  sql.Add(' ,userdate,YN,Season,ProdLeadTime,Forecast_Leadtime,ProdMOQ,ExtraPrice,Surcharge,Dyingfee,XieXing,SheHao,PurRemark,KFCQ,KHDH');
+                  sql.Add(') values (');
+                  sql.Add(' '''+Query.fieldbyname('CLBH').AsString+'''');
+                  //sql.Add(','''+main.edit2.Text+'''');     //品牌選擇修改不同廠區
+                  if (CB_FTY.ItemIndex=1) and (main.Edit2.Text='CDC')then
+                    sql.Add(',''VB1''')
+                  else
+                    sql.Add(','''+main.Edit2.Text+'''');
+                  sql.Add(','''+Query.fieldbyname('ZSDH').AsString+''',');
+                  //sql.Add(','''+Query.fieldbyname('Season').AsString+''',');
+                  if Query.fieldbyname('flag').Value=true then
                   begin
-                    sql.Add(' SamplePrice='''+Eval(Query.fieldbyname('PriceFormula').AsString)+'''');
-                    sql.Add(' ,PriceFormula='''+Query.fieldbyname('PriceFormula').AsString+'''');
-                    sql.Add(' ,CostingRemark='''+Query.fieldbyname('CostingRemark').AsString+'''');
-                    sql.Add(' ,Freight='''+Query.fieldbyname('Freight').AsString+'''');
+                    sql.Add('null,null,null');
+                    if (Query.FieldByName('CostingRemark').IsNull) or (Query.FieldByName('CostingRemark').AsString='') then
+                          sql.Add(' ,''CBD No use;'+Query.fieldbyname('CostingRemark').AsString+''',')
+                    else
+                          sql.Add(' ,'''+Query.fieldbyname('CostingRemark').AsString+''',');
+                  end
+                  else
+                  begin
+                    //sql.Add(''''+Query.fieldbyname('SamplePrice').AsString+''',');
+                    sql.Add(''''+Eval(Query.fieldbyname('PriceFormula').AsString)+''',');
+                    sql.Add(''''+Query.fieldbyname('PriceFormula').AsString+''',');
+                    sql.Add(''''+Query.fieldbyname('Freight').AsString+''',');
+                    sql.Add(''''+Query.fieldbyname('CostingRemark').AsString+''',');
                   end;
-                sql.Add('   ,ZSBH='''+Query.fieldbyname('ZSDH').AsString+''' ');
-                sql.Add('   ,userID='''+main.edit1.text+'''');
-                sql.Add('   ,userdate=CONVERT(varchar(100), GETDATE(), 120)');
-                sql.Add('   ,ProdLeadTime='''+Query.fieldbyname('ProdLeadTime').AsString+''' ');
-                sql.Add('   ,Forecast_Leadtime='''+Query.fieldbyname('Forecast_Leadtime').AsString+''' ');
-                sql.Add('   ,ProdMOQ='''+Query.fieldbyname('ProdMOQ').AsString+''' ');
-                sql.Add('   ,ExtraPrice ='''+Query.fieldbyname('ExtraPrice').AsString+''' ');
-                sql.Add('   ,Surcharge='''+Query.fieldbyname('Surcharge').AsString+''' ');
-                sql.Add('   ,Dyingfee='''+Query.fieldbyname('Dyingfee').AsString+''' ');
-                sql.Add('   ,XieXing='''+XXZL.fieldbyname('XieXing').AsString+''' ');
-                sql.Add('   ,SheHao='''+XXZL.fieldbyname('SheHao').AsString+''' ');
-                sql.Add('   ,PurRemark='''+Query.fieldbyname('PurRemark').AsString+''' ');
-                sql.Add(' where CLBH = '''+Query.fieldbyname('CLBH').AsString+''' ');
-                sql.Add(' and ZSBH = '''+Query.fieldbyname('ZSDH').AsString+''' ');
-                if Isflag=true then
-                    sql.Add(' and Season = '''+XXZL.fieldbyname('Season').AsString+'''')
+                  sql.Add(''''+main.edit1.text+'''');
+                  sql.Add(',CONVERT(varchar(100), GETDATE(), 120)');
+                  if (Query.fieldbyname('flag').Value=true) then
+                    sql.Add(',1') //打勾=1
+                  else
+                    sql.Add(',0');
+                  if Isflag=true then
+                      sql.Add(' ,'''+XXZL.fieldbyname('Season').AsString+''',')
+                  else
+                    sql.Add(' ,'''+Query.fieldbyname('Season').AsString+''',');
+                    sql.Add(''''+Query.fieldbyname('ProdLeadTime').AsString+''',');
+                    sql.Add(''''+Query.fieldbyname('Forecast_Leadtime').AsString+''',');
+                    sql.Add(''''+Query.fieldbyname('ProdMOQ').AsString+''',');
+                    sql.Add(''''+Query.fieldbyname('ExtraPrice').AsString+''',');
+                    sql.Add(''''+Query.fieldbyname('Surcharge').AsString+''',');
+                    sql.Add(''''+Query.fieldbyname('Dyingfee').AsString+''',');
+                    sql.Add(''''+XXZL.fieldbyname('XieXing').AsString+''',');
+                    sql.Add(''''+XXZL.fieldbyname('SheHao').AsString+''',');
+                    sql.Add(''''+Query.fieldbyname('PurRemark').AsString+''',');
+                    sql.add(''''+KFCQ+''',');
+                    sql.add(''''+KHDH+'''');
+                    sql.add(')');
+                  //sql.Add(''''+Query.fieldbyname('Freight').AsString+''')');
+                  if CheckBox10.Checked =true then
+                      showmessage(sql.text);
+                  execsql;
+                end
                 else
-                    sql.Add(' and Season = '''+Query.fieldbyname('Season').AsString+'''');
-                if (CB_FTY.ItemIndex=1) and (main.Edit2.Text='HBA')then
-                  sql.Add('and GSBH=''VB1''')
-                else
-                  sql.Add('and GSBH='''+main.Edit2.Text+'''');          
-                sql.add('and KFCQ='''+KFCQ+''' ');
-                if (Query.fieldbyname('flag').Value=true) then
-                    sql.Add(' and YN=1')
-                else 
-                    sql.Add(' and YN=0'); 
-               sql.add('and KHDH='''+KHDH+'''');
+                begin
+                  if (main.edit2.Text=TemQry.FieldByName('GSBH').AsString) or (TemQry.FieldByName('GSBH').AsString='VB1') then
+                  begin
+                    active:=false;
+                    sql.Clear;
+                    sql.Add(' update MaterialCBD_His set ');
+                    if (Query.fieldbyname('flag').Value=true) then
+                      Begin
+                        sql.Add(' SamplePrice=null,PriceFormula=null,Freight=null');
+                        if (Query.FieldByName('CostingRemark').IsNull) or (Query.FieldByName('CostingRemark').AsString='') then
+                          sql.Add(' ,CostingRemark=''CBD No use;''')
+                        else
+                          sql.Add(' ,CostingRemark=''CBD No use;'+Query.fieldbyname('CostingRemark').AsString+'''');
+                      end
+                    else
+                      begin
+                        sql.Add(' SamplePrice='''+Eval(Query.fieldbyname('PriceFormula').AsString)+'''');
+                        sql.Add(' ,PriceFormula='''+Query.fieldbyname('PriceFormula').AsString+'''');
+                        sql.Add(' ,CostingRemark='''+Query.fieldbyname('CostingRemark').AsString+'''');
+                        sql.Add(' ,Freight='''+Query.fieldbyname('Freight').AsString+'''');
+                      end;
+                    sql.Add('   ,ZSBH='''+Query.fieldbyname('ZSDH').AsString+''' ');
+                    sql.Add('   ,userID='''+main.edit1.text+'''');
+                    sql.Add('   ,userdate=CONVERT(varchar(100), GETDATE(), 120)');
+                    sql.Add('   ,ProdLeadTime='''+Query.fieldbyname('ProdLeadTime').AsString+''' ');
+                    sql.Add('   ,Forecast_Leadtime='''+Query.fieldbyname('Forecast_Leadtime').AsString+''' ');
+                    sql.Add('   ,ProdMOQ='''+Query.fieldbyname('ProdMOQ').AsString+''' ');
+                    sql.Add('   ,ExtraPrice ='''+Query.fieldbyname('ExtraPrice').AsString+''' ');
+                    sql.Add('   ,Surcharge='''+Query.fieldbyname('Surcharge').AsString+''' ');
+                    sql.Add('   ,Dyingfee='''+Query.fieldbyname('Dyingfee').AsString+''' ');
+                    sql.Add('   ,XieXing='''+XXZL.fieldbyname('XieXing').AsString+''' ');
+                    sql.Add('   ,SheHao='''+XXZL.fieldbyname('SheHao').AsString+''' ');
+                    sql.Add('   ,PurRemark='''+Query.fieldbyname('PurRemark').AsString+''' ');
+                    sql.Add(' where CLBH = '''+Query.fieldbyname('CLBH').AsString+''' ');
+                    sql.Add(' and ZSBH = '''+Query.fieldbyname('ZSDH').AsString+''' ');
+                    if Isflag=true then
+                        sql.Add(' and Season = '''+XXZL.fieldbyname('Season').AsString+'''')
+                    else
+                        sql.Add(' and Season = '''+Query.fieldbyname('Season').AsString+'''');
+                    if (CB_FTY.ItemIndex=1) and (main.Edit2.Text='HBA')then
+                      sql.Add('and GSBH=''VB1''')
+                    else
+                      sql.Add('and GSBH='''+main.Edit2.Text+'''');          
+                    sql.add('and KFCQ='''+KFCQ+''' ');
+                    if (Query.fieldbyname('flag').Value=true) then
+                        sql.Add(' and YN=1')
+                    else 
+                        sql.Add(' and YN=0'); 
+                   sql.add('and KHDH='''+KHDH+'''');
 
 
-                if CheckBox10.Checked =true then
-                    showmessage(sql.text);
-                execsql;
-              end else
-              begin
-                active:=false;
-                showmessage('Department not the same ');
-                abort;
+                    if CheckBox10.Checked =true then
+                        showmessage(sql.text);
+                    execsql;
+                  end else
+                  begin
+                    active:=false;
+                    showmessage('Department not the same ');
+                    abort;
+                  end;
+                end;
               end;
             end;
 
@@ -2416,7 +2445,7 @@ begin
             sql.Add('and MaterialCBD_His.Season like ''FW'+RightStr(Edit4.Text,2)+'''' )
           else if (copy(Edit4.Text,1,1)='S') or  (copy(Edit4.Text,1,1)='S') then
             sql.Add('and MaterialCBD_His.Season like ''SS'+RightStr(Edit4.Text,2)+'''' );
-      end;     
+      end;
      sql.add('and MaterialCBD_His.KHDH='''+KHDH+'''');
      sql.Add('and MaterialCBD_His.season like '+''''+'%'+Edit4.Text+'%'+'''');
     if ((checkbox12.Checked=true) and (checkbox13.Checked=false)) then
@@ -2480,6 +2509,8 @@ begin
  end;      
       eclApp.WorkSheets[1].Name := 'MaterialCBD_His';
       //eclApp.Workbooks[1].WorkSheets.Add;
+      // TH艽 Sheet m?i tru?c khi truy c?p
+      eclApp.WorkSheets.Add(EmptyParam, WorkBook.WorkSheets[1], 1, EmptyParam);
       eclApp.WorkSheets[2].Activate;
       eclApp.WorkSheets[2].Name := 'MaterialCBDEX';
         for   i:=0   to   TemQry1.fieldcount-1   do
@@ -2500,7 +2531,7 @@ begin
         TemQry1.Next;
         inc(j);
         end;
-       eclapp.columns.autofit;     
+       eclapp.columns.autofit;
       eclApp.WorkSheets[1].Activate;
 
 

@@ -1,6 +1,6 @@
 object StockShoeMonth: TStockShoeMonth
-  Left = 289
-  Top = 293
+  Left = 609
+  Top = 363
   Width = 1539
   Height = 613
   Caption = 'StockShoeMonth'
@@ -453,7 +453,7 @@ object StockShoeMonth: TStockShoeMonth
         object Button6: TButton
           Left = 1093
           Top = 3
-          Width = 75
+          Width = 84
           Height = 33
           Caption = 'ExcelTB'
           TabOrder = 11
@@ -500,6 +500,39 @@ object StockShoeMonth: TStockShoeMonth
           Caption = 'Excel_KK'
           TabOrder = 16
           OnClick = Button10Click
+        end
+        object Button13: TButton
+          Left = 1092
+          Top = 41
+          Width = 88
+          Height = 33
+          Caption = 'Print Card'
+          TabOrder = 17
+          OnClick = Button13Click
+        end
+        object chkNgayKK: TCheckBox
+          Left = 732
+          Top = 58
+          Width = 77
+          Height = 17
+          Caption = 'Ngay KK:'
+          TabOrder = 18
+        end
+        object DTPKK: TDateTimePicker
+          Left = 808
+          Top = 54
+          Width = 90
+          Height = 24
+          Date = 39255.000000000000000000
+          Format = 'yyyy/MM/dd'
+          Time = 39255.000000000000000000
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 19
         end
       end
       object DBGridEh2: TDBGridEh

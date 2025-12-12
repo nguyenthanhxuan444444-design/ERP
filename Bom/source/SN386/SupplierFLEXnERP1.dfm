@@ -1,6 +1,6 @@
 object SupplierFLEXnERP: TSupplierFLEXnERP
-  Left = 442
-  Top = 456
+  Left = 494
+  Top = 140
   Width = 1305
   Height = 724
   Caption = 'SupplierFLEXnERP'
@@ -52,6 +52,7 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
         TitleFont.Height = -11
         TitleFont.Name = 'MS Sans Serif'
         TitleFont.Style = []
+        OnTitleClick = DBGridEh3TitleClick
         Columns = <
           item
             EditButtons = <>
@@ -72,8 +73,15 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
           end
           item
             EditButtons = <>
+            FieldName = 'Country'
+            Footers = <>
+            Width = 52
+          end
+          item
+            EditButtons = <>
             FieldName = 'Supplier'
             Footers = <>
+            Width = 156
           end
           item
             EditButtons = <>
@@ -188,7 +196,7 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
           NumGlyphs = 2
         end
         object FLEX_CODE: TEdit
-          Left = 139
+          Left = 379
           Top = 9
           Width = 109
           Height = 24
@@ -233,7 +241,7 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
           NumGlyphs = 2
         end
         object FLEX_NAME: TEdit
-          Left = 139
+          Left = 379
           Top = 33
           Width = 109
           Height = 24
@@ -308,7 +316,7 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
           NumGlyphs = 2
         end
         object ERP_CODE: TEdit
-          Left = 387
+          Left = 131
           Top = 9
           Width = 109
           Height = 24
@@ -322,7 +330,7 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
           TabOrder = 6
         end
         object ERP_NAME: TEdit
-          Left = 387
+          Left = 131
           Top = 33
           Width = 109
           Height = 24
@@ -336,11 +344,11 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
           TabOrder = 7
         end
         object CheckBox4: TCheckBox
-          Left = 800
+          Left = 960
           Top = 8
           Width = 193
           Height = 17
-          Caption = 'SupplierCode Multiple Results'
+          Caption = 'SupplierCode/CSBH Multiple Results'
           Checked = True
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -383,7 +391,7 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
           NumGlyphs = 2
         end
         object CheckBox1: TCheckBox
-          Left = 800
+          Left = 960
           Top = 24
           Width = 193
           Height = 17
@@ -399,7 +407,7 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
           TabOrder = 10
         end
         object CheckBox2: TCheckBox
-          Left = 800
+          Left = 960
           Top = 40
           Width = 193
           Height = 17
@@ -412,23 +420,64 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
           ParentFont = False
           TabOrder = 11
         end
+        object BitBtn2: TBitBtn
+          Left = 760
+          Top = 0
+          Width = 49
+          Height = 49
+          Hint = 'Save Current'
+          Caption = 'Upload'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 12
+          OnClick = BitBtn2Click
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555
+            555555555555555555555555555555555555555555FF55555555555559055555
+            55555555577FF5555555555599905555555555557777F5555555555599905555
+            555555557777FF5555555559999905555555555777777F555555559999990555
+            5555557777777FF5555557990599905555555777757777F55555790555599055
+            55557775555777FF5555555555599905555555555557777F5555555555559905
+            555555555555777FF5555555555559905555555555555777FF55555555555579
+            05555555555555777FF5555555555557905555555555555777FF555555555555
+            5990555555555555577755555555555555555555555555555555}
+          Layout = blGlyphTop
+          NumGlyphs = 2
+        end
       end
     end
   end
   object Query: TQuery
     DatabaseName = 'DB'
     SQL.Strings = (
-      'select CONVERT(Bit,IsNull(CSBH_FLEX.Replaced,0)) as Replaced_1'
+      'Select CONVERT(Bit,IsNull(CSBH_FLEX.Replaced,0)) as Replaced_1'
       ',CSBH_FLEX.CSBH,CSBH_FLEX.SupplierCode,CSBH_FLEX.Supplier'
-      
-        ',ZSZL.ZSYWJC,CSBH_FLEX.USERID,CSBH_FLEX.USERDATE,CSBH_FLEX.Repla' +
-        'ced'
+      ',ZSZL.ZSYWJC,ZSZL_DEV.Country'
+      ',CSBH_FLEX.USERID,CSBH_FLEX.USERDATE,CSBH_FLEX.Replaced'
       'from CSBH_FLEX'
       'left JOIN ZSZL on ZSZL.ZSDH=CSBH_FLEX.CSBH'
       
-        'where CSBH_FLEX.SupplierCode in (SELECT CSBH_FLEX.SupplierCode F' +
-        'ROM CSBH_FLEX  GROUP BY CSBH_FLEX.SupplierCode HAVING COUNT(*) >' +
-        ' 1)')
+        'left join (select zsdh,max(Country) as Country from ZSZL_DEV gro' +
+        'up by zsdh)ZSZL_DEV on ZSZL_DEV.zsdh=CSBH_FLEX.CSBH'
+      'where 1=1'
+      'and (CSBH_FLEX.Replaced ='#39'0'#39' or CSBH_FLEX.Replaced is null)'
+      
+        'and (CSBH_FLEX.SupplierCode in (SELECT CSBH_FLEX.SupplierCode FR' +
+        'OM CSBH_FLEX where (CSBH_FLEX.Replaced='#39'0'#39' or CSBH_FLEX.Replaced' +
+        ' is null)'
+      '  GROUP BY CSBH_FLEX.SupplierCode HAVING COUNT(*) > 1)'
+      
+        'OR CSBH_FLEX.CSBH in (SELECT CSBH_FLEX.CSBH FROM CSBH_FLEX where' +
+        ' (CSBH_FLEX.Replaced='#39'0'#39' or CSBH_FLEX.Replaced is null)'
+      '  GROUP BY CSBH_FLEX.CSBH HAVING COUNT(*) > 1))'
+      'order by CSBH_FLEX.CSBH')
     UpdateObject = UpdateSQL
     Left = 104
     Top = 200
@@ -449,6 +498,11 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
     object QueryZSYWJC: TStringField
       FieldName = 'ZSYWJC'
       FixedChar = True
+    end
+    object QueryCountry: TStringField
+      FieldName = 'Country'
+      FixedChar = True
+      Size = 10
     end
     object QuerySupplier: TStringField
       FieldName = 'Supplier'
@@ -504,5 +558,12 @@ object SupplierFLEXnERP: TSupplierFLEXnERP
       '  SupplierCode = :OLD_SupplierCode')
     Left = 104
     Top = 320
+  end
+  object Qry_Tmp: TQuery
+    DatabaseName = 'dB'
+    SQL.Strings = (
+      'select * from zszl_flex')
+    Left = 179
+    Top = 202
   end
 end

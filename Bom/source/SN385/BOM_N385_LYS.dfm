@@ -1,7 +1,7 @@
 object CostingPriceList_LYS: TCostingPriceList_LYS
-  Left = 469
-  Top = 252
-  Width = 1305
+  Left = 268
+  Top = 190
+  Width = 1591
   Height = 675
   Caption = 'CostingPriceList LYS'
   Color = clBtnFace
@@ -10,14 +10,20 @@ object CostingPriceList_LYS: TCostingPriceList_LYS
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  FormStyle = fsMDIChild
   OldCreateOrder = False
+  Position = poDefault
+  Visible = True
   WindowState = wsMaximized
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 1289
+    Width = 1575
     Height = 636
     ActivePage = TabSheet1
     Align = alClient
@@ -42,7 +48,7 @@ object CostingPriceList_LYS: TCostingPriceList_LYS
       object DBGridEh2: TDBGridEh
         Left = 0
         Top = 49
-        Width = 1281
+        Width = 1567
         Height = 559
         Align = alClient
         DataSource = DataSource1
@@ -134,12 +140,18 @@ object CostingPriceList_LYS: TCostingPriceList_LYS
             EditButtons = <>
             FieldName = 'CheckDate'
             Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'KFCQ'
+            Footers = <>
+            Width = 100
           end>
       end
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 1281
+        Width = 1567
         Height = 49
         Align = alTop
         TabOrder = 1
@@ -187,6 +199,20 @@ object CostingPriceList_LYS: TCostingPriceList_LYS
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           ParentFont = False
+        end
+        object Label2: TLabel
+          Left = 744
+          Top = 16
+          Width = 47
+          Height = 13
+          Caption = 'Company:'
+        end
+        object Label5: TLabel
+          Left = 960
+          Top = 16
+          Width = 31
+          Height = 13
+          Caption = 'Brand:'
         end
         object BA8: TBitBtn
           Left = 664
@@ -398,6 +424,33 @@ object CostingPriceList_LYS: TCostingPriceList_LYS
           Font.Style = []
           ParentFont = False
           TabOrder = 8
+        end
+        object CB_FTY: TComboBox
+          Left = 798
+          Top = 12
+          Width = 89
+          Height = 21
+          Style = csDropDownList
+          Color = clMoneyGreen
+          ItemHeight = 13
+          TabOrder = 9
+          Items.Strings = (
+            'YIH'
+            'YQA'
+            '')
+        end
+        object CB_B: TComboBox
+          Left = 1006
+          Top = 12
+          Width = 89
+          Height = 21
+          Style = csDropDownList
+          Color = clMoneyGreen
+          ItemHeight = 13
+          TabOrder = 10
+          Items.Strings = (
+            'HOKA'
+            'TEVA')
         end
       end
     end

@@ -312,6 +312,52 @@ type
     Query_SEXE_date: TStringField;
     Query_3DXieMing: TStringField;
     Query_1DXieMing: TStringField;
+    TabSheet10: TTabSheet;
+    Panel13: TPanel;
+    Panel14: TPanel;
+    BAP1: TBitBtn;
+    BAP2: TBitBtn;
+    BAP3: TBitBtn;
+    BAP4: TBitBtn;
+    BAP5: TBitBtn;
+    BAP6: TBitBtn;
+    BAP7: TBitBtn;
+    BAP8: TBitBtn;
+    Label28: TLabel;
+    DTP_AP: TDateTimePicker;
+    Label29: TLabel;
+    CB_Building_AP: TComboBox;
+    Label30: TLabel;
+    CB_Lean_AP: TComboBox;
+    Button_QAP: TButton;
+    DBGridEh_AP: TDBGridEh;
+    DS_AP: TDataSource;
+    Query_AP: TQuery;
+    StringField12: TStringField;
+    StringField13: TStringField;
+    DateTimeField4: TDateTimeField;
+    StringField15: TStringField;
+    IntegerField8: TIntegerField;
+    StringField18: TStringField;
+    DateTimeField6: TDateTimeField;
+    StringField19: TStringField;
+    UpdateSQL_AP: TUpdateSQL;
+    Query_APGXLB: TStringField;
+    Splitter1: TSplitter;
+    DS_APS: TDataSource;
+    Query_APS: TQuery;
+    Panel15: TPanel;
+    DBGridEh_APS: TDBGridEh;
+    Panel16: TPanel;
+    BAPS1: TBitBtn;
+    BAPS2: TBitBtn;
+    BAPS3: TBitBtn;
+    BAPS4: TBitBtn;
+    BAPS5: TBitBtn;
+    UpdateSQL_APS: TUpdateSQL;
+    Query_APListNo: TStringField;
+    Query_Sfinish_date: TDateTimeField;
+    Button2: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -420,13 +466,43 @@ type
     procedure ED_LaborChange(Sender: TObject);
     procedure B1D10Click(Sender: TObject);
     procedure TBUploadClick(Sender: TObject);
+    procedure DTP_APChange(Sender: TObject);
+    procedure CB_Building_APChange(Sender: TObject);
+    procedure Button_QAPClick(Sender: TObject);
+    procedure Query_APAfterOpen(DataSet: TDataSet);
+    procedure Query_APNewRecord(DataSet: TDataSet);
+    procedure BAP2Click(Sender: TObject);
+    procedure BAP3Click(Sender: TObject);
+    procedure BAP4Click(Sender: TObject);
+    procedure BAP5Click(Sender: TObject);
+    procedure Query_APAfterScroll(DataSet: TDataSet);
+    procedure DBGridEh_APGetCellParams(Sender: TObject; Column: TColumnEh;
+      AFont: TFont; var Background: TColor; State: TGridDrawState);
+    procedure BAP6Click(Sender: TObject);
+    procedure BAP7Click(Sender: TObject);
+    procedure BAPS1Click(Sender: TObject);
+    procedure BAPS2Click(Sender: TObject);
+    procedure BAPS3Click(Sender: TObject);
+    procedure BAPS4Click(Sender: TObject);
+    procedure BAPS5Click(Sender: TObject);
+    procedure Query_APSAfterOpen(DataSet: TDataSet);
+    procedure DBGridEh_APColumns2EditButtonClick(Sender: TObject;
+      var Handled: Boolean);
+    procedure DBGridEh_APSColumns0EditButtonDown(Sender: TObject;
+      TopButton: Boolean; var AutoRepeat, Handled: Boolean);
+    procedure Query_APSNewRecord(DataSet: TDataSet);
+    procedure BAP8Click(Sender: TObject);
+    procedure DBGridEh_APSGetCellParams(Sender: TObject; Column: TColumnEh;
+      AFont: TFont; var Background: TColor; State: TGridDrawState);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
-    GCD_Date, P3D_Date, P1D_Date: TDate;
-    GCD_Building, GCD_Lean, P3D_Building, P3D_Lean, P1D_Building, P1D_Lean: string;
+    GCD_Date, P3D_Date, P1D_Date, PAP_Date: TDate;
+    GCD_Building, GCD_Lean, P3D_Building, P3D_Lean, P1D_Building, P1D_Lean, PAP_Building, PAP_Lean: string;
     GCD_Mode, P3D_Mode, P1D_Mode, P1D_Type, MCF_Mode: string;
     RY_List, Cycle_List: TStringList;
     MCF_Labor: integer;
+    isSaving: boolean;
     procedure MES_Connect;
     procedure MES_DisConnect;
     procedure MES_DeleteOldScheduleFile(Building: string);
@@ -434,6 +510,7 @@ type
     procedure ReloadBuilding(ComboBox: TComboBox; DTP_Start, DTP_End: TDateTimePicker; Mode: String);
     procedure ReloadLean(ComboBox, SourceBox: TComboBox; DTP_Start, DTP_End: TDateTimePicker; Mode: String);
     procedure ProductionLineCheck(SDate: TDate; Building: string);
+    procedure onSizePairsValidate(Sender: TField);
   public
     { Public declarations }
     Version: string;
@@ -453,7 +530,7 @@ implementation
 
 uses
   main1, SchedulePage1, RYDialog1, ExportDialog1, ScheduleVersion1,
-  LeanModelChanges1, SequenceCheck1;
+  LeanModelChanges1, SequenceCheck1, AssemblyRYDlg1, AssemblyCycleDlg1;
 
 {$R *.dfm}
 
@@ -552,7 +629,7 @@ end;
 
 procedure TScheduleUpload.SeqCheck(Building: string; CheckDate: TDate);
 const
-  URL = 'http://192.168.23.12:80/api/ERP/sendTelegramMessage';
+  URL = 'http://192.168.71.33:80/api/ERP/sendTelegramMessage';
 var
   TempMsg, Response: string;
   JsonBody: TStringStream;
@@ -810,6 +887,7 @@ procedure TScheduleUpload.FormCreate(Sender: TObject);
 begin
   PC_Main.TabIndex := 0;
   PC_SQ.TabIndex := 0;
+  isSaving := false;
 
   if (main.Edit2.Text = 'TBA') or (main.Edit2.Text = 'HBA') then begin
     TBUpload.Visible := true;
@@ -842,6 +920,8 @@ begin
   P3D_Date := Date;
   DTP_1D.Date := Date;
   P1D_Date := Date;
+  DTP_AP.Date := Date;
+  PAP_Date := Date;
   DTP_HC.Date := Date;
   DTP_SQ1.Date := StartOfTheMonth(Date);
   DTP_SQ2.Date := EndOfTheMonth(Date);
@@ -869,6 +949,7 @@ begin
     CB_Building_GCD.Clear;
     CB_Building_3D.Clear;
     CB_Building_1D.Clear;
+    CB_Building_AP.Clear;
     CB_Building_HC.Clear;
     CB_Building_SQ.Clear;
 
@@ -882,6 +963,7 @@ begin
       CB_Building_GCD.Items.Add(FieldByName('building_no').AsString);
       CB_Building_3D.Items.Add(FieldByName('building_no').AsString);
       CB_Building_1D.Items.Add(FieldByName('building_no').AsString);
+      CB_Building_AP.Items.Add(FieldByName('building_no').AsString);
       CB_Building_HC.Items.Add(FieldByName('building_no').AsString);
       CB_Building_SQ.Items.Add(FieldByName('building_no').AsString);
       Next;
@@ -891,13 +973,15 @@ begin
     CB_Building_GCD.ItemIndex := 0;
     CB_Building_3D.ItemIndex := 0;
     CB_Building_1D.ItemIndex := 0;
-    CB_Building_HC.ItemIndex := 0; 
+    CB_Building_AP.ItemIndex := 0;
+    CB_Building_HC.ItemIndex := 0;
     CB_Building_SQ.ItemIndex := 0;
 
     CB_Building_S.DropDownCount := RecordCount + 1;
     CB_Building_GCD.DropDownCount := RecordCount + 1;
     CB_Building_3D.DropDownCount := RecordCount + 1;
-    CB_Building_1D.DropDownCount := RecordCount + 1;
+    CB_Building_1D.DropDownCount := RecordCount + 1; 
+    CB_Building_AP.DropDownCount := RecordCount + 1;
     CB_Building_HC.DropDownCount := RecordCount + 1; 
     CB_Building_SQ.DropDownCount := RecordCount + 1;
   end;
@@ -947,23 +1031,27 @@ begin
 
     CB_Lean_GCD.Clear;
     CB_Lean_3D.Clear;
-    CB_Lean_1D.Clear;
+    CB_Lean_1D.Clear;  
+    CB_Lean_AP.Clear;
 
     while not Eof do
     begin
       CB_Lean_GCD.Items.Add(FieldByName('lean_no').AsString);
       CB_Lean_3D.Items.Add(FieldByName('lean_no').AsString);
       CB_Lean_1D.Items.Add(FieldByName('lean_no').AsString);
+      CB_Lean_AP.Items.Add(FieldByName('lean_no').AsString);
       Next;
     end;
                        
     CB_Lean_GCD.ItemIndex := 0;
     CB_Lean_3D.ItemIndex := 0;
-    CB_Lean_1D.ItemIndex := 0;
+    CB_Lean_1D.ItemIndex := 0;  
+    CB_Lean_AP.ItemIndex := 0;
 
     CB_Lean_GCD.DropDownCount := RecordCount + 1;
     CB_Lean_3D.DropDownCount := RecordCount + 1;
     CB_Lean_1D.DropDownCount := RecordCount + 1;
+    CB_Lean_AP.DropDownCount := RecordCount + 1;
   end;
 end;
 
@@ -991,7 +1079,7 @@ begin
     Active := false;
     SQL.Clear;
     SQL.Add('SELECT version, building_no, CONVERT(SmallDateTime, schedule_date, 111) AS schedule_date, lean_no, ry_index, ly, ry, vt, chat_lieu, last, buy,');
-    SQL.Add('bts, cutting, sku, stitching, sl, assembly, csd, country, user_id, CONVERT(SmallDateTime, user_date, 111) AS user_date, ''1'' AS YN,GSBH,De_ok_date,hangbu,pairs_in,pairs_in_lack,EXE_date FROM schedule_crawler');
+    SQL.Add('bts, cutting, sku, stitching, sl, assembly, csd, country, finish_date, user_id, CONVERT(SmallDateTime, user_date, 111) AS user_date, ''1'' AS YN, GSBH, De_ok_date, hangbu, pairs_in, pairs_in_lack, EXE_date FROM schedule_crawler');
     SQL.Add('WHERE CONVERT(SmallDateTime, schedule_date, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', DTP_S1.Date) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', DTP_S2.Date) + '''');
     SQL.Add('AND GSBH = ''' + main.Edit2.Text + '''');
     if (CB_Building_S.ItemIndex > 0) then
@@ -1147,7 +1235,7 @@ begin
             Active := false;
             SQL.Clear;
             SQL.Add('SELECT version, building_no, CONVERT(SmallDateTime, schedule_date, 111) AS schedule_date, lean_no, ry_index, ly, ry, vt, chat_lieu, last, buy,');
-            SQL.Add('bts, cutting, sku, stitching, sl, assembly, csd, country, user_id, CONVERT(SmallDateTime, user_date, 111) AS user_date, ''1'' AS YN FROM schedule_crawler');
+            SQL.Add('bts, cutting, sku, stitching, sl, assembly, csd, country, finish_date, user_id, CONVERT(SmallDateTime, user_date, 111) AS user_date, ''1'' AS YN, GSBH, De_ok_date, hangbu, pairs_in, pairs_in_lack, EXE_date FROM schedule_crawler');
             SQL.Add('WHERE 1 = 0');
             Active := true;
           
@@ -1752,7 +1840,7 @@ begin
     SQL.Add('  GROUP BY SC.building_no, SC.lean_no, DDZL.XieXing, DDZL.SheHao, DDZL.ARTICLE');
     SQL.Add(') AS SC');
     SQL.Add('LEFT JOIN XXZL ON XXZL.XieXing = SC.XieXing AND XXZL.SheHao = SC.SheHao');
-    SQL.Add('LEFT JOIN SCXXCL ON SCXXCL.XieXing = SC.XieXing AND SCXXCL.SheHao = SC.SheHao AND SCXXCL.BZLB = ''3''');
+    SQL.Add('LEFT JOIN SCXXCL ON SCXXCL.XieXing = SC.XieXing AND SCXXCL.SheHao = SC.SheHao AND SCXXCL.GXLB IN (''C'', ''S'', ''A'') AND SCXXCL.BZLB = ''3''');
     SQL.Add('LEFT JOIN (');
     SQL.Add('  SELECT MS1.Month AS CapacityMonth, MS1.Building, MS1.Lean, MS1.XieXing, MS1.SheHao, MS2.Capacity AS Capacity_His, MS2.UserID, MS2.UserDate FROM (');
     SQL.Add('    SELECT Building, Lean, XieXing, SheHao, MAX(Month) AS Month FROM ModelStandard');
@@ -1909,7 +1997,7 @@ end;
 
 procedure TScheduleUpload.BS5Click(Sender: TObject);
 const
-  URL = 'http://192.168.23.12:80/api/ERP/sendTelegramMessage';
+  URL = 'http://192.168.71.33:80/api/ERP/sendTelegramMessage';
 var
   i, j,k: integer;
   MinDate, MaxDate: TDate;
@@ -1934,11 +2022,12 @@ begin
       if (Query_S.FieldByName('schedule_date').AsDateTime > MaxDate) then
         MaxDate := Query_S.FieldByName('schedule_date').AsDateTime;
 
-      Lean := Query_S.FieldByName('building_no').AsString + '-' + Query_S.FieldByName('lean_no').AsString;
+      {Lean := Query_S.FieldByName('building_no').AsString + '-' + Query_S.FieldByName('lean_no').AsString;
       if (LeanList.IndexOf(Query_S.FieldByName('lean_no').AsString) < 0) then
-        LeanList.Add(Query_S.FieldByName('lean_no').AsString);
+        LeanList.Add(Query_S.FieldByName('lean_no').AsString);}
 
-      if (Query_S.FieldByName('building_no').AsString + '-' + Query_S.FieldByName('lean_no').AsString = Lean) and (i = 1) then
+      if (Query_S.FieldByName('building_no').AsString + '-' + Query_S.FieldByName('lean_no').AsString <> Lean)
+      OR (FormatDateTime('yyyy/MM', Query_S.FieldByName('schedule_date').AsDateTime) <> Month) then
       begin
         with QUpdate do
         begin
@@ -1950,9 +2039,12 @@ begin
           SQL.Add('AND GSBH = ''' + main.Edit2.Text + '''');
           ExecSQL;
         end;
+
+        Lean := Query_S.FieldByName('building_no').AsString + '-' + Query_S.FieldByName('lean_no').AsString;
+        Month := FormatDateTime('yyyy/MM', Query_S.FieldByName('schedule_date').AsDateTime);
       end;
 
-      if (FormatDateTime('yyyy/MM', Query_S.FieldByName('schedule_date').AsDateTime) <> Month) AND (LeanList.Count > 0) then
+      {if (FormatDateTime('yyyy/MM', Query_S.FieldByName('schedule_date').AsDateTime) <> Month) AND (LeanList.Count > 0) then
       begin
         with QUpdate do
         begin
@@ -2001,13 +2093,13 @@ begin
           SQL.Add('AND GSBH = ''' + main.Edit2.Text + '''');
           ExecSQL;
         end;
-      end;
+      end;}
 
       with QUpdate do
       begin
         SQL.Clear;
         SQL.Add('INSERT INTO schedule_crawler');
-        SQL.Add(' (building_no, schedule_date, lean_no, ry_index, ly, ry, vt, chat_lieu, last, buy, bts, cutting, sku, stitching, sl, assembly, csd, country, version, user_id, user_date, GSBH, De_ok_date, hangbu, pairs_in, pairs_in_lack, EXE_date)');
+        SQL.Add(' (building_no, schedule_date, lean_no, ry_index, ly, ry, vt, chat_lieu, last, buy, bts, cutting, sku, stitching, sl, assembly, csd, country, version, user_id, user_date, GSBH, De_ok_date, hangbu, pairs_in, pairs_in_lack, EXE_date, finish_date)');
         SQL.Add('VALUES (');
         SQL.Add('  ''' + Query_S.FieldByName('building_no').AsString + ''',');
         SQL.Add('  ''' + FormatDateTime('yyyy/MM/dd', Query_S.FieldByName('schedule_date').AsDateTime) + ''',');
@@ -2035,7 +2127,8 @@ begin
         SQL.Add('  ''' + Query_S.FieldByName('hangbu').AsString + ''',');
         SQL.Add('  ''' + Query_S.FieldByName('pairs_in').AsString + ''',');
         SQL.Add('  ''' + Query_S.FieldByName('pairs_in_lack').AsString + ''',');
-        SQL.Add('  ''' + Query_S.FieldByName('EXE_date').AsString + '''');
+        SQL.Add('  ''' + Query_S.FieldByName('EXE_date').AsString + ''',');
+        SQL.Add('  ''' + FormatDateTime('yyyy/MM/dd', Query_S.FieldByName('finish_date').AsDateTime) + '''');
         SQL.Add(');');
 
 
@@ -2084,6 +2177,7 @@ begin
       end;
       Query_S.Next;
     end;
+    
     with QUpdate do
     begin
       SQL.Clear;
@@ -2127,7 +2221,7 @@ begin
       RequestLive := false;
       SQL.Clear;
       SQL.Add('SELECT version, building_no, CONVERT(SmallDateTime, schedule_date, 111) AS schedule_date, lean_no, ry_index, ly, ry, vt, chat_lieu, last, buy,');
-      SQL.Add('bts, cutting, sku, stitching, sl, assembly, csd, country, user_id, CONVERT(SmallDateTime, user_date, 111) AS user_date, ''1'' AS YN,GSBH,De_ok_date,hangbu,pairs_in,pairs_in_lack,EXE_date FROM schedule_crawler');
+      SQL.Add('bts, cutting, sku, stitching, sl, assembly, csd, country, finish_date, user_id, CONVERT(SmallDateTime, user_date, 111) AS user_date, ''1'' AS YN,GSBH,De_ok_date,hangbu,pairs_in,pairs_in_lack,EXE_date FROM schedule_crawler');
       SQL.Add('WHERE CONVERT(SmallDateTime, schedule_date, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', DTP_S1.Date) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', DTP_S2.Date) + '''');
       SQL.Add('AND GSBH = ''' + main.Edit2.Text + '''');
       if (CB_Building_S.ItemIndex > 0) then
@@ -2852,8 +2946,8 @@ begin
 
       P1D_RY := FieldByName('RY').AsString;
     end;
-    if (CheckFlag) then
-      SeqCheck(Query_1D.FieldByName('Building').AsString, main.Today);
+    {if (CheckFlag) then
+      SeqCheck(Query_1D.FieldByName('Building').AsString, main.Today);}
 
     Query_1D.Active := false;
     Query_1D.CachedUpdates := false;
@@ -4130,8 +4224,6 @@ begin
 end;
 
 procedure TScheduleUpload.BGCD9Click(Sender: TObject);
-var
-  i: integer;
 begin
   ExportDialog := TExportDialog.Create(Self);
   ExportDialog.SetExportMode('GCD', '', DTP_GCD.Date, CB_Building_GCD.Text);
@@ -4682,7 +4774,7 @@ var
   IsValidFileName, KeepSearching: Boolean;
   Row_Date, Row_Seq, MinCol_Date, MaxCol_Date, Row_Lean, ry_index: integer;
   TempDate: TDateTime;
-  ScheduleBlock: array of array[0..19] of integer;
+  ScheduleBlock: array of array[0..20] of integer;
 begin
   try
     AllowedFileNames[0] := 'DT.xlsx';
@@ -4717,7 +4809,7 @@ begin
             Active := false;
             SQL.Clear;
             SQL.Add('SELECT version, building_no, CONVERT(SmallDateTime, schedule_date, 111) AS schedule_date, lean_no, ry_index, ly, ry, vt, chat_lieu, last, buy,');
-            SQL.Add('bts, cutting, sku, stitching, sl, assembly, csd, country, user_id, CONVERT(SmallDateTime, user_date, 111) AS user_date, ''1'' AS YN,GSBH,De_ok_date,hangbu,pairs_in,pairs_in_lack,EXE_date FROM schedule_crawler');
+            SQL.Add('bts, cutting, sku, stitching, sl, assembly, csd, country, finish_date, user_id, CONVERT(SmallDateTime, user_date, 111) AS user_date, ''1'' AS YN,GSBH,De_ok_date,hangbu,pairs_in,pairs_in_lack,EXE_date FROM schedule_crawler');
             SQL.Add('WHERE 1 = 0');
             Active := true;
 
@@ -4776,6 +4868,7 @@ begin
                     if UpperCase(copy(Sheet.Cells[Row, i].Text,1,4)) = 'LEAN' then
                       Row := Row+1;
                     RowTitle := Sheet.Cells[Row, i].Text;
+                    
                     if (Pos('印刷', RowTitle) = 1) or (Pos('鞋面', RowTitle) = 1) then
                       RowTitle := Sheet.Cells[Row+1, i].Text;
                     index := Pos('(', RowTitle);
@@ -4814,10 +4907,10 @@ begin
 //                    else if (RowTitle = '(S)') then    //針車上線日
 //                      ScheduleBlock[0][9] := i
                     else if (RowTitle = '(S)') then    //數量
-                      begin
-                      ScheduleBlock[0][10] := i;
-                      //ShowMessage('Gia tri index: ' + IntToStr(i));
-                      end
+                    begin
+                    ScheduleBlock[0][10] := i;
+                    //ShowMessage('Gia tri index: ' + IntToStr(i));
+                    end
 //                    else if (RowTitle = '(A)') then    //手工成型備註
 //                      ScheduleBlock[0][11] := i
                     else if (RowTitle = 'CS') then     //出貨日
@@ -4826,26 +4919,30 @@ begin
                       ScheduleBlock[0][13] := i
                     else if (RowTitle = 'NE') then     //材料種類
                       ScheduleBlock[0][14] := i
-                      else if (RowTitle = '(D)') then    //手工成型備註
-                      begin
+                    else if (RowTitle = '(D)') then    //手工成型備註
+                    begin
                       ScheduleBlock[0][15] := i;
-                      end
+                    end
                     else if (RowTitle = '(H)') then     //出貨日
-                      begin
+                    begin
                       ScheduleBlock[0][16] := i;
-                      end
+                    end
                     else if (RowTitle = '(1)') then    //國家
-                      begin
+                    begin
                       ScheduleBlock[0][17] := i;
-                      end
+                    end
                     else if (RowTitle = '(2)') then     //材料種類
-                      begin
+                    begin
                       ScheduleBlock[0][18] := i;
-                      end
+                    end
                     else if (RowTitle = '(A)') then     //材料種類
-                      begin
+                    begin
                       ScheduleBlock[0][19] := i;
-                      end
+                    end
+                    else if (Pos('NGAY HT GO', Sheet.Cells[Row, i].Text) > 0) then
+                    begin
+                      ScheduleBlock[0][20] := i;
+                    end;
                   end;
 
                   Row := Row + 1;
@@ -4911,6 +5008,8 @@ begin
                           FieldByName('pairs_in_lack').Value := Sheet.Cells[Row, ScheduleBlock[0][18]].Text;
                         if (ScheduleBlock[0][19] > 0) then
                           FieldByName('EXE_date').Value := Sheet.Cells[Row, ScheduleBlock[0][19]].Text;
+                        if (ScheduleBlock[0][20] > 0) then
+                          FieldByName('finish_date').Value := FormatDateTime('yyyy/MM/dd', Sheet.Cells[Row, ScheduleBlock[0][20]].Value);
                         FieldByName('YN').Value := '1';
 
                         QTemp.Active := false;
@@ -4985,6 +5084,503 @@ begin
       Exit;
     end;
   end;
+end;
+
+procedure TScheduleUpload.DTP_APChange(Sender: TObject);
+begin
+  ReloadBuilding(CB_Building_AP, DTP_AP, DTP_AP, 'NONE');
+  ReloadLean(CB_Lean_AP, CB_Building_AP, DTP_AP, DTP_AP, 'NONE');
+end;
+
+procedure TScheduleUpload.CB_Building_APChange(Sender: TObject);
+begin
+  ReloadLean(CB_Lean_AP, CB_Building_AP, DTP_AP, DTP_AP, 'NONE');
+end;
+
+procedure TScheduleUpload.Button_QAPClick(Sender: TObject);
+begin
+  PAP_Date := DTP_AP.Date;
+  PAP_Building := CB_Building_AP.Text;
+  PAP_Lean := CB_Lean_AP.Text;
+
+  with Query_AP do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add('SELECT SMDD.ListNo, SMDD.Date, SMDD.Building, SMDD.Lean, SMDD.GXLB, SMDD.ZLBH, ISNULL(SUM(SMDDS.Pairs), 0) AS Pairs, SMDD.UserID, SMDD.UserDate, SMDD.YN FROM SMDD_Dispatch AS SMDD');
+    SQL.Add('LEFT JOIN SMDDS_Dispatch AS SMDDS ON SMDDS.ListNo = SMDD.ListNo AND SMDDS.GXLB = SMDD.GXLB AND SMDDS.ZLBH = SMDD.ZLBH');
+    SQL.Add('WHERE SMDD.Date = ''' + FormatDateTime('yyyy/MM/dd', DTP_AP.Date) + ''' AND SMDD.Building = ''' + CB_Building_AP.Text + ''' AND SMDD.Lean = ''' + CB_Lean_AP.Text + ''' AND SMDD.GXLB = ''A''');
+    SQL.Add('GROUP BY SMDD.ListNo, SMDD.Date, SMDD.Building, SMDD.Lean, SMDD.GXLB, SMDD.ZLBH, SMDD.UserID, SMDD.UserDate, SMDD.YN');
+    SQL.Add('ORDER BY SMDD.ListNo');
+    Active := true;
+  end;
+end;
+       
+procedure TScheduleUpload.Query_APAfterScroll(DataSet: TDataSet);
+var
+  i: integer;
+  NewColumn: TColumnEh;
+begin
+  if (Query_AP.Active) AND (isSaving = false) AND (Query_AP.FieldByName('ZLBH').IsNull = false) then
+  begin
+    with QTemp do
+    begin
+      Active := false;
+      SQL.Clear;
+      SQL.Add('SELECT CC AS Size FROM DDZLS');
+      SQL.Add('WHERE DDBH = ''' + Query_AP.FieldByName('ZLBH').AsString + '''');
+      SQL.Add('ORDER BY CC');
+      Active := true;
+
+      for i := DBGridEh_APS.Columns.Count - 1 downto 1 do
+      begin
+        DBGridEh_APS.Columns.Delete(i);
+      end;
+
+      while not Eof do
+      begin
+        NewColumn := DBGridEh_APS.Columns.Add;
+        NewColumn.FieldName := FieldByName('Size').AsString;
+        NewColumn.Title.Caption := '尺碼|' + FieldByName('Size').AsString + '#';
+        NewColumn.Footer.DisplayFormat := '###,##0';
+        NewColumn.Footer.ValueType := fvtSum;
+        NewColumn.Width := 50;
+        Next;
+      end;
+    end;
+
+    with Query_APS do
+    begin
+      Active := false;
+      SQL.Clear;
+      SQL.Add('SELECT ListNo, GXLB, ZLBH, DDBH');
+      QTemp.First;
+      while not QTemp.Eof do
+      begin
+        SQL.Add(', MAX(CASE WHEN Size = ''' + QTemp.FieldByName('Size').AsString + ''' THEN Pairs END) AS ''' + QTemp.FieldByName('Size').AsString + '''');
+        QTemp.Next;
+      end;
+      SQL.Add('FROM SMDDS_Dispatch');
+      SQL.Add('WHERE ListNo = :ListNo');
+      SQL.Add('GROUP BY ListNo, GXLB, ZLBH, DDBH');
+      SQL.Add('ORDER BY DDBH');
+      Active := true;
+    end;
+
+    for i := 4 to Query_APS.FieldCount - 1 do
+    begin
+      Query_APS.Fields[i].OnValidate := onSizePairsValidate;
+    end;
+  end
+  else begin
+    Query_APS.Active := false;
+    Query_APS.RequestLive := false;
+    Query_APS.CachedUpdates := false;
+    for i := DBGridEh_APS.Columns.Count - 1 downto 1 do
+    begin
+      DBGridEh_APS.Columns.Delete(i);
+    end;
+    DBGridEh_APS.Columns[0].ButtonStyle := cbsNone;
+    BAPS1.Enabled := false;
+    BAPS2.Enabled := false;
+    BAPS3.Enabled := false;
+    BAPS4.Enabled := false;
+    BAPS5.Enabled := false;
+  end;
+end;
+
+procedure TScheduleUpload.Query_APAfterOpen(DataSet: TDataSet);
+begin
+  BAP2.Enabled := true;
+  BAP3.Enabled := true;
+  BAP4.Enabled := true;
+  BAP5.Enabled := false;
+  BAP6.Enabled := false;
+  DBGridEh_AP.Columns[3].ButtonStyle := cbsNone;
+  Query_APAfterScroll(Nil);
+end;
+
+procedure TScheduleUpload.Query_APNewRecord(DataSet: TDataSet);
+begin
+  Query_AP.FieldByName('Date').Value := PAP_Date;
+  Query_AP.FieldByName('Building').Value := PAP_Building;
+  Query_AP.FieldByName('Lean').Value := PAP_Lean;
+end;
+
+procedure TScheduleUpload.BAP2Click(Sender: TObject);
+begin
+  with Query_AP do
+  begin
+    RequestLive := true;
+    CachedUpdates := true;
+    First;
+    Insert;
+  end;
+
+  DBGridEh_AP.Columns[3].ButtonStyle := cbsEllipsis;
+  BAP5.Enabled := true;
+  BAP6.Enabled := true;
+end;
+
+procedure TScheduleUpload.BAP3Click(Sender: TObject);
+begin
+  with Query_AP do
+  begin
+    RequestLive := true;
+    CachedUpdates := true;
+    Edit;
+    FieldByName('YN').Value := 0;
+  end;
+
+  BAP5.Enabled := true;
+  BAP6.Enabled := true;
+end;
+
+procedure TScheduleUpload.BAP4Click(Sender: TObject);
+begin
+  with Query_AP do
+  begin
+    RequestLive := true;
+    CachedUpdates := true;
+    Edit;
+  end;
+
+  DBGridEh_AP.Columns[3].ButtonStyle := cbsEllipsis;
+  BAP5.Enabled := true;
+  BAP6.Enabled := true;
+end;
+
+procedure TScheduleUpload.BAP5Click(Sender: TObject);
+var
+  i: integer;
+begin           
+  isSaving := true;
+
+  try
+    Query_AP.First;
+    for i := 1 to Query_AP.RecordCount do
+    begin
+      case Query_AP.UpdateStatus of
+        usInserted:
+        begin
+          if (Query_AP.FieldByName('ZLBH').IsNull) then
+          begin
+            Query_AP.Delete;
+          end
+          else begin
+            with QTemp do
+            begin
+              Active := false;
+              SQL.Clear;
+              SQL.Add('SELECT ISNULL(LEFT(MAX(ListNo), 6), LEFT(CONVERT(VARCHAR, GETDATE(), 112), 6)) + RIGHT(''00000'' + CAST(ISNULL(CAST(RIGHT(MAX(ListNo), 5) AS INT), 0) + 1 AS VARCHAR), 5) AS ListNo FROM SMDD_Dispatch');
+              SQL.Add('WHERE ListNo LIKE LEFT(CONVERT(VARCHAR, GETDATE(), 112), 6) + ''%''');
+              Active := true;
+            end;
+
+            Query_AP.Edit;
+            Query_AP.FieldByName('ListNo').Value := QTemp.FieldByName('ListNo').AsString;
+            Query_AP.FieldByName('UserID').Value := main.Edit1.Text;
+            UpdateSQL_AP.Apply(ukInsert);
+          end;
+        end;
+
+        usModified:
+        begin
+          if (Query_AP.FieldByName('YN').Value = 0) then
+          begin
+            UpdateSQL_AP.Apply(ukDelete);
+          end
+          else if (Query_AP.FieldByName('RY').IsNull = false) then
+          begin
+            Query_AP.Edit;
+            Query_AP.FieldByName('UserID').Value := main.Edit1.text;
+            UpdateSQL_AP.Apply(ukModify);
+          end;
+        end;
+      end;
+
+      Query_AP.Next;
+    end;
+
+    Query_AP.Active := false;
+    Query_AP.CachedUpdates := false;
+    Query_AP.RequestLive := false;
+    Query_AP.Active := true;
+    DBGridEh_AP.Columns[3].ButtonStyle := cbsNone;
+    BAP5.Enabled := false;
+    BAP6.Enabled := false;
+    ShowMessage('Completed');
+  except
+    MessageDlg('Failed to save the data!', mtWarning, [mbyes], 0);
+  end;
+
+  isSaving := false;
+  Query_APAfterScroll(Nil);
+end;
+
+procedure TScheduleUpload.DBGridEh_APGetCellParams(Sender: TObject;
+  Column: TColumnEh; AFont: TFont; var Background: TColor;
+  State: TGridDrawState);
+begin
+  if (Query_AP.FieldByName('YN').AsString = '0') then
+    DBGridEh_AP.Canvas.Font.Color := clRed;
+end;
+
+procedure TScheduleUpload.BAP6Click(Sender: TObject);
+begin
+  with Query_AP do
+  begin
+    Active := false;
+    RequestLive := false;
+    CachedUpdates := false;
+    Active := true;
+  end;
+
+  DBGridEh_AP.Columns[3].ButtonStyle := cbsNone;
+  BAP5.Enabled := false;
+  BAP6.Enabled := false;
+end;
+
+procedure TScheduleUpload.BAP7Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TScheduleUpload.BAPS1Click(Sender: TObject);
+begin
+  with Query_APS do
+  begin
+    RequestLive := true;
+    CachedUpdates := true;
+    First;
+    Insert;
+  end;
+
+  DBGridEh_APS.Columns[0].ButtonStyle := cbsEllipsis;
+  BAPS4.Enabled := true;
+  BAPS5.Enabled := true;
+end;
+
+procedure TScheduleUpload.BAPS2Click(Sender: TObject);
+var
+  i: integer;
+begin
+  with Query_APS do
+  begin
+    RequestLive := true;
+    CachedUpdates := true;
+    Edit;
+    for i := 4 to FieldCount - 1 do
+    begin
+      Fields[i].Value := Null;
+    end;
+  end;
+
+  BAPS4.Enabled := true;
+  BAPS5.Enabled := true;
+end;
+
+procedure TScheduleUpload.BAPS3Click(Sender: TObject);
+begin
+  with Query_APS do
+  begin
+    RequestLive := true;
+    CachedUpdates := true;
+    Edit;
+  end;
+
+  DBGridEh_APS.Columns[0].ButtonStyle := cbsEllipsis;
+  BAPS4.Enabled := true;
+  BAPS5.Enabled := true;
+end;
+
+procedure TScheduleUpload.BAPS4Click(Sender: TObject);
+var
+  i: integer;
+  ListNo: string;
+begin
+  ListNo := Query_AP.FieldByName('ListNo').AsString;
+
+  with QTemp do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add('DELETE FROM SMDDS_Dispatch');
+    SQL.Add('WHERE ListNo = ''' + ListNo + ''';');
+
+    SQL.Add('INSERT INTO SMDDS_Dispatch (ListNo, GXLB, ZLBH, DDBH, Size, Pairs, UserID, UserDate, YN)');
+    SQL.Add('SELECT ''' + ListNo + ''' AS ListNo, ''A'' AS GXLB, ''' + Query_AP.FieldByName('ZLBH').AsString + ''' AS ZLBH,');
+    SQL.Add('CD.DDBH, CD.Size, CD.Pairs, ''' + main.Edit1.Text + ''' AS UserID, GetDate() AS UserDate, ''1'' AS YN FROM (');
+    SQL.Add('  SELECT NULL AS DDBH, NULL AS Size, 0 AS Pairs');
+
+    Query_APS.First;
+    while not Query_APS.Eof do
+    begin
+      for i := 4 to Query_APS.FieldCount - 1 do
+      begin
+        if (Query_APS.Fields[i].AsInteger > 0) then
+          SQL.Add('  UNION ALL SELECT ''' + Query_APS.FieldByName('DDBH').AsString + ''' AS DDBH, ''' + Query_APS.Fields[i].FieldName + ''' AS Size, ' + Query_APS.Fields[i].AsString + ' AS Pairs');
+      end;
+      Query_APS.Next;
+    end;
+
+    SQL.Add(') AS CD');
+    SQL.Add('WHERE DDBH IS NOT NULL;');
+    ExecSQL;
+  end;
+
+  isSaving := true;
+  Query_AP.Active := false;
+  Query_AP.Active := true;
+  isSaving := false;   
+  Query_AP.Locate('ListNo', ListNo, []);
+end;
+
+procedure TScheduleUpload.BAPS5Click(Sender: TObject);
+begin
+  with Query_APS do
+  begin
+    Active := false;
+    RequestLive := false;
+    CachedUpdates := false;
+    Active := true;
+  end;
+
+  DBGridEh_APS.Columns[0].ButtonStyle := cbsNone;
+  BAPS4.Enabled := false;
+  BAPS5.Enabled := false;
+end;
+
+procedure TScheduleUpload.Query_APSAfterOpen(DataSet: TDataSet);
+begin
+  BAPS1.Enabled := true; 
+  BAPS2.Enabled := true;
+  BAPS3.Enabled := true;
+  BAPS4.Enabled := false;
+  BAPS5.Enabled := false;
+  DBGridEh_APS.Columns[0].ButtonStyle := cbsNone;
+end;
+
+procedure TScheduleUpload.DBGridEh_APColumns2EditButtonClick(
+  Sender: TObject; var Handled: Boolean);
+begin
+  AssemblyRYDlg := TAssemblyRYDlg.Create(Self);
+  AssemblyRYDlg.ShowModal;
+end;
+
+procedure TScheduleUpload.DBGridEh_APSColumns0EditButtonDown(
+  Sender: TObject; TopButton: Boolean; var AutoRepeat, Handled: Boolean);
+begin
+  AssemblyCycleDlg := TAssemblyCycleDlg.Create(Self);
+  AssemblyCycleDlg.LoadRYData(Query_AP.FieldByName('ZLBH').AsString);
+  AssemblyCycleDlg.ShowModal;
+end;
+
+procedure TScheduleUpload.onSizePairsValidate(Sender: TField);
+begin
+  with QTemp do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add('SELECT Qty FROM SMDDS');
+    SQL.Add('WHERE DDBH = ''' + Query_APS.FieldByName('DDBH').AsString + ''' AND XXCC = ''' + TField(Sender).FieldName + '''');
+    Active := true;
+  end;
+
+  if (TField(Sender).Value > QTemp.FieldByName('Qty').AsInteger) then
+  begin
+    Query_APS.Edit;
+    if (QTemp.FieldByName('Qty').AsInteger > 0) then
+      Query_APS.FieldByName(TField(Sender).FieldName).Value := QTemp.FieldByName('Qty').AsInteger
+    else begin
+      Query_APS.FieldByName(TField(Sender).FieldName).Value := Null;
+      ShowMessage('The chosen size has no quantity to dispatch.');
+    end;
+    Abort;
+  end;
+end;
+
+procedure TScheduleUpload.Query_APSNewRecord(DataSet: TDataSet);
+begin    
+  Query_APS.FieldByName('ZLBH').Value := Query_AP.FieldByName('ZLBH').AsString;
+end;
+
+procedure TScheduleUpload.BAP8Click(Sender: TObject);
+var
+  eclApp, WorkBook: OleVariant;
+  Col, Row: integer;
+begin
+  if (Query_AP.Active) then
+  begin
+    try
+      eclApp := CreateOleObject('Excel.Application');
+      WorkBook := CreateOleObject('Excel.Sheet');
+    except
+      Application.MessageBox('Failed to create excel file', 'Error', MB_OK + MB_ICONWarning);
+      Exit;
+    end;
+
+    try
+      WorkBook := eclApp.Workbooks.Add;
+      for Col := 0 to DBGridEh_APS.Columns.Count - 1 do
+      begin
+        eclApp.Cells[1, Col+1] := DBGridEh_APS.Columns[Col].Title.Caption;
+      end;
+
+      Query_APS.First;
+      Row := 2;
+      while not Query_APS.Eof do
+      begin
+        for Col := 0 to DBGridEh_APS.Columns.Count - 1 do
+        begin
+          eclApp.Cells[Row, Col+1] := Query_APS.FieldByName(DBGridEh_APS.Columns[Col].FieldName).Value;
+        end;
+        Query_APS.Next;
+        Inc(Row);
+      end;
+
+      eclapp.Columns.Autofit;  
+      ShowMessage('Successful');
+      eclApp.Visible := True;
+    except on F:Exception do
+      ShowMessage(F.Message);
+    end;
+  end;
+end;
+
+procedure TScheduleUpload.DBGridEh_APSGetCellParams(Sender: TObject;
+  Column: TColumnEh; AFont: TFont; var Background: TColor;
+  State: TGridDrawState);
+var
+  i, sum: integer;
+begin
+  sum := 0;
+  for i := 4 to Query_APS.FieldCount - 1 do
+  begin
+    Inc(sum, Query_APS.Fields[i].AsInteger);
+  end;
+
+  if (sum = 0) then
+    DBGridEh_APS.Canvas.Font.Color := clRed;
+end;
+
+procedure TScheduleUpload.Button2Click(Sender: TObject);
+begin
+  with QTemp do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add('UPDATE SMDD SET PlanDate = SC.schedule_date, PlanEDate = SC.finish_date');
+    SQL.Add('FROM (');
+    SQL.Add('  SELECT DDZL.DDBH, SC.schedule_date, SC.finish_date FROM schedule_crawler AS SC');
+    SQL.Add('  LEFT JOIN DDZL ON DDZL.DDBH = CASE WHEN LEN(SC.ry) - LEN(REPLACE(SC.ry, ''-'', '''')) < 2 THEN SC.ry ELSE SUBSTRING(SC.ry, 1, LEN(SC.ry) - CHARINDEX(''-'', REVERSE(SC.ry))) END');
+    SQL.Add('  WHERE SC.schedule_date >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) + 1, 0) AND SC.finish_date IS NOT NULL');
+    SQL.Add(') AS SC');
+    SQL.Add('WHERE SMDD.YSBH = SC.DDBH');
+    ExecSQL;
+  end;
+
+  ShowMessage('Execution Success.');
 end;
 
 end.

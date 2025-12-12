@@ -44,12 +44,19 @@ type
     Query1NO: TSmallintField;
     Query1KFCQ: TStringField;
     Query1KHDH: TStringField;
+    CB_FTY: TComboBox;
+    CB_B: TComboBox;
+    Label2: TLabel;
+    Label5: TLabel;
     procedure BA1Click(Sender: TObject);
     procedure BA2Click(Sender: TObject);
     procedure BA3Click(Sender: TObject);
     procedure BA5Click(Sender: TObject);
     procedure BB1Click(Sender: TObject);
     procedure BA8Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -78,6 +85,12 @@ begin
                 SQL.add('  AND CostingPriceList.Style_Number like '''+ED1.Text+'%''');
             if Edit1.text<>'' then
                 SQL.add('  AND CostingPriceList.Round like '''+Edit1.Text+'%''');
+            if CB_FTY.text<>'' then
+                SQL.add('  AND CostingPriceList.KFCQ like '''+CB_FTY.Text+'%''');
+            if CB_B.text ='HOKA' then
+                SQL.add('  AND CostingPriceList.KHDH = ''0062''');
+            if CB_B.text ='TEVA' then
+                SQL.add('  AND CostingPriceList.KHDH = ''0054''');
             //showmessage(SQL.Text);
             active:=true;
           end;
@@ -87,7 +100,7 @@ begin
 end;
 
 procedure TCostingPriceList_LYS.BA2Click(Sender: TObject);
-begin            
+begin
   query1.RequestLive:=true;
   query1.CachedUpdates:=true;
   query1.Insert;
@@ -106,8 +119,23 @@ begin
   //
   if main.Edit2.Text='VDH' then
   begin
-      KHDH:='0054';
-      KFCQ:='YIH';
+      if  cb_b.Text='' then
+        begin
+          showmessage('vui long chon ma khach hang, please select Brand');
+          abort;
+        end;
+        if  cb_b.Text='HOKA' then
+        begin
+          KHDH:='0062';
+          KFCQ := CB_FTY.Text;
+        end else
+        begin
+         KHDH:='0054';
+         KFCQ := CB_FTY.Text;
+        end;
+      //KHDH:='0054';
+     // KFCQ := CB_FTY.Text;
+      //KFCQ:='YIH';
   end
   else if main.Edit2.Text='HBA' then
   begin
@@ -159,6 +187,11 @@ var
   flag: Boolean;
   Text2: String;
 begin
+  if CB_FTY.text='' then
+    begin
+    showmessage('vui long chon nha may, please select company');
+    abort;
+    end;
   with query1 do
   begin
     Active := False;
@@ -217,6 +250,7 @@ begin
             end;
             FieldByName('CheckID').Value := Main.Edit1.Text;
             FieldByName('Checkdate').Value := Date;
+            //FieldByName('KFCQ').Value := CB_FTY.Text;
             Inc(j);
           except
             on E: Exception do
@@ -369,6 +403,23 @@ begin
           showmessage(F.Message);
       end;
     end;
+end;
+
+procedure TCostingPriceList_LYS.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  action:=cafree;
+end;
+
+procedure TCostingPriceList_LYS.FormDestroy(Sender: TObject);
+begin
+  CostingPriceList_LYS:=nil;
+end;
+
+procedure TCostingPriceList_LYS.FormCreate(Sender: TObject);
+begin
+CB_FTY.ItemIndex:=0;
+cb_b.ItemIndex:=0;
 end;
 
 end.

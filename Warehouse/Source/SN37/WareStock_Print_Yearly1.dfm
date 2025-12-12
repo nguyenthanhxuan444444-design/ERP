@@ -251,7 +251,7 @@ object WareStock_Print_Yearly: TWareStock_Print_Yearly
       object QRLabel29: TQRLabel
         Left = 4
         Top = 94
-        Width = 89
+        Width = 76
         Height = 19
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -262,12 +262,12 @@ object WareStock_Print_Yearly: TWareStock_Print_Yearly
           50.270833333333330000
           10.583333333333330000
           248.708333333333300000
-          235.479166666666700000)
+          201.083333333333300000)
         Alignment = taLeftJustify
         AlignToBand = False
         AutoSize = True
         AutoStretch = False
-        Caption = 'Xuong '#24288#21029': A'
+        Caption = 'Xuong '#24288#21029':'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText

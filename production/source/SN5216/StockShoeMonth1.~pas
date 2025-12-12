@@ -154,6 +154,9 @@ type
     Query5DDZT: TStringField;
     Button10: TButton;
     Button12: TButton;
+    Button13: TButton;
+    chkNgayKK: TCheckBox;
+    DTPKK: TDateTimePicker;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -192,6 +195,7 @@ type
     procedure Button11Click(Sender: TObject);
     procedure Button10Click(Sender: TObject);
     procedure Button12Click(Sender: TObject);
+    procedure Button13Click(Sender: TObject);
 
   private
     //
@@ -221,7 +225,7 @@ var
 
 implementation
   uses main1,StockShoeMonth_TRList1, FunUnit, untClipboard, inifiles,
-  StockShoeMonth_Print1, StockShoeMonthRe_Print1;
+  StockShoeMonth_Print1, StockShoeMonthRe_Print1, MassPro_PrintCard1;
 {$R *.dfm}
 procedure TStockShoeMonth.readini();
 var MyIni :Tinifile;
@@ -366,7 +370,7 @@ begin
     SQL.Clear;
     SQL.Add('Select YWDDM.DDBH,YWDDM.YSBH,YWDDM.CKBH,IsNull(YWDD.Qty,DDZL.Pairs) as Pairs,YWDDM.LastRem,YWDDM.RKQty,YWDDM.XHQty,YWDDM.TRQty,YWDDM.Qty,');
     SQL.Add('case when LEFT(YWDDM.DDBH,2)in (''HK'',''JH'') then ''HOKA'' ELSE ''TEVA'' END as Customer,');
-    SQL.Add('''Giay thanh pham'' as ModelName,KCCLMONTH_Order.KVBH,KCCLMONTH_Order.STT,');
+    SQL.Add('xxzl.xieming as ModelName,KCCLMONTH_Order.KVBH,CAST(ROW_NUMBER() OVER (ORDER BY YWDDM.YSBH) AS VARCHAR(50)) as STT,');  // KCCLMONTH_Order.STT
     SQL.Add('       DDZL.ShipDate,DDZL.ARTICLE,DDZL.DDZT,YWCPMemo.Memo,isnull(RK_CTS.CTS,0) - isnull(LL_CTS.CTS,0) as CTS   ');
     SQL.Add('from (');
     if MergeYSBHCK.Checked=true then //Ty Bach use
@@ -446,6 +450,7 @@ begin
     ///
     SQL.Add('left join KCCLMONTH_Order on YWDDM.DDBH = KCCLMONTH_Order.DDBH and KCYEAR= '''+nYear+''' and KCMONTH='''+nMonth+'''  ');
     SQL.Add('left join kfzl on DDZL.KHBH=kfzl.kfdh ');
+    SQL.add('left join xxzl on xxzl.XieXing= ddzl.XieXing and xxzl.SheHao= ddzl.SheHao');
     //
     SQL.Add('where 1=1 and DDZL.GSBH='''+main.Edit2.Text+'''');
     if DDBHEdit.Text<>'' then
@@ -1484,6 +1489,27 @@ begin
           showmessage(F.Message);
       end;
     end;
+end;
+
+procedure TStockShoeMonth.Button13Click(Sender: TObject);
+begin
+   if ((CKBHEdit.Text = '') or (KVBHEdit.Text = '')) then
+   begin
+    showmessage('Vui long nhap xuong && so khu');
+    abort;
+   end;
+   MassPro_PrintCard:=TMassPro_PrintCard.create(self);
+   MassPro_PrintCard.quickrep1.prepare;
+   if  Messagedlg(Pchar('Don vi do luong la doi hay chiec?'),mtInformation,[mbNo,mbYes],0)=mrYes then
+   begin
+     MassPro_PrintCard.QRLabel23.Caption:='Doi';
+   end else
+   begin
+     MassPro_PrintCard.QRLabel23.Caption:='Chiec';
+   end;
+   MassPro_PrintCard.QRCompositeReport1.Preview;
+   MassPro_PrintCard.quickrep1.preview;
+   MassPro_PrintCard.free;
 end;
 
 end.

@@ -21,7 +21,7 @@ object WeeklyShippingPlan: TWeeklyShippingPlan
   PixelsPerInch = 96
   TextHeight = 16
   object Splitter1: TSplitter
-    Left = 430
+    Left = 530
     Top = 114
     Height = 522
   end
@@ -77,9 +77,9 @@ object WeeklyShippingPlan: TWeeklyShippingPlan
     end
   end
   object DBGridEh1: TDBGridEh
-    Left = 433
+    Left = 533
     Top = 114
-    Width = 1008
+    Width = 908
     Height = 522
     Align = alClient
     DataSource = DS1
@@ -126,6 +126,8 @@ object WeeklyShippingPlan: TWeeklyShippingPlan
         Alignment = taCenter
         EditButtons = <>
         FieldName = 'Seq'
+        Footer.DisplayFormat = '###,##0'
+        Footer.ValueType = fvtCount
         Footers = <>
         Title.Caption = 'No.'
         Width = 30
@@ -533,7 +535,7 @@ object WeeklyShippingPlan: TWeeklyShippingPlan
   object DBGridEh2: TDBGridEh
     Left = 0
     Top = 114
-    Width = 430
+    Width = 530
     Height = 522
     Align = alLeft
     DataSource = DS2
@@ -545,6 +547,7 @@ object WeeklyShippingPlan: TWeeklyShippingPlan
     FooterFont.Name = 'MS Sans Serif'
     FooterFont.Style = []
     FooterRowCount = 1
+    PopupMenu = PopupMenu1
     ReadOnly = True
     SumList.Active = True
     SumList.VirtualRecords = True
@@ -573,6 +576,12 @@ object WeeklyShippingPlan: TWeeklyShippingPlan
         Footers = <>
         Title.Caption = 'Container'
         Width = 120
+      end
+      item
+        EditButtons = <>
+        FieldName = 'Country'
+        Footers = <>
+        Width = 100
       end
       item
         DisplayFormat = '###,###,##0'
@@ -745,6 +754,25 @@ object WeeklyShippingPlan: TWeeklyShippingPlan
     object Query2ContainerName: TStringField
       FieldName = 'ContainerName'
       Size = 50
+    end
+    object Query2MinSeq: TIntegerField
+      FieldName = 'MinSeq'
+    end
+    object Query2MaxSeq: TIntegerField
+      FieldName = 'MaxSeq'
+    end
+    object Query2Country: TStringField
+      FieldName = 'Country'
+      Size = 50
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    OnPopup = PopupMenu1Popup
+    Left = 16
+    Top = 232
+    object Delete1: TMenuItem
+      Caption = 'Delete'
+      OnClick = Delete1Click
     end
   end
 end
