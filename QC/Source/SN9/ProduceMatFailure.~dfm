@@ -1,9 +1,9 @@
-object IncomingMatTest: TIncomingMatTest
-  Left = 209
-  Top = 155
-  Width = 1544
+object ProducMatFailure: TProducMatFailure
+  Left = 192
+  Top = 125
+  Width = 1305
   Height = 675
-  Caption = 'IncomingMatTest'
+  Caption = 'ProducMatFailure'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,14 +16,13 @@ object IncomingMatTest: TIncomingMatTest
   Visible = True
   WindowState = wsMaximized
   OnClose = FormClose
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1528
+    Width = 1289
     Height = 200
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -34,50 +33,71 @@ object IncomingMatTest: TIncomingMatTest
     ParentFont = False
     TabOrder = 0
     object Label1: TLabel
-      Left = 304
-      Top = 16
+      Left = 272
+      Top = 72
       Width = 51
       Height = 20
       Caption = 'DDBH:'
     end
     object Label2: TLabel
-      Left = 488
-      Top = 16
+      Left = 456
+      Top = 40
       Width = 62
       Height = 20
       Caption = 'Supplier:'
     end
     object Label3: TLabel
-      Left = 8
-      Top = 136
-      Width = 73
-      Height = 20
-      Caption = 'MatName:'
-    end
-    object Label4: TLabel
-      Left = 680
+      Left = 456
       Top = 72
-      Width = 47
-      Height = 20
-      Caption = 'Brand:'
-    end
-    object Label5: TLabel
-      Left = 680
-      Top = 16
-      Width = 47
-      Height = 20
-      Caption = 'CLBH:'
-    end
-    object Label6: TLabel
-      Left = 864
-      Top = 16
       Width = 70
       Height = 20
       Caption = 'ReportID:'
     end
-    object BB1: TBitBtn
-      Left = 8
+    object Label5: TLabel
+      Left = 272
       Top = 8
+      Width = 39
+      Height = 20
+      Caption = 'Style:'
+    end
+    object Label7: TLabel
+      Left = 272
+      Top = 40
+      Width = 48
+      Height = 20
+      Caption = 'MatID:'
+    end
+    object Label4: TLabel
+      Left = 456
+      Top = 8
+      Width = 73
+      Height = 20
+      Caption = 'RefStand:'
+    end
+    object Image1: TImage
+      Left = 960
+      Top = 8
+      Width = 180
+      Height = 180
+      Stretch = True
+    end
+    object Label6: TLabel
+      Left = 448
+      Top = 104
+      Width = 85
+      Height = 20
+      Caption = 'Image path:'
+    end
+    object Label8: TLabel
+      Left = 784
+      Top = 16
+      Width = 170
+      Height = 20
+      Caption = 'Visual inspection image:'
+    end
+    object BB1: TBitBtn
+      Left = 0
+      Top = 144
       Width = 49
       Height = 49
       Hint = 'Insert one New Record'
@@ -89,7 +109,7 @@ object IncomingMatTest: TIncomingMatTest
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 2
       OnClick = BB1Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -108,8 +128,8 @@ object IncomingMatTest: TIncomingMatTest
       NumGlyphs = 2
     end
     object BB2: TBitBtn
-      Left = 56
-      Top = 8
+      Left = 48
+      Top = 144
       Width = 49
       Height = 49
       Hint = 'Delete one Record'
@@ -121,8 +141,7 @@ object IncomingMatTest: TIncomingMatTest
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 2
-      OnClick = BB2Click
+      TabOrder = 3
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -140,8 +159,8 @@ object IncomingMatTest: TIncomingMatTest
       NumGlyphs = 2
     end
     object BB3: TBitBtn
-      Left = 104
-      Top = 8
+      Left = 96
+      Top = 144
       Width = 49
       Height = 49
       Hint = 'Modify Current'
@@ -153,7 +172,7 @@ object IncomingMatTest: TIncomingMatTest
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 3
+      TabOrder = 4
       OnClick = BB3Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -172,8 +191,8 @@ object IncomingMatTest: TIncomingMatTest
       NumGlyphs = 2
     end
     object BB4: TBitBtn
-      Left = 152
-      Top = 8
+      Left = 144
+      Top = 144
       Width = 49
       Height = 49
       Hint = 'Save Current'
@@ -185,7 +204,7 @@ object IncomingMatTest: TIncomingMatTest
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 4
+      TabOrder = 5
       OnClick = BB4Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -204,8 +223,8 @@ object IncomingMatTest: TIncomingMatTest
       NumGlyphs = 2
     end
     object BB5: TBitBtn
-      Left = 200
-      Top = 8
+      Left = 192
+      Top = 144
       Width = 49
       Height = 49
       Hint = 'Cancel'
@@ -217,7 +236,7 @@ object IncomingMatTest: TIncomingMatTest
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 6
       OnClick = BB5Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -236,8 +255,8 @@ object IncomingMatTest: TIncomingMatTest
       NumGlyphs = 2
     end
     object BB6: TBitBtn
-      Left = 248
-      Top = 8
+      Left = 240
+      Top = 144
       Width = 49
       Height = 49
       Hint = 'Exit Current Form'
@@ -248,7 +267,7 @@ object IncomingMatTest: TIncomingMatTest
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 7
       OnClick = BB6Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -267,17 +286,17 @@ object IncomingMatTest: TIncomingMatTest
       NumGlyphs = 2
     end
     object Button1: TButton
-      Left = 1123
-      Top = 17
+      Left = 683
+      Top = 57
       Width = 81
       Height = 33
       Caption = 'Search'
-      TabOrder = 0
+      TabOrder = 1
       OnClick = Button1Click
     end
     object bbt6: TBitBtn
-      Left = 1240
-      Top = 8
+      Left = 440
+      Top = 144
       Width = 81
       Height = 49
       Hint = 'Modify Current'
@@ -289,8 +308,8 @@ object IncomingMatTest: TIncomingMatTest
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 7
-      OnClick = bbt6Click
+      TabOrder = 8
+      Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -308,15 +327,15 @@ object IncomingMatTest: TIncomingMatTest
       NumGlyphs = 2
     end
     object edtDDBH: TEdit
-      Left = 360
-      Top = 16
+      Left = 328
+      Top = 72
       Width = 121
       Height = 28
-      TabOrder = 8
+      TabOrder = 9
     end
     object bExcel: TBitBtn
-      Left = 1320
-      Top = 8
+      Left = 520
+      Top = 144
       Width = 57
       Height = 49
       Hint = 'Modify Current'
@@ -328,7 +347,7 @@ object IncomingMatTest: TIncomingMatTest
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 9
+      TabOrder = 10
       OnClick = bExcelClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -347,8 +366,8 @@ object IncomingMatTest: TIncomingMatTest
       NumGlyphs = 2
     end
     object bExF: TBitBtn
-      Left = 1376
-      Top = 8
+      Left = 576
+      Top = 144
       Width = 113
       Height = 49
       Hint = 'Modify Current'
@@ -360,7 +379,7 @@ object IncomingMatTest: TIncomingMatTest
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 10
+      TabOrder = 11
       OnClick = bExFClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -379,125 +398,145 @@ object IncomingMatTest: TIncomingMatTest
       NumGlyphs = 2
     end
     object cbPDF: TCheckBox
-      Left = 1408
-      Top = 64
+      Left = 704
+      Top = 144
       Width = 57
       Height = 17
       Caption = 'PDF'
-      TabOrder = 11
-    end
-    object edtZSBH: TEdit
-      Left = 552
-      Top = 16
-      Width = 121
-      Height = 28
       TabOrder = 12
     end
-    object dtpSend: TDateTimePicker
-      Left = 336
-      Top = 72
-      Width = 105
+    object edtZSBH: TEdit
+      Left = 536
+      Top = 40
+      Width = 121
       Height = 28
-      Date = 45973.399326932870000000
-      Time = 45973.399326932870000000
       TabOrder = 13
-    end
-    object dtpResult: TDateTimePicker
-      Left = 560
-      Top = 72
-      Width = 105
-      Height = 28
-      Date = 45973.400301087960000000
-      Time = 45973.400301087960000000
-      TabOrder = 14
-    end
-    object ckResultDate: TCheckBox
-      Left = 448
-      Top = 72
-      Width = 105
-      Height = 17
-      Caption = 'Result date:'
-      TabOrder = 15
-    end
-    object ckSendDate: TCheckBox
-      Left = 232
-      Top = 72
-      Width = 97
-      Height = 17
-      Caption = 'Send date:'
-      TabOrder = 16
     end
     object ckUSERDate: TCheckBox
       Left = 8
-      Top = 72
+      Top = 8
       Width = 105
       Height = 17
       Caption = 'USERDate:'
-      TabOrder = 17
+      TabOrder = 14
     end
     object dtpUSERDate: TDateTimePicker
-      Left = 120
-      Top = 72
-      Width = 105
+      Left = 152
+      Top = 8
+      Width = 113
       Height = 28
       Date = 45973.457989131940000000
+      Format = 'dd/MM/yyyy'
       Time = 45973.457989131940000000
-      TabOrder = 18
-    end
-    object nmMatName: TMemo
-      Left = 88
-      Top = 112
-      Width = 353
-      Height = 81
-      Lines.Strings = (
-        'nmMatName')
-      ReadOnly = True
-      ScrollBars = ssVertical
-      TabOrder = 19
-    end
-    object cbxHT: TComboBox
-      Left = 736
-      Top = 72
-      Width = 145
-      Height = 28
-      ItemHeight = 20
-      ItemIndex = 2
-      TabOrder = 20
-      Text = 'All'
-      Items.Strings = (
-        'HOKA'
-        'TEVA'
-        'All')
-    end
-    object edtCLBH: TEdit
-      Left = 736
-      Top = 16
-      Width = 121
-      Height = 28
-      TabOrder = 21
+      TabOrder = 15
     end
     object MenuCode: TEdit
-      Left = 520
-      Top = 152
+      Left = 696
+      Top = 168
       Width = 121
       Height = 28
       ReadOnly = True
-      TabOrder = 22
+      TabOrder = 16
       Text = 'MenuCode'
       Visible = False
     end
     object edtRID: TEdit
-      Left = 944
-      Top = 16
+      Left = 536
+      Top = 72
       Width = 121
       Height = 28
+      TabOrder = 17
+    end
+    object dtpInsDate: TDateTimePicker
+      Left = 152
+      Top = 40
+      Width = 113
+      Height = 28
+      Date = 45981.575782071760000000
+      Format = 'dd/MM/yyyy'
+      Time = 45981.575782071760000000
+      TabOrder = 18
+    end
+    object edtStyle: TEdit
+      Left = 328
+      Top = 8
+      Width = 121
+      Height = 28
+      TabOrder = 19
+    end
+    object edtMatID: TEdit
+      Left = 328
+      Top = 40
+      Width = 121
+      Height = 28
+      TabOrder = 20
+    end
+    object btClear: TButton
+      Left = 683
+      Top = 16
+      Width = 81
+      Height = 33
+      Caption = 'Clear'
+      TabOrder = 21
+      OnClick = btClearClick
+    end
+    object ckInsDate: TCheckBox
+      Left = 8
+      Top = 40
+      Width = 137
+      Height = 17
+      Caption = 'Inspection date:'
+      TabOrder = 22
+    end
+    object ckArrDate: TCheckBox
+      Left = 8
+      Top = 72
+      Width = 121
+      Height = 17
+      Caption = 'Date of arrival:'
       TabOrder = 23
+    end
+    object dtpArrDate: TDateTimePicker
+      Left = 152
+      Top = 72
+      Width = 113
+      Height = 28
+      Date = 45986.417474988430000000
+      Format = 'dd/MM/yyyy'
+      Time = 45986.417474988430000000
+      TabOrder = 24
+    end
+    object edtRefStand: TDBEdit
+      Left = 536
+      Top = 8
+      Width = 121
+      Height = 28
+      DataField = 'RefStand'
+      DataSource = DS1
+      TabOrder = 25
+    end
+    object edtImagePath: TEdit
+      Left = 536
+      Top = 104
+      Width = 121
+      Height = 28
+      ReadOnly = True
+      TabOrder = 26
+    end
+    object UpImage: TButton
+      Left = 683
+      Top = 96
+      Width = 81
+      Height = 33
+      Caption = 'UpImage'
+      TabOrder = 0
+      OnClick = UpImageClick
     end
   end
   object DBGrid1: TDBGridEh
     Left = 0
     Top = 200
-    Width = 1528
+    Width = 1289
     Height = 436
     Align = alClient
     DataSource = DS1
@@ -531,115 +570,92 @@ object IncomingMatTest: TIncomingMatTest
       item
         EditButtons = <>
         FieldName = 'ReportID'
-        Footer.Color = clYellow
-        Footer.ValueType = fvtCount
         Footers = <>
-        ReadOnly = True
+      end
+      item
+        EditButtons = <>
+        FieldName = 'ArrDate'
+        Footers = <>
+        Title.Caption = ' Date of arrival'
+      end
+      item
+        EditButtons = <>
+        FieldName = 'InspecDate'
+        Footers = <>
+        Title.Caption = ' Date of Inspection'
+      end
+      item
+        EditButtons = <>
+        FieldName = 'Supplier'
+        Footers = <>
+        Title.Caption = ' Material Supplier/Cont'
+        Width = 100
+      end
+      item
+        EditButtons = <>
+        FieldName = 'XFDate'
+        Footers = <>
+        Title.Caption = ' XF-Date/ Country'
+        Width = 200
+      end
+      item
+        EditButtons = <>
+        FieldName = 'MatID'
+        Footers = <>
+        Title.Caption = 'Material#/Name'
       end
       item
         EditButtons = <>
         FieldName = 'MatName'
         Footers = <>
-        Width = 150
+        Title.Caption = 'Material Description'
+        Width = 300
       end
       item
         EditButtons = <>
         FieldName = 'XieMing'
         Footers = <>
-        Width = 150
+        Title.Caption = ' Style No./Name'
+        Width = 153
       end
       item
         EditButtons = <>
-        FieldName = 'Article'
+        FieldName = 'Qty'
         Footers = <>
-        Width = 150
-      end
-      item
-        EditButtons = <>
-        FieldName = 'CLBH'
-        Footers = <>
-        Width = 100
       end
       item
         EditButtons = <>
         FieldName = 'DDBH'
         Footers = <>
-        Width = 100
+        Title.Caption = 'PO'
+        Width = 300
       end
       item
         EditButtons = <>
-        FieldName = 'RQty'
-        Footers = <>
-        Width = 70
-      end
-      item
-        EditButtons = <>
-        FieldName = 'LabRequest'
+        FieldName = 'Image'
         Footers = <>
         Width = 100
       end
       item
         EditButtons = <>
-        FieldName = 'LabID'
+        FieldName = 'VisualCheck'
         Footers = <>
-        Title.Caption = 'LabTest|LabID'
-        Width = 100
+        Title.Caption = 'Visual Inspection'
+        Width = 103
       end
       item
         EditButtons = <>
-        FieldName = 'Result'
+        FieldName = 'PhysCheck'
         Footers = <>
-        Title.Caption = 'LabTest|Result'
-        Width = 100
+        Title.Caption = 'Physical Property Test'
+        Width = 125
       end
       item
         EditButtons = <>
-        FieldName = 'Defects'
+        FieldName = 'RefStand'
         Footers = <>
-        Title.Caption = 'LabTest|Defects'
-        Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'SendDate'
-        Footers = <>
-        Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'ResultDate'
-        Footers = <>
-        Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'ZSBH'
-        Footers = <>
-        Title.Caption = 'Supplier'
-        Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Brand'
-        Footers = <>
-        PickList.Strings = (
-          'HOKA'
-          'TEVA')
-        Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'USERDate'
-        Footers = <>
-        ReadOnly = True
-        Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'USERID'
-        Footers = <>
-        ReadOnly = True
-        Width = 100
+        Title.Caption = 'Referenced Override Standard'
+        Width = 300
       end
       item
         EditButtons = <>
@@ -665,99 +681,107 @@ object IncomingMatTest: TIncomingMatTest
       end
       item
         EditButtons = <>
-        FieldName = 'PreparedID'
+        FieldName = 'WMSCFID'
         Footers = <>
       end
       item
         EditButtons = <>
-        FieldName = 'PreparedDate'
+        FieldName = 'WMSCFDate'
         Footers = <>
+        ReadOnly = True
+      end
+      item
+        EditButtons = <>
+        FieldName = 'USERID'
+        Footers = <>
+        Visible = False
+      end
+      item
+        EditButtons = <>
+        FieldName = 'USERDate'
+        Footers = <>
+        Visible = False
+      end
+      item
+        EditButtons = <>
+        FieldName = 'YN'
+        Footers = <>
+        Visible = False
+      end
+      item
+        EditButtons = <>
+        FieldName = 'PurID'
+        Footers = <>
+        Visible = False
+      end
+      item
+        EditButtons = <>
+        FieldName = 'PurDate'
+        Footers = <>
+        Visible = False
+      end
+      item
+        EditButtons = <>
+        FieldName = 'InspecID'
+        Footers = <>
+        Width = 200
       end>
   end
   object Query1: TQuery
     AfterOpen = Query1AfterOpen
-    AfterScroll = Query1AfterScroll
     DatabaseName = 'DB'
     SQL.Strings = (
-      'select *  from MaterialIncomTest'
-      'where 1=2')
+      'select * from QC_ProMatFail'
+      'where 1=3')
     UpdateObject = UpSQL1
     Left = 448
-    Top = 392
-    object Query1ReportID: TAutoIncField
+    Top = 400
+    object Query1ReportID: TIntegerField
       FieldName = 'ReportID'
     end
-    object Query1MatName: TStringField
-      FieldName = 'MatName'
+    object Query1ArrDate: TDateTimeField
+      FieldName = 'ArrDate'
+    end
+    object Query1InspecDate: TDateTimeField
+      FieldName = 'InspecDate'
+    end
+    object Query1Supplier: TStringField
+      FieldName = 'Supplier'
       FixedChar = True
-      Size = 255
+      Size = 100
+    end
+    object Query1XFDate: TStringField
+      FieldName = 'XFDate'
+      FixedChar = True
+      Size = 100
+    end
+    object Query1MatID: TStringField
+      FieldName = 'MatID'
+      FixedChar = True
     end
     object Query1XieMing: TStringField
       FieldName = 'XieMing'
       FixedChar = True
-      Size = 50
+      Size = 30
     end
-    object Query1Article: TStringField
-      FieldName = 'Article'
+    object Query1Qty: TStringField
+      FieldName = 'Qty'
       FixedChar = True
-      Size = 50
-    end
-    object Query1CLBH: TStringField
-      FieldName = 'CLBH'
-      FixedChar = True
-      Size = 50
     end
     object Query1DDBH: TStringField
       FieldName = 'DDBH'
       FixedChar = True
-      Size = 50
+      Size = 1000
     end
-    object Query1RQty: TIntegerField
-      FieldName = 'RQty'
-    end
-    object Query1LabRequest: TStringField
-      FieldName = 'LabRequest'
+    object Query1VisualCheck: TStringField
+      FieldName = 'VisualCheck'
       FixedChar = True
-      Size = 50
+      Size = 255
     end
-    object Query1LabID: TStringField
-      FieldName = 'LabID'
+    object Query1PhysCheck: TStringField
+      FieldName = 'PhysCheck'
       FixedChar = True
-      Size = 50
-    end
-    object Query1Result: TStringField
-      FieldName = 'Result'
-      FixedChar = True
-      Size = 50
-    end
-    object Query1Defects: TStringField
-      FieldName = 'Defects'
-      FixedChar = True
-      Size = 50
-    end
-    object Query1USERID: TStringField
-      FieldName = 'USERID'
-      FixedChar = True
-    end
-    object Query1SendDate: TDateTimeField
-      FieldName = 'SendDate'
-    end
-    object Query1ResultDate: TDateTimeField
-      FieldName = 'ResultDate'
-    end
-    object Query1USERDate: TDateTimeField
-      FieldName = 'USERDate'
-    end
-    object Query1ZSBH: TStringField
-      FieldName = 'ZSBH'
-      FixedChar = True
-    end
-    object Query1YN: TSmallintField
-      FieldName = 'YN'
-    end
-    object Query1Brand: TStringField
-      FieldName = 'Brand'
-      FixedChar = True
+      Size = 255
     end
     object Query1SCFID: TStringField
       FieldName = 'SCFID'
@@ -773,99 +797,142 @@ object IncomingMatTest: TIncomingMatTest
     object Query1LCFDate: TDateTimeField
       FieldName = 'LCFDate'
     end
-    object Query1PreparedID: TStringField
-      FieldName = 'PreparedID'
+    object Query1WMSCFID: TStringField
+      FieldName = 'WMSCFID'
+      FixedChar = True
+    end
+    object Query1WMSCFDate: TDateTimeField
+      FieldName = 'WMSCFDate'
+    end
+    object Query1RefStand: TStringField
+      FieldName = 'RefStand'
+      FixedChar = True
+      Size = 255
+    end
+    object Query1MatName: TStringField
+      FieldName = 'MatName'
+      FixedChar = True
+      Size = 200
+    end
+    object Query1USERID: TStringField
+      FieldName = 'USERID'
+      FixedChar = True
+    end
+    object Query1USERDate: TDateTimeField
+      FieldName = 'USERDate'
+    end
+    object Query1YN: TSmallintField
+      FieldName = 'YN'
+    end
+    object Query1PurID: TStringField
+      FieldName = 'PurID'
+      FixedChar = True
+    end
+    object Query1PurDate: TDateTimeField
+      FieldName = 'PurDate'
+    end
+    object Query1InspecID: TStringField
+      FieldName = 'InspecID'
       FixedChar = True
       Size = 50
     end
-    object Query1PreparedDate: TDateTimeField
-      FieldName = 'PreparedDate'
+    object Query1Image: TStringField
+      FieldName = 'Image'
+      FixedChar = True
+      Size = 200
     end
   end
   object DS1: TDataSource
     DataSet = Query1
     Left = 488
-    Top = 392
+    Top = 400
   end
   object UpSQL1: TUpdateSQL
     ModifySQL.Strings = (
-      'update MaterialIncomTest'
+      'update QC_ProMatFail'
       'set'
+      '  ReportID = :ReportID,'
+      '  ArrDate = :ArrDate,'
+      '  InspecDate = :InspecDate,'
+      '  Supplier = :Supplier,'
+      '  XFDate = :XFDate,'
+      '  MatID = :MatID,'
       '  MatName = :MatName,'
       '  XieMing = :XieMing,'
-      '  Article = :Article,'
-      '  CLBH = :CLBH,'
+      '  Qty = :Qty,'
       '  DDBH = :DDBH,'
-      '  RQty = :RQty,'
-      '  LabRequest = :LabRequest,'
-      '  LabID = :LabID,'
-      '  Result = :Result,'
-      '  Defects = :Defects,'
-      '  USERID = :USERID,'
-      '  SendDate = :SendDate,'
-      '  ResultDate = :ResultDate,'
-      '  USERDate = :USERDate,'
-      '  ZSBH = :ZSBH,'
-      '  YN = :YN,'
-      '  Brand = :Brand,'
+      '  VisualCheck = :VisualCheck,'
+      '  PhysCheck = :PhysCheck,'
       '  SCFID = :SCFID,'
       '  SCFDate = :SCFDate,'
       '  LCFID = :LCFID,'
       '  LCFDate = :LCFDate,'
-      '  PreparedID = :PreparedID,'
-      '  PreparedDate = :PreparedDate'
+      '  WMSCFID = :WMSCFID,'
+      '  WMSCFDate = :WMSCFDate,'
+      '  RefStand = :RefStand,'
+      '  USERID = :USERID,'
+      '  USERDate = :USERDate,'
+      '  YN = :YN,'
+      '  PurID = :PurID,'
+      '  PurDate = :PurDate,'
+      '  InspecID = :InspecID,'
+      '  Image = :Image'
       'where'
       '  ReportID = :OLD_ReportID')
     InsertSQL.Strings = (
-      'insert into MaterialIncomTest'
+      'insert into QC_ProMatFail'
       
-        '  (ReportID ,MatName, XieMing, Article, CLBH, DDBH, RQty, LabReq' +
-        'uest, LabID,'
+        '  (ReportID, ArrDate, InspecDate, Supplier, XFDate, MatID, MatNa' +
+        'me, XieMing, Qty,'
       
-        '   Result, Defects, USERID, SendDate, ResultDate, USERDate, ZSBH' +
-        ', YN, Brand,'
-      '   SCFID, SCFDate, LCFID, LCFDate, PreparedID, PreparedDate)'
+        '   DDBH, VisualCheck, PhysCheck, SCFID, SCFDate, LCFID, LCFDate,' +
+        ' WMSCFID, '
+      
+        '   WMSCFDate, RefStand, USERID, USERDate, YN, PurID, PurDate, In' +
+        'specID, Image)'
       'values'
       
-        '  (:ReportID, :MatName, :XieMing, :Article, :CLBH, :DDBH, :RQty,' +
-        ' :LabRequest,'
+        '  (:ReportID, :ArrDate, :InspecDate, :Supplier, :XFDate, :MatID,' +
+        ' :MatName, :XieMing, '
       
-        '   :LabID, :Result, :Defects, :USERID, :SendDate, :ResultDate, :' +
-        'USERDate, '
+        '   :Qty, :DDBH, :VisualCheck, :PhysCheck, :SCFID, :SCFDate, :LCF' +
+        'ID, :LCFDate,'
       
-        '   :ZSBH, 1, :Brand, :SCFID, :SCFDate, :LCFID, :LCFDate, :Prepar' +
-        'edID, :PreparedDate)')
+        '   :WMSCFID, :WMSCFDate, :RefStand, :USERID, :USERDate, :YN, :Pu' +
+        'rID, :PurDate, :InspecID, :Image)')
     DeleteSQL.Strings = (
-      'update MaterialIncomTest'
-      'set YN  = 0,'
-      'USERDate = GETDATE(),'
-      'USERID = :USERID'
+      'update QC_ProMatFail'
+      'set YN = 0'
       'where'
       '  ReportID = :OLD_ReportID')
     Left = 528
-    Top = 392
+    Top = 400
   end
   object Qtemp: TQuery
     DatabaseName = 'DB'
     Left = 408
-    Top = 392
+    Top = 400
   end
   object OpenDialog1: TOpenDialog
-    Left = 992
-    Top = 64
+    Left = 368
+    Top = 144
   end
   object SaveDialog: TSaveDialog
-    Left = 1032
-    Top = 64
+    Left = 328
+    Top = 152
   end
   object QGetID: TQuery
     DatabaseName = 'DB'
-    Left = 376
-    Top = 392
+    Left = 368
+    Top = 400
   end
   object QSig: TQuery
     DatabaseName = 'DB'
     Left = 336
-    Top = 392
+    Top = 400
+  end
+  object OpenPictureDialog1: TOpenDialog
+    Left = 312
+    Top = 112
   end
 end

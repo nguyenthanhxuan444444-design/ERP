@@ -1,7 +1,7 @@
 object main: Tmain
   Left = 416
   Top = 197
-  Width = 800
+  Width = 1104
   Height = 503
   Caption = 'main'
   Color = clBtnFace
@@ -23,7 +23,7 @@ object main: Tmain
   object Image1: TImage
     Left = 0
     Top = 0
-    Width = 784
+    Width = 1088
     Height = 444
     Align = alClient
     Stretch = True
@@ -396,67 +396,174 @@ object main: Tmain
         OnClick = SN83Click
       end
     end
-    object N91: TMenuItem
+    object SN9: TMenuItem
       Caption = 'N9'
-      object SN91IncomingMatTest1: TMenuItem
+      object SN91: TMenuItem
         Caption = 'N91 Incoming Mat Test'
-        object N911QC1: TMenuItem
+        object SN911: TMenuItem
           Caption = 'N911 QC Input'
-          OnClick = N911QC1Click
+          OnClick = SN911Click
         end
-        object N912LabTest1: TMenuItem
+        object SN912: TMenuItem
           Caption = 'N912 Lab Test Input'
-          OnClick = N912LabTest1Click
+          OnClick = SN912Click
         end
-        object N913Supervisor1: TMenuItem
+        object SN913: TMenuItem
           Caption = 'N913 KCS Supervisor Cfm'
-          OnClick = N913Supervisor1Click
+          OnClick = SN913Click
         end
-        object N914Inspection1: TMenuItem
+        object SN914: TMenuItem
           Caption = 'N914 KCS Leaders Cfm'
-          OnClick = N914Inspection1Click
+          OnClick = SN914Click
         end
       end
-      object N92DailyOutsourcingCheck1: TMenuItem
+      object SN92: TMenuItem
         Caption = 'N92 Daily Outsourcing Check'
-        object N921QCInput1: TMenuItem
+        object SN921: TMenuItem
           Caption = 'N921 QC Input'
-          OnClick = N921QCInput1Click
+          OnClick = SN921Click
         end
-        object N922LabTestInput1: TMenuItem
-          Caption = 'N922 Lab Test Input'
-          OnClick = N922LabTestInput1Click
+        object SN922: TMenuItem
+          Caption = 'N922 Dep Cfm'
+          OnClick = SN922Click
         end
-        object N923KCSSupervisor1: TMenuItem
+        object SN923: TMenuItem
           Caption = 'N923 KCS Supervisor Cfm'
-          OnClick = N923KCSSupervisor1Click
+          OnClick = SN923Click
         end
-        object N924KCSLeader1: TMenuItem
+        object SN924: TMenuItem
           Caption = 'N924 KCS Leader Cfm'
-          OnClick = N924KCSLeader1Click
+          OnClick = SN924Click
         end
       end
-      object N93IncomeMatRubberOutsole1: TMenuItem
+      object SN93: TMenuItem
         Caption = 'N93 Income Mat Rubber Outsole'
-        object N931QCInput1: TMenuItem
+        object SN931: TMenuItem
           Caption = 'N931 QC Input'
-          OnClick = N931QCInput1Click
+          OnClick = SN931Click
         end
-        object N932LabTestInput1: TMenuItem
+        object SN932: TMenuItem
           Caption = 'N932 Lab Test Input'
-          OnClick = N932LabTestInput1Click
+          OnClick = SN932Click
         end
-        object N933KCSSupervisorCfm1: TMenuItem
+        object SN933: TMenuItem
           Caption = 'N933 KCS Supervisor Cfm'
-          OnClick = N933KCSSupervisorCfm1Click
+          OnClick = SN933Click
         end
-        object N934KCSLeaderCfm1: TMenuItem
+        object SN934: TMenuItem
           Caption = 'N934 KCS Leader Cfm'
-          OnClick = N934KCSLeaderCfm1Click
+          OnClick = SN934Click
         end
-        object N935MaterialSupervisorCfm1: TMenuItem
+        object SN935: TMenuItem
           Caption = 'N935 Material Supervisor Cfm'
-          OnClick = N935MaterialSupervisorCfm1Click
+          OnClick = SN935Click
+        end
+      end
+      object SN94: TMenuItem
+        Caption = 'N94 Income Mat Mid/InSole'
+        object SN941: TMenuItem
+          Caption = 'N941 QC Input'
+          OnClick = SN941Click
+        end
+        object SN942: TMenuItem
+          Caption = 'N942 Lab Test Input'
+          OnClick = SN942Click
+        end
+        object SN943: TMenuItem
+          Caption = 'N943 KCS Supervisor Cfm'
+          OnClick = SN943Click
+        end
+        object SN944: TMenuItem
+          Caption = 'N944 KCS Leader Cfm'
+          OnClick = SN944Click
+        end
+        object SN945: TMenuItem
+          Caption = 'N945 Material Supervisor Cfm'
+          OnClick = SN945Click
+        end
+      end
+      object SN95: TMenuItem
+        Caption = 'N95 Income Mat Eva Painting'
+        object SN951: TMenuItem
+          Caption = 'N951 QC Input'
+          OnClick = SN951Click
+        end
+        object SN952: TMenuItem
+          Caption = 'N952 KCS Supervisor Cfm'
+          OnClick = SN952Click
+        end
+        object SN953: TMenuItem
+          Caption = 'N953 KCS Leader Cfm'
+          OnClick = SN953Click
+        end
+        object SN954: TMenuItem
+          Caption = 'N954 Material Supervisor Cfm'
+          OnClick = SN954Click
+        end
+      end
+      object SN96: TMenuItem
+        Caption = 'N96 Production Mat Failure'
+        object SN961: TMenuItem
+          Caption = 'N961 QC Input'
+          OnClick = SN961Click
+        end
+        object SN962: TMenuItem
+          Caption = 'N962 Purchase Input'
+          OnClick = SN962Click
+        end
+        object SN963: TMenuItem
+          Caption = 'N963 KCS Supervisor Cfm'
+          OnClick = SN963Click
+        end
+        object SN964: TMenuItem
+          Caption = 'N964 KCS Leader Cfm'
+          OnClick = SN964Click
+        end
+        object SN965: TMenuItem
+          Caption = 'N965 Warehouse Material Supervisor Cfm'
+          OnClick = SN965Click
+        end
+      end
+      object SN97: TMenuItem
+        Caption = 'N97 Income Upper Material'
+        object SN971: TMenuItem
+          Caption = 'N971 QC Input'
+          OnClick = SN971Click
+        end
+        object SN972: TMenuItem
+          Caption = 'N972 KCS Supervisor Cfm'
+          OnClick = SN972Click
+        end
+        object SN973: TMenuItem
+          Caption = 'N973 KCS Leader cfm'
+          OnClick = SN973Click
+        end
+        object SN974: TMenuItem
+          Caption = 'N974 Material Supervisor Cfm'
+          OnClick = SN974Click
+        end
+        object SN975: TMenuItem
+          Caption = 'N975 Lab Test Input'
+          OnClick = SN975Click
+        end
+      end
+      object SN98: TMenuItem
+        Caption = 'N98 Leather Mat Inscpection'
+        object SN981: TMenuItem
+          Caption = 'N981 QC Input'
+          OnClick = SN981Click
+        end
+        object SN982: TMenuItem
+          Caption = 'N982 KCS Supervisor Cfm'
+          OnClick = SN983Click
+        end
+        object SN983: TMenuItem
+          Caption = 'N983 KCS Leader Cfm'
+          OnClick = SN984Click
+        end
+        object SN984: TMenuItem
+          Caption = 'N984 Material Supervisor Cfm'
+          OnClick = SN985Click
         end
       end
     end

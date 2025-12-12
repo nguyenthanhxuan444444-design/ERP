@@ -1,4 +1,4 @@
-unit IncomeMatRubberOutsole;
+unit IncomeMatMidInSoles;
 
 interface
 
@@ -8,7 +8,7 @@ uses
   Buttons, ExtCtrls, ComObj, ShellAPI, ComCtrls, DBCtrlsEh;
 
 type
-  TIncomeMatRubberOutsoles = class(TForm)
+  TIncomeMatMidInSole = class(TForm)
     Panel1: TPanel;
     Label1: TLabel;
     Label2: TLabel;
@@ -38,7 +38,7 @@ type
     OpenDialog1: TOpenDialog;
     SaveDialog: TSaveDialog;
     QGetID: TQuery;
-    Query1ReportID: TAutoIncField;
+    Query1ReportID: TIntegerField;
     Query1InspecDate: TDateTimeField;
     Query1CLBH: TStringField;
     Query1Supplier: TStringField;
@@ -50,8 +50,6 @@ type
     Query1Size: TStringField;
     Query1TArrQty: TIntegerField;
     Query1IQty: TIntegerField;
-    Query1LHard: TStringField;
-    Query1RHard: TStringField;
     Query1SHard: TStringField;
     Query1LWeight: TStringField;
     Query1RWeight: TStringField;
@@ -92,6 +90,8 @@ type
     Label4: TLabel;
     edtSHard: TEdit;
     btCopy: TButton;
+    Query1LabUID: TStringField;
+    Query1LabChgDate: TDateTimeField;
     Query1PreparedID: TStringField;
     Query1PreparedDate: TDateTimeField;
     QSig: TQuery;
@@ -124,7 +124,7 @@ type
   end;
 
 var
-  IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles;
+  IncomeMatMidInSole: TIncomeMatMidInSole;
 
 implementation
 
@@ -132,9 +132,9 @@ uses main1;
 
 {$R *.dfm}
 
-procedure TIncomeMatRubberOutsoles.SetColumnsReadOnly;
+procedure TIncomeMatMidInSole.SetColumnsReadOnly;
 begin
-if MenuCode.Text = 'N931' then
+if MenuCode.Text = 'N941' then
   begin
     DBGrid1.FieldColumns['XieMing'].ReadOnly := True;
     DBGrid1.FieldColumns['Article'].ReadOnly := True;
@@ -144,7 +144,7 @@ if MenuCode.Text = 'N931' then
     DBGrid1.FieldColumns['SCFID'].ReadOnly := True;
     DBGrid1.FieldColumns['LCFID'].ReadOnly := True;
     DBGrid1.FieldColumns['MSCFID'].ReadOnly := True;
-  end else if MenuCode.Text = 'N932' then
+  end else if MenuCode.Text = 'N942' then
   begin
     DBGrid1.FieldColumns['ReportID'].ReadOnly := True;
     DBGrid1.FieldColumns['InspecDate'].ReadOnly := True;
@@ -158,8 +158,12 @@ if MenuCode.Text = 'N931' then
     DBGrid1.FieldColumns['Size'].ReadOnly := True;
     DBGrid1.FieldColumns['TArrQty'].ReadOnly := True;
     DBGrid1.FieldColumns['IQty'].ReadOnly := True;
-    DBGrid1.FieldColumns['LHard'].ReadOnly := True;
-    DBGrid1.FieldColumns['RHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['ALeftHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['BLeftHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['ARightHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['BRightHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['TempRoom'].ReadOnly := True;
+    DBGrid1.FieldColumns['MatName'].ReadOnly := True;
     DBGrid1.FieldColumns['SHard'].ReadOnly := True;
     DBGrid1.FieldColumns['LWeight'].ReadOnly := True;
     DBGrid1.FieldColumns['RWeight'].ReadOnly := True;
@@ -180,7 +184,7 @@ if MenuCode.Text = 'N931' then
     DBGrid1.FieldColumns['MSCFDate'].ReadOnly := True;
     DBGrid1.FieldColumns['USERID'].ReadOnly := True;
     DBGrid1.FieldColumns['USERDate'].ReadOnly := True;
-  end else if MenuCode.Text = 'N933' then
+  end else if MenuCode.Text = 'N943' then
   begin
     DBGrid1.FieldColumns['ReportID'].ReadOnly := True;
     DBGrid1.FieldColumns['InspecDate'].ReadOnly := True;
@@ -194,8 +198,12 @@ if MenuCode.Text = 'N931' then
     DBGrid1.FieldColumns['Size'].ReadOnly := True;
     DBGrid1.FieldColumns['TArrQty'].ReadOnly := True;
     DBGrid1.FieldColumns['IQty'].ReadOnly := True;
-    DBGrid1.FieldColumns['LHard'].ReadOnly := True;
-    DBGrid1.FieldColumns['RHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['ALeftHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['BLeftHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['ARightHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['BRightHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['TempRoom'].ReadOnly := True;
+    DBGrid1.FieldColumns['MatName'].ReadOnly := True;
     DBGrid1.FieldColumns['SHard'].ReadOnly := True;
     DBGrid1.FieldColumns['LWeight'].ReadOnly := True;
     DBGrid1.FieldColumns['RWeight'].ReadOnly := True;
@@ -219,7 +227,7 @@ if MenuCode.Text = 'N931' then
     DBGrid1.FieldColumns['USERID'].ReadOnly := True;
     DBGrid1.FieldColumns['USERDate'].ReadOnly := True;
 
-  end else if MenuCode.Text = 'N934' then
+  end else if MenuCode.Text = 'N944' then
   begin
     DBGrid1.FieldColumns['ReportID'].ReadOnly := True;
     DBGrid1.FieldColumns['InspecDate'].ReadOnly := True;
@@ -233,8 +241,12 @@ if MenuCode.Text = 'N931' then
     DBGrid1.FieldColumns['Size'].ReadOnly := True;
     DBGrid1.FieldColumns['TArrQty'].ReadOnly := True;
     DBGrid1.FieldColumns['IQty'].ReadOnly := True;
-    DBGrid1.FieldColumns['LHard'].ReadOnly := True;
-    DBGrid1.FieldColumns['RHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['ALeftHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['BLeftHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['ARightHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['BRightHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['TempRoom'].ReadOnly := True;
+    DBGrid1.FieldColumns['MatName'].ReadOnly := True;
     DBGrid1.FieldColumns['SHard'].ReadOnly := True;
     DBGrid1.FieldColumns['LWeight'].ReadOnly := True;
     DBGrid1.FieldColumns['RWeight'].ReadOnly := True;
@@ -257,7 +269,7 @@ if MenuCode.Text = 'N931' then
     DBGrid1.FieldColumns['MSCFDate'].ReadOnly := True;
     DBGrid1.FieldColumns['USERID'].ReadOnly := True;
     DBGrid1.FieldColumns['USERDate'].ReadOnly := True;
-  end else if MenuCode.Text = 'N935' then
+  end else if MenuCode.Text = 'N945' then
   begin
     DBGrid1.FieldColumns['ReportID'].ReadOnly := True;
     DBGrid1.FieldColumns['InspecDate'].ReadOnly := True;
@@ -271,8 +283,12 @@ if MenuCode.Text = 'N931' then
     DBGrid1.FieldColumns['Size'].ReadOnly := True;
     DBGrid1.FieldColumns['TArrQty'].ReadOnly := True;
     DBGrid1.FieldColumns['IQty'].ReadOnly := True;
-    DBGrid1.FieldColumns['LHard'].ReadOnly := True;
-    DBGrid1.FieldColumns['RHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['ALeftHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['BLeftHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['ARightHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['BRightHard'].ReadOnly := True;
+    DBGrid1.FieldColumns['TempRoom'].ReadOnly := True;
+    DBGrid1.FieldColumns['MatName'].ReadOnly := True;
     DBGrid1.FieldColumns['SHard'].ReadOnly := True;
     DBGrid1.FieldColumns['LWeight'].ReadOnly := True;
     DBGrid1.FieldColumns['RWeight'].ReadOnly := True;
@@ -298,7 +314,7 @@ if MenuCode.Text = 'N931' then
   end;
 end;
 
-function TIncomeMatRubberOutsoles.GetUsernameByID(const AID: string): string;
+function TIncomeMatMidInSole.GetUsernameByID(const AID: string): string;
 begin
   Result := '';
   if AID = '' then Exit;
@@ -316,7 +332,7 @@ begin
   end;
 end;
 
-function TIncomeMatRubberOutsoles.NewID: string;
+function TIncomeMatMidInSole.NewID: string;
 var
   Prefix, LastID: string;
   Seq: Integer;
@@ -329,7 +345,7 @@ begin
     SQL.Clear;
     SQL.Add(
       'select top 1 ReportID ' +
-      'from QC_RubSole ' +
+      'from QC_MidInSole ' +
       'where left(ReportID, 4) = :P ' +
       'order by ReportID desc');
     ParamByName('P').AsString := Prefix;
@@ -347,7 +363,7 @@ begin
   Result := Prefix + FormatFloat('0000', Seq);
 end;
 
-procedure TIncomeMatRubberOutsoles.Button1Click(Sender: TObject);
+procedure TIncomeMatMidInSole.Button1Click(Sender: TObject);
 begin
 
   SetColumnsReadOnly;
@@ -356,13 +372,13 @@ begin
   begin
     Active:= false;
     SQL.Clear;
-    SQL.Add('select ReportID, InspecDate, CLBH, Supplier, XieMing, DDBH, TOderQty, RQty, Article, Size, TArrQty, IQty, LHard, RHard, SHard, LWeight, RWeight, SWeight, ');
-    SQL.Add('Issues, DeQty, CAST(ROUND((DeQty * 100.0) / IQty, 1) AS DECIMAL(10,1)) as DeRate ');
-    SQL.Add(', WPLLen, WPRLen, WPLSize, WPRSize, SendDate, LabID, LabResult, Reject, SCFID, SCFDate, LCFID, LCFDate, MSCFID, MSCFDate, ');
-    SQL.Add('YN, USERID, USERDate, PreparedID, PreparedDate ');
-    SQL.Add('from QC_RubSole ');
-    SQL.Add('where DDBH like '''+edtDDBH.Text+'%'' and YN <> 0');
-
+    SQL.Add('select  ReportID, InspecDate, CLBH, clzl.ywpm as MatName, TempRoom, Supplier, Mold, XieMing, DDBH, TOderQty, RQty, Article, Size, TArrQty, IQty, ALeftHard, BLeftHard,');
+    SQL.Add(' ARightHard, BRightHard, SHard, LWeight, RWeight, SWeight, Issues, DeQty, WPLLen, WPRLen, WPLSize, WPRSize, SendDate, LabID, LabResult, ');
+    SQL.Add('Reject, SCFID, SCFDate, LCFID, LCFDate, MSCFID, MSCFDate, QC_MidInSole.YN, QC_MidInSole.USERID, QC_MidInSole.USERDate, LabUID, LabChgDate, ');
+    SQL.Add('CAST(ROUND((DeQty * 100.0) / IQty, 1) AS DECIMAL(10,1)) as DeRate, PreparedID, PreparedDate ');
+    SQL.Add('from QC_MidInSole ');
+    SQL.Add('left join clzl on clzl.cldh = QC_MidInSole.CLBH ');
+    SQL.Add('where DDBH like '''+edtDDBH.Text+'%'' and QC_MidInSole.YN <> 0 ');
     if ckInsDate.Checked then
       SQL.Add('and CAST(InspecDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpInsDate.Date)+''' ');
     if edtMatID.Text <> '' then
@@ -376,14 +392,14 @@ begin
     if edtSHard.Text <> '' then
       SQL.Add('and SHard = '''+edtSHard.Text+''' ');
     if ckUSERDate.Checked then
-      SQL.Add('and CAST(USERDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date)+''' ');
+      SQL.Add('and CAST(QC_MidInSole.USERDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date)+''' ');
     if edtStyle.Text <> '' then
       SQL.Add('and XieMing like ''%'+edtStyle.Text+'%'' ');
     Active := true;
   end;
 end;
 
-procedure TIncomeMatRubberOutsoles.BB1Click(Sender: TObject);
+procedure TIncomeMatMidInSole.BB1Click(Sender: TObject);
 begin
   with query1 do
   begin
@@ -395,7 +411,7 @@ bb4.enabled:=true;
 bb5.enabled:=true;
 end;
 
-procedure TIncomeMatRubberOutsoles.BB2Click(Sender: TObject);
+procedure TIncomeMatMidInSole.BB2Click(Sender: TObject);
 begin
 if messagedlg('Are you sure you want to delete?',mtconfirmation,[mbYes,mbNo],0)<>mrYes then
   begin
@@ -413,8 +429,9 @@ bb4.enabled:=true;
 bb5.enabled:=true;
 end;
 
-procedure TIncomeMatRubberOutsoles.BB3Click(Sender: TObject);
+procedure TIncomeMatMidInSole.BB3Click(Sender: TObject);
 begin
+
 with query1 do
   begin
     cachedupdates:=true;
@@ -427,7 +444,7 @@ bb5.enabled:=true;
 //DBGrid1.SelectedIndex := DBGrid1.FieldColumns['SCFID'].Index;
 end;
 
-procedure TIncomeMatRubberOutsoles.BB4Click(Sender: TObject);
+procedure TIncomeMatMidInSole.BB4Click(Sender: TObject);
 var i: integer;
 begin
   if not QGetID.Active then QGetID.Active;
@@ -438,7 +455,7 @@ begin
         case query1.updatestatus of
           usinserted:
             begin
-              if Query1.FieldByName('XieMing').IsNull then
+              if Query1.FieldByName('DDBH').IsNull then
               begin
                 query1.delete;
               end else
@@ -466,20 +483,25 @@ begin
                   Query1.Edit;
                   if DBGrid1.SelectedField.FieldName = 'PreparedID' then
                     Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
-                  else if MenuCode.Text = 'N931' then
+                  else if MenuCode.Text = 'N941' then
                     begin
                       Query1.FieldByName('USERID').Value := main.Edit1.Text;
                       Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
                     end;
-                  if MenuCode.Text = 'N933' then
+                  if MenuCode.Text = 'N942' then
+                    begin
+                      Query1.FieldByName('LabUID').Value := main.Edit1.Text;
+                      Query1.FieldByName('LabChgDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                    end;
+                  if MenuCode.Text = 'N943' then
                     begin
                       Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
                     end;
-                  if MenuCode.Text = 'N934' then
+                  if MenuCode.Text = 'N944' then
                     begin
                       Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
                     end;
-                  if MenuCode.Text = 'N935' then
+                  if MenuCode.Text = 'N945' then
                     begin
                       Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
                     end;
@@ -501,7 +523,7 @@ begin
   end;
 end;
 
-procedure TIncomeMatRubberOutsoles.BB5Click(Sender: TObject);
+procedure TIncomeMatMidInSole.BB5Click(Sender: TObject);
 begin
   with Query1 do
   begin
@@ -513,34 +535,60 @@ begin
   end;
 end;
 
-procedure TIncomeMatRubberOutsoles.DBGrid1KeyPress(Sender: TObject;
+procedure TIncomeMatMidInSole.DBGrid1KeyPress(Sender: TObject;
   var Key: Char);
 begin
   // Neu nhan Enter
   if Key = #13 then
   begin
 
-    if (DBGrid1.SelectedField.FieldName = 'SCFID') and (MenuCode.Text = 'N933') and Query1.CachedUpdates then
+    if (DBGrid1.SelectedField.FieldName = 'SCFID') and (MenuCode.Text = 'N943') and Query1.CachedUpdates then
     begin
       Query1.Edit;
       Query1.FieldByName('SCFID').AsString := main.Edit1.Text;
       Query1.Post;
     end;
 
-    if (DBGrid1.SelectedField.FieldName = 'LCFID') and (MenuCode.Text = 'N934') and Query1.CachedUpdates then
+    if (DBGrid1.SelectedField.FieldName = 'LCFID') and (MenuCode.Text = 'N944') and Query1.CachedUpdates then
     begin
       Query1.Edit;
       Query1.FieldByName('LCFID').AsString := main.Edit1.Text;
       Query1.Post;
     end;
-    if (DBGrid1.SelectedField.FieldName = 'MSCFID') and (MenuCode.Text = 'N935') and Query1.CachedUpdates then
+
+    if (DBGrid1.SelectedField.FieldName = 'MSCFID') and (MenuCode.Text = 'N945') and Query1.CachedUpdates then
     begin
       Query1.Edit;
       Query1.FieldByName('MSCFID').AsString := main.Edit1.Text;
       Query1.Post;
     end;
 
-    if DBGrid1.SelectedField.FieldName = 'DDBH' then
+    if (DBGrid1.SelectedField.FieldName = 'CLBH') then
+    begin
+      // Chi lam neu Query1 dang bat CachedUpdates
+      if Query1.CachedUpdates then
+      begin
+        Qtemp.Close;
+        Qtemp.SQL.Clear;
+        Qtemp.SQL.Add('select ywpm as MatName from clzl where cldh = :CLBH');
+        Qtemp.ParamByName('CLBH').AsString := DBGrid1.SelectedField.AsString;
+        Qtemp.Open;
+
+        if not Qtemp.IsEmpty then
+        begin
+          Query1.Edit;
+          Query1.FieldByName('MatName').AsString := Qtemp.FieldByName('MatName').AsString;
+          Query1.Post;
+        end else
+        begin
+          Query1.Edit;
+          Query1.FieldByName('MatName').AsString := '';
+          Query1.Post;
+        end;
+      end;
+    end;
+
+    if (DBGrid1.SelectedField.FieldName = 'DDBH') then
     begin
       if Query1.CachedUpdates then
       begin
@@ -572,7 +620,7 @@ begin
   end;
 end;
 
-procedure TIncomeMatRubberOutsoles.Query1AfterOpen(DataSet: TDataSet);
+procedure TIncomeMatMidInSole.Query1AfterOpen(DataSet: TDataSet);
 begin
   BB1.Enabled:=true;
   BB2.Enabled:=true;
@@ -580,11 +628,11 @@ begin
   bbt6.Enabled:=true;
   bExcel.Enabled := true;
   bExF.Enabled := true;
-  if MenuCode.Text = 'N931' then
+  if MenuCode.Text = 'N941' then
     btCopy.Visible := true;
 end;
 
-procedure TIncomeMatRubberOutsoles.bExcelClick(Sender: TObject);
+procedure TIncomeMatMidInSole.bExcelClick(Sender: TObject);
 var
   ExcelApp, Workbook, Worksheet: OleVariant;
   Row, Col: Integer;
@@ -610,16 +658,17 @@ begin
   Worksheet.Columns.AutoFit;
 end;
 
-procedure TIncomeMatRubberOutsoles.bExFClick(Sender: TObject);
+procedure TIncomeMatMidInSole.bExFClick(Sender: TObject);
 var
   ExcelApp, Workbook, Worksheet, borderRange: OleVariant;
   StartRow, InsertRow: Integer;
-  DuongDanFile, SaveFile, s: string;
+  DuongDanFile, SaveFile: string;
   i, p: Integer;
   MaxHeight: Double;
   SigS, SigMS, SigL, SigP: Boolean;
+  s: WideString;
 begin
-  DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-03D.xlsx';
+  DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-02D.xlsx';
 
   StartRow := 10;
 
@@ -629,13 +678,13 @@ begin
     begin
       SaveDialog.Filter := 'Excel Files (*.xlsx)|*.xlsx';
       SaveDialog.DefaultExt := 'xlsx';
-      SaveDialog.FileName := 'A-QIP-WS001-03D_' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', Now) + '.xlsx';
+      SaveDialog.FileName := 'A-QIP-WS001-02D_' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', Now) + '.xlsx';
       SaveDialog.Title := 'Chon noi luu file Excel moi';
     end else
     begin
       SaveDialog.Filter := 'PDF (*.pdf)|*.pdf';
       SaveDialog.DefaultExt := 'pdf';
-      SaveDialog.FileName := 'A-QIP-WS001-03D_' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', Now) + '.pdf';
+      SaveDialog.FileName := 'A-QIP-WS001-02D_' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', Now) + '.pdf';
       SaveDialog.Title := 'Chon noi luu file PDF moi';
     end;
 
@@ -667,11 +716,39 @@ begin
       1: Worksheet.Cells[2, i].Characters(p, 0).Text :=
             ' ' + FormatDateTime('dd-mm-yyyy', dtpInsDate.Date);
 
-      7: Worksheet.Cells[2, i].Characters(p, 0).Text :=
-            ' ' + edtMatID.Text;
-      12: Worksheet.Cells[2, i].Characters(p, 0).Text :=
-            ' ' + edtZSBH.Text;
+      {8: Worksheet.Cells[2, i].Characters(p, 0).Text :=
+            ' ' + Query1.FieldByName('MatName').AsString;}
     end;
+  end;
+
+  if edtMatID.Text <> '' then
+  begin
+    s := Worksheet.Cells[2, 13].Value;
+    Worksheet.Cells[2, 13].Value := s + ' ' + edtMatID.Text;
+  end;
+
+  if edtZSBH.Text <> '' then
+  begin
+    s := Worksheet.Cells[2, 17].Value;
+    Worksheet.Cells[2, 17].Value := s + ' ' + edtZSBH.Text;
+  end;
+
+  if edtTOQty.Text <> '' then
+  begin
+    s := Worksheet.Cells[4, 11].Value;
+    Worksheet.Cells[4, 11].Value := s + ' ' + edtTOQty.Text;
+  end;
+
+  if edtRQty.Text <> '' then
+  begin
+    s := Worksheet.Cells[4, 14].Value;
+    Worksheet.Cells[4, 14].Value := s + ' ' + edtRQty.Text;
+  end;
+
+  if Query1.RecordCount > 0 then
+  begin
+    s := Worksheet.Cells[3, 1].Value;
+    Worksheet.Cells[3, 1].Value := s + ' ' + Query1.FieldByName('TempRoom').Value;
   end;
 
   //hang 3
@@ -686,11 +763,10 @@ begin
       p := p + 1;
 
     case i of
-      1: Worksheet.Cells[3, i].Characters(p, 0).Text :=
-            ' ' + edtStyle.Text;
-
-      7: Worksheet.Cells[3, i].Characters(p, 0).Text :=
-            ' ' + edtDDBH.Text;
+      8: Worksheet.Cells[3, i].Characters(p, 0).Text :=
+            ' ' + Query1.FieldByName('Mold').AsString;
+      13: Worksheet.Cells[3, i].Characters(p, 0).Text :=
+            ' ' + Query1.FieldByName('DDBH').AsString;
     end;
   end;
 
@@ -707,19 +783,27 @@ begin
 
     case i of
       1: Worksheet.Cells[4, i].Characters(p, 0).Text :=
-            ' ' + edtTOQty.Text;
+            ' ' + edtStyle.Text;
 
-      7: Worksheet.Cells[4, i].Characters(p, 0).Text :=
-            ' ' + edtRQty.Text;
-      12: Worksheet.Cells[4, i].Characters(p, 0).Text :=
+      8: Worksheet.Cells[4, i].Characters(p, 0).Text :=
             ' ' + edtSKU.Text;
+      19:
     end;
   end;
 
   //hang 9
-  s := VarToStr(Worksheet.Cells[9, 4].Value);
-  p := Pos(Chr(10), s);
-  Worksheet.Cells[9, 4].Characters(p, 0).Text := ' ' + edtSHard.Text;
+  if edtSHard.Text <> '' then
+  begin
+    s := VarToStr(Worksheet.Cells[9, 4].Value);
+    p := Pos(Chr(10), s);
+
+    if p = 0 then
+      p := Length(s) + 1
+    else
+      p := p + 1;
+    Worksheet.Cells[9, 4].Characters(p, 0).Text :=
+            ' ' + edtSHard.Text;
+  end;
 
   Query1.First;
   InsertRow := StartRow;
@@ -728,7 +812,7 @@ begin
   begin
     Worksheet.Rows[Format('%d:%d', [InsertRow, InsertRow])].Insert;
 
-    borderRange := Worksheet.Range[Format('A%d:S%d', [InsertRow, InsertRow])];
+    borderRange := Worksheet.Range[Format('A%d:U%d', [InsertRow, InsertRow])];
     borderRange.Borders.LineStyle := 1;
     borderRange.Borders.Weight := 2;
 
@@ -736,22 +820,24 @@ begin
     Worksheet.Cells[InsertRow, 1].Value := Query1.FieldByName('Size').AsString;
     Worksheet.Cells[InsertRow, 2].Value := Query1.FieldByName('TArrQty').AsString;
     Worksheet.Cells[InsertRow, 3].Value := Query1.FieldByName('IQty').AsString;
-    Worksheet.Cells[InsertRow, 4].Value := Query1.FieldByName('LHard').AsString;
-    Worksheet.Cells[InsertRow, 5].Value := Query1.FieldByName('RHard').AsString;
-    Worksheet.Cells[InsertRow, 6].Value := Query1.FieldByName('SWeight').AsString;
-    Worksheet.Cells[InsertRow, 7].Value := Query1.FieldByName('LWeight').AsString;
-    Worksheet.Cells[InsertRow, 8].Value := Query1.FieldByName('RWeight').AsString;
-    Worksheet.Cells[InsertRow, 9].Value := Query1.FieldByName('Issues').AsString;
-    Worksheet.Cells[InsertRow, 10].Value := Query1.FieldByName('DeQty').AsString;
-    Worksheet.Cells[InsertRow, 11].Value := Query1.FieldByName('DeRate').AsString + '%';
-    Worksheet.Cells[InsertRow, 12].Value := Query1.FieldByName('WPLLen').AsString;
-    Worksheet.Cells[InsertRow, 13].Value := Query1.FieldByName('WPRLen').AsString;
-    Worksheet.Cells[InsertRow, 14].Value := Query1.FieldByName('WPLSize').AsString;
-    Worksheet.Cells[InsertRow, 15].Value := Query1.FieldByName('WPRSize').AsString;
-    Worksheet.Cells[InsertRow, 16].Value := FormatDateTime('dd-mm-yyyy', Query1.FieldByName('SendDate').AsDateTime);
-    Worksheet.Cells[InsertRow, 17].Value := Query1.FieldByName('LabID').AsString;
-    Worksheet.Cells[InsertRow, 18].Value := Query1.FieldByName('LabResult').AsString;
-    Worksheet.Cells[InsertRow, 19].Value := Query1.FieldByName('Reject').AsString;
+    Worksheet.Cells[InsertRow, 4].Value := Query1.FieldByName('ALeftHard').AsString;
+    Worksheet.Cells[InsertRow, 5].Value := Query1.FieldByName('BLeftHard').AsString;
+    Worksheet.Cells[InsertRow, 6].Value := Query1.FieldByName('ARightHard').AsString;
+    Worksheet.Cells[InsertRow, 7].Value := Query1.FieldByName('BRightHard').AsString;
+    Worksheet.Cells[InsertRow, 8].Value := Query1.FieldByName('SWeight').AsString;
+    Worksheet.Cells[InsertRow, 9].Value := Query1.FieldByName('LWeight').AsString;
+    Worksheet.Cells[InsertRow, 10].Value := Query1.FieldByName('RWeight').AsString;
+    Worksheet.Cells[InsertRow, 11].Value := Query1.FieldByName('Issues').AsString;
+    Worksheet.Cells[InsertRow, 12].Value := Query1.FieldByName('DeQty').AsString;
+    Worksheet.Cells[InsertRow, 13].Value := Query1.FieldByName('DeRate').AsString + '%';
+    Worksheet.Cells[InsertRow, 14].Value := Query1.FieldByName('WPLLen').AsString;
+    Worksheet.Cells[InsertRow, 15].Value := Query1.FieldByName('WPRLen').AsString;
+    Worksheet.Cells[InsertRow, 16].Value := Query1.FieldByName('WPLSize').AsString;
+    Worksheet.Cells[InsertRow, 17].Value := Query1.FieldByName('WPRSize').AsString;
+    Worksheet.Cells[InsertRow, 18].Value := FormatDateTime('dd-mm-yyyy', Query1.FieldByName('SendDate').AsDateTime);
+    Worksheet.Cells[InsertRow, 19].Value := Query1.FieldByName('LabID').AsString;
+    Worksheet.Cells[InsertRow, 20].Value := Query1.FieldByName('LabResult').AsString;
+    Worksheet.Cells[InsertRow, 21].Value := Query1.FieldByName('Reject').AsString;
     Worksheet.Rows[InsertRow].AutoFit;
 
     Inc(InsertRow);
@@ -772,8 +858,8 @@ begin
 
   if SigS = false then
   begin
-    Worksheet.Cells[InsertRow + 1, 7].WrapText := True;
-    Worksheet.Cells[InsertRow + 1, 7].Value := GetUsernameByID(Query1.FieldByName('SCFID').AsString)
+    Worksheet.Cells[InsertRow + 2, 8].WrapText := True;
+    Worksheet.Cells[InsertRow + 2, 8].Value := GetUsernameByID(Query1.FieldByName('SCFID').AsString)
     + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('SCFDate').AsDateTime);
   end;
 
@@ -789,8 +875,8 @@ begin
 
   if SigMS = false then
   begin
-    Worksheet.Cells[InsertRow + 1, 1].WrapText := True;
-    Worksheet.Cells[InsertRow + 1, 1].Value := GetUsernameByID(Query1.FieldByName('MSCFID').AsString)
+    Worksheet.Cells[InsertRow + 2, 1].WrapText := True;
+    Worksheet.Cells[InsertRow + 2, 1].Value := GetUsernameByID(Query1.FieldByName('MSCFID').AsString)
     + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('MSCFDate').AsDateTime);
   end;
 
@@ -806,8 +892,8 @@ begin
 
   if SigL = false then
   begin
-    Worksheet.Cells[InsertRow + 1, 11].WrapText := True;
-    Worksheet.Cells[InsertRow + 1, 11].Value := GetUsernameByID(Query1.FieldByName('LCFID').AsString)
+    Worksheet.Cells[InsertRow + 2, 14].WrapText := True;
+    Worksheet.Cells[InsertRow + 2, 14].Value := GetUsernameByID(Query1.FieldByName('LCFID').AsString)
     + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('LCFDate').AsDateTime);
   end;
 
@@ -823,8 +909,8 @@ begin
 
   if SigP = false then
   begin
-    Worksheet.Cells[InsertRow + 1, 17].WrapText := True;
-    Worksheet.Cells[InsertRow + 1, 17].Value := Query1.FieldByName('PreparedID').AsString
+    Worksheet.Cells[InsertRow + 2, 18].WrapText := True;
+    Worksheet.Cells[InsertRow + 2, 18].Value := Query1.FieldByName('PreparedID').AsString
     + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('PreparedDate').AsDateTime);
   end;
 
@@ -851,7 +937,7 @@ begin
 
 end;
 
-procedure TIncomeMatRubberOutsoles.btClearClick(Sender: TObject);
+procedure TIncomeMatMidInSole.btClearClick(Sender: TObject);
 begin
   edtMatID.Clear;
   edtDDBH.Clear;
@@ -864,17 +950,17 @@ begin
   edtSHard.Clear;
 end;
 
-procedure TIncomeMatRubberOutsoles.FormCreate(Sender: TObject);
+procedure TIncomeMatMidInSole.FormCreate(Sender: TObject);
 begin
- DBGrid1.FrozenCols := 6;
+ DBGrid1.FrozenCols := 8;
 end;
 
-procedure TIncomeMatRubberOutsoles.BB6Click(Sender: TObject);
+procedure TIncomeMatMidInSole.BB6Click(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TIncomeMatRubberOutsoles.FormClose(Sender: TObject;
+procedure TIncomeMatMidInSole.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
 if query1.requestlive then
@@ -886,12 +972,12 @@ if query1.requestlive then
    action:=Cafree;
 end;
 
-procedure TIncomeMatRubberOutsoles.FormDestroy(Sender: TObject);
+procedure TIncomeMatMidInSole.FormDestroy(Sender: TObject);
 begin
-  IncomeMatRubberOutsoles := nil;
+  IncomeMatMidInSole := nil;
 end;
 
-procedure TIncomeMatRubberOutsoles.DBGrid1CellClick(Column: TColumnEh);
+procedure TIncomeMatMidInSole.DBGrid1CellClick(Column: TColumnEh);
 begin
 if not Query1.Active then exit;
 if Query1.RecordCount = 0 then exit;
@@ -909,9 +995,25 @@ if (Query1.RecordCount > 0)  and not Query1.CachedUpdates then
     edtSHard.Text := Query1.FieldByName('SHard').AsString;
     dtpUSERDate.Date := Query1.FieldByName('USERDate').AsDateTime;
   end;
+
+  if Query1.CachedUpdates then
+  begin
+    with DBGrid1.FieldColumns['TempRoom'].PickList do
+    begin
+      Clear;
+      Add('I');
+      Add('II');
+      Add('III');
+      Add('IV');
+      Add('V');
+      Add('VI');
+      Add('VII');
+    end;
+  end else
+    DBGrid1.FieldColumns['TempRoom'].PickList.Clear;
 end;
 
-procedure TIncomeMatRubberOutsoles.DBGrid1GetCellParams(Sender: TObject;
+procedure TIncomeMatMidInSole.DBGrid1GetCellParams(Sender: TObject;
   Column: TColumnEh; AFont: TFont; var Background: TColor;
   State: TGridDrawState);
 begin
@@ -919,12 +1021,15 @@ begin
     DBGrid1.Canvas.Font.Color := clRed;
 end;
 
-procedure TIncomeMatRubberOutsoles.btCopyClick(Sender: TObject);
+procedure TIncomeMatMidInSole.btCopyClick(Sender: TObject);
 var
-  OldReportID   : Integer;
+  OldReportID   : Variant;
   OldInspecDate : TDateTime;
   OldCLBH       : string;
+  OldMatName    : string;
+  OldTempRoom   : string;
   OldSupplier   : string;
+  OldMold       : string;
   OldXieMing    : string;
   OldDDBH       : string;
   OldTOderQty   : Integer;
@@ -933,58 +1038,63 @@ var
   OldSize       : string;
   OldTArrQty    : Integer;
   OldIQty       : Integer;
-  OldLHard      : string;
-  OldRHard      : string;
+  OldALeftHard  : string;
+  OldBLeftHard  : string;
+  OldARightHard : string;
+  OldBRightHard : string;
   OldSHard      : string;
   OldLWeight    : string;
   OldRWeight    : string;
   OldSWeight    : string;
-  OldIssues     : string;
-  OldDeQty      : Integer;
-  OldDeRate     : Double;
-  OldWPLLen     : Integer;
-  OldWPRLen     : Integer;
-  OldWPLSize    : Integer;
-  OldWPRSize    : Integer;
+  OldWPLLen     : Double;
+  OldWPRLen     : Double;
+  OldWPLSize    : Double;
+  OldWPRSize    : Double;
   OldSendDate   : TDateTime;
-  OldLabID      : string;
-  OldLabResult  : string;
-  OldReject     : Integer;
 begin
-
+  if not Query1.Active then exit;
+  if Query1.RecordCount = 0 then exit;
   bb4.enabled:=true;
   bb5.enabled:=true;
   Query1.CachedUpdates := true;
   Query1.RequestLive := true;
   Query1.Edit;
 
-  OldInspecDate := Query1.FieldByName('InspecDate').AsDateTime;
-  OldCLBH       := Query1.FieldByName('CLBH').AsString;
-  OldSupplier   := Query1.FieldByName('Supplier').AsString;
-  OldXieMing    := Query1.FieldByName('XieMing').AsString;
-  OldDDBH       := Query1.FieldByName('DDBH').AsString;
-  OldTOderQty   := Query1.FieldByName('TOderQty').AsInteger;
-  OldRQty       := Query1.FieldByName('RQty').AsInteger;
-  OldArticle    := Query1.FieldByName('Article').AsString;
-  OldSize       := Query1.FieldByName('Size').AsString;
-  OldTArrQty    := Query1.FieldByName('TArrQty').AsInteger;
-  OldIQty       := Query1.FieldByName('IQty').AsInteger;
-  OldLHard      := Query1.FieldByName('LHard').AsString;
-  OldRHard      := Query1.FieldByName('RHard').AsString;
-  OldSHard      := Query1.FieldByName('SHard').AsString;
-  OldLWeight    := Query1.FieldByName('LWeight').AsString;
-  OldRWeight    := Query1.FieldByName('RWeight').AsString;
-  OldSWeight    := Query1.FieldByName('SWeight').AsString;
-  OldWPLLen     := Query1.FieldByName('WPLLen').AsInteger;
-  OldWPRLen     := Query1.FieldByName('WPRLen').AsInteger;
-  OldWPLSize    := Query1.FieldByName('WPLSize').AsInteger;
-  OldWPRSize    := Query1.FieldByName('WPRSize').AsInteger;
-  OldSendDate   := Query1.FieldByName('SendDate').AsDateTime;
+  OldInspecDate  := Query1.FieldByName('InspecDate').AsDateTime;
+  OldCLBH        := Query1.FieldByName('CLBH').AsString;
+  OldMatName     := Query1.FieldByName('MatName').AsString;
+  OldTempRoom    := Query1.FieldByName('TempRoom').AsString;
+  OldSupplier    := Query1.FieldByName('Supplier').AsString;
+  OldMold        := Query1.FieldByName('Mold').AsString;
+  OldXieMing     := Query1.FieldByName('XieMing').AsString;
+  OldDDBH        := Query1.FieldByName('DDBH').AsString;
+  OldTOderQty    := Query1.FieldByName('TOderQty').AsInteger;
+  OldRQty        := Query1.FieldByName('RQty').AsInteger;
+  OldArticle     := Query1.FieldByName('Article').AsString;
+  OldSize        := Query1.FieldByName('Size').AsString;
+  OldTArrQty     := Query1.FieldByName('TArrQty').AsInteger;
+  OldIQty        := Query1.FieldByName('IQty').AsInteger;
+  OldALeftHard   := Query1.FieldByName('ALeftHard').AsString;
+  OldBLeftHard   := Query1.FieldByName('BLeftHard').AsString;
+  OldARightHard  := Query1.FieldByName('ARightHard').AsString;
+  OldBRightHard  := Query1.FieldByName('BRightHard').AsString;
+  OldSHard       := Query1.FieldByName('SHard').AsString;
+  OldLWeight     := Query1.FieldByName('LWeight').AsString;
+  OldRWeight     := Query1.FieldByName('RWeight').AsString;
+  OldSWeight     := Query1.FieldByName('SWeight').AsString;
+  OldWPLLen      := Query1.FieldByName('WPLLen').AsFloat;
+  OldWPRLen      := Query1.FieldByName('WPRLen').AsFloat;
+  OldWPLSize     := Query1.FieldByName('WPLSize').AsFloat;
+  OldWPRSize     := Query1.FieldByName('WPRSize').AsFloat;
+  OldSendDate    := Query1.FieldByName('SendDate').AsDateTime;
 
   Query1.Append;
   Query1.FieldByName('InspecDate').AsDateTime:= OldInspecDate;
   Query1.FieldByName('CLBH').AsString        := OldCLBH;
+  Query1.FieldByName('MatName').AsString     := OldMatName;
+  Query1.FieldByName('TempRoom').AsString    := OldTempRoom;
   Query1.FieldByName('Supplier').AsString    := OldSupplier;
+  Query1.FieldByName('Mold').AsString        := OldMold;
   Query1.FieldByName('XieMing').AsString     := OldXieMing;
   Query1.FieldByName('DDBH').AsString        := OldDDBH;
   Query1.FieldByName('TOderQty').AsInteger   := OldTOderQty;
@@ -993,16 +1103,18 @@ begin
   Query1.FieldByName('Size').AsString        := OldSize;
   Query1.FieldByName('TArrQty').AsInteger    := OldTArrQty;
   Query1.FieldByName('IQty').AsInteger       := OldIQty;
-  Query1.FieldByName('LHard').AsString      := OldLHard;
-  Query1.FieldByName('RHard').AsString      := OldRHard;
-  Query1.FieldByName('SHard').AsString      := OldSHard;
+  Query1.FieldByName('ALeftHard').AsString    := OldALeftHard;
+  Query1.FieldByName('BLeftHard').AsString    := OldBLeftHard;
+  Query1.FieldByName('ARightHard').AsString   := OldARightHard;
+  Query1.FieldByName('BRightHard').AsString   := OldBRightHard;
+  Query1.FieldByName('SHard').AsString        := OldSHard;
   Query1.FieldByName('LWeight').AsString      := OldLWeight;
   Query1.FieldByName('RWeight').AsString      := OldRWeight;
   Query1.FieldByName('SWeight').AsString      := OldSWeight;
-  Query1.FieldByName('WPLLen').AsInteger       := OldWPLLen;
-  Query1.FieldByName('WPRLen').AsInteger       := OldWPRLen;
-  Query1.FieldByName('WPLSize').AsInteger     := OldWPLSize;
-  Query1.FieldByName('WPRSize').AsInteger     := OldWPRSize;
+  Query1.FieldByName('WPLLen').AsFloat       := OldWPLLen;
+  Query1.FieldByName('WPRLen').AsFloat       := OldWPRLen;
+  Query1.FieldByName('WPLSize').AsFloat      := OldWPLSize;
+  Query1.FieldByName('WPRSize').AsFloat      := OldWPRSize;
   Query1.FieldByName('SendDate').AsDateTime  := OldSendDate;
   Query1.Post;
 end;

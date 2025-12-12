@@ -59,6 +59,13 @@ type
     Query1LCFDate: TDateTimeField;
     Label3: TLabel;
     edtRID: TEdit;
+    Label4: TLabel;
+    edtSKU: TEdit;
+    Query1DepInputDate: TDateTimeField;
+    Query1PreparedID: TStringField;
+    Query1PreparedDate: TDateTimeField;
+    Query1DepUID: TStringField;
+    QSig: TQuery;
     procedure BB1Click(Sender: TObject);
     procedure BB2Click(Sender: TObject);
     procedure BB3Click(Sender: TObject);
@@ -77,6 +84,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     function NewID: string;
+    function GetUsernameByID(const AID: string): string;
+    procedure DBGrid1CellClick(Column: TColumnEh);
   private
     { Private declarations }
   public
@@ -91,6 +100,24 @@ implementation
 uses main1;
 
 {$R *.dfm}
+
+function TDailyOutsourcingCheck.GetUsernameByID(const AID: string): string;
+begin
+  Result := '';
+  if AID = '' then Exit;
+
+  with QSig do
+  begin
+    Active := False;
+    SQL.Clear;
+    SQL.Add('select USERNAME from Busers where USERID = :USERID');
+    ParamByName('USERID').AsString := AID;
+    Active := True;
+
+    if not EOF then
+      Result := FieldByName('USERNAME').AsString;
+  end;
+end;
 
 function TDailyOutsourcingCheck.NewID: string;
 var
@@ -202,10 +229,16 @@ begin
                  end else
                  begin
                   Query1.Edit;
-                  if MenuCode.Text = 'N921' then
+                  if DBGrid1.SelectedField.FieldName = 'PreparedID' then
+                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
+                  else if MenuCode.Text = 'N921' then
+                  begin
+                    Query1.FieldByName('USERID').Value := main.Edit1.Text;
+                    Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                  end;
+                  if MenuCode.Text = 'N922' then
                     begin
-                      Query1.FieldByName('USERID').Value := main.Edit1.Text;
-                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('DepInputDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
                     end;
                   if MenuCode.Text = 'N923' then
                     begin
@@ -251,6 +284,7 @@ var
   StartRow, InsertRow: Integer;
   DuongDanFile, SaveFile, s: string;
   i, p: Integer;
+  SigS, SigDep, SigL, SigP: Boolean;
   MaxHeight: Double;
 begin
   DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS009-01D.xlsx';
@@ -301,7 +335,7 @@ begin
             '' + edtZSBH.Text;
 
       5: Worksheet.Cells[3, i].Characters(p, 0).Text :=
-            '' + FormatDateTime('yyyy-mm-dd', dtpVI.Date);
+            '' + FormatDateTime('dd-mm-yyyy', dtpVI.Date);
     end;
   end;
 
@@ -312,9 +346,8 @@ begin
   begin
     MaxHeight := 35;
     Worksheet.Rows[Format('%d:%d', [InsertRow, InsertRow])].Insert;
-    Worksheet.Range[Format('H%d:I%d',[InsertRow, InsertRow])].Merge;
 
-    borderRange := Worksheet.Range[Format('A%d:J%d', [InsertRow, InsertRow])];
+    borderRange := Worksheet.Range[Format('A%d:I%d', [InsertRow, InsertRow])];
     borderRange.Borders.LineStyle := 1;
     borderRange.Borders.Weight := 2;
 
@@ -322,26 +355,23 @@ begin
     Worksheet.Cells[InsertRow, 1].Value := Query1.FieldByName('XieMing').AsString;
     Worksheet.Cells[InsertRow, 2].Value := Query1.FieldByName('Parts').AsString;
     Worksheet.Cells[InsertRow, 3].Value := Query1.FieldByName('Article').AsString;
-    Worksheet.Cells[InsertRow, 4].Value := Query1.FieldByName('DDBH').AsString;
+
+    begin
+      s := Query1.FieldByName('DDBH').AsString;
+      s := StringReplace(s, '_', Chr(10), [rfReplaceAll]);
+      Worksheet.Cells[InsertRow, 4].WrapText := True;
+      Worksheet.Cells[InsertRow, 4].Value := s;
+    end;
+
     Worksheet.Cells[InsertRow, 5].Value := Query1.FieldByName('RQty').AsString;
     Worksheet.Cells[InsertRow, 6].Value := Query1.FieldByName('IQty').AsInteger;
     Worksheet.Cells[InsertRow, 7].Value := Query1.FieldByName('DeQty').AsString;
     Worksheet.Cells[InsertRow, 8].Value := Query1.FieldByName('Issues').AsString;
-    Worksheet.Cells[InsertRow, 10].Value := Query1.FieldByName('DeRate').AsString + '%';
-
-    Worksheet.Range[Format('A%d:J%d',[InsertRow, InsertRow])].WrapText := True;
-    Worksheet.Range[Format('H%d:I%d',[InsertRow, InsertRow])].UnMerge;
+    Worksheet.Cells[InsertRow, 9].Value := Query1.FieldByName('DeRate').AsString + '%';
     Worksheet.Rows[InsertRow].AutoFit;
 
     if MaxHeight < Worksheet.Rows[InsertRow].RowHeight then
       MaxHeight := Worksheet.Rows[InsertRow].RowHeight;
-
-    Worksheet.Range[Format('H%d:I%d',[InsertRow, InsertRow])].Merge;
-
-    if MaxHeight > 150 then
-      Worksheet.Rows[InsertRow].RowHeight := MaxHeight / 2 + 1
-    else
-      Worksheet.Rows[InsertRow].RowHeight := MaxHeight;
 
     Inc(InsertRow);
     Query1.Next;
@@ -349,10 +379,86 @@ begin
 
   Worksheet.Rows[Format('%d:%d', [InsertRow, InsertRow])].Delete;
 
+  // Kiem tra ky KCS Super
+  Query1.First;
+  SigS := False;
+  while not Query1.Eof do
+  begin
+    if (Query1.FieldByName('SCFID').AsString = '') then
+      SigS := True;
+    Query1.Next;
+  end;
+
+  if not SigS then
+  begin
+    Worksheet.Cells[InsertRow + 1, 4].WrapText := True;
+    Worksheet.Cells[InsertRow + 1, 4].Value :=
+      GetUsernameByID(Query1.FieldByName('SCFID').AsString)
+      + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('SCFDate').AsDateTime);
+  end;
+
+
+  // Kiem tra DepUID
+  Query1.First;
+  SigDep := False;
+  while not Query1.Eof do
+  begin
+    if (Query1.FieldByName('DepUID').AsString = '') then
+      SigDep := True;
+    Query1.Next;
+  end;
+
+  if not SigDep then
+  begin
+    Worksheet.Cells[InsertRow + 1, 1].WrapText := True;
+    Worksheet.Cells[InsertRow + 1, 1].Value :=
+      GetUsernameByID(Query1.FieldByName('DepUID').AsString)
+      + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('DepInputDate').AsDateTime);
+  end;
+
+
+  // KCS Leader
+  Query1.First;
+  SigL := False;
+  while not Query1.Eof do
+  begin
+    if (Query1.FieldByName('LCFID').AsString = '') then
+      SigL := True;
+    Query1.Next;
+  end;
+
+  if not SigL then
+  begin
+    Worksheet.Cells[InsertRow + 1, 6].WrapText := True;
+    Worksheet.Cells[InsertRow + 1, 6].Value :=
+      GetUsernameByID(Query1.FieldByName('LCFID').AsString)
+      + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('LCFDate').AsDateTime);
+  end;
+
+
+  // PreparedID
+  Query1.First;
+  SigP := False;
+  while not Query1.Eof do
+  begin
+    if (Query1.FieldByName('PreparedID').AsString = '') then
+      SigP := True;
+    Query1.Next;
+  end;
+
+  if not SigP then
+  begin
+    Worksheet.Cells[InsertRow + 1, 8].WrapText := True;
+    Worksheet.Cells[InsertRow + 1, 8].Value :=
+      Query1.FieldByName('PreparedID').AsString
+      + Chr(10) + FormatDateTime('dd-mm-yyyy', Query1.FieldByName('PreparedDate').AsDateTime);
+  end;
+
+  //export format
   if cbPDF.Checked then
   begin
     Worksheet.PageSetup.PrintTitleRows := '$1:$5';
-    //Worksheet.PageSetup.CenterFooter := '&P / &N';
+    Worksheet.PageSetup.RightHeader := '&P / &N';
     Workbook.ExportAsFixedFormat(0, SaveFile);
     ShowMessage('Duong dan PDF: ' + SaveFile);
     ShellExecute(0, 'open', PChar(SaveFile), nil, nil, SW_SHOWNORMAL);
@@ -360,7 +466,7 @@ begin
   else
   begin
     Worksheet.PageSetup.PrintTitleRows := '$1:$5';
-    //Worksheet.PageSetup.CenterFooter := '&P / &N';
+    Worksheet.PageSetup.RightHeader := '&P / &N';
     Workbook.SaveAs(SaveFile);
     ShowMessage('Duong dan Excel: ' + SaveFile);
     ExcelApp.Visible := True;
@@ -387,23 +493,22 @@ begin
 
   if MenuCode.Text = 'N921' then
   begin
-    {DBGrid1.FieldColumns['ResultDate'].ReadOnly := True;
-    DBGrid1.FieldColumns['LabID'].ReadOnly := True;
-    DBGrid1.FieldColumns['Result'].ReadOnly := True;
-    DBGrid1.FieldColumns['Defects'].ReadOnly := True;}
     DBGrid1.FieldColumns['SCFID'].ReadOnly := True;
     DBGrid1.FieldColumns['LCFID'].ReadOnly := True;
+    DBGrid1.FieldColumns['DepUID'].ReadOnly := True;
   end else if MenuCode.Text = 'N922' then
   begin
-    {DBGrid1.FieldColumns['LabRequest'].ReadOnly := True;
-    DBGrid1.FieldColumns['MatName'].ReadOnly := True;
+    DBGrid1.FieldColumns['Parts'].ReadOnly := True;
     DBGrid1.FieldColumns['XieMing'].ReadOnly := True;
     DBGrid1.FieldColumns['Article'].ReadOnly := True;
     DBGrid1.FieldColumns['DDBH'].ReadOnly := True;
-    DBGrid1.FieldColumns['CLBH'].ReadOnly := True;
+    DBGrid1.FieldColumns['IQty'].ReadOnly := True;
+    DBGrid1.FieldColumns['DeQty'].ReadOnly := True;
     DBGrid1.FieldColumns['RQty'].ReadOnly := True;
-    DBGrid1.FieldColumns['SendDate'].ReadOnly := True;
-    DBGrid1.FieldColumns['ZSBH'].ReadOnly := True;}
+    DBGrid1.FieldColumns['Issues'].ReadOnly := True;
+    DBGrid1.FieldColumns['LCFID'].ReadOnly := True;
+    DBGrid1.FieldColumns['Supplier'].ReadOnly := True;
+    DBGrid1.FieldColumns['VIDate'].ReadOnly := True;
     DBGrid1.FieldColumns['SCFID'].ReadOnly := True;
     DBGrid1.FieldColumns['LCFID'].ReadOnly := True;
   end else if MenuCode.Text = 'N923' then
@@ -419,6 +524,7 @@ begin
     DBGrid1.FieldColumns['LCFID'].ReadOnly := True;
     DBGrid1.FieldColumns['Supplier'].ReadOnly := True;
     DBGrid1.FieldColumns['VIDate'].ReadOnly := True;
+    DBGrid1.FieldColumns['DepUID'].ReadOnly := True;
   end else if MenuCode.Text = 'N924' then
   begin
     DBGrid1.FieldColumns['Parts'].ReadOnly := True;
@@ -432,6 +538,7 @@ begin
     DBGrid1.FieldColumns['Supplier'].ReadOnly := True;
     DBGrid1.FieldColumns['VIDate'].ReadOnly := True;
     DBGrid1.FieldColumns['SCFID'].ReadOnly := True;
+    DBGrid1.FieldColumns['DepUID'].ReadOnly := True;
   end;
 
   with Query1 do
@@ -440,14 +547,16 @@ begin
     SQL.Clear;
     SQL.Add('select ReportID, XieMing, Parts, Article, DDBH, RQty, IQty, DeQty, Issues, ');
     SQL.Add('CONVERT(numeric(18,1),(CAST(DeQty as numeric(18,1))/CAST(IQty as numeric(18,1))*100)) as DeRate, ');
-    SQL.Add('VIDate, USERDate, USERID, Supplier, YN, SCFID, SCFDate, LCFID, LCFDate');
+    SQL.Add('VIDate, USERDate, USERID, Supplier, YN, SCFID, SCFDate, LCFID, LCFDate, DepUID, DepInputDate, PreparedID, PreparedDate');
     SQL.Add('from JGDaily ');
-    SQL.Add('where DDBH like ''' + edtDDBH.Text + '%'' ');
+    SQL.Add('where DDBH like ''' + edtDDBH.Text + '%'' and YN <> 0 ');
     SQL.Add('and YN <> 0 ');
     if edtRID.Text <> '' then
       SQL.Add('and ReportID like '''+edtRID.Text+'%'' ');
     if edtZSBH.Text <> '' then
       SQL.Add('and Supplier = ''' + edtZSBH.Text + ''' ');
+    if edtSKU.Text <> '' then
+      SQL.Add('and Article like ''%'+edtSKU.Text+'%'' ');
     if ckVIDate.Checked then
       SQL.Add('and CAST(VIDate as date) = ''' +FormatDateTime('yyyy-mm-dd', dtpVI.Date)+ ''' ');
     if ckUSERDate.Checked then
@@ -634,7 +743,21 @@ procedure TDailyOutsourcingCheck.FormCreate(Sender: TObject);
 begin
   dtpUSERDate.Date := Now;
   dtpVI.Date := Now;
-  DBGrid1.FrozenCols := 5;
+  DBGrid1.FrozenCols := 7;
+end;
+
+procedure TDailyOutsourcingCheck.DBGrid1CellClick(Column: TColumnEh);
+begin
+if not Query1.Active then exit;
+if Query1.RecordCount = 0 then exit;
+if (Query1.RecordCount > 0)  and not Query1.CachedUpdates then
+  begin
+    edtDDBH.Text := Query1.FieldByName('DDBH').AsString;
+    edtSKU.Text := Query1.FieldByName('Article').AsString;
+    edtZSBH.Text := Query1.FieldByName('Supplier').AsString;
+    dtpUSERDate.Date := Query1.FieldByName('USERDate').AsDateTime;
+    dtpVI.Date := Query1.FieldByName('VIDate').AsDateTime;
+  end;
 end;
 
 end.
