@@ -133,7 +133,9 @@ uses
   CostingCBD1 in 'source\SN386\CostingCBD1.pas' {CostingCBD},
   Revise_Supp1 in 'source\SN54\Revise_Supp1.pas' {Revise_Supp},
   SupplierFLEXnERP1 in 'source\SN386\SupplierFLEXnERP1.pas' {SupplierFLEXnERP},
-  BOM_N385_LYS in 'source\SN385\BOM_N385_LYS.pas' {CostingPriceList_LYS};
+  BOM_N385_LYS in 'source\SN385\BOM_N385_LYS.pas' {CostingPriceList_LYS},
+  CheckNoInCostingPriceList1 in 'source\SN386\CheckNoInCostingPriceList1.pas' {CheckNoInCostingPriceList},
+  PrintingInk1 in 'source\SN386\PrintingInk1.pas' {PrintingInk};
 
 {$R *.TLB}
 

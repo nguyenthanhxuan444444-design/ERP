@@ -27,7 +27,7 @@ object ProductionPlanTracking: TProductionPlanTracking
     Top = 0
     Width = 1539
     Height = 691
-    ActivePage = TabSheet1
+    ActivePage = TabSheet3
     Align = alClient
     TabOrder = 0
     object TabSheet1: TTabSheet
@@ -2024,6 +2024,291 @@ object ProductionPlanTracking: TProductionPlanTracking
           0707070707070708090A00010202020202020202020202020103}
       end
     end
+    object TabSheet3: TTabSheet
+      Caption = 'Upper And Bottom Matching Table'
+      ImageIndex = 2
+      object Panel16: TPanel
+        Left = 0
+        Top = 0
+        Width = 1531
+        Height = 49
+        Align = alTop
+        TabOrder = 0
+        object Label12: TLabel
+          Left = 23
+          Top = 18
+          Width = 35
+          Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Month'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label13: TLabel
+          Left = 246
+          Top = 18
+          Width = 48
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Building'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label14: TLabel
+          Left = 425
+          Top = 18
+          Width = 30
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Lean'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label15: TLabel
+          Left = 139
+          Top = 22
+          Width = 9
+          Height = 16
+          Alignment = taRightJustify
+          Caption = '~'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label16: TLabel
+          Left = 773
+          Top = 18
+          Width = 62
+          Height = 16
+          Alignment = taRightJustify
+          Caption = 'Sum Type'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object DTP5: TDateTimePicker
+          Left = 63
+          Top = 14
+          Width = 74
+          Height = 24
+          Date = 44896.000000000000000000
+          Format = 'yyyy/MM'
+          Time = 44896.000000000000000000
+          DateMode = dmUpDown
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          OnChange = DTP5Change
+        end
+        object CB_Building_UB: TComboBox
+          Left = 299
+          Top = 14
+          Width = 105
+          Height = 24
+          Style = csDropDownList
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ItemHeight = 16
+          ParentFont = False
+          TabOrder = 1
+          OnChange = CB_Building_UBChange
+        end
+        object CB_Lean_UB: TComboBox
+          Left = 460
+          Top = 14
+          Width = 105
+          Height = 24
+          Style = csDropDownList
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ItemHeight = 16
+          ParentFont = False
+          TabOrder = 2
+        end
+        object Button7: TButton
+          Left = 596
+          Top = 13
+          Width = 75
+          Height = 25
+          Caption = 'Query'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+          OnClick = Button7Click
+        end
+        object DTP6: TDateTimePicker
+          Left = 151
+          Top = 14
+          Width = 74
+          Height = 24
+          Date = 44896.000000000000000000
+          Format = 'yyyy/MM'
+          Time = 44896.000000000000000000
+          DateMode = dmUpDown
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+          OnChange = DTP6Change
+        end
+        object CB_SUM: TComboBox
+          Left = 840
+          Top = 14
+          Width = 121
+          Height = 24
+          Style = csDropDownList
+          ItemHeight = 16
+          ItemIndex = 0
+          TabOrder = 5
+          Text = 'Matching Pairs'
+          OnChange = CB_SUMChange
+          Items.Strings = (
+            'Matching Pairs'
+            'Total Pairs'
+            'Shortage')
+        end
+        object Button8: TButton
+          Left = 671
+          Top = 13
+          Width = 75
+          Height = 25
+          Caption = 'Excel'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 6
+          OnClick = Button8Click
+        end
+      end
+      object DBGridEh7: TDBGridEh
+        Left = 0
+        Top = 49
+        Width = 1531
+        Height = 611
+        Align = alClient
+        DataSource = DS_UBMatching
+        Flat = False
+        FooterColor = clWindow
+        FooterFont.Charset = DEFAULT_CHARSET
+        FooterFont.Color = clWindowText
+        FooterFont.Height = -13
+        FooterFont.Name = 'MS Sans Serif'
+        FooterFont.Style = []
+        ReadOnly = True
+        SumList.Active = True
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -13
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        UseMultiTitle = True
+        OnDrawColumnCell = DBGridEh7DrawColumnCell
+        Columns = <
+          item
+            EditButtons = <>
+            FieldName = 'Building'
+            Footers = <>
+            Width = 60
+          end
+          item
+            EditButtons = <>
+            FieldName = 'Lean'
+            Footers = <>
+            Width = 70
+          end
+          item
+            DisplayFormat = 'yyyy/MM/dd'
+            EditButtons = <>
+            FieldName = 'schedule_date'
+            Footers = <>
+            Title.Caption = 'Assembly Date'
+            Width = 100
+          end
+          item
+            EditButtons = <>
+            FieldName = 'DDBH'
+            Footers = <>
+            Title.Caption = 'RY'
+            Width = 100
+          end
+          item
+            EditButtons = <>
+            FieldName = 'Article'
+            Footers = <>
+            Title.Caption = 'SKU'
+            Width = 60
+          end
+          item
+            EditButtons = <>
+            FieldName = 'XieMing'
+            Footers = <>
+            Title.Caption = 'Shoe Name'
+            Width = 150
+          end
+          item
+            DisplayFormat = '###,##0'
+            EditButtons = <>
+            FieldName = 'Pairs'
+            Footers = <>
+            Width = 60
+          end
+          item
+            DisplayFormat = 'MM/dd'
+            EditButtons = <>
+            FieldName = 'ShipDate'
+            Footers = <>
+            Title.Caption = 'Shipping Date'
+            Width = 90
+          end
+          item
+            EditButtons = <>
+            FieldName = 'GXLB'
+            Footers = <>
+            Title.Caption = 'Section'
+            Width = 70
+          end>
+      end
+    end
   end
   object QTemp: TQuery
     DatabaseName = 'DB'
@@ -2464,5 +2749,16 @@ object ProductionPlanTracking: TProductionPlanTracking
     object Q_ProcessMatStatus: TDateTimeField
       FieldName = 'MatStatus'
     end
+  end
+  object Q_UBMatching: TQuery
+    OnCalcFields = Q_UBMatchingCalcFields
+    DatabaseName = 'DB'
+    Left = 88
+    Top = 202
+  end
+  object DS_UBMatching: TDataSource
+    DataSet = Q_UBMatching
+    Left = 88
+    Top = 171
   end
 end

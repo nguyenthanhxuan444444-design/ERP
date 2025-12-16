@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, GridsEh, DBGridEh, DB, DBTables,
   DateUtils, ComObj, Buttons, IdBaseComponent, IdComponent,
-  IdTCPConnection, IdTCPClient, IdHTTP;
+  IdTCPConnection, IdTCPClient, IdHTTP, Menus;
 
 type
   TWeeklyShippingPlan = class(TForm)
@@ -60,6 +60,11 @@ type
     Query1Remark: TStringField;
     Query1XieMing: TStringField;
     Query2ContainerName: TStringField;
+    Query2MinSeq: TIntegerField;
+    Query2MaxSeq: TIntegerField;
+    Query2Country: TStringField;
+    PopupMenu1: TPopupMenu;
+    Delete1: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -71,6 +76,7 @@ type
     procedure DBGridEh1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumnEh; State: TGridDrawState);
     procedure B1D9Click(Sender: TObject);
+    procedure Delete1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -113,10 +119,44 @@ begin
   begin
     Active := false;
     SQL.Clear;
-    SQL.Add('SELECT Date, Container, SUBSTRING(Container, CHARINDEX(''['', Container)+1, CHARINDEX('']'', Container) - CHARINDEX(''['', Container)-1) AS ContainerName, SUM(Pairs) AS Pairs, SUM(Cartons) AS Cartons, SUM(CBM) AS CBM FROM ShippingPlan');
+    {SQL.Add('SELECT Date, Container, SUBSTRING(Container, CHARINDEX(''['', Container)+1, CHARINDEX('']'', Container) - CHARINDEX(''['', Container)-1) AS ContainerName,');
+    SQL.Add('SUM(Pairs) AS Pairs, SUM(Cartons) AS Cartons, SUM(CBM) AS CBM, MIN(Seq) AS MinSeq, MAX(Seq) AS MaxSeq FROM ShippingPlan');
     SQL.Add('WHERE Date BETWEEN ''' + FormatDateTime('yyyy/MM/dd', DTP1.Date) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', DTP2.Date) + ''' AND GSBH = ''' + main.Edit2.Text + '''');
     SQL.Add('GROUP BY Date, Container');
-    SQL.Add('ORDER BY Date, MIN(Seq)');
+    SQL.Add('ORDER BY Date, MIN(Seq)');}
+
+    SQL.Add('IF OBJECT_ID(''tempdb..#SP'') IS NOT NULL');
+    SQL.Add('BEGIN DROP TABLE #SP END;');
+
+    SQL.Add('IF OBJECT_ID(''tempdb..#Container'') IS NOT NULL');
+    SQL.Add('BEGIN DROP TABLE #Container END;');
+
+    SQL.Add('SELECT SP.Date, SP.Container, LBZLS.YWSM AS Country, ROW_NUMBER() OVER(PARTITION BY Date ORDER BY SP.Seq) AS Seq, SP.Pairs, SP.Cartons, SP.CBM INTO #SP FROM ShippingPlan AS SP');
+    SQL.Add('LEFT JOIN DDZL ON DDZL.DDBH = SP.RY');
+    SQL.Add('LEFT JOIN LBZLS ON LBZLS.LBDH = DDZL.DDGB AND LBZLS.LB = ''06''');
+    SQL.Add('WHERE SP.Date BETWEEN ''' + FormatDateTime('yyyy/MM/dd', DTP1.Date) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', DTP2.Date) + ''' AND SP.GSBH = ''' + main.Edit2.Text + '''');
+
+    SQL.Add('SELECT ROW_NUMBER() OVER(ORDER BY SP1.Seq) AS ID, SP1.Date, SP1.Container, SP1.Country, SP1.Seq INTO #Container FROM #SP AS SP1');
+    SQL.Add('LEFT JOIN (');
+    SQL.Add('  SELECT Date, Container, Country, Seq FROM #SP');
+    SQL.Add('  UNION ALL');
+    SQL.Add('  SELECT SP.Date, '''' AS Container, '''' AS Country, SPMax.Seq FROM #SP AS SP');
+    SQL.Add('  LEFT JOIN (');
+    SQL.Add('    SELECT Date, COUNT(*) + 1 AS Seq FROM #SP');
+    SQL.Add('    GROUP BY Date');
+    SQL.Add('  ) AS SPMax ON SPMax.Date = SP.Date');
+    SQL.Add('  WHERE SP.Seq = 1');
+    SQL.Add(') AS SP2 ON SP2.Date = SP1.Date AND SP2.Seq = SP1.Seq + 1');
+    SQL.Add('WHERE SP1.Container <> SP2.Container OR SP1.Country <> SP2.Country');
+
+    SQL.Add('SELECT C.Date, C.Container, C.Country, SUBSTRING(C.Container, CHARINDEX(''['', C.Container)+1, CHARINDEX('']'', C.Container) - CHARINDEX(''['', C.Container)-1) AS ContainerName,');
+    SQL.Add('SUM(SP.Pairs) AS Pairs, SUM(SP.Cartons) AS Cartons, SUM(SP.CBM) AS CBM, CAST(C.MinSeq AS INT) AS MinSeq, CAST(C.MaxSeq AS INT) AS MaxSeq FROM (');
+    SQL.Add('  SELECT C1.Date, C1.Container, C1.Country, ISNULL(C2.Seq + 1, 1) AS MinSeq, C1.Seq AS MaxSeq FROM #Container AS C1');
+    SQL.Add('  LEFT JOIN #Container AS C2 ON C2.Date = C1.Date AND C2.ID = C1.ID - 1');
+    SQL.Add(') AS C');
+    SQL.Add('LEFT JOIN #SP AS SP ON SP.Date = C.Date AND SP.Seq BETWEEN C.MinSeq AND C.MaxSeq');
+    SQL.Add('GROUP BY C.Date, C.Container, C.Country, C.MinSeq, C.MaxSeq');
+    SQL.Add('ORDER BY C.Date, C.MinSeq');
     Active := true;
   end;
 
@@ -128,7 +168,7 @@ begin
     SQL.Add('SELECT SP.Date, SP.Container, SP.Seq, SP.Building, SP.RY, SP.PO, SP.SKU, XXZL.XieMing, SP.Pairs, SP.Cartons, SP.CBM, SP.Country, SP.Remark, SP.GSBH, SP.UserID, SP.UserDate, SP.YN FROM ShippingPlan AS SP');
     SQL.Add('LEFT JOIN DDZL ON DDZL.DDBH = SP.RY');
     SQL.Add('LEFT JOIN XXZL ON XXZL.XieXing = DDZL.XieXing AND XXZL.SheHao = DDZL.SheHao');
-    SQL.Add('WHERE SP.Date = :Date AND SP.Container = :Container AND SP.GSBH = ''' + main.Edit2.Text + '''');
+    SQL.Add('WHERE SP.Date = :Date AND SP.Container = :Container AND SP.Seq BETWEEN :MinSeq AND :MaxSeq AND SP.GSBH = ''' + main.Edit2.Text + '''');
     SQL.Add('ORDER BY SP.Date, SP.Seq');
     Active := true;
   end;
@@ -150,7 +190,7 @@ begin
       begin
         Active := false;
         SQL.Clear;
-        SQL.Add('SELECT Date, Container, Container AS ContainerName, Pairs, Cartons, CBM FROM ShippingPlan');
+        SQL.Add('SELECT Date, Container, Container AS ContainerName, CAST('''' AS VARCHAR(50)) AS Country, Pairs, Cartons, CBM, 0 AS MinSeq, 0 AS MaxSeq FROM ShippingPlan');
         SQL.Add('WHERE 1 = 0');
         Active := true;
       end;
@@ -452,6 +492,8 @@ begin
     B1D6.Enabled := false;
     DTP1.Date := MinDate;
     DTP2.Date := MaxDate;
+    SetLength(DateList, 0);
+    SetLength(InvoiceList, 0);
     Button1Click(Nil);
     DBGridEh1.Columns[0].Visible := false;
     DBGridEh1.Columns[1].Visible := false;
@@ -467,7 +509,7 @@ begin
   begin
     Active := false;
     SQL.Clear;
-    SQL.Add('SELECT Date, Container, Container AS ContainerName, Pairs, Cartons, CBM FROM ShippingPlan');
+    SQL.Add('SELECT Date, Container, Container AS ContainerName, CAST('''' AS VARCHAR(50)) AS Country, Pairs, Cartons, CBM, 0 AS MinSeq, 0 AS MaxSeq FROM ShippingPlan');
     SQL.Add('WHERE 1 = 0');
     Active := true;
   end;
@@ -592,8 +634,6 @@ begin
           eclApp.Cells[Row, 9].NumberFormat := '@';
           eclApp.Range[eclApp.Cells[Row, 2], eclApp.Cells[Row, 9]].Borders.LineStyle := 1;
           eclApp.Range[eclApp.Cells[Row, 2], eclApp.Cells[Row, 9]].HorizontalAlignment := -4108;
-          if (Query1.FieldByName('Remark').IsNull = false) then
-            eclApp.Range[eclApp.Cells[Row, 2], eclApp.Cells[Row, 9]].Interior.Color := clYellow;
 
           Query1.Next;
           Inc(Row);
@@ -626,6 +666,36 @@ begin
     except on F:Exception do
       ShowMessage(F.Message);
     end;
+  end;
+end;
+
+procedure TWeeklyShippingPlan.Delete1Click(Sender: TObject);
+begin
+  if (MessageDlg('Are you sure you want to delete the container [' + Query2.FieldByName('ContainerName').AsString + '] shipped to the [' + Query2.FieldByName('Country').AsString + '] ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+  begin
+    with QTemp do
+    begin
+      Active := false;
+      SQL.Clear;
+      SQL.Add('DELETE FROM ShippingPlan');
+      SQL.Add('WHERE Date = ''' + FormatDateTime('yyyy/MM/dd', Query2.FieldByName('Date').AsDateTime) + ''' AND Container = ''' + Query2.FieldByName('Container').AsString + ''' AND Seq BETWEEN ' + Query2.FieldByName('MinSeq').AsString + ' AND ' + Query2.FieldByName('MaxSeq').AsString);
+      ExecSQL;
+
+      SQL.Clear;
+      SQL.Add('UPDATE ShippingPlan SET Seq = SP.NewSeq');
+      SQL.Add('FROM (');
+      SQL.Add('  SELECT Date, Container, Seq, Building, RY, ROW_NUMBER() OVER(PARTITION BY Date ORDER BY UserDate, Seq) AS NewSeq FROM ShippingPlan');
+      SQL.Add('  WHERE Date = ''' + FormatDateTime('yyyy/MM/dd', Query2.FieldByName('Date').AsDateTime) + ''' AND GSBH = ''' + main.Edit2.Text + '''');
+      SQL.Add(') AS SP');
+      SQL.Add('WHERE ShippingPlan.Date = SP.Date AND ShippingPlan.Container = SP.Container AND ShippingPlan.Seq = SP.Seq AND ShippingPlan.Building = SP.Building AND ShippingPlan.RY = SP.RY');
+      ExecSQL;
+
+      SQL.Clear;
+    end;
+
+    Query2.Active := false;
+    Query2.Active := true;
+    ShowMessage('Execution success.');
   end;
 end;
 

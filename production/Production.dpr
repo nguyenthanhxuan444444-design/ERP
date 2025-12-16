@@ -236,7 +236,8 @@ uses
   Scandata_Print_TotalAll1 in 'source\SN527\Scandata_Print_TotalAll1.pas' {Scandata_Print_TotalAll},
   EntryPrice1 in 'source\SN25\EntryPrice1.pas' {EntryPrice},
   CheckQuotation1 in 'source\SN25\CheckQuotation1.pas' {CheckQuotation},
-  QCcheckinbox1 in 'source\SN71\QCcheckinbox1.pas' {QCCheckinbox};
+  QCcheckinbox1 in 'source\SN71\QCcheckinbox1.pas' {QCCheckinbox},
+  MassPro_PrintCard1 in 'source\SN5216\MassPro_PrintCard1.pas' {MassPro_PrintCard};
 
 {$R *.res}
 

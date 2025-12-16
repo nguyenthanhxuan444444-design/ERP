@@ -220,6 +220,23 @@ type
     Q_StitchingMatStatus: TDateTimeField;
     Q_AssemblyMatStatus: TDateTimeField;
     Q_BottomMatStatus: TDateTimeField;
+    TabSheet3: TTabSheet;
+    Panel16: TPanel;
+    Label12: TLabel;
+    DTP5: TDateTimePicker;
+    Label13: TLabel;
+    CB_Building_UB: TComboBox;
+    Label14: TLabel;
+    CB_Lean_UB: TComboBox;
+    Button7: TButton;
+    DTP6: TDateTimePicker;
+    Label15: TLabel;
+    DBGridEh7: TDBGridEh;
+    Q_UBMatching: TQuery;
+    DS_UBMatching: TDataSource;
+    CB_SUM: TComboBox;
+    Label16: TLabel;
+    Button8: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -312,6 +329,15 @@ type
     procedure Min_ProcessClick(Sender: TObject);
     procedure DBGridEh6Columns6EditButtonClick(Sender: TObject;
       var Handled: Boolean);
+    procedure DTP5Change(Sender: TObject);
+    procedure DTP6Change(Sender: TObject);
+    procedure CB_Building_UBChange(Sender: TObject);
+    procedure Button7Click(Sender: TObject);
+    procedure DBGridEh7DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumnEh; State: TGridDrawState);
+    procedure CB_SUMChange(Sender: TObject);
+    procedure Q_UBMatchingCalcFields(DataSet: TDataSet);
+    procedure Button8Click(Sender: TObject);
   private
     InSearch: boolean;
     SRow_Cutting, SRow_Stitching, SRow_Assembly, SRow_Bottom: integer;
@@ -527,8 +553,12 @@ begin
   DTP3.Date := main.Today;
   DTP4.MinDate := main.Today;
   DTP4.Date := main.Today + 3;
+  DTP5.Date := main.Today;    
+  DTP6.Date := main.Today;
   ReloadBuilding(CB_Building, DTP1, DTP1);
-  ReloadLean(CB_Lean, CB_Building, DTP1, DTP1);
+  ReloadLean(CB_Lean, CB_Building, DTP1, DTP1);  
+  ReloadBuilding(CB_Building_UB, DTP5, DTP6);
+  ReloadLean(CB_Lean_UB, CB_Building_UB, DTP5, DTP6);
   InSearch := false;
 
   StringGrid1.Cells[0, 0] := 'Date';
@@ -2807,6 +2837,294 @@ begin
     for i := 1 to StringGrid1.ColCount - 1 do
     begin
       StringGrid1.ColWidths[i] := StringGrid1.DefaultColWidth;
+    end;
+  end;
+end;
+
+procedure TProductionPlanTracking.DTP5Change(Sender: TObject);
+begin
+  ReloadBuilding(CB_Building_UB, DTP5, DTP6);
+  ReloadLean(CB_Lean_UB, CB_Building_UB, DTP5, DTP6);
+end;
+
+procedure TProductionPlanTracking.DTP6Change(Sender: TObject);
+begin
+  ReloadBuilding(CB_Building_UB, DTP5, DTP6);
+  ReloadLean(CB_Lean_UB, CB_Building_UB, DTP5, DTP6);
+end;
+
+procedure TProductionPlanTracking.CB_Building_UBChange(Sender: TObject);
+begin
+  ReloadLean(CB_Lean_UB, CB_Building_UB, DTP5, DTP6);
+end;
+
+procedure TProductionPlanTracking.Button7Click(Sender: TObject);
+var
+  i: integer;
+  NewColumn: TColumnEh;
+begin
+  with QTemp do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add('SELECT DISTINCT DDZLS.CC AS Size FROM schedule_crawler AS SC');
+    SQL.Add('LEFT JOIN DDZL ON DDZL.DDBH = CASE WHEN LEN(SC.ry) - LEN(REPLACE(SC.ry, ''-'', '''')) < 2 THEN SC.ry ELSE SUBSTRING(SC.ry, 1, LEN(SC.ry) - CHARINDEX(''-'', REVERSE(SC.ry))) END');
+    SQL.Add('LEFT JOIN DDZLS ON DDZLS.DDBH = DDZL.DDBH');
+    SQL.Add('WHERE SC.schedule_date BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.DateTime)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', EndOfTheMonth(DTP6.DateTime)) + ''' AND SC.building_no = ''' + CB_Building_UB.Text + ''' AND SC.lean_no = ''' + CB_Lean_UB.Text + '''');
+    SQL.Add('ORDER BY DDZLS.CC');
+    Active := true;
+
+    for i := DBGridEh7.Columns.Count - 1 downto 9 do
+    begin
+      DBGridEh7.Columns.Delete(i);
+    end;
+
+    while not Eof do
+    begin
+      NewColumn := DBGridEh7.Columns.Add;
+      NewColumn.FieldName := FieldByName('Size').AsString;
+      NewColumn.Title.Caption := FieldByName('Size').AsString + '#';
+      NewColumn.Width := 50;
+      Next;
+    end;
+    NewColumn := DBGridEh7.Columns.Add;
+    NewColumn.FieldName := 'Total';
+    NewColumn.Title.Caption := 'Total';
+    NewColumn.Width := 50;
+  end;
+
+  with Q_UBMatching do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add('IF OBJECT_ID(''tempdb..#SC'') IS NOT NULL');
+    SQL.Add('BEGIN DROP TABLE #SC END;');
+
+    SQL.Add('IF OBJECT_ID(''tempdb..#SMDD'') IS NOT NULL');
+    SQL.Add('BEGIN DROP TABLE #SMDD END;');
+    ExecSQL;
+
+    SQL.Add('SELECT SC.building_no AS Building, ''LINE '' + RIGHT(''00'' + CAST(CAST(RIGHT(SC.lean_no, 2) AS INT) AS VARCHAR), 2) AS Lean, SC.schedule_date, SC.ry_index, DDZL.DDBH,');
+    SQL.Add('SUBSTRING(DDZL.ARTICLE, CHARINDEX(''-'', DDZL.ARTICLE) + 1, LEN(DDZL.ARTICLE)) AS Article, XXZL.XieMing, DDZL.Pairs, DDZL.ShipDate INTO #SC FROM schedule_crawler AS SC');
+    SQL.Add('LEFT JOIN DDZL ON DDZL.DDBH = CASE WHEN LEN(SC.ry) - LEN(REPLACE(SC.ry, ''-'', '''')) < 2 THEN SC.ry ELSE SUBSTRING(SC.ry, 1, LEN(SC.ry) - CHARINDEX(''-'', REVERSE(SC.ry))) END');
+    SQL.Add('LEFT JOIN XXZL ON XXZL.XieXing = DDZL.XieXing AND XXZL.SheHao = DDZL.SheHao');
+    SQL.Add('WHERE SC.schedule_date BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.DateTime)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', EndOfTheMonth(DTP6.DateTime)) + ''' AND SC.building_no = ''' + CB_Building_UB.Text + ''' AND SC.lean_no = ''' + CB_Lean_UB.Text + '''');
+
+    SQL.Add('SELECT SC.Building, SC.Lean, SC.schedule_date, SC.ry_index, SC.DDBH, SC.Article, SC.XieMing, SC.Pairs, SC.ShipDate, SMDD.GXLB');
+    QTemp.First;
+    while not QTemp.Eof do
+    begin
+      SQL.Add(', MAX(CASE WHEN SMDD.Size = ''' + QTemp.FieldByName('Size').AsString + ''' THEN SMDD.Pairs END) AS ''' + QTemp.FieldByName('Size').AsString + '''');
+      QTemp.Next;
+    end;
+    SQL.Add('INTO #SMDD FROM #SC AS SC');
+    SQL.Add('LEFT JOIN (');
+    SQL.Add(' SELECT SC.DDBH, ''Total'' AS GXLB, DDZLS.CC AS Size, DDZLS.Quantity AS Pairs FROM #SC AS SC');
+    SQL.Add('  LEFT JOIN DDZLS ON DDZLS.DDBH = SC.DDBH');
+    SQL.Add('  UNION ALL');
+    SQL.Add('  SELECT SC.DDBH, Section.Name AS GXLB, SMDDSS.XXCC AS Size, SUM(SMDDSS.Qty * SMDDSS.okCTS) AS Finished FROM #SC AS SC');
+    SQL.Add('  LEFT JOIN (');
+    SQL.Add('    SELECT ''S'' AS GXLB, ''Upper'' AS Name UNION ALL SELECT ''O'' AS GXLB, ''Bottom'' AS Name');
+    SQL.Add('  ) AS Section ON 1 = 1');
+    SQL.Add('  LEFT JOIN SMDD ON SMDD.YSBH = SC.DDBH AND SMDD.GXLB = Section.GXLB');
+    SQL.Add('  LEFT JOIN SMDDSS ON SMDDSS.DDBH = SMDD.DDBH AND SMDDSS.GXLB = SMDD.GXLB');
+    SQL.Add('  GROUP BY SC.DDBH, Section.Name, SMDDSS.XXCC');
+    SQL.Add(') AS SMDD ON SMDD.DDBH = SC.DDBH');
+    SQL.Add('GROUP BY SC.Building, SC.Lean, SC.schedule_date, SC.ry_index, SC.DDBH, SC.Article, SC.XieMing, SC.Pairs, SC.ShipDate, SMDD.GXLB');
+
+    SQL.Add('SELECT *, ROW_NUMBER() OVER(ORDER BY Building, Lean, schedule_date, ry_index, CASE SMDD.GXLB WHEN ''Upper'' THEN 1 WHEN ''Bottom'' THEN 2 WHEN ''Matching'' THEN 3 WHEN ''Total'' THEN 4 WHEN ''Shortage'' THEN 5 END) AS Seq FROM (');
+    SQL.Add('  SELECT *,');
+    QTemp.First;
+    while not QTemp.Eof do
+    begin
+      SQL.Add('  ISNULL([' + QTemp.FieldByName('Size').AsString + '], 0) +');
+      QTemp.Next;
+    end;
+    SQL.Add('  0 AS Total FROM #SMDD');
+    SQL.Add('  UNION ALL');
+    SQL.Add('  SELECT Building, Lean, schedule_date, ry_index, DDBH, Article, XieMing, Pairs, ShipDate, ''Matching'' AS GXLB');
+    QTemp.First;
+    while not QTemp.Eof do
+    begin
+      SQL.Add('  , MIN([' + QTemp.FieldByName('Size').AsString + ']) AS ''' + QTemp.FieldByName('Size').AsString + '''');
+      QTemp.Next;
+    end;
+    if (QTemp.RecordCount > 0) then
+      SQL.Add('  ,');
+    QTemp.First;
+    while not QTemp.Eof do
+    begin
+      SQL.Add('  ISNULL(MIN([' + QTemp.FieldByName('Size').AsString + ']), 0) +');
+      QTemp.Next;
+    end;
+    SQL.Add('  0 AS Total FROM #SMDD AS SMDD');
+    SQL.Add('  WHERE GXLB IN (''Upper'', ''Bottom'')');
+    SQL.Add('  GROUP BY Building, Lean, schedule_date, ry_index, DDBH, Article, XieMing, Pairs, ShipDate');
+    SQL.Add('  UNION ALL');
+    SQL.Add('  SELECT SMDD.Building, SMDD.Lean, SMDD.schedule_date, SMDD.ry_index, SMDD.DDBH, SMDD.Article, SMDD.XieMing, SMDD.Pairs, SMDD.ShipDate, ''Shortage'' AS GXLB');
+    QTemp.First;
+    while not QTemp.Eof do
+    begin
+      SQL.Add('  , Finished.[' + QTemp.FieldByName('Size').AsString + '] - SMDD.[' + QTemp.FieldByName('Size').AsString + '] AS ''' + QTemp.FieldByName('Size').AsString + '''');
+      QTemp.Next;
+    end;
+    if (QTemp.RecordCount > 0) then
+      SQL.Add('  ,');
+    QTemp.First;
+    while not QTemp.Eof do
+    begin
+      SQL.Add('  ISNULL(Finished.[' + QTemp.FieldByName('Size').AsString + '], 0) - ISNULL(SMDD.[' + QTemp.FieldByName('Size').AsString + '], 0) +');
+      QTemp.Next;
+    end;
+    SQL.Add('  0 AS Total FROM (');
+    SQL.Add('    SELECT * FROM #SMDD WHERE GXLB = ''Total''');
+    SQL.Add('  ) AS SMDD');
+    SQL.Add('  LEFT JOIN (');
+    SQL.Add('    SELECT DDBH');
+    QTemp.First;
+    while not QTemp.Eof do
+    begin
+      SQL.Add('    , MIN([' + QTemp.FieldByName('Size').AsString + ']) AS ''' + QTemp.FieldByName('Size').AsString + '''');
+      QTemp.Next;
+    end;
+    SQL.Add('    FROM #SMDD AS SMDD');
+    SQL.Add('    WHERE GXLB IN (''Upper'', ''Bottom'')');
+    SQL.Add('    GROUP BY DDBH');
+    SQL.Add('  ) AS Finished ON Finished.DDBH = SMDD.DDBH');
+    SQL.Add(') AS SMDD');
+    SQL.Add('ORDER BY Building, Lean, schedule_date, ry_index, CASE SMDD.GXLB WHEN ''Upper'' THEN 1 WHEN ''Bottom'' THEN 2 WHEN ''Matching'' THEN 3 WHEN ''Total'' THEN 4 WHEN ''Shortage'' THEN 5 END');
+    Active := true;
+
+    CB_SUMChange(Nil);
+  end;
+end;
+
+procedure TProductionPlanTracking.DBGridEh7DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumnEh;
+  State: TGridDrawState);
+var
+  CurrentRecNo: integer;
+  IsHiddenRow: Boolean;
+begin
+  if (DataCol <= 7) then
+  begin
+    CurrentRecNo := Q_UBMatching.FieldByName('Seq').AsInteger;
+    IsHiddenRow := ((CurrentRecNo - 1) mod 5) <> 0;
+
+    if (IsHiddenRow) then
+    begin
+      if (gdSelected in State) then
+        DBGridEh7.Canvas.Font.Color := clWindow;
+
+      if (Q_UBMatching.FieldByName('GXLB').AsString = 'Matching') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Total') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Shortage') then
+        DBGridEh7.Canvas.Brush.Color := RGB(204, 255, 255);
+
+      DBGridEh7.Canvas.FillRect(Rect);
+    end
+    else begin
+      if (Q_UBMatching.FieldByName('GXLB').AsString = 'Matching') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Total') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Shortage') then
+        DBGridEh7.Canvas.Brush.Color := RGB(204, 255, 255);
+
+      if (gdSelected in State) then
+        DBGridEh7.Canvas.Font.Color := clWindow;
+
+      DBGridEh7.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+    end;
+  end
+  else begin
+    if (Q_UBMatching.FieldByName('GXLB').AsString = 'Matching') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Total') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Shortage') then
+    begin
+      DBGridEh7.Canvas.Font.Color := clWindowText;
+      DBGridEh7.Canvas.Brush.Color := RGB(204, 255, 255);
+    end
+    else if (gdSelected in State) then
+    begin
+      DBGridEh7.Canvas.Font.Color := clWindow;
+    end;
+
+    DBGridEh7.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+  end;
+end;
+
+procedure TProductionPlanTracking.CB_SUMChange(Sender: TObject);
+begin
+  if (CB_SUM.Text = 'Matching Pairs') then
+    Q_UBMatching.Filter := 'GXLB <> ''Total'' AND GXLB <> ''Shortage'''
+  else if (CB_SUM.Text = 'Total Pairs') then
+    Q_UBMatching.Filter := 'GXLB <> ''Matching'' AND GXLB <> ''Shortage'''
+  else if (CB_SUM.Text = 'Shortage') then
+    Q_UBMatching.Filter := 'GXLB <> ''Total'' AND GXLB <> ''Matching''';
+
+  Q_UBMatching.Filtered := true;
+end;
+
+procedure TProductionPlanTracking.Q_UBMatchingCalcFields(
+  DataSet: TDataSet);
+var
+  i, Pairs: integer;
+begin
+  Q_UBMatching.FieldByName('Total').Value := 1;
+end;
+
+procedure TProductionPlanTracking.Button8Click(Sender: TObject);
+var
+  eclApp, WorkBook: OleVariant;
+  Col, Row: integer;
+begin
+  if (Q_UBMatching.Active) then
+  begin
+    try
+      eclApp := CreateOleObject('Excel.Application');
+      WorkBook := CreateOleObject('Excel.Sheet');
+    except
+      Application.MessageBox('Failed to create excel file', 'Error', MB_OK + MB_ICONWarning);
+      Exit;
+    end;
+
+    try
+      WorkBook := eclApp.Workbooks.Add;
+      for Col := 0 to DBGridEh7.Columns.Count - 1 do
+      begin
+        eclApp.Cells[1, Col+1] := DBGridEh7.Columns[Col].Title.Caption;
+      end;
+
+      eclApp.Range[eclApp.Cells[1, 1], eclApp.Cells[1, DBGridEh7.Columns.Count]].Borders.Item[1].Color := clWindowText;
+      eclApp.Range[eclApp.Cells[1, 1], eclApp.Cells[1, DBGridEh7.Columns.Count]].Borders.Item[2].Color := clWindowText;
+      eclApp.Range[eclApp.Cells[1, 1], eclApp.Cells[1, DBGridEh7.Columns.Count]].Borders.Item[3].Color := clWindowText;
+      eclApp.Range[eclApp.Cells[1, 1], eclApp.Cells[1, DBGridEh7.Columns.Count]].Borders.Item[4].Color := clWindowText;
+
+      Q_UBMatching.First;
+      Row := 2;
+      while not Q_UBMatching.Eof do
+      begin
+        if (CB_SUM.Text = 'Matching Pairs') AND ((Q_UBMatching.FieldByName('GXLB').AsString = 'Total') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Shortage')) then
+          Continue
+        else if (CB_SUM.Text = 'Total Pairs') AND ((Q_UBMatching.FieldByName('GXLB').AsString = 'Matching') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Shortage')) then
+          Continue
+        else if (CB_SUM.Text = 'Shortage') AND ((Q_UBMatching.FieldByName('GXLB').AsString = 'Matching') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Total')) then
+          Continue;
+
+        for Col := 0 to DBGridEh7.Columns.Count - 1 do
+        begin
+          eclApp.Cells[Row, Col+1] := Q_UBMatching.FieldByName(DBGridEh7.Columns[Col].FieldName).Value;
+        end;
+
+        eclApp.Range[eclApp.Cells[Row, 1], eclApp.Cells[Row, DBGridEh7.Columns.Count]].Borders.Item[1].Color := clWindowText;
+        eclApp.Range[eclApp.Cells[Row, 1], eclApp.Cells[Row, DBGridEh7.Columns.Count]].Borders.Item[2].Color := clWindowText;
+        eclApp.Range[eclApp.Cells[Row, 1], eclApp.Cells[Row, DBGridEh7.Columns.Count]].Borders.Item[3].Color := clWindowText;
+        eclApp.Range[eclApp.Cells[Row, 1], eclApp.Cells[Row, DBGridEh7.Columns.Count]].Borders.Item[4].Color := clWindowText;
+
+        if (Q_UBMatching.FieldByName('GXLB').AsString = 'Total') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Matching') OR (Q_UBMatching.FieldByName('GXLB').AsString = 'Shortage') then
+          eclApp.Range[eclApp.Cells[Row, 1], eclApp.Cells[Row, DBGridEh7.Columns.Count]].Interior.Color := RGB(204, 255, 255);
+        Q_UBMatching.Next;
+        Inc(Row);
+      end;
+
+      eclapp.Columns.Autofit;  
+      ShowMessage('Successful');
+      eclApp.Visible := True;
+    except on F:Exception do
+      ShowMessage(F.Message);
     end;
   end;
 end;

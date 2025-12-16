@@ -497,7 +497,7 @@ object StockShoeMonth_Print: TStockShoeMonth_Print
       object QRLabel20: TQRLabel
         Left = 240
         Top = 91
-        Width = 151
+        Width = 257
         Height = 20
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -508,7 +508,7 @@ object StockShoeMonth_Print: TStockShoeMonth_Print
           52.916666666666670000
           635.000000000000000000
           240.770833333333300000
-          399.520833333333300000)
+          679.979166666666700000)
         Alignment = taLeftJustify
         AlignToBand = False
         AutoSize = False

@@ -217,6 +217,7 @@ begin
   QRSysData2.Enabled:=true;
   QRDBText4.Enabled:=false;
   BPLabel.Caption:=AnyStock.Edit7.Text;
+  GSBH_QRLabel.Caption:=AnyStock.Edit8.Text;
 end;
 
 end.

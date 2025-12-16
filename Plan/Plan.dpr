@@ -246,7 +246,9 @@ uses
   DepID1 in 'Source\N72B\DepID1.pas' {DepID},
   MaKe1 in 'Source\N721\MaKe1.pas' {MaKe},
   PlanPage1 in 'Source\SN3I\PlanPage1.pas' {PlanPage},
-  WeeklyShippingPlan1 in 'Source\SN3I\WeeklyShippingPlan1.pas' {WeeklyShippingPlan};
+  WeeklyShippingPlan1 in 'Source\SN3I\WeeklyShippingPlan1.pas' {WeeklyShippingPlan},
+  AssemblyRYDlg1 in 'Source\SN3E\AssemblyRYDlg1.pas' {AssemblyRYDlg},
+  AssemblyCycleDlg1 in 'Source\SN3E\AssemblyCycleDlg1.pas' {AssemblyCycleDlg};
 
 {$R *.res}
 

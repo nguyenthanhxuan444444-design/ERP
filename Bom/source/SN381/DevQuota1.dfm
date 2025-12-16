@@ -1,6 +1,6 @@
 object DevQuota: TDevQuota
-  Left = 649
-  Top = 213
+  Left = 535
+  Top = 155
   Width = 1130
   Height = 578
   Caption = 'CostingMTL cost'
@@ -270,7 +270,7 @@ object DevQuota: TDevQuota
     Top = 65
     Width = 1114
     Height = 474
-    ActivePage = TabSheet1
+    ActivePage = TabSheet6
     Align = alClient
     TabOrder = 1
     object TabSheet2: TTabSheet
@@ -885,7 +885,7 @@ object DevQuota: TDevQuota
         Top = 0
         Width = 1106
         Height = 446
-        ActivePage = TS1
+        ActivePage = TS2
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -1710,7 +1710,7 @@ object DevQuota: TDevQuota
             end
             object Button2: TButton
               Left = 832
-              Top = 29
+              Top = 32
               Width = 88
               Height = 20
               Caption = 'Query'
@@ -1772,7 +1772,7 @@ object DevQuota: TDevQuota
             end
             object Button11: TButton
               Left = 928
-              Top = 29
+              Top = 32
               Width = 88
               Height = 20
               Caption = 'SAVE'
@@ -1792,6 +1792,7 @@ object DevQuota: TDevQuota
               Height = 17
               Caption = 'Run CostingSize'
               Checked = True
+              Enabled = False
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
               Font.Height = -13
@@ -4173,7 +4174,7 @@ object DevQuota: TDevQuota
         '         MaterialCBD.SamplePrice,MaterialCBD.userID,MaterialCBD.' +
         'userdate,XXZLS.CSBH'
       'ORDER BY XXZLS.CLBH')
-    Left = 92
+    Left = 84
     Top = 272
     object XXMQZSYWJC: TStringField
       FieldName = 'ZSYWJC'
@@ -4539,7 +4540,7 @@ object DevQuota: TDevQuota
     end
   end
   object CalculateQuery: TQuery
-    Left = 352
+    Left = 360
     Top = 271
   end
   object DS5: TDataSource
