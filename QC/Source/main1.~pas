@@ -149,7 +149,6 @@ type
     SN982: TMenuItem;
     SN983: TMenuItem;
     SN984: TMenuItem;
-    SN985: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SN11Click(Sender: TObject);
@@ -252,7 +251,6 @@ type
     procedure SN974Click(Sender: TObject);
     procedure SN975Click(Sender: TObject);
     procedure SN981Click(Sender: TObject);
-    procedure SN982Click(Sender: TObject);
     procedure SN983Click(Sender: TObject);
     procedure SN984Click(Sender: TObject);
     procedure SN985Click(Sender: TObject);
@@ -1209,28 +1207,22 @@ begin
   LeatherMatInspection.MenuCode.Text := 'N981'
 end;
 
-procedure Tmain.SN982Click(Sender: TObject);
+procedure Tmain.SN983Click(Sender: TObject);
 begin
   ShowFm(Pointer(LeatherMatInspection), TLeatherMatInspection, TMenuItem(Sender).Name);
   LeatherMatInspection.MenuCode.Text := 'N982'
 end;
 
-procedure Tmain.SN983Click(Sender: TObject);
+procedure Tmain.SN984Click(Sender: TObject);
 begin
   ShowFm(Pointer(LeatherMatInspection), TLeatherMatInspection, TMenuItem(Sender).Name);
   LeatherMatInspection.MenuCode.Text := 'N983'
 end;
 
-procedure Tmain.SN984Click(Sender: TObject);
-begin
-  ShowFm(Pointer(LeatherMatInspection), TLeatherMatInspection, TMenuItem(Sender).Name);
-  LeatherMatInspection.MenuCode.Text := 'N984'
-end;
-
 procedure Tmain.SN985Click(Sender: TObject);
 begin
   ShowFm(Pointer(LeatherMatInspection), TLeatherMatInspection, TMenuItem(Sender).Name);
-  LeatherMatInspection.MenuCode.Text := 'N985'
+  LeatherMatInspection.MenuCode.Text := 'N984'
 end;
 
 end.

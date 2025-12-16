@@ -96,6 +96,7 @@ type
     procedure SetColumnsReadOnly;
     procedure DBGrid1GetCellParams(Sender: TObject; Column: TColumnEh;
       AFont: TFont; var Background: TColor; State: TGridDrawState);
+    procedure BB2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -893,6 +894,23 @@ procedure TIncomeMatEvaPainting.DBGrid1GetCellParams(Sender: TObject;
 begin
   if Query1.FieldByName('YN').Value = '0' then
     DBGrid1.Canvas.Font.Color := clRed;
+end;
+
+procedure TIncomeMatEvaPainting.BB2Click(Sender: TObject);
+begin
+if messagedlg('Are you sure you want to delete?',mtconfirmation,[mbYes,mbNo],0)<>mrYes then
+  begin
+    abort;
+  end;
+with query1 do
+  begin
+    cachedupdates:=true;
+    requestlive:=true;
+    edit;
+    fieldbyname('YN').Value:=0;
+  end;
+bb4.enabled:=true;
+bb5.enabled:=true;
 end;
 
 end.

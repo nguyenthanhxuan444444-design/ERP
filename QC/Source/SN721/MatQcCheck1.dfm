@@ -23,7 +23,7 @@ object MatQcCheck: TMatQcCheck
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
-    Top = 75
+    Top = 105
     Width = 1409
     Height = 42
     Align = alTop
@@ -303,7 +303,7 @@ object MatQcCheck: TMatQcCheck
     Left = 0
     Top = 0
     Width = 1409
-    Height = 75
+    Height = 105
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -471,6 +471,13 @@ object MatQcCheck: TMatQcCheck
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+    end
+    object Label5: TLabel
+      Left = 296
+      Top = 75
+      Width = 46
+      Height = 16
+      Caption = 'Defects'
     end
     object edt2: TEdit
       Left = 345
@@ -836,12 +843,20 @@ object MatQcCheck: TMatQcCheck
       ParentFont = False
       TabOrder = 20
     end
+    object edtDefects: TEdit
+      Left = 345
+      Top = 72
+      Width = 84
+      Height = 24
+      TabOrder = 21
+      OnKeyPress = edtDefectsKeyPress
+    end
   end
   object PageControl1: TPageControl
     Left = 0
-    Top = 117
+    Top = 147
     Width = 1409
-    Height = 676
+    Height = 646
     ActivePage = TabSheet1
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
@@ -1493,7 +1508,7 @@ object MatQcCheck: TMatQcCheck
         Left = 0
         Top = 347
         Width = 1401
-        Height = 298
+        Height = 268
         ActivePage = TabSheet7
         Align = alClient
         TabOrder = 1
@@ -1672,7 +1687,7 @@ object MatQcCheck: TMatQcCheck
             Left = 0
             Top = 42
             Width = 1393
-            Height = 225
+            Height = 195
             Align = alClient
             DataSource = DS_RY
             Flat = False

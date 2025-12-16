@@ -1,6 +1,6 @@
 object main: Tmain
-  Left = 416
-  Top = 197
+  Left = 362
+  Top = 183
   Width = 1104
   Height = 503
   Caption = 'main'

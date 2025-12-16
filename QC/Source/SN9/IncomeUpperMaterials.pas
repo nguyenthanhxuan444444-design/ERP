@@ -104,6 +104,7 @@ type
     procedure SetColumnsReadOnly;
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure bExcelClick(Sender: TObject);
+    procedure BB2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -878,6 +879,23 @@ begin
     Query1.Next;
   end;
   Worksheet.Columns.AutoFit;
+end;
+
+procedure TIncomeUpperMaterial.BB2Click(Sender: TObject);
+begin
+if messagedlg('Are you sure you want to delete?',mtconfirmation,[mbYes,mbNo],0)<>mrYes then
+  begin
+    abort;
+  end;
+with query1 do
+  begin
+    cachedupdates:=true;
+    requestlive:=true;
+    edit;
+    fieldbyname('YN').Value:=0;
+  end;
+bb4.enabled:=true;
+bb5.enabled:=true;
 end;
 
 end.

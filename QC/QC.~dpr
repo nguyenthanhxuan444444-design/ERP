@@ -156,7 +156,8 @@ uses
   IncomeMatMidInSoles in 'Source\SN9\IncomeMatMidInSoles.pas' {IncomeMatMidInSole},
   IncomeMatEvaPaintings in 'Source\SN9\IncomeMatEvaPaintings.pas' {IncomeMatEvaPainting},
   ProduceMatFailure in 'Source\SN9\ProduceMatFailure.pas' {ProducMatFailure},
-  IncomeUpperMaterials in 'Source\SN9\IncomeUpperMaterials.pas' {IncomeUpperMaterial};
+  IncomeUpperMaterials in 'Source\SN9\IncomeUpperMaterials.pas' {IncomeUpperMaterial},
+  LeatherMatInspections in 'Source\SN9\LeatherMatInspections.pas' {LeatherMatInspection};
 
 {$R *.res}
 
@@ -181,6 +182,7 @@ begin
   Application.Title := 'Lai Yih ERP system----QC';
   Application.CreateForm(TDM2, DM2);
   Application.CreateForm(Tmain, main);
+  Application.CreateForm(TLeatherMatInspection, LeatherMatInspection);
   QCFlowChart := TQCFlowChart.Create(main);
   login.Hide;
   login.Free;

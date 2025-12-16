@@ -82,6 +82,10 @@ type
     Label6: TLabel;
     Label8: TLabel;
     Query1Image: TStringField;
+    RadioGroup1: TRadioGroup;
+    rbGo: TRadioButton;
+    rbChat: TRadioButton;
+    rbMay: TRadioButton;
     procedure bExFClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumnEh);
@@ -104,6 +108,7 @@ type
     procedure UpImageClick(Sender: TObject);
     procedure InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
   const FieldName: string; Row, Column: Integer);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -872,7 +877,12 @@ begin
     SourceFile := OpenPictureDialog1.FileName;
     
     // Tao duong dan den o mang
-    DestFile := '\\192.168.71.74\Anh\' + ExtractFileName(SourceFile);
+    if rbGo.Checked then
+      DestFile := '\\192.168.71.102\Anh\Go\' + ExtractFileName(SourceFile)
+    else if rbChat.Checked then
+      DestFile := '\\192.168.71.102\Anh\Chat\' + ExtractFileName(SourceFile)
+    else if rbMay.Checked then
+      DestFile := '\\192.168.71.102\Anh\May\' + ExtractFileName(SourceFile);
 
     try
       // Copy file len o mang, ghi de neu da ton tai
@@ -888,6 +898,11 @@ begin
         ShowMessage('Loi khi upload: ' + E.Message);
     end;
   end;
+end;
+
+procedure TProducMatFailure.FormCreate(Sender: TObject);
+begin
+  rbGo.Checked := True;
 end;
 
 end.

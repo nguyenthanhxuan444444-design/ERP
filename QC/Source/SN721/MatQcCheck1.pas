@@ -170,6 +170,8 @@ type
     qry_QcRKNO: TStringField;
     qry_QcRandomQty: TCurrencyField;
     qry_QcDefectQty: TCurrencyField;
+    Label5: TLabel;
+    edtDefects: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -217,6 +219,7 @@ type
     procedure btnAppFormClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure qry_QcManagerCheckChange(Sender: TField);
+    procedure edtDefectsKeyPress(Sender: TObject; var Key: Char);
   private
     AppDir:string;
     { Private declarations }
@@ -297,7 +300,9 @@ begin
       sql.Add('and mc.CLBH like ''' + edt2.Text + '%''');
       sql.Add('and ZSYWJC like ''' + edt3.Text + '%''');
       sql.Add('and RKNO like ''%' + edtRKNO.Text + '%''');
-      
+
+      if edtDefects.Text <> '' then
+        SQL.Add(' and mc.QC_Reason like ''%' + edtDefects.Text + '%'' ');
       if edtRy.Text <> '' then
         sql.Add('and MaterialQCcheck_RY.RY like ''%' + edtRy.Text + '%''');
       if edtArticle.Text <> '' then
@@ -1398,6 +1403,11 @@ begin
      qry_Qc.fieldbyname('ManagerID').Value := null;
      qry_Qc.fieldbyname('ManagerCFMDate').Value := null;
   end;
+end;
+
+procedure TMatQcCheck.edtDefectsKeyPress(Sender: TObject; var Key: Char);
+begin
+  Key := UpCase(Key);
 end;
 
 end.

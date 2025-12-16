@@ -392,7 +392,7 @@ begin
     SQL.Add('    xxzl ON DDZL.SheHao = xxzl.SheHao AND xxzl.XieXing = DDZL.XieXing');
     SQL.Add('LEFT JOIN');
     SQL.Add('    clzl ON clzl.cldh = QC_UpperMat_Cut.CLBH ');
-    SQL.Add('where QC_UpperMat_Cut.DDBH like '''+edtDDBH.Text+'%'' and YN <> 0 ');
+    SQL.Add('where QC_UpperMat_Cut.DDBH like '''+edtDDBH.Text+'%'' and QC_UpperMat_Cut.YN <> 0 ');
     if ckInsDate.Checked then
       SQL.Add('and CAST(InspecDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpInsDate.Date)+''' ');
     if ckArrDate.Checked then

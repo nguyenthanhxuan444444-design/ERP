@@ -1,6 +1,6 @@
 object LeatherMatInspection: TLeatherMatInspection
-  Left = 192
-  Top = 125
+  Left = 261
+  Top = 132
   Width = 1305
   Height = 675
   Caption = 'LeatherMatInspection'
@@ -10,7 +10,13 @@ object LeatherMatInspection: TLeatherMatInspection
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  FormStyle = fsMDIChild
   OldCreateOrder = False
+  Position = poDefault
+  Visible = True
+  WindowState = wsMaximized
+  OnClose = FormClose
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -29,19 +35,19 @@ object LeatherMatInspection: TLeatherMatInspection
     object Label1: TLabel
       Left = 272
       Top = 72
-      Width = 51
+      Width = 36
       Height = 20
-      Caption = 'DDBH:'
+      Caption = 'Po #:'
     end
     object Label2: TLabel
-      Left = 456
+      Left = 480
       Top = 40
       Width = 62
       Height = 20
       Caption = 'Supplier:'
     end
     object Label3: TLabel
-      Left = 456
+      Left = 480
       Top = 72
       Width = 70
       Height = 20
@@ -50,9 +56,9 @@ object LeatherMatInspection: TLeatherMatInspection
     object Label5: TLabel
       Left = 272
       Top = 8
-      Width = 39
+      Width = 38
       Height = 20
-      Caption = 'Style:'
+      Caption = 'Cont:'
     end
     object Label7: TLabel
       Left = 272
@@ -108,7 +114,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Style = []
       ParentFont = False
       TabOrder = 2
-      Visible = False
+      OnClick = BB2Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -235,6 +241,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Style = []
       ParentFont = False
       TabOrder = 6
+      OnClick = BB6Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -252,7 +259,7 @@ object LeatherMatInspection: TLeatherMatInspection
       NumGlyphs = 2
     end
     object Button1: TButton
-      Left = 683
+      Left = 707
       Top = 57
       Width = 81
       Height = 33
@@ -293,7 +300,7 @@ object LeatherMatInspection: TLeatherMatInspection
       NumGlyphs = 2
     end
     object edtPONo: TEdit
-      Left = 328
+      Left = 352
       Top = 72
       Width = 121
       Height = 28
@@ -314,6 +321,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Style = []
       ParentFont = False
       TabOrder = 9
+      OnClick = bExcelClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -345,6 +353,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Font.Style = []
       ParentFont = False
       TabOrder = 10
+      OnClick = bExFClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -370,7 +379,7 @@ object LeatherMatInspection: TLeatherMatInspection
       TabOrder = 11
     end
     object edtZSBH: TEdit
-      Left = 536
+      Left = 560
       Top = 40
       Width = 121
       Height = 28
@@ -405,7 +414,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Visible = False
     end
     object edtRID: TEdit
-      Left = 536
+      Left = 560
       Top = 72
       Width = 121
       Height = 28
@@ -421,34 +430,35 @@ object LeatherMatInspection: TLeatherMatInspection
       Time = 45981.575782071760000000
       TabOrder = 17
     end
-    object edtStyle: TEdit
-      Left = 328
+    object edtCont: TEdit
+      Left = 352
       Top = 8
       Width = 121
       Height = 28
       TabOrder = 18
     end
     object edtMatName: TEdit
-      Left = 328
+      Left = 352
       Top = 40
       Width = 121
       Height = 28
       TabOrder = 19
     end
     object btClear: TButton
-      Left = 683
+      Left = 707
       Top = 16
       Width = 81
       Height = 33
       Caption = 'Clear'
       TabOrder = 20
+      OnClick = btClearClick
     end
     object ckTime: TCheckBox
       Left = 8
       Top = 40
       Width = 137
       Height = 17
-      Caption = 'Inspection date:'
+      Caption = 'Time:'
       TabOrder = 21
     end
   end
@@ -482,6 +492,8 @@ object LeatherMatInspection: TLeatherMatInspection
     TitleFont.Style = []
     TitleLines = 2
     UseMultiTitle = True
+    OnCellClick = DBGrid1CellClick
+    OnGetCellParams = DBGrid1GetCellParams
     OnKeyPress = DBGrid1KeyPress
     Columns = <
       item
@@ -493,6 +505,7 @@ object LeatherMatInspection: TLeatherMatInspection
         EditButtons = <>
         FieldName = 'Cont'
         Footers = <>
+        Title.Caption = 'Cont no'
         Width = 100
       end
       item
@@ -504,24 +517,28 @@ object LeatherMatInspection: TLeatherMatInspection
         EditButtons = <>
         FieldName = 'IQty'
         Footers = <>
+        Title.Caption = 'Quantity inspection'
         Width = 80
       end
       item
         EditButtons = <>
         FieldName = 'MatName'
         Footers = <>
+        Title.Caption = 'Name materials '
         Width = 300
       end
       item
         EditButtons = <>
         FieldName = 'PONo'
         Footers = <>
+        Title.Caption = 'Po #'
         Width = 300
       end
       item
         EditButtons = <>
         FieldName = 'ThickStand'
         Footers = <>
+        Title.Caption = 'Thickness standards'
         Width = 200
       end
       item
@@ -583,39 +600,47 @@ object LeatherMatInspection: TLeatherMatInspection
         EditButtons = <>
         FieldName = 'PercentGrade'
         Footers = <>
+        Width = 112
       end
       item
         EditButtons = <>
         FieldName = 'UseSF'
         Footers = <>
+        ReadOnly = True
       end
       item
         EditButtons = <>
         FieldName = 'PercentNCU'
         Footers = <>
+        Width = 95
       end
       item
         EditButtons = <>
         FieldName = 'CompenSF'
         Footers = <>
+        ReadOnly = True
+        Width = 94
       end
       item
         EditButtons = <>
         FieldName = 'TestCon'
         Footers = <>
+        Title.Caption = 'Test conclusions'
         Width = 100
       end
       item
         EditButtons = <>
         FieldName = 'IsCompen'
         Footers = <>
-        Width = 100
+        Title.Caption = 'Compensated or not'
+        Width = 108
       end
       item
         EditButtons = <>
         FieldName = 'CompenQty'
         Footers = <>
-        Width = 100
+        Title.Caption = 'Compensated quantity'
+        Width = 107
       end
       item
         EditButtons = <>
@@ -639,22 +664,22 @@ object LeatherMatInspection: TLeatherMatInspection
       end
       item
         EditButtons = <>
-        FieldName = 'PreparedID'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'PreparedDate'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
         FieldName = 'MSCFID'
         Footers = <>
       end
       item
         EditButtons = <>
         FieldName = 'MSCFDate'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'PreparedID'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'PreparedDate'
         Footers = <>
       end
       item
@@ -725,12 +750,12 @@ object LeatherMatInspection: TLeatherMatInspection
     object Query1ThickStand: TStringField
       FieldName = 'ThickStand'
       FixedChar = True
-      Size = 40
+      Size = 150
     end
     object Query1Reality: TStringField
       FieldName = 'Reality'
       FixedChar = True
-      Size = 40
+      Size = 150
     end
     object Query1Color: TStringField
       FieldName = 'Color'
@@ -894,41 +919,10 @@ object LeatherMatInspection: TLeatherMatInspection
         'ate, :MSCFID, '
       '   :MSCFDate, :YN)')
     DeleteSQL.Strings = (
-      'delete from QC_LeatherInspec'
+      'update QC_LeatherInspec'
+      'set YN = 0'
       'where'
-      '  ReportID = :OLD_ReportID and'
-      '  Cont = :OLD_Cont and'
-      '  Time = :OLD_Time and'
-      '  IQty = :OLD_IQty and'
-      '  MatName = :OLD_MatName and'
-      '  PONo = :OLD_PONo and'
-      '  ThickStand = :OLD_ThickStand and'
-      '  Reality = :OLD_Reality and'
-      '  Color = :OLD_Color and'
-      '  AA = :OLD_AA and'
-      '  BB = :OLD_BB and'
-      '  CC = :OLD_CC and'
-      '  DD = :OLD_DD and'
-      '  Grade = :OLD_Grade and'
-      '  TotalSF = :OLD_TotalSF and'
-      '  PercentGrade = :OLD_PercentGrade and'
-      '  UseSF = :OLD_UseSF and'
-      '  PercentNCU = :OLD_PercentNCU and'
-      '  CompenSF = :OLD_CompenSF and'
-      '  TestCon = :OLD_TestCon and'
-      '  IsCompen = :OLD_IsCompen and'
-      '  CompenQty = :OLD_CompenQty and'
-      '  SCFID = :OLD_SCFID and'
-      '  SCFDate = :OLD_SCFDate and'
-      '  LCFID = :OLD_LCFID and'
-      '  LCFDate = :OLD_LCFDate and'
-      '  PreparedID = :OLD_PreparedID and'
-      '  PreparedDate = :OLD_PreparedDate and'
-      '  USERID = :OLD_USERID and'
-      '  USERDate = :OLD_USERDate and'
-      '  MSCFID = :OLD_MSCFID and'
-      '  MSCFDate = :OLD_MSCFDate and'
-      '  YN = :OLD_YN')
+      '  ReportID = :OLD_ReportID')
     Left = 528
     Top = 400
   end

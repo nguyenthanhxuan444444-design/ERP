@@ -129,6 +129,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Font.Style = []
       ParentFont = False
       TabOrder = 2
+      OnClick = BB2Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
