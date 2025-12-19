@@ -1,6 +1,6 @@
 object main: Tmain
-  Left = 416
-  Top = 197
+  Left = 362
+  Top = 183
   Width = 1104
   Height = 503
   Caption = 'main'
@@ -564,6 +564,21 @@ object main: Tmain
         object SN984: TMenuItem
           Caption = 'N984 Material Supervisor Cfm'
           OnClick = SN985Click
+        end
+      end
+      object S99: TMenuItem
+        Caption = 'N99 Humidity Check'
+        object SN991: TMenuItem
+          Caption = 'N991 QC Input'
+        end
+        object SN992: TMenuItem
+          Caption = 'N992 KCS Supervisor Cfm'
+        end
+        object SN993: TMenuItem
+          Caption = 'N993 KCS Leader Cfm'
+        end
+        object SN994: TMenuItem
+          Caption = 'N994 Material Supervisor Cfm'
         end
       end
     end

@@ -157,7 +157,8 @@ uses
   IncomeMatEvaPaintings in 'Source\SN9\IncomeMatEvaPaintings.pas' {IncomeMatEvaPainting},
   ProduceMatFailure in 'Source\SN9\ProduceMatFailure.pas' {ProducMatFailure},
   IncomeUpperMaterials in 'Source\SN9\IncomeUpperMaterials.pas' {IncomeUpperMaterial},
-  LeatherMatInspections in 'Source\SN9\LeatherMatInspections.pas' {LeatherMatInspection};
+  LeatherMatInspections in 'Source\SN9\LeatherMatInspections.pas' {LeatherMatInspection},
+  HumidityChecks in 'Source\SN9\HumidityChecks.pas' {HumidityCheck};
 
 {$R *.res}
 

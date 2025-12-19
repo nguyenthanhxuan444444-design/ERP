@@ -149,6 +149,11 @@ type
     SN982: TMenuItem;
     SN983: TMenuItem;
     SN984: TMenuItem;
+    S99: TMenuItem;
+    SN991: TMenuItem;
+    SN992: TMenuItem;
+    SN993: TMenuItem;
+    SN994: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SN11Click(Sender: TObject);

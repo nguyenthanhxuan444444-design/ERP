@@ -149,6 +149,11 @@ type
     SN982: TMenuItem;
     SN983: TMenuItem;
     SN984: TMenuItem;
+    S99: TMenuItem;
+    SN991: TMenuItem;
+    SN992: TMenuItem;
+    SN993: TMenuItem;
+    SN994: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SN11Click(Sender: TObject);
@@ -254,6 +259,10 @@ type
     procedure SN983Click(Sender: TObject);
     procedure SN984Click(Sender: TObject);
     procedure SN985Click(Sender: TObject);
+    procedure SN991Click(Sender: TObject);
+    procedure SN992Click(Sender: TObject);
+    procedure SN993Click(Sender: TObject);
+    procedure SN994Click(Sender: TObject);
 
   private
     MKID: string;
@@ -296,7 +305,7 @@ uses DM3, QAStationP, Ontime1, QCIssue1, QCOntime1, QCDailyReport1, FeedbackWast
   RY_Inspection_Status1, Failed_Cartons_Input1, NguyenLieuDauVaoTN,
   DailyOutsourcingCheck_, IncomeMatRubberOutsole, IncomeMatMidInSoles,
   IncomeMatEvaPaintings, ProduceMatFailure, IncomeUpperMaterials,
-  LeatherMatInspections;
+  LeatherMatInspections, HumidityChecks;
 
 {$R *.dfm}
 //
@@ -1223,6 +1232,30 @@ procedure Tmain.SN985Click(Sender: TObject);
 begin
   ShowFm(Pointer(LeatherMatInspection), TLeatherMatInspection, TMenuItem(Sender).Name);
   LeatherMatInspection.MenuCode.Text := 'N984'
+end;
+
+procedure Tmain.SN991Click(Sender: TObject);
+begin
+  ShowFm(Pointer(HumidityCheck), THumidityCheck, TMenuItem(Sender).Name);
+  HumidityCheck.MenuCode.Text := 'N991'
+end;
+
+procedure Tmain.SN992Click(Sender: TObject);
+begin
+  ShowFm(Pointer(HumidityCheck), THumidityCheck, TMenuItem(Sender).Name);
+  HumidityCheck.MenuCode.Text := 'N992'
+end;
+
+procedure Tmain.SN993Click(Sender: TObject);
+begin
+  ShowFm(Pointer(HumidityCheck), THumidityCheck, TMenuItem(Sender).Name);
+  HumidityCheck.MenuCode.Text := 'N993'
+end;
+
+procedure Tmain.SN994Click(Sender: TObject);
+begin
+  ShowFm(Pointer(HumidityCheck), THumidityCheck, TMenuItem(Sender).Name);
+  HumidityCheck.MenuCode.Text := 'N994'
 end;
 
 end.

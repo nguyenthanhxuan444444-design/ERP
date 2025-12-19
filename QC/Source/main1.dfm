@@ -566,6 +566,25 @@ object main: Tmain
           OnClick = SN985Click
         end
       end
+      object S99: TMenuItem
+        Caption = 'N99 Humidity Check'
+        object SN991: TMenuItem
+          Caption = 'N991 QC Input'
+          OnClick = SN991Click
+        end
+        object SN992: TMenuItem
+          Caption = 'N992 KCS Supervisor Cfm'
+          OnClick = SN992Click
+        end
+        object SN993: TMenuItem
+          Caption = 'N993 KCS Leader Cfm'
+          OnClick = SN993Click
+        end
+        object SN994: TMenuItem
+          Caption = 'N994 Material Supervisor Cfm'
+          OnClick = SN994Click
+        end
+      end
     end
   end
   object Query1: TQuery
