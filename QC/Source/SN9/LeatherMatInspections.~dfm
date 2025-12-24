@@ -461,6 +461,15 @@ object LeatherMatInspection: TLeatherMatInspection
       Caption = 'Time:'
       TabOrder = 21
     end
+    object btCopy: TButton
+      Left = 336
+      Top = 144
+      Width = 75
+      Height = 49
+      Caption = 'Copy'
+      TabOrder = 22
+      OnClick = btCopyClick
+    end
   end
   object DBGrid1: TDBGridEh
     Left = 0
@@ -932,12 +941,12 @@ object LeatherMatInspection: TLeatherMatInspection
     Top = 400
   end
   object OpenDialog1: TOpenDialog
-    Left = 368
-    Top = 144
+    Left = 800
+    Top = 96
   end
   object SaveDialog: TSaveDialog
-    Left = 320
-    Top = 160
+    Left = 736
+    Top = 96
   end
   object QGetID: TQuery
     DatabaseName = 'DB'
@@ -950,7 +959,7 @@ object LeatherMatInspection: TLeatherMatInspection
     Top = 400
   end
   object OpenPictureDialog1: TOpenDialog
-    Left = 312
-    Top = 112
+    Left = 800
+    Top = 56
   end
 end

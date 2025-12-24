@@ -10,7 +10,6 @@ uses
 type
   THumidityCheck = class(TForm)
     Panel1: TPanel;
-    Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label5: TLabel;
@@ -23,7 +22,6 @@ type
     BB6: TBitBtn;
     Button1: TButton;
     bbt6: TBitBtn;
-    edtPONo: TEdit;
     bExcel: TBitBtn;
     bExF: TBitBtn;
     cbPDF: TCheckBox;
@@ -419,7 +417,7 @@ begin
   begin
     Active := false;
     SQL.Clear;
-    SQL.Add('select * from QC_HumidityCheck where 1=1');
+    SQL.Add('select * from QC_HumidityCheck where 1=1 and YN <> 0');
 
     if ckInsDate.Checked then
       SQL.Add('and CAST(InspecDate as Date) = '''+FormatDateTime('yyyy-mm-dd', dtpInsDate.Date)+''' ');
@@ -429,6 +427,8 @@ begin
       SQL.Add('and Cont like '''+edtCont.Text+'%'' ');
     if edtMatName.Text <> '' then
       SQL.Add('and MatName like '''+edtMatName.Text+'%'' ');
+    if edtZSBH.Text <> '' then
+      SQL.Add('and Supplier like '''+edtZSBH.Text+'%'' ');
     Active := true;
   end;
 end;

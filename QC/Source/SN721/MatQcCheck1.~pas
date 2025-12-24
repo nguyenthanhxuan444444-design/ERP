@@ -219,6 +219,7 @@ type
     procedure btnAppFormClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure qry_QcManagerCheckChange(Sender: TField);
+    procedure edtDefectsKeyPress(Sender: TObject; var Key: Char);
   private
     AppDir:string;
     { Private declarations }
@@ -1402,6 +1403,11 @@ begin
      qry_Qc.fieldbyname('ManagerID').Value := null;
      qry_Qc.fieldbyname('ManagerCFMDate').Value := null;
   end;
+end;
+
+procedure TMatQcCheck.edtDefectsKeyPress(Sender: TObject; var Key: Char);
+begin
+  Key := UpCase(Key);
 end;
 
 end.

@@ -80,6 +80,7 @@ type
     Query1MSCFID: TStringField;
     Query1MSCFDate: TDateTimeField;
     Query1YN: TIntegerField;
+    btCopy: TButton;
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure Button1Click(Sender: TObject);
     procedure SetColumnsReadOnly;
@@ -100,6 +101,7 @@ type
     function GetUsernameByID(const AID: string): string;
     procedure DBGrid1CellClick(Column: TColumnEh);
     procedure btClearClick(Sender: TObject);
+    procedure btCopyClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -775,12 +777,83 @@ if (Query1.RecordCount > 0)  and not Query1.CachedUpdates then
   end;
 end;
 
-procedure TLeatherMatInspection.btClearClick(Sender: TObject);
+procedure TLeatherMatInspection.btClearClick(Sender: TObject); 
 begin
   edtRID.Clear;
   edtPONo.Clear;
   edtMatName.Clear;
   edtCont.Clear;
+end;
+
+procedure TLeatherMatInspection.btCopyClick(Sender: TObject);
+var
+  // Khai bao cac bien theo danh sach moi
+  OldCont         : string;
+  OldTime         : TDateTime;
+  OldIQty         : string;
+  OldMatName      : string;
+  OldPONo         : string;
+  OldThickStand   : string;
+  OldReality      : string;
+  OldColor        : string;
+  OldAA, OldBB    : string;
+  OldCC, OldDD    : string;
+  OldGrade        : string;
+  OldTotalSF      : Double;
+  OldPercentGrade : Integer;
+  OldPercentNCU   : Integer;
+  OldTestCon      : string;
+  OldIsCompen     : string;
+  OldCompenQty    : string;
+begin
+  bb4.enabled := true;
+  bb5.enabled := true;
+  Query1.CachedUpdates := true;
+  Query1.RequestLive := true;
+
+  // --- BUOC 1: LAY DU LIEU TU DONG HIEN TAI ---
+  OldCont         := Query1.FieldByName('Cont').AsString;
+  OldTime         := Query1.FieldByName('Time').AsDateTime;
+  OldIQty         := Query1.FieldByName('IQty').AsString;
+  OldMatName      := Query1.FieldByName('MatName').AsString;
+  OldPONo         := Query1.FieldByName('PONo').AsString;
+  OldThickStand   := Query1.FieldByName('ThickStand').AsString;
+  OldReality      := Query1.FieldByName('Reality').AsString;
+  OldColor        := Query1.FieldByName('Color').AsString;
+  OldAA           := Query1.FieldByName('AA').AsString;
+  OldBB           := Query1.FieldByName('BB').AsString;
+  OldCC           := Query1.FieldByName('CC').AsString;
+  OldDD           := Query1.FieldByName('DD').AsString;
+  OldGrade        := Query1.FieldByName('Grade').AsString;
+  OldTotalSF      := Query1.FieldByName('TotalSF').AsFloat;
+  OldPercentGrade := Query1.FieldByName('PercentGrade').AsInteger;
+  OldPercentNCU   := Query1.FieldByName('PercentNCU').AsInteger;
+  OldTestCon      := Query1.FieldByName('TestCon').AsString;
+  OldIsCompen     := Query1.FieldByName('IsCompen').AsString;
+  OldCompenQty    := Query1.FieldByName('CompenQty').AsString;
+
+  // --- BUOC 2: TAO BAN GHI MOI VA GAN DU LIEU ---
+  Query1.Append;
+  Query1.FieldByName('Cont').AsString         := OldCont;
+  Query1.FieldByName('Time').AsDateTime        := OldTime;
+  Query1.FieldByName('IQty').AsString         := OldIQty;
+  Query1.FieldByName('MatName').AsString      := OldMatName;
+  Query1.FieldByName('PONo').AsString         := OldPONo;
+  Query1.FieldByName('ThickStand').AsString   := OldThickStand;
+  Query1.FieldByName('Reality').AsString      := OldReality;
+  Query1.FieldByName('Color').AsString        := OldColor;
+  Query1.FieldByName('AA').AsString           := OldAA;
+  Query1.FieldByName('BB').AsString           := OldBB;
+  Query1.FieldByName('CC').AsString           := OldCC;
+  Query1.FieldByName('DD').AsString           := OldDD;
+  Query1.FieldByName('Grade').AsString        := OldGrade;
+  Query1.FieldByName('TotalSF').AsFloat       := OldTotalSF;
+  Query1.FieldByName('PercentGrade').AsInteger := OldPercentGrade;
+  Query1.FieldByName('PercentNCU').AsInteger  := OldPercentNCU;
+  Query1.FieldByName('TestCon').AsString      := OldTestCon;
+  Query1.FieldByName('IsCompen').AsString     := OldIsCompen;
+  Query1.FieldByName('CompenQty').AsString    := OldCompenQty;
+  Query1.Post;
 end;
 
 end.

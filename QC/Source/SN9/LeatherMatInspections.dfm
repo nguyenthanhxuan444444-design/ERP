@@ -42,9 +42,9 @@ object LeatherMatInspection: TLeatherMatInspection
     object Label2: TLabel
       Left = 480
       Top = 40
-      Width = 62
+      Width = 84
       Height = 20
-      Caption = 'Supplier:'
+      Caption = 'ThickStand:'
     end
     object Label3: TLabel
       Left = 480
@@ -378,8 +378,8 @@ object LeatherMatInspection: TLeatherMatInspection
       Caption = 'PDF'
       TabOrder = 11
     end
-    object edtZSBH: TEdit
-      Left = 560
+    object edtTS: TEdit
+      Left = 568
       Top = 40
       Width = 121
       Height = 28
@@ -414,7 +414,7 @@ object LeatherMatInspection: TLeatherMatInspection
       Visible = False
     end
     object edtRID: TEdit
-      Left = 560
+      Left = 568
       Top = 72
       Width = 121
       Height = 28
@@ -460,6 +460,16 @@ object LeatherMatInspection: TLeatherMatInspection
       Height = 17
       Caption = 'Time:'
       TabOrder = 21
+    end
+    object btCopy: TButton
+      Left = 336
+      Top = 144
+      Width = 75
+      Height = 49
+      Caption = 'Copy'
+      TabOrder = 22
+      Visible = False
+      OnClick = btCopyClick
     end
   end
   object DBGrid1: TDBGridEh
@@ -932,12 +942,12 @@ object LeatherMatInspection: TLeatherMatInspection
     Top = 400
   end
   object OpenDialog1: TOpenDialog
-    Left = 368
-    Top = 144
+    Left = 800
+    Top = 96
   end
   object SaveDialog: TSaveDialog
-    Left = 320
-    Top = 160
+    Left = 736
+    Top = 96
   end
   object QGetID: TQuery
     DatabaseName = 'DB'
@@ -950,7 +960,7 @@ object LeatherMatInspection: TLeatherMatInspection
     Top = 400
   end
   object OpenPictureDialog1: TOpenDialog
-    Left = 312
-    Top = 112
+    Left = 800
+    Top = 56
   end
 end

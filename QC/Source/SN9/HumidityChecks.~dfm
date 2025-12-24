@@ -32,37 +32,30 @@ object HumidityCheck: THumidityCheck
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    object Label1: TLabel
-      Left = 272
-      Top = 72
-      Width = 36
-      Height = 20
-      Caption = 'Po #:'
-    end
     object Label2: TLabel
       Left = 480
-      Top = 40
+      Top = 16
       Width = 62
       Height = 20
       Caption = 'Supplier:'
     end
     object Label3: TLabel
       Left = 480
-      Top = 72
+      Top = 48
       Width = 70
       Height = 20
       Caption = 'ReportID:'
     end
     object Label5: TLabel
       Left = 272
-      Top = 8
+      Top = 16
       Width = 38
       Height = 20
       Caption = 'Cont:'
     end
     object Label7: TLabel
       Left = 272
-      Top = 40
+      Top = 48
       Width = 73
       Height = 20
       Caption = 'MatName:'
@@ -259,8 +252,8 @@ object HumidityCheck: THumidityCheck
       NumGlyphs = 2
     end
     object Button1: TButton
-      Left = 707
-      Top = 57
+      Left = 699
+      Top = 49
       Width = 81
       Height = 33
       Caption = 'Search'
@@ -299,13 +292,6 @@ object HumidityCheck: THumidityCheck
       Layout = blGlyphTop
       NumGlyphs = 2
     end
-    object edtPONo: TEdit
-      Left = 352
-      Top = 72
-      Width = 121
-      Height = 28
-      TabOrder = 8
-    end
     object bExcel: TBitBtn
       Left = 520
       Top = 144
@@ -320,7 +306,7 @@ object HumidityCheck: THumidityCheck
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 9
+      TabOrder = 8
       OnClick = bExcelClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -352,7 +338,7 @@ object HumidityCheck: THumidityCheck
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 10
+      TabOrder = 9
       OnClick = bExFClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -376,32 +362,32 @@ object HumidityCheck: THumidityCheck
       Width = 57
       Height = 17
       Caption = 'PDF'
-      TabOrder = 11
+      TabOrder = 10
     end
     object edtZSBH: TEdit
       Left = 560
-      Top = 40
+      Top = 16
       Width = 121
       Height = 28
-      TabOrder = 12
+      TabOrder = 11
     end
     object ckUSERDate: TCheckBox
       Left = 8
-      Top = 8
+      Top = 16
       Width = 105
       Height = 17
       Caption = 'USERDate:'
-      TabOrder = 13
+      TabOrder = 12
     end
     object dtpUSERDate: TDateTimePicker
       Left = 152
-      Top = 8
+      Top = 16
       Width = 113
       Height = 28
       Date = 45973.457989131940000000
       Format = 'dd/MM/yyyy'
       Time = 45973.457989131940000000
-      TabOrder = 14
+      TabOrder = 13
     end
     object MenuCode: TEdit
       Left = 696
@@ -409,56 +395,57 @@ object HumidityCheck: THumidityCheck
       Width = 121
       Height = 28
       ReadOnly = True
-      TabOrder = 15
+      TabOrder = 14
       Text = 'MenuCode'
       Visible = False
     end
     object edtRID: TEdit
       Left = 560
-      Top = 72
+      Top = 48
       Width = 121
       Height = 28
-      TabOrder = 16
+      TabOrder = 15
     end
     object dtpInsDate: TDateTimePicker
       Left = 152
-      Top = 40
+      Top = 48
       Width = 113
       Height = 28
       Date = 45981.575782071760000000
       Format = 'dd/MM/yyyy'
       Time = 45981.575782071760000000
-      TabOrder = 17
+      TabOrder = 16
     end
     object edtCont: TEdit
       Left = 352
-      Top = 8
+      Top = 16
+      Width = 121
+      Height = 28
+      TabOrder = 17
+    end
+    object edtMatName: TEdit
+      Left = 352
+      Top = 48
       Width = 121
       Height = 28
       TabOrder = 18
     end
-    object edtMatName: TEdit
-      Left = 352
-      Top = 40
-      Width = 121
-      Height = 28
-      TabOrder = 19
-    end
     object btClear: TButton
-      Left = 707
-      Top = 16
+      Left = 699
+      Top = 8
       Width = 81
       Height = 33
       Caption = 'Clear'
-      TabOrder = 20
+      TabOrder = 19
+      Visible = False
     end
     object ckInsDate: TCheckBox
       Left = 8
-      Top = 40
+      Top = 48
       Width = 137
       Height = 17
       Caption = 'Inspection date:'
-      TabOrder = 21
+      TabOrder = 20
     end
   end
   object DBGrid1: TDBGridEh
@@ -514,23 +501,29 @@ object HumidityCheck: THumidityCheck
         EditButtons = <>
         FieldName = 'MatName'
         Footers = <>
+        Title.Caption = 'Material Name'
         Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'Supplier'
         Footers = <>
+        Title.Caption = 'Supplier Name'
         Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'ArrQty'
         Footers = <>
+        Title.Caption = 'Arrived Qty'
+        Width = 87
       end
       item
         EditButtons = <>
         FieldName = 'IQty'
         Footers = <>
+        Title.Caption = 'Inspection Qty'
+        Width = 87
       end
       item
         EditButtons = <>
@@ -586,22 +579,22 @@ object HumidityCheck: THumidityCheck
       end
       item
         EditButtons = <>
-        FieldName = 'USERID'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'USERDate'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
         FieldName = 'PreparedID'
         Footers = <>
       end
       item
         EditButtons = <>
         FieldName = 'PreparedDate'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'USERID'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'USERDate'
         Footers = <>
       end
       item

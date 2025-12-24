@@ -6,14 +6,13 @@ object DM2: TDM2
   Height = 249
   Width = 309
   object DBshipping: TDatabase
-    AliasName = 'DTT'
-    Connected = True
+    AliasName = 'LYS_ERP'
     DatabaseName = 'DB'
     LoginPrompt = False
     Params.Strings = (
       'DATABASE NAME=LYS_ERP'
-      'SERVER NAME=DTT'
-      'USER NAME=siu'
+      'SERVER NAME=192.168.71.7'
+      'USER NAME=tyxuan'
       'OPEN MODE=READ/WRITE'
       'SCHEMA CACHE SIZE=8'
       'BLOB EDIT LOGGING='
@@ -34,7 +33,7 @@ object DM2: TDM2
       'TDS PACKET SIZE=4096'
       'BLOBS TO CACHE=6400'
       'BLOB SIZE=3200'
-      'PASSWORD=1')
+      'PASSWORD=jack')
     SessionName = 'Default'
     OnLogin = DBshippingLogin
     Left = 136

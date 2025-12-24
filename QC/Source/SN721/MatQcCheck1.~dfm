@@ -849,6 +849,7 @@ object MatQcCheck: TMatQcCheck
       Width = 84
       Height = 24
       TabOrder = 21
+      OnKeyPress = edtDefectsKeyPress
     end
   end
   object PageControl1: TPageControl
