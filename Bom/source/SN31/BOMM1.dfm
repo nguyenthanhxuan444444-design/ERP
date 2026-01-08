@@ -1,6 +1,6 @@
 object BOMM: TBOMM
-  Left = 358
-  Top = 143
+  Left = 689
+  Top = 44
   Width = 1307
   Height = 828
   Caption = 'BOMM'
@@ -445,7 +445,7 @@ object BOMM: TBOMM
     Top = 65
     Width = 1291
     Height = 724
-    ActivePage = TS1
+    ActivePage = TS3
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText

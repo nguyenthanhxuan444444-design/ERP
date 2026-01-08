@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, DB, DBTables, GridsEh, DBGridEh, StdCtrls, ExtCtrls, Menus;
+  Dialogs, DB, DBTables, GridsEh, DBGridEh, StdCtrls, ExtCtrls, Menus,comobj;
 
 type
   TScanoutO = class(TForm)
@@ -43,6 +43,8 @@ type
     UpScan: TUpdateSQL;
     ScanDataID: TFloatField;
     Button1: TButton;
+    CB1: TCheckBox;
+    Button3: TButton;
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Button4Click(Sender: TObject);
@@ -53,6 +55,7 @@ type
     procedure SaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -85,6 +88,8 @@ end;
 
 procedure TScanoutO.Button2Click(Sender: TObject);
 begin
+if not cb1.Checked then
+  begin
 if edit3.Text='' then
   begin
  ShowMessage('Don hang khong duoc de trong!');
@@ -105,6 +110,26 @@ if edit3.Text='' then
   sql.Add('ORDER BY c.DDBH, c.XXCC, a.Ma_Ke');
   active:=true;
  // scandata.ExecSQL;
+  end;
+  end
+  else
+  begin
+   with ScanData do
+  begin
+  active:=false;
+  sql.Clear;
+  sql.Add('SELECT distinct c.DDBH, d.XieMing, c.XXCC, a.QtyIn,a.QtyOut,a.QtyIn - ISNULL(a.QtyOut, 0) AS TonKho,a.Codebar, a.Ma_Ke,a.ID');
+  sql.Add('FROM SMZL_MAKE A ');
+  sql.Add('LEFT JOIN smddss C ON a.CODEBAR = c.CODEBAR ');
+  sql.Add('LEFT JOIN smdd D ON c.DDBH = d.DDBH ');
+  sql.Add('WHERE okCTS > 0 ');
+  sql.Add('AND c.GXLB = ''O'' ');
+  sql.Add('and QtyIn-QtyOut>0');
+  if  edit4.Text<>'' then sql.Add('AND a.Ma_Ke LIKE ''%' + Trim(Edit4.Text) + '%'' ');
+  sql.Add('ORDER BY c.DDBH, c.XXCC, a.Ma_Ke');
+  active:=true;
+ // scandata.ExecSQL;
+  end;
   end;
 end;
 procedure TScanoutO.Edit1KeyPress(Sender: TObject; var Key: Char);
@@ -231,6 +256,52 @@ procedure TScanoutO.Button1Click(Sender: TObject);
 begin
 edit2.Text :='';
 edit4.Text :='';
+end;
+
+procedure TScanoutO.Button3Click(Sender: TObject);
+var   a:string;
+      eclApp,WorkBook:olevariant;
+ //     xlsFileName:string;
+      i,j:integer;
+ begin
+  if  ScanData.active  then
+    begin
+    try
+      eclApp:=CreateOleObject('Excel.Application');
+      WorkBook:=CreateOleObject('Excel.Sheet');
+    except
+      Application.MessageBox('No Microsoft   Excel','Microsoft   Excel',MB_OK+MB_ICONWarning);
+      Exit;
+    end;
+    try
+        WorkBook:=eclApp.workbooks.Add;
+        for   i:=0   to   ScanData.fieldcount-1   do
+          begin
+              eclApp.Cells(1,i+1):=ScanData.fields[i].FieldName;
+          end;
+
+        ScanData.First;
+        j:=2;
+        while   not   ScanData.Eof   do
+          begin
+            for   i:=0   to  ScanData.fieldcount-1  do
+            begin
+              eclApp.Cells(j,i+1):=ScanData.Fields[i].Value;
+            end;
+          ScanData.Next;
+          inc(j);
+          end;
+       eclapp.columns.autofit;
+       showmessage('Succeed');
+       eclApp.Visible:=True;
+
+      except
+        on   F:Exception   do
+          showmessage(F.Message);
+      end;
+    end;
+
+
 end;
 
 end.

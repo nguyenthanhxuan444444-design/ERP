@@ -1,6 +1,6 @@
 object PurNoSize_Print: TPurNoSize_Print
-  Left = 566
-  Top = 306
+  Left = 919
+  Top = 350
   Width = 899
   Height = 500
   VertScrollBar.Position = 85
@@ -1171,14 +1171,26 @@ object PurNoSize_Print: TPurNoSize_Print
     DatabaseName = 'DB'
     DataSource = DataSource1
     SQL.Strings = (
-      'select CGZLSS.ZLBH,CGZLSS.Qty,DDZL.Article,xxzl.xieming'
-      'from CGZLSS'
-      'left join DDZL on DDZL.DDBH=CGZLSS.ZLBH'
+      'SELECT ZLBH'
+      'FROM ('
+      '    SELECT '
+      '        CGZLSS.ZLBH,'
+      '        -- Lay phan truoc dau '#39'-'#39
       
-        'left join xxzl on ddzl.xiexing=xxzl.xiexing and ddzl.shehao=xxzl' +
-        '.shehao'
-      'where CGZLSS.CGNO=:CGNO'
-      'and CGZLSS.CLBH=:CLBH')
+        '        SUBSTRING(CGZLSS.ZLBH, 1, CHARINDEX('#39'-'#39', CGZLSS.ZLBH) - ' +
+        '1) AS prefix_part,'
+      '        ROW_NUMBER() OVER ('
+      
+        '            PARTITION BY SUBSTRING(CGZLSS.ZLBH, 1, CHARINDEX('#39'-'#39 +
+        ', CGZLSS.ZLBH) - 1)'
+      '            ORDER BY CGZLSS.ZLBH'
+      '        ) AS rn'
+      '    FROM CGZLSS'
+      '    WHERE CGZLSS.CGNO =:CGNO'
+      '      AND CGZLSS.CLBH =:CLBH'
+      ') t'
+      'WHERE rn = 1'
+      'ORDER BY ZLBH;')
     Left = 32
     Top = 48
     ParamData = <

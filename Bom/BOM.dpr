@@ -135,7 +135,8 @@ uses
   SupplierFLEXnERP1 in 'source\SN386\SupplierFLEXnERP1.pas' {SupplierFLEXnERP},
   BOM_N385_LYS in 'source\SN385\BOM_N385_LYS.pas' {CostingPriceList_LYS},
   CheckNoInCostingPriceList1 in 'source\SN386\CheckNoInCostingPriceList1.pas' {CheckNoInCostingPriceList},
-  PrintingInk1 in 'source\SN386\PrintingInk1.pas' {PrintingInk};
+  PrintingInk1 in 'source\SN386\PrintingInk1.pas' {PrintingInk},
+  BomUsing1 in 'source\SN388\BomUsing1.pas' {BomUsing};
 
 {$R *.TLB}
 
@@ -161,7 +162,6 @@ begin
   Application.Title := 'LaiYih ERP-BOM';
   Application.CreateForm(TDM2, DM2);
   Application.CreateForm(Tmain, main);
-  //Application.CreateForm(TForm1, Form1);
   login.hide;
   login.free;
   Application.Run;

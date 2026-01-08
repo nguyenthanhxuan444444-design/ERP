@@ -12,7 +12,7 @@ unit BOM_TLB;
 // ************************************************************************ //
 
 // PASTLWTR : 1.2
-// File generated on 2025/12/11 ¤U¤È 04:28:33 from Type Library described below.
+// File generated on 2026/1/7 ¤U¤È 01:58:29 from Type Library described below.
 
 // ************************************************************************  //
 // Type Lib: D:\ERP SOURCE CODE\Bom\BOM.tlb (1)

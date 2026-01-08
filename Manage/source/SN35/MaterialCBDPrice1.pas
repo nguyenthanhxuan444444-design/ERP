@@ -104,6 +104,19 @@ type
     XXMQFreight: TStringField;
     Label2: TLabel;
     Edit1: TEdit;
+    XXMQUSPrice: TFloatField;
+    XXMQVNPrice: TCurrencyField;
+    XXMQDiscount: TFloatField;
+    XXMQUSDxDis: TFloatField;
+    XXMQPurUser: TStringField;
+    XXMQPurUSERDate: TDateTimeField;
+    XXMQProfitR: TFloatField;
+    DTP1: TDateTimePicker;
+    Label5: TLabel;
+    DTP2: TDateTimePicker;
+    Label6: TLabel;
+    Edit2: TEdit;
+    chk_shp: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure Button3Click(Sender: TObject);
@@ -117,6 +130,7 @@ type
     procedure N1Click(Sender: TObject);
     procedure lock1Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure mainPCChange(Sender: TObject);
   private
     IsEdit:boolean;
     UserDepID:string;
@@ -150,7 +164,7 @@ end;
 
 //
 procedure TMaterialCBDPrice.QueryMaterial();
-begin    
+begin
   if ((ArticleEdit.Text='') and (SREdit.Text='') and (DDBHEdit.Text='') and (BuyNoEdit.Text='')) then
   begin
     showmessage('Please input  keypoint ');
@@ -160,10 +174,16 @@ begin
   begin
     Active:=false;
     SQL.Clear;
-    SQL.Add('select XXZLS.CLBH,CLZL.YWPM, CLZL.ZWPM,CLZL.DWBH,Max(XXZLS.CSBH) as ZSDH,Max(ZSZL.ZSYWJC) as ZSYWJC,CLZL.CLZMLB,');
-    sql.Add('       MaterialCBD.Season,MaterialCBD.SamplePrice,MaterialCBD.userID,MaterialCBD.userdate,MaterialCBD.Freight');
-    SQL.Add('FROM DDZL');
-    SQL.Add('Left JOIN(');
+    SQL.Add('select XXZLS.CLBH,CLZL.YWPM, CLZL.ZWPM,CLZL.DWBH,Max(MaterialCBD.ZSBH) as ZSDH,Max(ZSZL.ZSYWJC) as ZSYWJC,CLZL.CLZMLB,');
+    sql.Add('       MaterialCBD.Season,MaterialCBD.SamplePrice,MaterialCBD.userID,MaterialCBD.userdate,MaterialCBD.Freight,');
+    SQL.add('     ISNULL(CGBJS.USPrice,case  when CGBJS.USPrice IS NULL then CGBJS.VNPrice/MaterialCBDEx.CWHL ELSE CGBJS.USPrice END) as USPrice,CGBJS.VNPrice ');
+    SQL.add('   ,CGBJS.Discount');
+    SQL.add('   ,ISNULL(CGBJS.USPrice,case  when CGBJS.USPrice IS NULL then CGBJS.VNPrice/MaterialCBDEx.CWHL ELSE CGBJS.USPrice END)*CGBJS.Discount as USDxDis ');
+    SQL.add('   ,case when MaterialCBD.SamplePrice is not null then  ');
+    SQL.add('   100*(1-(ISNULL(CGBJS.USPrice,case  when CGBJS.USPrice IS NULL then CGBJS.VNPrice/MaterialCBDEx.CWHL ELSE CGBJS.USPrice END)*CGBJS.Discount/MaterialCBD.SamplePrice)) end as ProfitR ');
+    SQL.add('   ,CGBJS.USERID as PurUser,CGBJS.USERDate as PurUSERDate ');
+    SQL.Add('FROM ');
+    SQL.Add('(');
     SQL.Add(' select XXZLS.XieXing,XXZLS.Shehao,XXZLS.CLBH,XXZLS.CSBH,XXZLS.BWLB ');
     SQL.Add(' from XXZLS ');
     SQL.Add(' union all ');
@@ -176,7 +196,8 @@ begin
     SQL.Add(' from XXZLS ');
     SQL.Add(' inner join CLZHZL on CLZHZL.CLDH=XXZLS.CLBH ) XXZLS ');
     SQL.Add(' inner join CLZHZL on CLZHZL.CLDH=XXZLS.CLBH  ');
-    SQL.Add(' ) XXZLS on DDZL.XieXing=XXZLS.XieXing and DDZL.SheHao=XXZLS.SheHao');
+    SQL.Add(' ) XXZLS');
+    SQL.add(' left join DDZL on DDZL.XieXing=XXZLS.XieXing and DDZL.SheHao=XXZLS.SheHao');
     SQL.Add('Left join XXZL on XXZL.XieXIng=XXZLS.XieXing and XXZL.Shehao=XXZLS.SheHao ');          
     sql.add(' and XXZL.KFCQ=''YIH'' ');
     if ComboBox5.ItemIndex=0 then
@@ -186,7 +207,6 @@ begin
     else if ComboBox5.ItemIndex=2 then
       sql.add('and XXZL.KHDH=''0078'' ');
     SQL.Add('LEFT JOIN CLZL   ON XXZLS.CLBH = CLZL.cldh');
-    SQL.Add('LEFT JOIN ZSZL on ZSZL.ZSDH=XXZLS.CSBH');
     sql.Add('Left JOIN KFXXZL on XXZLS.XieXing=KFXXZL.XieXing and XXZLS.SheHao=KFXXZL.SheHao ');
     //sql.add('Left Join MaterialCBD ON MaterialCBD.CLBH=XXZLS.CLBH  ');
     //20240626 新增報價季節  用輸入buy查詢
@@ -206,11 +226,15 @@ begin
     //else if ((main.Edit2.Text='VB1') then
     //  sql.add('and  MaterialCBD.GSBH=''VB1''')     //LYI use
     //sql.add('and MaterialCBD.GSBH='''+main.Edit2.Text+'''');
+    SQL.Add('LEFT JOIN ZSZL on ZSZL.ZSDH=MaterialCBD.ZSBH');
     SQL.add('Left join MaterialCBDNo on MaterialCBDNo.XieXing=XXZLS.XieXing and MaterialCBDNo.SheHao=XXZLS.SheHao and MaterialCBDNo.CLBH=XXZLS.CLBH ');
+    SQL.Add('left join CGBJS on CGBJS.Season= '''+Edit1.text+''' and CGBJS.CLBH=MaterialCBD.CLBH');
+    //SQL.Add('left join CGBJ on CGBJS.BJNO= CGBJ.BJNO');
+    SQL.add('left join MaterialCBDEx on MaterialCBDEx.Season=MaterialCBD.Season ');
     SQL.Add('where XXZL.Article like '''+ArticleEdit.Text+'%'+'''   AND CLZL.CLZMLB=''N''');
     sql.Add('and XXZLS.CLBH like '''+CLBHEdit.Text+'%''');
     sql.add('and CLZL.YWPM like '+''''+'%'+MatNMEEdit.Text+'%'+'''');
-    sql.add('and CLZL.ZWPM like '+''''+'%'+MatNMCEdit.Text+'%'+'''');   
+    sql.add('and CLZL.ZWPM like '+''''+'%'+MatNMCEdit.Text+'%'+'''');
    if BuyNoEdit.Text<>'' then
       sql.Add('and DDZL.BUYNO like '''+BuyNoEdit.Text+'%'' ');
    if DDBHEdit.Text<>'' then
@@ -226,6 +250,13 @@ begin
     begin
       sql.Add('and (MaterialCBD.SamplePrice is not null or  MaterialCBDNo.YN=1 ) ');
     end;
+    if chk_shp.Checked then
+    begin
+      sql.Add('and CGBJS.USERDate between ');
+      sql.add('Convert(smalldatetime,'''+formatdatetime('yyyy/MM/dd',DTP1.Date)+''')'+ ' and '+'Convert(smalldatetime,'''+formatdatetime('yyyy/MM/dd',DTP2.Date)+''')');
+    end;
+    if Edit2.Text<>'' then  
+      sql.Add('and CGBJS.USERID= '''+Edit2.Text+''' ');
     if CheckBox1.Checked=false then
       sql.Add('and CLZL.CQDH<>''TW'' ');
     if CheckBox2.Checked=false then
@@ -235,7 +266,8 @@ begin
     if BWLBCombo1.ItemIndex>0 then
       sql.Add('and (XXZLS.BWLB='+Copy(BWLBCombo1.Text,1,1)+') ');
     SQL.Add('group by XXZLS.CLBH,CLZL.YWPM, CLZL.ZWPM,CLZL.DWBH,CLZL.CLZMLB,');
-    SQL.Add('         MaterialCBD.Season,MaterialCBD.SamplePrice,MaterialCBD.userID,MaterialCBD.userdate,MaterialCBD.Freight');
+    SQL.Add('         MaterialCBD.Season,MaterialCBD.SamplePrice,MaterialCBD.userID,MaterialCBD.userdate,MaterialCBD.Freight,CGBJS.USPrice,CGBJS.VNPrice, MaterialCBDEx.CWHL');
+    SQL.Add('         ,CGBJS.Discount,CGBJS.USERID,CGBJS.USERDate');
     SQL.Add('ORDER BY XXZLS.CLBH');
     //funcObj.WriteErrorLog(sql.Text);
     //showmessage(SQL.text);
@@ -675,8 +707,12 @@ begin
      DBGrid2.Columns[0].Visible:=false;
     end;
     Active:=false;
-  end;
+  end; 
+  DTP1.Date:=Date()-5;
+  DTP2.Date:=Date();
   ComboBox5.ItemIndex:=0;
+  mainPC.ActivePageIndex := 0;
+  panel4.Height:=60;
 end;
 
 procedure TMaterialCBDPrice.DBGrid2GetCellParams(Sender: TObject;
@@ -733,6 +769,15 @@ begin
   CLZLCBDPrice:=TCLZLCBDPrice.Create(self);
   CLZLCBDPrice.IsEdit:=IsEdit;
   CLZLCBDPrice.ShowModal();
+end;
+
+procedure TMaterialCBDPrice.mainPCChange(Sender: TObject);
+begin
+  if mainPC.ActivePageIndex=0 then
+      panel4.Height:=60
+  else
+      panel4.Height:=95;
+      
 end;
 
 end.

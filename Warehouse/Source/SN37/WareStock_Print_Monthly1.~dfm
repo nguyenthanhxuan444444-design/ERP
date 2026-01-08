@@ -1,8 +1,9 @@
 object WareStock_Print_Monthly: TWareStock_Print_Monthly
-  Left = 759
-  Top = 200
+  Left = 337
+  Top = 201
   Width = 1062
   Height = 782
+  HorzScrollBar.Position = 98
   VertScrollBar.Position = 11
   Caption = 'WareStock_Print_Monthly'
   Color = clBtnFace
@@ -19,7 +20,7 @@ object WareStock_Print_Monthly: TWareStock_Print_Monthly
   PixelsPerInch = 96
   TextHeight = 13
   object QuickRep1: TQuickRep
-    Left = 4
+    Left = -94
     Top = -4
     Width = 1123
     Height = 794
@@ -227,6 +228,7 @@ object WareStock_Print_Monthly: TWareStock_Print_Monthly
         Top = 8
         Width = 35
         Height = 17
+        Enabled = False
         Frame.Color = clBlack
         Frame.DrawTop = False
         Frame.DrawBottom = False
@@ -249,79 +251,6 @@ object WareStock_Print_Monthly: TWareStock_Print_Monthly
         Font.Name = 'Arial'
         Font.Style = []
         ParentFont = False
-        Transparent = False
-        WordWrap = True
-        FontSize = 10
-      end
-      object QRSysData1: TQRSysData
-        Left = 987
-        Top = 8
-        Width = 42
-        Height = 17
-        Frame.Color = clBlack
-        Frame.DrawTop = False
-        Frame.DrawBottom = False
-        Frame.DrawLeft = False
-        Frame.DrawRight = False
-        Size.Values = (
-          44.979166666666670000
-          2611.437500000000000000
-          21.166666666666670000
-          111.125000000000000000)
-        Alignment = taRightJustify
-        AlignToBand = False
-        AutoSize = True
-        Color = clWhite
-        Data = qrsPageNumber
-        Transparent = False
-        FontSize = 10
-      end
-      object QRLabel28: TQRLabel
-        Left = 1032
-        Top = 8
-        Width = 5
-        Height = 17
-        Frame.Color = clBlack
-        Frame.DrawTop = False
-        Frame.DrawBottom = False
-        Frame.DrawLeft = False
-        Frame.DrawRight = False
-        Size.Values = (
-          44.979166666666670000
-          2730.500000000000000000
-          21.166666666666670000
-          13.229166666666670000)
-        Alignment = taLeftJustify
-        AlignToBand = False
-        AutoSize = True
-        AutoStretch = False
-        Caption = '/'
-        Color = clWhite
-        Transparent = False
-        WordWrap = True
-        FontSize = 10
-      end
-      object PageN: TQRLabel
-        Left = 1040
-        Top = 8
-        Width = 36
-        Height = 17
-        Frame.Color = clBlack
-        Frame.DrawTop = False
-        Frame.DrawBottom = False
-        Frame.DrawLeft = False
-        Frame.DrawRight = False
-        Size.Values = (
-          44.979166666666670000
-          2751.666666666667000000
-          21.166666666666670000
-          95.250000000000000000)
-        Alignment = taLeftJustify
-        AlignToBand = False
-        AutoSize = True
-        AutoStretch = False
-        Caption = 'PageN'
-        Color = clWhite
         Transparent = False
         WordWrap = True
         FontSize = 10
@@ -755,25 +684,25 @@ object WareStock_Print_Monthly: TWareStock_Print_Monthly
         VertAdjust = 0
       end
       object QRLabel13: TQRLabel
-        Left = 801
-        Top = 30
-        Width = 80
-        Height = 45
+        Left = 800
+        Top = 40
+        Width = 81
+        Height = 35
         Frame.Color = clBlack
         Frame.DrawTop = False
         Frame.DrawBottom = False
         Frame.DrawLeft = False
         Frame.DrawRight = False
         Size.Values = (
-          119.062500000000000000
-          2119.312500000000000000
-          79.375000000000000000
-          211.666666666666700000)
+          92.604166666666670000
+          2116.666666666667000000
+          105.833333333333300000
+          214.312500000000000000)
         Alignment = taCenter
         AlignToBand = False
         AutoSize = False
         AutoStretch = False
-        Caption = '   SL Kho kiem     ke     '#20489#24235#30436#40670#25976
+        Caption = 'SL Kho kiem ke     '#20489#24235#30436#40670#25976
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -1349,7 +1278,7 @@ object WareStock_Print_Monthly: TWareStock_Print_Monthly
         AutoStretch = False
         Color = clWhite
         DataSet = AnyStock.Query1
-        DataField = 'DFL'
+        DataField = 'KCMC'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -8
@@ -1570,7 +1499,7 @@ object WareStock_Print_Monthly: TWareStock_Print_Monthly
       object QRLabel19: TQRLabel
         Left = 24
         Top = 8
-        Width = 207
+        Width = 217
         Height = 33
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -1581,12 +1510,12 @@ object WareStock_Print_Monthly: TWareStock_Print_Monthly
           87.312500000000000000
           63.500000000000000000
           21.166666666666670000
-          547.687500000000000000)
+          574.145833333333300000)
         Alignment = taLeftJustify
         AlignToBand = False
         AutoSize = False
         AutoStretch = False
-        Caption = 'CHU QUAN CAO NHAT BO PHAN /                        XUONG VU'
+        Caption = 'CHU QUAN CAO NHAT BO PHAN /                      XUONG VU'
         Color = clWhite
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -1889,6 +1818,79 @@ object WareStock_Print_Monthly: TWareStock_Print_Monthly
         AutoSize = True
         AutoStretch = False
         Caption = 'T-DCC-110B'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRSysData1: TQRSysData
+        Left = 523
+        Top = -1
+        Width = 42
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1383.770833333333000000
+          -2.645833333333333000
+          111.125000000000000000)
+        Alignment = taRightJustify
+        AlignToBand = False
+        AutoSize = True
+        Color = clWhite
+        Data = qrsPageNumber
+        Transparent = False
+        FontSize = 10
+      end
+      object QRLabel28: TQRLabel
+        Left = 568
+        Top = -1
+        Width = 5
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1502.833333333333000000
+          -2.645833333333333000
+          13.229166666666670000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = '/'
+        Color = clWhite
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object PageN: TQRLabel
+        Left = 576
+        Top = -1
+        Width = 36
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1524.000000000000000000
+          -2.645833333333333000
+          95.250000000000000000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'PageN'
         Color = clWhite
         Transparent = False
         WordWrap = True

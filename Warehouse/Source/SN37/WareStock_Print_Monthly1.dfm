@@ -1278,7 +1278,7 @@ object WareStock_Print_Monthly: TWareStock_Print_Monthly
         AutoStretch = False
         Color = clWhite
         DataSet = AnyStock.Query1
-        DataField = 'DFL'
+        DataField = 'KCMC'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -8

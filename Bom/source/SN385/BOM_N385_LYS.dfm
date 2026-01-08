@@ -1,6 +1,6 @@
 object CostingPriceList_LYS: TCostingPriceList_LYS
-  Left = 268
-  Top = 190
+  Left = 332
+  Top = 30
   Width = 1591
   Height = 675
   Caption = 'CostingPriceList LYS'

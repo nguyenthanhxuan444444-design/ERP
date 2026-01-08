@@ -1,6 +1,6 @@
 object ScanoutO: TScanoutO
-  Left = 228
-  Top = 210
+  Left = 261
+  Top = 273
   Width = 1671
   Height = 675
   Caption = 'Scan Out De'
@@ -176,6 +176,23 @@ object ScanoutO: TScanoutO
       Caption = 'Reset ma ke'
       TabOrder = 6
       OnClick = Button1Click
+    end
+    object CB1: TCheckBox
+      Left = 1224
+      Top = 8
+      Width = 153
+      Height = 17
+      Caption = 'Kiem tra ton kho'
+      TabOrder = 7
+    end
+    object Button3: TButton
+      Left = 1360
+      Top = 0
+      Width = 75
+      Height = 25
+      Caption = 'Excel'
+      TabOrder = 8
+      OnClick = Button3Click
     end
   end
   object DBGrid1: TDBGridEh

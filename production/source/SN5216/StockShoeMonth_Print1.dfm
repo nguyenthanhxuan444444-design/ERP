@@ -1,6 +1,6 @@
 object StockShoeMonth_Print: TStockShoeMonth_Print
-  Left = 1015
-  Top = 433
+  Left = 718
+  Top = 320
   Width = 1168
   Height = 675
   Caption = 'StockShoeMonth_Print'
@@ -2869,9 +2869,9 @@ object StockShoeMonth_Print: TStockShoeMonth_Print
       KeepOnOnePage = False
       BandType = rbPageFooter
       object QRLabel69: TQRLabel
-        Left = 983
+        Left = 988
         Top = 4
-        Width = 73
+        Width = 62
         Height = 17
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -2880,14 +2880,14 @@ object StockShoeMonth_Print: TStockShoeMonth_Print
         Frame.DrawRight = False
         Size.Values = (
           44.979166666666670000
-          2600.854166666667000000
+          2614.083333333333000000
           10.583333333333330000
-          193.145833333333300000)
+          164.041666666666700000)
         Alignment = taCenter
         AlignToBand = False
         AutoSize = True
         AutoStretch = False
-        Caption = 'T-DCC-111A'
+        Caption = 'T-KT-004D'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText

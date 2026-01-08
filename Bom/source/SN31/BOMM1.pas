@@ -790,6 +790,17 @@ begin
   begin
     cb1.Visible:=true;
   end;
+  if ((main.Edit1.Text='334193')or (main.Edit1.Text='351198')) then
+  begin
+  TS2.TabVisible  := False;
+  TS4.TabVisible  := False;
+  TabSheet1.TabVisible  := False;
+  TabSheet2.TabVisible  := False;
+  bbt5.Visible:= False;
+  bbt6.Visible:= False;
+  Print.visible := False;
+  Excel.Visible := False;
+  end;
 end;
 
 procedure TBOMM.FormDestroy(Sender: TObject);

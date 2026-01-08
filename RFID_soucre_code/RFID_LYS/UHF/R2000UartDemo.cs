@@ -42,7 +42,7 @@ namespace UHF
         private DateTime _tokenExpiresAt;
         private ListView lvtempe;
         private List<string> rfidList;
-        private string connectionString = "server=192.168.71.7;database=LIY_TYTHAC;uid=tyxuan;pwd=jack";
+        private string connectionString = "server=192.168.71.76;database=LIY_TYTHAC;uid=tyxuan;pwd=jack";
 
         public R2000UartDemo()
         {
@@ -51,7 +51,7 @@ namespace UHF
         private void SetupTimer()
         {
             // Thiết lập timer với khoảng thời gian 1 phút (60000ms)
-            _timer = new System.Timers.Timer(60000);
+            _timer = new System.Timers.Timer(1000);
             _timer.Elapsed += TimerElapsed; // Gắn sự kiện khi timer chạy
             _timer.AutoReset = true; // Timer sẽ tự động chạy lại sau mỗi chu kỳ
             _timer.Enabled = true; // Bật timer
@@ -1269,13 +1269,49 @@ namespace UHF
 
                                 ListViewItem item = new ListViewItem(row[2].ToString());
                                 item.SubItems.Add(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                                if (m_temp == 1)
+                                    if (m_temp == 1)
                                 {
+
                                     if (m_nTotal % m_nRealRate != 1)
                                     {
+                                        string rfid = item.Text;
+                                        string statusText = "Mới scan";
+
+                                        // KIỂM TRA RFID TRONG DATABASE VỚI ĐIỀU KIỆN THỜI GIAN
+                                        using (SqlConnection connection = new SqlConnection(connectionString))
+                                        {
+                                            connection.Open();
+
+                                            string checkQuery = @"
+                                                SELECT COUNT(*) 
+                                                FROM RFID_TempStitching 
+                                                WHERE RFIDNO = @RFIDNO 
+                                                AND DATEDIFF(SECOND, ScanTime, GETDATE()) <= 5"; // Chỉ kiểm tra trong 5 giây gần nhất
+
+                                            using (SqlCommand checkCmd = new SqlCommand(checkQuery, connection))
+                                            {
+                                                checkCmd.Parameters.AddWithValue("@RFIDNO", rfid);
+                                                int count = (int)checkCmd.ExecuteScalar();
+
+                                                if (count > 0)
+                                                {
+                                                    statusText = "Đã scan (trong 5s)";
+                                                }
+                                            }
+                                        }
+
+                                        item.SubItems.Add(statusText);
                                         lvRealList.Items.Add(item);
                                         lvRealList.Items[nEpcCount].EnsureVisible();
                                     }
+
+
+
+                                    //if (m_nTotal % m_nRealRate != 1)
+                                    //{
+                                    //    lvRealList.Items.Add(item);
+                                    //    lvRealList.Items[nEpcCount].EnsureVisible();
+                                    //}
                                     using (SqlConnection connection = new SqlConnection(connectionString))
                                     {
                                         connection.Open();
@@ -1371,9 +1407,37 @@ namespace UHF
                                 {
                                     if (m_nTotal % m_nRealRate != 1)
                                     {
+                                        string rfid = item.Text; // Lấy mã RFID từ cột đầu tiên
+                                        string statusText = "Mới scan"; // Mặc định
+                                                                        // KIỂM TRA RFID TRONG DATABASE
+                                        using (SqlConnection connection = new SqlConnection(connectionString))
+                                        {
+                                            connection.Open();
+
+                                            string checkQuery = "SELECT RFIDNO FROM RFID_TempStitching WHERE RFIDNO = @RFIDNO";
+                                            using (SqlCommand checkCmd = new SqlCommand(checkQuery, connection))
+                                            {
+                                                checkCmd.Parameters.AddWithValue("@RFIDNO", rfid);
+
+                                                using (SqlDataReader reader = checkCmd.ExecuteReader())
+                                                {
+                                                    if (reader.HasRows) // Nếu có tồn tại trong database
+                                                    {
+                                                        statusText = "Đã scan";
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        item.SubItems.Add(statusText); // Cột 3: Memo - Hiển thị trạng thái
                                         lvRealList2.Items.Add(item);
                                         lvRealList2.Items[nEpcCount].EnsureVisible();
                                     }
+
+                                    //item.SubItems.Add("Nội dung memo"); // Cột 3: Memo (THÊM VÀO ĐÂY)
+                                    //    lvRealList2.Items.Add(item);
+                                    //    lvRealList2.Items[nEpcCount].EnsureVisible();
+                                    //}
                                     string Size = null;
 
                                     string epc = row[2].ToString().Replace(" ", "");
@@ -1565,6 +1629,10 @@ namespace UHF
                                                 // Hiển thị thông báo nếu không thỏa điều kiện
                                                 MessageBox.Show("The quantity for this size in this order is already full.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                             }
+                                            //else  if (checkResult == -1)
+                                            //{
+                                            //    MessageBox.Show("RFID đã scan hoặc thông tin sai.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                            //}
                                         }
                                     }
                                 }
@@ -1840,6 +1908,11 @@ namespace UHF
         }
 
         private void lvOrder2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lvRealList2_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

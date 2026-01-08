@@ -1,6 +1,6 @@
 object MaterialCBDPrice: TMaterialCBDPrice
-  Left = 291
-  Top = 186
+  Left = 318
+  Top = 173
   Width = 1418
   Height = 535
   Caption = 'MaterialCBDPrice'
@@ -544,10 +544,10 @@ object MaterialCBDPrice: TMaterialCBDPrice
   end
   object mainPC: TPageControl
     Left = 0
-    Top = 129
+    Top = 160
     Width = 1402
-    Height = 367
-    ActivePage = TabSheet1
+    Height = 336
+    ActivePage = TabSheet2
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -556,13 +556,14 @@ object MaterialCBDPrice: TMaterialCBDPrice
     Font.Style = []
     ParentFont = False
     TabOrder = 1
+    OnChange = mainPCChange
     object TabSheet1: TTabSheet
       Caption = 'Order'
       object DBGrid2: TDBGridEh
         Left = 0
         Top = 0
         Width = 1394
-        Height = 332
+        Height = 301
         Align = alClient
         DataSource = DS2
         Flat = False
@@ -758,7 +759,7 @@ object MaterialCBDPrice: TMaterialCBDPrice
         Left = 0
         Top = 0
         Width = 1394
-        Height = 332
+        Height = 301
         Align = alClient
         DataSource = DS1
         Flat = False
@@ -805,7 +806,7 @@ object MaterialCBDPrice: TMaterialCBDPrice
             Footers = <>
             ReadOnly = True
             Title.Caption = #26448#26009#33521#25991#21517#31281'|Material'
-            Width = 391
+            Width = 344
           end
           item
             EditButtons = <>
@@ -839,7 +840,7 @@ object MaterialCBDPrice: TMaterialCBDPrice
             Footers = <>
             ReadOnly = True
             Title.Caption = #26448#26009#32232#34399'|Material'
-            Width = 100
+            Width = 89
           end
           item
             EditButtons = <>
@@ -847,7 +848,7 @@ object MaterialCBDPrice: TMaterialCBDPrice
             Footers = <>
             ReadOnly = True
             Title.Caption = #26448#26009#20013#25991#21517#31281'|Material'
-            Width = 250
+            Width = 239
           end
           item
             EditButtons = <>
@@ -870,6 +871,45 @@ object MaterialCBDPrice: TMaterialCBDPrice
             Footers = <>
             Title.Caption = #20462#25913#26085#26399'|USERDATE'
             Width = 100
+          end
+          item
+            EditButtons = <>
+            FieldName = 'USPrice'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'VNPrice'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'Discount'
+            Footers = <>
+          end
+          item
+            DisplayFormat = '0.0000'
+            EditButtons = <>
+            FieldName = 'USDxDis'
+            Footers = <>
+          end
+          item
+            DisplayFormat = '0.0%'
+            EditButtons = <>
+            FieldName = 'ProfitR'
+            Footers = <>
+            Title.Caption = 'ProfitR'#13#10'1-(PUR/Costing)'
+            Width = 107
+          end
+          item
+            EditButtons = <>
+            FieldName = 'PurUser'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'PurUSERDate'
+            Footers = <>
           end>
       end
     end
@@ -878,7 +918,7 @@ object MaterialCBDPrice: TMaterialCBDPrice
     Left = 0
     Top = 65
     Width = 1402
-    Height = 64
+    Height = 95
     Align = alTop
     TabOrder = 2
     object Label13: TLabel
@@ -1054,6 +1094,28 @@ object MaterialCBDPrice: TMaterialCBDPrice
       Alignment = taRightJustify
       AutoSize = False
       Caption = 'Season:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label5: TLabel
+      Left = 176
+      Top = 72
+      Width = 16
+      Height = 13
+      Caption = 'To:'
+    end
+    object Label6: TLabel
+      Left = 304
+      Top = 68
+      Width = 75
+      Height = 16
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'Pur Name:'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -1299,6 +1361,47 @@ object MaterialCBDPrice: TMaterialCBDPrice
       TabOrder = 15
       Text = 'S26'
     end
+    object DTP1: TDateTimePicker
+      Left = 74
+      Top = 68
+      Width = 97
+      Height = 21
+      Date = 39255.000000000000000000
+      Format = 'yyyy/MM/dd'
+      Time = 39255.000000000000000000
+      TabOrder = 16
+    end
+    object DTP2: TDateTimePicker
+      Left = 200
+      Top = 68
+      Width = 97
+      Height = 21
+      Date = 39255.000000000000000000
+      Format = 'yyyy/MM/dd'
+      Time = 39255.000000000000000000
+      TabOrder = 17
+    end
+    object Edit2: TEdit
+      Left = 381
+      Top = 64
+      Width = 172
+      Height = 24
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 18
+    end
+    object chk_shp: TCheckBox
+      Left = 3
+      Top = 61
+      Width = 70
+      Height = 25
+      Caption = 'QTE Date'
+      TabOrder = 19
+    end
   end
   object XXMQ: TQuery
     DatabaseName = 'DB'
@@ -1309,8 +1412,24 @@ object MaterialCBDPrice: TMaterialCBDPrice
         ' as ZSDH,Max(ZSZL.ZSYWJC) as ZSYWJC,CLZL.CLZMLB,'
       
         '       MaterialCBD.Season,MaterialCBD.SamplePrice,MaterialCBD.us' +
-        'erID,MaterialCBD.userdate,MaterialCBD.Freight'
-      'FROM ('
+        'erID,MaterialCBD.userdate,MaterialCBD.Freight,'
+      
+        'ISNULL(CGBJS.USPrice,case  when CGBJS.USPrice IS NULL then CGBJS' +
+        '.VNPrice/MaterialCBDEx.CWHL ELSE CGBJS.USPrice END) as USPrice,C' +
+        'GBJS.VNPrice'
+      ',CGBJS.Discount'
+      
+        ',ISNULL(CGBJS.USPrice,case  when CGBJS.USPrice IS NULL then CGBJ' +
+        'S.VNPrice/MaterialCBDEx.CWHL ELSE CGBJS.USPrice END)*CGBJS.Disco' +
+        'unt as USDxDis'
+      ',case when MaterialCBD.SamplePrice is not null then '
+      
+        '1-(ISNULL(CGBJS.USPrice,case  when CGBJS.USPrice IS NULL then CG' +
+        'BJS.VNPrice/MaterialCBDEx.CWHL ELSE CGBJS.USPrice END)*CGBJS.Dis' +
+        'count/MaterialCBD.SamplePrice) end as ProfitR'
+      ',CGBJS.USERID as PurUser,CGBJS.USERDate as PurUSERDate'
+      'FROM '
+      '('
       
         ' select XXZLS.XieXing,XXZLS.Shehao,XXZLS.CLBH,XXZLS.CSBH,XXZLS.B' +
         'WLB '
@@ -1331,46 +1450,48 @@ object MaterialCBDPrice: TMaterialCBDPrice
       ' from XXZLS '
       ' inner join CLZHZL on CLZHZL.CLDH=XXZLS.CLBH ) XXZLS '
       ' inner join CLZHZL on CLZHZL.CLDH=XXZLS.CLBH  '
-      ' ) XXZLS '
+      ' ) XXZLS'
+      
+        ' left join DDZL on DDZL.XieXing=XXZLS.XieXing and DDZL.SheHao=XX' +
+        'ZLS.SheHao'
       
         'Left join XXZL on XXZL.XieXIng=XXZLS.XieXing and XXZL.Shehao=XXZ' +
         'LS.SheHao '
-      'and XXZL.KFCQ='#39'JNG'#39' '
+      ' and XXZL.KFCQ='#39'YIH'#39' '
+      'and XXZL.KHDH='#39'0062'#39' '
       'LEFT JOIN CLZL   ON XXZLS.CLBH = CLZL.cldh'
       'LEFT JOIN ZSZL on ZSZL.ZSDH=XXZLS.CSBH'
       
         'Left JOIN KFXXZL on XXZLS.XieXing=KFXXZL.XieXing and XXZLS.SheHa' +
         'o=KFXXZL.SheHao '
       
-        'Left JOIN DDZL on DDZL.XieXing=XXZLS.XieXing and DDZL.SheHao=XXZ' +
-        'LS.SheHao '
-      
         'Left Join MaterialCBD_his MaterialCBD ON MaterialCBD.CLBH=XXZLS.' +
         'CLBH'
-      '   and MaterialCBD.Season like ('
-      '   case when DDZL.BUYNO is null then '#39'%'#39
-      
-        '   when CAST(SUBSTRING(DDZL.BUYNO,5,2) as NUMERIC(10, 0))<7 then' +
-        ' '#39'FH'#39'+SUBSTRING(DDZL.BUYNO,3,2)'
-      
-        '   else '#39'SS'#39'+CAST(CAST(SUBSTRING(DDZL.BUYNO,3,2)as NUMERIC(10, 0' +
-        '))+1 as VARCHAR)  end )'
-      ''
+      '   and MaterialCBD.Season ='#39'S26'#39
+      '   and MaterialCBD.KHDH='#39'0062'#39' '
       ' and MaterialCBD.YN=0'
       
         'Left join MaterialCBDNo on MaterialCBDNo.XieXing=XXZLS.XieXing a' +
         'nd MaterialCBDNo.SheHao=XXZLS.SheHao and MaterialCBDNo.CLBH=XXZL' +
         'S.CLBH '
-      'where XXZL.Article like '#39'%'#39'   AND CLZL.CLZMLB='#39'N'#39
-      'and XXZLS.CLBH like '#39'%'#39
+      
+        'left join CGBJS on CGBJS.Season=MaterialCBD.Season and CGBJS.CLB' +
+        'H=MaterialCBD.CLBH'
+      
+        'left join MaterialCBDEx on MaterialCBDEx.Season=MaterialCBD.Seas' +
+        'on '
+      'where XXZL.Article like '#39'1168950-KKB%'#39'   AND CLZL.CLZMLB='#39'N'#39
+      'and XXZLS.CLBH like '#39'C010009227%'#39
       'and CLZL.YWPM like '#39'%%'#39
       'and CLZL.ZWPM like '#39'%%'#39
-      'and KFXXZL.DEVCODE like '#39'G00979%'#39' '
       'group by XXZLS.CLBH,CLZL.YWPM, CLZL.ZWPM,CLZL.DWBH,CLZL.CLZMLB,'
       
         '         MaterialCBD.Season,MaterialCBD.SamplePrice,MaterialCBD.' +
-        'userID,MaterialCBD.userdate,MaterialCBD.Freight'
-      'ORDER BY XXZLS.CLBH')
+        'userID,MaterialCBD.userdate,MaterialCBD.Freight,CGBJS.USPrice,CG' +
+        'BJS.VNPrice, MaterialCBDEx.CWHL,CGBJS.Discount,CGBJS.USERID,CGBJ' +
+        'S.USERDate'
+      'ORDER BY XXZLS.CLBH'
+      '')
     Left = 212
     Top = 272
     object XXMQCLBH: TStringField
@@ -1426,6 +1547,31 @@ object MaterialCBDPrice: TMaterialCBDPrice
       FieldName = 'Freight'
       FixedChar = True
       Size = 3
+    end
+    object XXMQUSPrice: TFloatField
+      FieldName = 'USPrice'
+      DisplayFormat = '0.0000'
+    end
+    object XXMQVNPrice: TCurrencyField
+      FieldName = 'VNPrice'
+      currency = False
+    end
+    object XXMQDiscount: TFloatField
+      FieldName = 'Discount'
+    end
+    object XXMQUSDxDis: TFloatField
+      FieldName = 'USDxDis'
+    end
+    object XXMQProfitR: TFloatField
+      FieldName = 'ProfitR'
+    end
+    object XXMQPurUser: TStringField
+      FieldName = 'PurUser'
+      FixedChar = True
+      Size = 15
+    end
+    object XXMQPurUSERDate: TDateTimeField
+      FieldName = 'PurUSERDate'
     end
   end
   object DS1: TDataSource

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Buttons, ComCtrls, StdCtrls, ExtCtrls, Menus, DBTables, DB, ADODB,Math,
-  GridsEh, DBGridEh, Mask, DBCtrls,strUtils,NumberToWords,comobj, iniFiles;
+  GridsEh, DBGridEh, Mask, DBCtrls,strUtils,NumberToWords,comobj, iniFiles, DelphiZXingQRCode;
 
 type
   TInvoicePL = class(TForm)
@@ -247,6 +247,7 @@ type
     procedure ExcelHeardTT(var xls: olevariant; index: Integer; SheetName: string);
     procedure Update_Invoice_D(var Inv_No:string );
     procedure ExcelHeardTTInvoice(var xls: olevariant; index: Integer; SheetName: string);
+   // procedure AddQuickQR(ExcelSheet: Variant; Cell: string; Text: string);
   public
     { Public declarations }
   end;
@@ -258,6 +259,7 @@ var
   procedure DrawRectangleBorder(Sheet: OleVariant);
   function LoadUnicodeText(const FileName: string): WideString;
   procedure InsertFooter(xls: Variant; StartRow, Col: Integer; const FileName: string);
+  procedure AddQuickQR(ExcelSheet: Variant; Cell: string; Text: string);
 implementation
   uses main1,Pwd1,QpInvoice1,QpPackingList1, AddRy1, Contract_Inv_Print1, FunUnit;
 {$R *.dfm}
@@ -301,7 +303,75 @@ procedure TInvoicePL.btnexitClick(Sender: TObject);
 begin
    close;
 end;
+procedure AddQuickQR(ExcelSheet: Variant; Cell: string; Text: string);
+var
+  QR: TDelphiZXingQRCode;
+  Bmp: TBitmap;
+  Row, Col: Integer;
+  TempFile: string;
+begin
+  QR := TDelphiZXingQRCode.Create;
+  Bmp := TBitmap.Create;
 
+  try
+    // Thi?t l?p QR
+    //QR.Data := AnsiString(Text);
+    QR.Data := AnsiString(UTF8String(Text));
+    ShowMessage(string(QR.Data));
+    // T?o bitmap
+    Bmp.Width := 80;
+    Bmp.Height := 80;
+
+    // N?n tr?ng
+    Bmp.Canvas.Brush.Color := clWhite;
+    Bmp.Canvas.FillRect(Rect(0, 0, 80, 80));
+
+    // V? QR code
+    for Row := 0 to QR.Rows - 1 do
+    begin
+      for Col := 0 to QR.Columns - 1 do
+      begin
+        if QR.IsBlack[Row, Col] then
+        begin
+          // Tô màu den
+          Bmp.Canvas.Pixels[Col*2 + 10, Row*2 + 10] := clBlack;
+          Bmp.Canvas.Pixels[Col*2 + 11, Row*2 + 10] := clBlack;
+          Bmp.Canvas.Pixels[Col*2 + 10, Row*2 + 11] := clBlack;
+          Bmp.Canvas.Pixels[Col*2 + 11, Row*2 + 11] := clBlack;
+        end;
+      end;
+    end;
+    
+    // Dùng du?ng d?n c? d?nh don gi?n
+    TempFile := 'C:\Windows\Temp\qr_temp.bmp';
+    // Ho?c: TempFile := 'D:\qr_temp.bmp';
+    
+    Bmp.SaveToFile(TempFile);
+
+    // Chèn vào Excel
+    ExcelSheet.Shapes.AddPicture(
+      TempFile,
+      False,
+      True,
+      ExcelSheet.Range[Cell].Left,
+      ExcelSheet.Range[Cell].Top,
+      70,
+      70
+    );
+
+  finally
+    Bmp.Free;
+    QR.Free;
+
+    // Th? xóa file
+    try
+      if FileExists(TempFile) then
+        DeleteFile(TempFile);
+    except
+      // B? qua l?i n?u không xóa du?c
+    end;
+  end;
+end;
 procedure TInvoicePL.Button1Click(Sender: TObject);
 begin
   with Query1 do
@@ -1585,6 +1655,7 @@ end;
 
 procedure TInvoicePL.ExcelHeardTT(var xls: olevariant; index: Integer; SheetName: string);
 var NDate:Tdate;
+  QRText,QRUrl : string;
 begin //¦@¥Î³øªí©ïÀY
   xls.WorkSheets[index].Activate;
   xls.WorkSheets[index].Name := SheetName;
@@ -1631,7 +1702,8 @@ begin //¦@¥Î³øªí©ïÀY
   xls.Range['B7:H7'].Merge;
   //xls.Range['L7:O7'].Merge;
   //barcode
-  xls.Cells[1, 8] := '*' + Query1.FieldByName('INV_NO').AsString + '*';
+  //xls.Cells[1, 8] := '*' + Query1.FieldByName('INV_NO').AsString + '*';
+  //AddQuickQR(xls.WorkSheets[2], 'G1', Query1.FieldByName('INV_NO').AsString);
   //XLS.Range['H1:L1'].Font.Name := 'Arial';   // ? dúng
   //////////
   xls.Cells(3, 2) := Query1.FieldByName('INV_NO').AsString;
@@ -1648,6 +1720,37 @@ begin //¦@¥Î³øªí©ïÀY
 
   xls.Range['A3:L3'].Font.Color := $FF0000;
   xls.Range['I7:L7'].Font.Color := $FF0000;
+  // ma QR online
+
+  try
+  begin
+    // ??m b?o khong merge cell nay
+    //xls.Range['K1'].NumberFormat := '@';
+    //xls.Range['K1'] := '*' + Query1.FieldByName('INV_NO').AsString + '*';
+    QRText := Query1.FieldByName('INV_NO').AsString;
+
+    QRUrl :=
+        'https://api.qrserver.com/v1/create-qr-code/' +
+        '?size=150x150&data=' + QRText;
+
+        xls.ActiveSheet.Shapes.AddPicture(
+        QRUrl,   // URL ?nh QR
+        False,
+        True,
+        xls.Range['G1'].Left,    // <-- S?A: 'K1' thành 'H1'
+        xls.Range['G1'].Top,    // Left
+        //5,     // Top
+        70,    // Width
+        70     // Height
+    );
+  end;
+except
+  begin
+    //Sleep(100);
+    //xls.Range['K1'] := '*' + Query1.FieldByName('INV_NO').AsString + '*';
+  end;
+
+ end;
 end;
 
 procedure TInvoicePL.ExcelHeardTTInvoice(var xls: olevariant; index: Integer; SheetName: string);
@@ -2503,8 +2606,6 @@ xls.Cells[i + 6, 12].Font.Bold := True;}
       xls.Cells(i, 12) := qry_PD.FieldByName('CBM').AsString;
 
       xls.Range['A' + IntToStr(i) + ':L' + IntToStr(i)].Font.Size := 12;
-
-
       xls.Range['D' + IntToStr(i), 'D' + IntToStr(i)].NumberFormat := '#,##0';
       xls.Range['E' + IntToStr(i), 'E' + IntToStr(i)].NumberFormat := '#,##0';
       xls.Range['G' + IntToStr(i), 'G' + IntToStr(i)].NumberFormat := '#,##0.00';
@@ -2571,9 +2672,10 @@ xls.Cells[i + 6, 12].Font.Bold := True;}
   //--- Packing List ³øªí§¹¦¨
   xls.Visible := True; //§âExcel ©I¥s¥X¨Ó
   xls.Cells.Font.Name := 'Times New Roman';
-  XLS.Range['H1:L1'].Font.Name := 'Code39AzaleaNarrow3';
-  XLS.Range['H1:L1'].HorizontalAlignment := -4108;  // xlCenter = -4108
-  XLS.Range['H1:L1'].VerticalAlignment := -4108;    // xlCenter = -4108
+  //AddQuickQR(xls.WorkSheets[2], 'G1', Query1.FieldByName('INV_NO').AsString);
+  //XLS.Range['H1:L1'].Font.Name := 'Code39AzaleaNarrow3';
+  //XLS.Range['H1:L1'].HorizontalAlignment := -4108;  // xlCenter = -4108
+ // XLS.Range['H1:L1'].VerticalAlignment := -4108;    // xlCenter = -4108
 end;
 procedure TInvoicePL.btnExcel_TTClick(Sender: TObject);
 begin
@@ -2687,7 +2789,7 @@ procedure TInvoicePL.ExcelPRClick(Sender: TObject);
 var eclApp,WorkBook,ExcelApp,Sheet, Range:olevariant;
     i,j,k,maxRn1Value,rowNumber:integer;
     sumValue: Double;
-    TotalAmountWord,userDateValue,x,word,rangeString,rangeString1,rangeString2,rangeString3,rangeString4,rangeString5,rangeString6,rangeString7,rangeString8,rangeString9,rangeString10: string;
+    TotalAmountWord,userDateValue,x,word,rangeString,rangeString1,rangeString2,rangeString3,rangeString4,rangeString5,rangeString6,rangeString7,rangeString8,rangeString9,rangeString10,QRText,QRUrl: string;
 
 begin
 
@@ -2925,6 +3027,37 @@ begin
      end;
   end;
 end;
+// ma QR online
+
+  try
+  begin
+    QRText := Query1.FieldByName('INV_NO').AsString;
+
+    QRUrl :=
+        'https://api.qrserver.com/v1/create-qr-code/' +
+        '?size=150x150&data=' + QRText;
+
+        eclApp.ActiveSheet.Shapes.AddPicture(
+        QRUrl,   // URL ?nh QR
+        False,
+        True,
+        eclApp.Range['B1'].Left,    // <-- S?A: 'K1' thành 'H1'
+        eclApp.Range['B1'].Top,    // Left
+        //5,     // Top
+        70,    // Width
+        70     // Height
+    );
+  end;
+except
+  begin
+    //Sleep(100);
+    //xls.Range['K1'] := '*' + Query1.FieldByName('INV_NO').AsString + '*';
+  end;
+
+ end;
+
+
+
 end;
 procedure TInvoicePL.BitBtn1Click(Sender: TObject);
 var eclApp,WorkBook:olevariant;

@@ -123,8 +123,22 @@ begin
           active:=false;
           sql.Clear;
           sql.add('select IsNull((select top 1 CWHL from CWHLS  where HLYEAR=Year(GetDate()) and HLMONTH=Month(GetDate()) and HLDay=Day(GetDate())-1),0)as CWHL,');
-          sql.add('(case when month(GETDATE())<07 then ''F''+SUBSTRING(CAST(YEAR(GETDATE()) as VARCHAR),3,2) ');
-          sql.add('else ''S''+SUBSTRING(CAST(YEAR(GETDATE())+1 as VARCHAR),3,2) end )as season');
+          sql.add('    s.season,');
+          sql.add('    m.CWHL as CWHL_C');
+          sql.add('FROM MaterialCBDEx m');
+          sql.add('CROSS APPLY (');
+          sql.add('    SELECT ');
+          sql.add('        CASE ');
+          sql.add('            WHEN MONTH(GETDATE()) BETWEEN 5 AND 10 ');
+          sql.add('                THEN ''S'' + RIGHT(YEAR(GETDATE()) + 1, 2)');
+          sql.add('            WHEN MONTH(GETDATE()) > 10 ');
+          sql.add('                THEN ''F'' + RIGHT(YEAR(GETDATE()) + 1, 2)');
+          sql.add('            ELSE ');
+          sql.add('                ''F'' + RIGHT(YEAR(GETDATE()), 2)');
+          sql.add('        END AS season');
+          sql.add(') s');
+          sql.add('WHERE m.Season = s.season;');
+          //ShowMessage(SQL.text);
           active:=true;
       end;
   with Quotation.BJDet do
@@ -134,10 +148,11 @@ begin
     fieldbyname('YWPM').value:=query1.fieldbyname('YWPM').value;
     fieldbyname('DWBH').value:=query1.fieldbyname('DWBH').value;
     fieldbyname('Season').value:= Qtemp.fieldbyname('Season').value;
+    fieldbyname('CostingEx').value:= Qtemp.fieldbyname('CWHL_C').value;
     fieldbyname('ErpEx').value:= Qtemp.fieldbyname('CWHL').value;
     fieldbyname('Discount').Value:='1';
     post;
-  end;
+  end;          
   Qtemp.active:=false;
   showmessage('Succeed.');
   //Query1.active:=false;

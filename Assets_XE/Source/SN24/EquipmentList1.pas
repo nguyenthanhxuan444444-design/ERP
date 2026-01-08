@@ -218,6 +218,7 @@ type
     TSCDQryLicense: TStringField;
     RB4: TRadioButton;
     TSCDQryFullname: TStringField;
+    Button8: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -235,6 +236,7 @@ type
     procedure Button6Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
     procedure IT_KKClick(Sender: TObject);
+    procedure Button8Click(Sender: TObject);
   private
     NDate:TDate;
     AppDir:string;
@@ -1443,6 +1445,195 @@ begin
   if PC1.ActivePageIndex=1 then Export_TV_Page2();
 end;
 
+procedure TEquipmentList.Button8Click(Sender: TObject);
+var
+  eclApp, WorkBook, Sheet: OleVariant;
+  i, j, TotalRows: Integer;
+  DataQuery: TQuery;
+begin
+  if TSCDQry.Active then
+  begin
+    if not DirectoryExists(AppDir + 'Additional\') then
+      ForceDirectories(AppDir + 'Additional\');
+
+    CopyFile(PChar('\\' + main.ServerIP + '\lys_erp\Additional\Asset_SN24_Sodo.xls'),
+             PChar(AppDir + 'Additional\Asset_SN24_Sodo.xls'), False);
+
+    if FileExists(AppDir + 'Additional\Asset_SN24_Sodo.xls') then
+    begin
+      try
+        eclApp := CreateOleObject('Excel.Application');
+        WorkBook := CreateOleObject('Excel.Sheet');
+      except
+        Application.MessageBox('No Microsoft Excel', 'Microsoft Excel',
+                              MB_OK + MB_ICONWarning);
+        Exit;
+      end;
+
+      try
+        eclApp.DisplayAlerts := False;
+        eclApp.WorkBooks.Open(AppDir + 'Additional\Asset_SN24_Sodo.xls');
+        Sheet := eclApp.ActiveSheet;
+
+        // 2. Tạo query riêng để lấy dữ liệu đã phân cụm
+        DataQuery := TQuery.Create(nil);
+        try
+          DataQuery.DatabaseName := Qtemp.DatabaseName;
+
+          // SQL theo đúng format bạn yêu cầu
+          DataQuery.SQL.Text :=
+            'DECLARE @RowsPerCol INT = 22; ' +
+            'WITH NumberedData AS ( ' +
+            '    SELECT ROW_NUMBER() OVER (ORDER BY TSBH) as Seq, ' +
+            '           TSBH, ' +
+            '           CASE WHEN CHARINDEX('';'', DepID_Memo) > 0 THEN LEFT(DepID_Memo, CHARINDEX('';'', DepID_Memo) - 1) ELSE DepID_Memo  END as DepID_Memo ' +
+            '    FROM #tmp ' +
+            '), ' +
+            'PageData AS ( ' +
+            '    SELECT Seq, ' +
+            '           TSBH, ' +
+            '           DepID_Memo, ' +
+            '           CEILING(Seq * 1.0 / (@RowsPerCol * 3)) as PageNo, ' +
+            '           Seq - 1 as SeqZeroBased ' +
+            '    FROM NumberedData ' +
+            '), ' +
+            'ColumnData AS ( ' +
+            '    SELECT Seq, ' +
+            '           TSBH, ' +
+            '           DepID_Memo, ' +
+            '           PageNo, ' +
+            '           (SeqZeroBased % (@RowsPerCol * 3)) as SeqInPage, ' +
+            '           CASE ' +
+            '               WHEN (SeqZeroBased % (@RowsPerCol * 3)) < @RowsPerCol THEN 1 ' +
+            '               WHEN (SeqZeroBased % (@RowsPerCol * 3)) < @RowsPerCol * 2 THEN 2 ' +
+            '               ELSE 3 ' +
+            '           END as ColumnNumber, ' +
+            '           ((PageNo - 1) * @RowsPerCol * 3) + ' +
+            '           CASE ' +
+            '               WHEN (SeqZeroBased % (@RowsPerCol * 3)) < @RowsPerCol ' +
+            '                   THEN (SeqZeroBased % (@RowsPerCol * 3)) + 1 ' +
+            '               WHEN (SeqZeroBased % (@RowsPerCol * 3)) < @RowsPerCol * 2 ' +
+            '                   THEN (SeqZeroBased % (@RowsPerCol * 3)) - @RowsPerCol + 1 + 22 ' +
+            '               ELSE (SeqZeroBased % (@RowsPerCol * 3)) - (@RowsPerCol * 2) + 1 + 44 ' +
+            '           END as CalculatedSTT, ' +
+            '           CASE ' +
+            '               WHEN (SeqZeroBased % (@RowsPerCol * 3)) < @RowsPerCol ' +
+            '                   THEN (SeqZeroBased % (@RowsPerCol * 3)) + 1 ' +
+            '               WHEN (SeqZeroBased % (@RowsPerCol * 3)) < @RowsPerCol * 2 ' +
+            '                   THEN (SeqZeroBased % (@RowsPerCol * 3)) - @RowsPerCol + 1 ' +
+            '               ELSE (SeqZeroBased % (@RowsPerCol * 3)) - (@RowsPerCol * 2) + 1 ' +
+            '           END as RowInColumn ' +
+            '    FROM PageData ' +
+            ') ' +
+            'SELECT ' +
+            '    MAX(CASE WHEN ColumnNumber = 1 THEN CalculatedSTT END) as Col1_STT, ' +
+            '    MAX(CASE WHEN ColumnNumber = 1 THEN TSBH END) as Col1_TSBH, ' +
+            '    MAX(CASE WHEN ColumnNumber = 1 THEN DepID_Memo END) as Col1_Note, ' +
+            '    MAX(CASE WHEN ColumnNumber = 2 THEN CalculatedSTT END) as Col2_STT, ' +
+            '    MAX(CASE WHEN ColumnNumber = 2 THEN TSBH END) as Col2_TSBH, ' +
+            '    MAX(CASE WHEN ColumnNumber = 2 THEN DepID_Memo END) as Col2_Note, ' +
+            '    MAX(CASE WHEN ColumnNumber = 3 THEN CalculatedSTT END) as Col3_STT, ' +
+            '    MAX(CASE WHEN ColumnNumber = 3 THEN TSBH END) as Col3_TSBH, ' +
+            '    MAX(CASE WHEN ColumnNumber = 3 THEN DepID_Memo END) as Col3_Note, ' +
+            '    PageNo ' +
+            'FROM ColumnData ' +
+            'GROUP BY PageNo, RowInColumn ' +
+            'ORDER BY PageNo, RowInColumn';
+
+          DataQuery.Open;
+
+          // 3. Tính số dòng cần tạo
+          TotalRows := DataQuery.RecordCount;
+          if TotalRows > 22 then
+            TotalRows := 22;
+
+       // 4. Sao chép dòng mẫu - SỬA LỖI
+          j := 6; // Reset vị trí bắt đầu
+          for i := 0 to DataQuery.RecordCount - 1 do
+          begin
+            // Copy từ dòng mẫu gốc (dòng 6)
+            Sheet.Rows[j].Copy;
+            Sheet.Rows[j].Insert;
+
+            // Nếu đã sao chép đủ 22 dòng cho 1 trang, thêm 3 dòng chữ ký
+            if ((i + 1) mod 22 = 0) and (i < DataQuery.RecordCount - 1) then
+            begin
+              // Copy 3 dòng chữ ký từ dòng 29, 30, 31 (điều chỉnh theo mẫu)
+              Sheet.Rows[j+2].Copy;    // Dòng chữ ký 1
+              Sheet.Rows[j+1].Insert;
+
+              Sheet.Rows[j+4].Copy;    // Dòng chữ ký 2
+              Sheet.Rows[j+2].Insert;
+
+              Sheet.Rows[j+6].Copy;    // Dòng chữ ký 3
+              Sheet.Rows[j+3].Insert;
+
+              // Tăng j để bỏ qua 3 dòng chữ ký
+              j := j + 3;
+            end;
+
+            Inc(j); // Tăng cho dòng tiếp theo
+          end;
+
+          // Xóa dòng mẫu gốc đầu tiên
+          if TotalRows > 0 then
+            Sheet.Rows[j].Delete;
+
+          // 5. Điền dữ liệu vào Excel - RESET j VÀ ĐIỀN DỮ LIỆU
+          j := 6; // RESET về dòng bắt đầu để điền dữ liệu
+          DataQuery.First;
+          for i := 0 to DataQuery.RecordCount - 1 do
+          begin
+            // CỤM 1 (cột A, B, C)
+            if not DataQuery.FieldByName('Col1_STT').IsNull then
+            begin
+              Sheet.Cells[j, 1] := DataQuery.FieldByName('Col1_STT').AsInteger;
+              Sheet.Cells[j, 2] := DataQuery.FieldByName('Col1_TSBH').AsString;
+              Sheet.Cells[j, 3] := DataQuery.FieldByName('Col1_Note').AsString;
+            end;
+
+            // CỤM 2 (cột D, E, F) - ĐÃ SỬA: 4,5,6
+            if not DataQuery.FieldByName('Col2_STT').IsNull then
+            begin
+              Sheet.Cells[j, 4] := DataQuery.FieldByName('Col2_STT').AsInteger;   // Cột D
+              Sheet.Cells[j, 5] := DataQuery.FieldByName('Col2_TSBH').AsString;   // Cột E
+              Sheet.Cells[j, 6] := DataQuery.FieldByName('Col2_Note').AsString;   // Cột F
+            end;
+
+            // CỤM 3 (cột G, H, I) - ĐÃ SỬA: 7,8,9
+            if not DataQuery.FieldByName('Col3_STT').IsNull then
+            begin
+              Sheet.Cells[j, 7] := DataQuery.FieldByName('Col3_STT').AsInteger;   // Cột G
+              Sheet.Cells[j, 8] := DataQuery.FieldByName('Col3_TSBH').AsString;   // Cột H
+              Sheet.Cells[j, 9] := DataQuery.FieldByName('Col3_Note').AsString;   // Cột I
+            end;
+
+            Inc(j);
+
+            // Nếu đây là dòng thứ 22 trong trang, bỏ qua 3 dòng chữ ký
+            if ((i + 1) mod 22 = 0) and (i < DataQuery.RecordCount - 1) then
+              j := j + 3;
+
+            DataQuery.Next;
+          end;
+          ShowMessage('Xuất Excel thành công!');
+          eclApp.Visible := True;
+
+        finally
+          DataQuery.Free;
+        end;
+
+      except
+        on F: Exception do
+        begin
+          if not VarIsEmpty(eclApp) then
+            eclApp.Quit;
+          ShowMessage('Lỗi: ' + F.Message);
+        end;
+      end;
+    end;
+  end;
+end;
 procedure TEquipmentList.Export_TV_Page2();
    procedure Excel_DepID_List();
    var SubSQL:String;

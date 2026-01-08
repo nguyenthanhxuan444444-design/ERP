@@ -32,7 +32,7 @@
               "RelativeDocumentMoniker": "UHF\\DeckersFetchService.cs",
               "ToolTip": "D:\\ERP SOURCE CODE\\RFID_soucre_code\\RFID_LYS\\UHF\\DeckersFetchService.cs",
               "RelativeToolTip": "UHF\\DeckersFetchService.cs",
-              "ViewState": "AgIAAE8AAAAAAAAAAAAcwGwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADgAAAAAAAAAAAAgwGAAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-17T03:59:57.674Z"
             },
@@ -44,7 +44,7 @@
               "RelativeDocumentMoniker": "UHF\\R2000UartDemo.cs",
               "ToolTip": "D:\\ERP SOURCE CODE\\RFID_soucre_code\\RFID_LYS\\UHF\\R2000UartDemo.cs",
               "RelativeToolTip": "UHF\\R2000UartDemo.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAQwCwAAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAcwHwAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-17T08:08:08.712Z",
               "EditorCaption": ""
@@ -58,7 +58,8 @@
               "ToolTip": "D:\\ERP SOURCE CODE\\RFID_soucre_code\\RFID_LYS\\UHF\\R2000UartDemo.cs [Design]",
               "RelativeToolTip": "UHF\\R2000UartDemo.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T08:03:24.808Z"
+              "WhenOpened": "2024-09-17T08:03:24.808Z",
+              "EditorCaption": " [Design]"
             }
           ]
         }

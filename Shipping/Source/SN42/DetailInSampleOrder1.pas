@@ -1791,7 +1791,12 @@ begin
           SQL.Add('  select distinct  ISNULL(A.HG_NO,ISNULL(A.TC_NO,A.HD_NO)) as MHQ, b.DWBH,b.HS_code,b.Name, a.CLSL, round(a.CLSL/a.Quantity,6) as CLSLpair,');
           SQL.Add(' CONVERT(date, kcrk.USERDATE) as userdateKCRK,sum(a.Qty) as qty,a.Qty,zszl.zsjc,');
 	        SQL.Add(' isnull( KCPK.Declaretion,kcrk.DOCNO) as TKorHD, a.CLBH,a.ZLBH,');
-          SQL.Add('SUBSTRING(A.ARTICLE, 1, CHARINDEX(''-'', A.ARTICLE) - 1) AS ARTICLE,'); // cat chuoi article
+
+          //SQL.Add('SUBSTRING(A.ARTICLE, 1, CHARINDEX(''-'', A.ARTICLE) - 1) AS ARTICLE,'); // cat chuoi article
+          // doi cach cat chuoi
+          SQL.Add('CASE WHEN A.ARTICLE IS NOT NULL AND CHARINDEX(''-'', A.ARTICLE) > 0 ');
+          SQL.Add('THEN SUBSTRING(A.ARTICLE, 1, CHARINDEX(''-'', A.ARTICLE) - 1) ');
+          SQL.Add('ELSE A.ARTICLE END AS ARTICLE,');
 
           SQL.Add('a.Quantity,ISNULL( kcrks.USPrice,kcrks.VNPrice/'''+Edit2.text+''') as USprice, kcrks.USPrice,kcrks.VNPrice');
 	// --, case when kcpk.Declaretion is null then kcrk.USERDATE else KCPK.UserDate end as datetime

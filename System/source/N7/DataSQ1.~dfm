@@ -56,13 +56,22 @@ object DataSQ: TDataSQ
       TabOrder = 1
     end
     object Button1: TButton
-      Left = 432
+      Left = 296
       Top = 16
       Width = 75
       Height = 25
       Caption = 'xuat excel'
       TabOrder = 2
       OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 376
+      Top = 16
+      Width = 81
+      Height = 25
+      Caption = 'Excel Phieu bu'
+      TabOrder = 3
+      OnClick = Button2Click
     end
   end
   object DBGridEh1: TDBGridEh

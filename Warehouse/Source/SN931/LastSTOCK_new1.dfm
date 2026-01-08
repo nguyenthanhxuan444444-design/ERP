@@ -151,8 +151,8 @@ object LastSTOCK: TLastSTOCK
     ParentFont = False
     TabOrder = 1
     object LastMonth: TLabel
-      Left = 390
-      Top = 34
+      Left = 470
+      Top = 26
       Width = 438
       Height = 25
       AutoSize = False
@@ -317,13 +317,22 @@ object LastSTOCK: TLastSTOCK
       Layout = blGlyphTop
       NumGlyphs = 2
     end
+    object Button1: TButton
+      Left = 376
+      Top = 8
+      Width = 75
+      Height = 49
+      Caption = 'Xuat Excel'
+      TabOrder = 5
+      OnClick = Button1Click
+    end
   end
   object PageControl1: TPageControl
     Left = 0
     Top = 139
     Width = 1447
     Height = 433
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText

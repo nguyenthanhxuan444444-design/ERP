@@ -1,6 +1,6 @@
 object StockShoeMonth: TStockShoeMonth
-  Left = 609
-  Top = 363
+  Left = 310
+  Top = 174
   Width = 1539
   Height = 613
   Caption = 'StockShoeMonth'

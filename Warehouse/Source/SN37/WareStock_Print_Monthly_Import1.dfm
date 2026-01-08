@@ -444,6 +444,37 @@ object WareStock_Print_Monthly_Import: TWareStock_Print_Monthly_Import
         WordWrap = True
         FontSize = 10
       end
+      object NgayLabel: TQRLabel
+        Left = 823
+        Top = 95
+        Width = 101
+        Height = 19
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          50.270833333333330000
+          2177.520833333333000000
+          251.354166666666700000
+          267.229166666666700000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = True
+        AutoStretch = False
+        Caption = 'Ngay Thang Nam'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
     end
     object QRBand3: TQRBand
       Left = 19

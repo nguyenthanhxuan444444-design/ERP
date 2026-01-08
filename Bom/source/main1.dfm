@@ -191,6 +191,10 @@ object main: Tmain
           Caption = 'N387 CostingPriceList LYS'
           OnClick = SN387Click
         end
+        object SN388: TMenuItem
+          Caption = 'N388 Bom Using'
+          OnClick = SN388Click
+        end
       end
       object SN39: TMenuItem
         Caption = 'N39 Model Status'

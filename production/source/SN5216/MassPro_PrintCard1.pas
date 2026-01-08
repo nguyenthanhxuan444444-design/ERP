@@ -64,6 +64,7 @@ type
     QRLabel27: TQRLabel;
     QRLabel28: TQRLabel;
     QRDBText3: TQRDBText;
+    QRDBText4: TQRDBText;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure QRCompositeReport1AddReports(Sender: TObject);

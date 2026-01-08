@@ -1,6 +1,6 @@
 object DevQuota: TDevQuota
-  Left = 535
-  Top = 155
+  Left = 627
+  Top = 242
   Width = 1130
   Height = 578
   Caption = 'CostingMTL cost'
@@ -270,7 +270,7 @@ object DevQuota: TDevQuota
     Top = 65
     Width = 1114
     Height = 474
-    ActivePage = TabSheet6
+    ActivePage = TabSheet7
     Align = alClient
     TabOrder = 1
     object TabSheet2: TTabSheet
@@ -2228,7 +2228,7 @@ object DevQuota: TDevQuota
         end
         object Button4: TButton
           Left = 999
-          Top = 31
+          Top = 39
           Width = 81
           Height = 29
           Caption = 'QUERY'
@@ -3557,6 +3557,250 @@ object DevQuota: TDevQuota
           end>
       end
     end
+    object TabSheet7: TTabSheet
+      Caption = 'Carton'
+      ImageIndex = 6
+      object Panel9: TPanel
+        Left = 0
+        Top = 0
+        Width = 1106
+        Height = 49
+        Align = alTop
+        TabOrder = 0
+        object Label55: TLabel
+          Left = 8
+          Top = 8
+          Width = 42
+          Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Article'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label60: TLabel
+          Left = 200
+          Top = 8
+          Width = 50
+          Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'MatNo:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Label61: TLabel
+          Left = 472
+          Top = 8
+          Width = 50
+          Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'BuyNo:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          Visible = False
+        end
+        object Label63: TLabel
+          Left = 368
+          Top = 8
+          Width = 50
+          Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Season'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+        end
+        object Button13: TButton
+          Left = 655
+          Top = 7
+          Width = 81
+          Height = 29
+          Caption = 'QUERY'
+          TabOrder = 0
+          OnClick = Button13Click
+        end
+        object Edit35: TEdit
+          Left = 75
+          Top = 3
+          Width = 109
+          Height = 24
+          CharCase = ecUpperCase
+          Color = clYellow
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 1
+        end
+        object Edit38: TEdit
+          Left = 253
+          Top = 4
+          Width = 109
+          Height = 24
+          CharCase = ecUpperCase
+          Color = clYellow
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 2
+        end
+        object Edit39: TEdit
+          Left = 528
+          Top = 3
+          Width = 105
+          Height = 24
+          Color = clYellow
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 3
+          Visible = False
+        end
+        object Edit40: TEdit
+          Left = 421
+          Top = 1
+          Width = 52
+          Height = 24
+          CharCase = ecUpperCase
+          Color = clYellow
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 4
+        end
+        object btn1: TButton
+          Left = 752
+          Top = 8
+          Width = 88
+          Height = 25
+          Caption = 'SAVE'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 5
+          OnClick = btn1Click
+        end
+      end
+      object dbgrdh1: TDBGridEh
+        Left = 0
+        Top = 49
+        Width = 1106
+        Height = 397
+        Align = alClient
+        Ctl3D = False
+        DataSource = DS8
+        EvenRowColor = clWindow
+        Flat = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        FooterColor = clWindow
+        FooterFont.Charset = DEFAULT_CHARSET
+        FooterFont.Color = clWindowText
+        FooterFont.Height = -12
+        FooterFont.Name = 'MS Sans Serif'
+        FooterFont.Style = []
+        FooterRowCount = 1
+        ParentCtl3D = False
+        ParentFont = False
+        PopupMenu = Popup1
+        SumList.Active = True
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -15
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        UseMultiTitle = True
+        OnGetCellParams = DBGrid2GetCellParams
+        Columns = <
+          item
+            EditButtons = <>
+            FieldName = 'season'
+            Footers = <>
+            ReadOnly = True
+            Width = 54
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CLBH'
+            Footers = <>
+            ReadOnly = True
+            Width = 92
+          end
+          item
+            EditButtons = <>
+            FieldName = 'SamplePrice'
+            Footers = <>
+            ReadOnly = True
+          end
+          item
+            Color = clYellow
+            EditButtons = <>
+            FieldName = 'PriceFormula'
+            Footers = <>
+          end
+          item
+            Color = clYellow
+            EditButtons = <>
+            FieldName = 'Freight'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'article'
+            Footers = <>
+            ReadOnly = True
+            Width = 101
+          end
+          item
+            EditButtons = <>
+            FieldName = 'USERID'
+            Footers = <>
+            ReadOnly = True
+          end
+          item
+            EditButtons = <>
+            FieldName = 'USERDATE'
+            Footers = <>
+            ReadOnly = True
+          end>
+      end
+    end
   end
   object XXZL: TQuery
     DatabaseName = 'DB'
@@ -4305,7 +4549,7 @@ object DevQuota: TDevQuota
   object Popup2: TPopupMenu
     AutoHotkeys = maManual
     Left = 308
-    Top = 368
+    Top = 424
     object Modify2: TMenuItem
       Caption = 'Modify'
       Enabled = False
@@ -4988,6 +5232,164 @@ object DevQuota: TDevQuota
       '  GSBH = :OLD_GSBH and'
       '  KHBH = :OLD_KHBH')
     Left = 604
+    Top = 360
+  end
+  object Qry_CT: TQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      'select CostingPriceList.PricingSeason as  season--'#23395#31680
+      ',YWBZPO.CLBH--'#22806#31665#32232#34399
+      ',DDZL.GSBH'
+      ',MaterialCBD_His.ZSBH'
+      ',MaterialCBD_His.SamplePrice'
+      ',MaterialCBD_His.PriceFormula'
+      ',MaterialCBD_His.Freight'
+      ',CostingPriceList.SKU+'#39'-'#39'+CostingPriceList.Color_Code as article'
+      ',CostingPriceList.KFCQ--'#24037#24288
+      ',CostingPriceList.KHDH--'#23458#25142#32232#34399
+      ',ddzl.XieXing,ddzl.SheHao--'#38795#22411' '#33394#34399
+      ',MaterialCBD_His.YN'
+      ',MaterialCBD_His.USERID'
+      ',MaterialCBD_His.USERDATE'
+      'from CostingPriceList'
+      
+        'left join DDZL on DDZL.article=CostingPriceList.SKU+'#39'-'#39'+CostingP' +
+        'riceList.Color_Code'
+      'left join YWBZPO on YWBZPO.DDBH=DDZL.DDBH'
+      
+        'left join MaterialCBD_His on CostingPriceList.PricingSeason=Mate' +
+        'rialCBD_His.season and MaterialCBD_His.CLBH=YWBZPO.CLBH and Mate' +
+        'rialCBD_His.KFCQ=CostingPriceList.KFCQ'
+      'where PricingSeason='#39'F26'#39)
+    UpdateObject = UpdSQL
+    Left = 668
+    Top = 272
+    object Qry_CTseason: TStringField
+      DisplayWidth = 6
+      FieldName = 'season'
+      FixedChar = True
+      Size = 10
+    end
+    object Qry_CTCLBH: TStringField
+      DisplayWidth = 15
+      FieldName = 'CLBH'
+      FixedChar = True
+      Size = 15
+    end
+    object Qry_CTGSBH: TStringField
+      DisplayWidth = 6
+      FieldName = 'GSBH'
+      FixedChar = True
+      Size = 4
+    end
+    object Qry_CTZSBH: TStringField
+      DisplayWidth = 6
+      FieldName = 'ZSBH'
+      FixedChar = True
+      Size = 6
+    end
+    object Qry_CTSamplePrice: TFloatField
+      DisplayWidth = 12
+      FieldName = 'SamplePrice'
+    end
+    object Qry_CTPriceFormula: TStringField
+      DisplayWidth = 15
+      FieldName = 'PriceFormula'
+      FixedChar = True
+      Size = 50
+    end
+    object Qry_CTFreight: TStringField
+      DisplayWidth = 7
+      FieldName = 'Freight'
+      FixedChar = True
+      Size = 5
+    end
+    object Qry_CTarticle: TStringField
+      DisplayWidth = 21
+      FieldName = 'article'
+      FixedChar = True
+      Size = 21
+    end
+    object Qry_CTKFCQ: TStringField
+      DisplayWidth = 8
+      FieldName = 'KFCQ'
+      FixedChar = True
+      Size = 10
+    end
+    object Qry_CTKHDH: TStringField
+      DisplayWidth = 6
+      FieldName = 'KHDH'
+      FixedChar = True
+      Size = 5
+    end
+    object Qry_CTXieXing: TStringField
+      DisplayWidth = 10
+      FieldName = 'XieXing'
+      FixedChar = True
+      Size = 15
+    end
+    object Qry_CTSheHao: TStringField
+      DisplayWidth = 5
+      FieldName = 'SheHao'
+      FixedChar = True
+      Size = 5
+    end
+    object Qry_CTYN: TStringField
+      FieldName = 'YN'
+      FixedChar = True
+      Size = 1
+    end
+    object Qry_CTUSERID: TStringField
+      FieldName = 'USERID'
+      FixedChar = True
+    end
+    object Qry_CTUSERDATE: TDateTimeField
+      FieldName = 'USERDATE'
+    end
+  end
+  object DS8: TDataSource
+    DataSet = Qry_CT
+    Left = 668
+    Top = 316
+  end
+  object UpdSQL: TUpdateSQL
+    ModifySQL.Strings = (
+      'update MaterialCBD_His'
+      'set'
+      '  GSBH = :GSBH,'
+      '  ZSBH = :ZSBH,'
+      '  SamplePrice = :SamplePrice,'
+      '  PriceFormula = :PriceFormula,'
+      '  Freight = :Freight,'
+      '  KHDH = :KHDH,'
+      '  XieXing = :XieXing,'
+      '  SheHao = :SheHao,'
+      '  USERID = :USERID,'
+      '  USERDATE = Getdate()'
+      'where'
+      '  season = :season and'
+      '  CLBH = :CLBH and'
+      '  KFCQ = :KFCQ and'
+      '  YN = :YN')
+    InsertSQL.Strings = (
+      'insert into MaterialCBD_His'
+      
+        '  (season, CLBH, GSBH, ZSBH, SamplePrice, PriceFormula, Freight,' +
+        ' '
+      '   KFCQ, KHDH, XieXing, SheHao, YN, USERID, USERDATE)'
+      'values'
+      
+        '  (:season, :CLBH, :GSBH, :ZSBH, :SamplePrice, :PriceFormula, :F' +
+        'reight, '
+      '   :KFCQ, :KHDH, :XieXing, :SheHao, :YN, :USERID, Getdate())')
+    DeleteSQL.Strings = (
+      'delete from MaterialCBD_His'
+      'where'
+      '  season = :OLD_season and'
+      '  CLBH = :OLD_CLBH and'
+      '  KFCQ = :OLD_KFCQ and'
+      '  YN = :OLD_YN')
+    Left = 668
     Top = 360
   end
 end

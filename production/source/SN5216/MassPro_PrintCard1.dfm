@@ -1,7 +1,7 @@
 object MassPro_PrintCard: TMassPro_PrintCard
-  Left = 799
-  Top = 170
-  Width = 969
+  Left = 449
+  Top = 176
+  Width = 1343
   Height = 752
   Caption = 'MassPro_PrintCard'
   Color = clBtnFace
@@ -238,6 +238,38 @@ object MassPro_PrintCard: TMassPro_PrintCard
         Font.Color = clWindowText
         Font.Height = -13
         Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        Transparent = False
+        WordWrap = True
+        FontSize = 10
+      end
+      object QRDBText4: TQRDBText
+        Left = 653
+        Top = 55
+        Width = 61
+        Height = 17
+        Frame.Color = clBlack
+        Frame.DrawTop = False
+        Frame.DrawBottom = False
+        Frame.DrawLeft = False
+        Frame.DrawRight = False
+        Size.Values = (
+          44.979166666666670000
+          1727.729166666667000000
+          145.520833333333300000
+          161.395833333333300000)
+        Alignment = taLeftJustify
+        AlignToBand = False
+        AutoSize = False
+        AutoStretch = False
+        Color = clWhite
+        DataSet = StockShoeMonth.Query2
+        DataField = 'KVBH1'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Times New Roman'
         Font.Style = []
         ParentFont = False
         Transparent = False
@@ -1479,12 +1511,12 @@ object MassPro_PrintCard: TMassPro_PrintCard
   end
   object QRPDFFilter1: TQRPDFFilter
     CompressionOn = False
-    Left = 677
-    Top = 62
+    Left = 501
+    Top = 46
   end
   object QRXMLSFilter1: TQRXMLSFilter
-    Left = 709
-    Top = 62
+    Left = 533
+    Top = 46
   end
   object QRCompositeReport1: TQRCompositeReport
     OnAddReports = QRCompositeReport1AddReports
@@ -1507,11 +1539,11 @@ object MassPro_PrintCard: TMassPro_PrintCard
     PrinterSettings.ColorOption = 0
     PrinterSettings.Orientation = poLandscape
     PrinterSettings.PaperSize = A4
-    Left = 748
-    Top = 105
+    Left = 604
+    Top = 49
   end
   object QRExcelFilter1: TQRExcelFilter
-    Left = 753
-    Top = 58
+    Left = 569
+    Top = 50
   end
 end

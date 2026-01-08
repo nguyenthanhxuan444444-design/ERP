@@ -24,7 +24,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-  //  procedure ShowQty_Dep();
+    procedure ShowQty_Dep();
   end;
 
 var
@@ -45,7 +45,7 @@ begin
   AnyStockDep_Det_Det:=nil;
 end;
 
-{
+
 procedure TAnyStockDep_Det_Det.ShowQty_Dep();
 begin
   //
@@ -115,5 +115,5 @@ begin
   DBGridEh1.Columns[3].Footer.FieldName:='Qty';
   DBGridEh1.Columns[3].Footer.ValueType:=fvtSum;
 end;
-      }
+
 end.

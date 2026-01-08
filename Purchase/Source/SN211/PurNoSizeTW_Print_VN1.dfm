@@ -1225,7 +1225,7 @@ object PurNoSizeTW_Print_VN: TPurNoSizeTW_Print_VN
       object QRLabel1: TQRLabel
         Left = 442
         Top = 325
-        Width = 183
+        Width = 187
         Height = 16
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -1236,7 +1236,7 @@ object PurNoSizeTW_Print_VN: TPurNoSizeTW_Print_VN
           42.333333333333330000
           1169.458333333333000000
           859.895833333333300000
-          484.187500000000000000)
+          494.770833333333300000)
         Alignment = taLeftJustify
         AlignToBand = False
         AutoSize = True
@@ -1284,7 +1284,7 @@ object PurNoSizeTW_Print_VN: TPurNoSizeTW_Print_VN
       object QRLabel4: TQRLabel
         Left = 637
         Top = 325
-        Width = 141
+        Width = 144
         Height = 16
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -1295,7 +1295,7 @@ object PurNoSizeTW_Print_VN: TPurNoSizeTW_Print_VN
           42.333333333333330000
           1685.395833333333000000
           859.895833333333300000
-          373.062500000000000000)
+          381.000000000000000000)
         Alignment = taLeftJustify
         AlignToBand = False
         AutoSize = True
@@ -1334,7 +1334,7 @@ object PurNoSizeTW_Print_VN: TPurNoSizeTW_Print_VN
       object QRLabel18: TQRLabel
         Left = 244
         Top = 325
-        Width = 180
+        Width = 184
         Height = 16
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -1345,7 +1345,7 @@ object PurNoSizeTW_Print_VN: TPurNoSizeTW_Print_VN
           42.333333333333330000
           645.583333333333300000
           859.895833333333300000
-          476.250000000000000000)
+          486.833333333333300000)
         Alignment = taLeftJustify
         AlignToBand = False
         AutoSize = True
@@ -1393,7 +1393,7 @@ object PurNoSizeTW_Print_VN: TPurNoSizeTW_Print_VN
       object QRLabel19: TQRLabel
         Left = 20
         Top = 325
-        Width = 204
+        Width = 210
         Height = 16
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -1404,7 +1404,7 @@ object PurNoSizeTW_Print_VN: TPurNoSizeTW_Print_VN
           42.333333333333330000
           52.916666666666670000
           859.895833333333300000
-          539.750000000000000000)
+          555.625000000000000000)
         Alignment = taLeftJustify
         AlignToBand = False
         AutoSize = True
@@ -2536,14 +2536,26 @@ object PurNoSizeTW_Print_VN: TPurNoSizeTW_Print_VN
     DatabaseName = 'DB'
     DataSource = DataSource1
     SQL.Strings = (
-      'select CGZLSS.ZLBH,CGZLSS.Qty,DDZL.Article,xxzl.xieming'
-      'from CGZLSS'
-      'left join DDZL on DDZL.DDBH=CGZLSS.ZLBH'
+      'SELECT ZLBH'
+      'FROM ('
+      '    SELECT '
+      '        CGZLSS.ZLBH,'
+      '        -- Lay phan truoc dau '#39'-'#39
       
-        'left join xxzl on ddzl.xiexing=xxzl.xiexing and ddzl.shehao=xxzl' +
-        '.shehao'
-      'where CGZLSS.CGNO=:CGNO'
-      'and CGZLSS.CLBH=:CLBH')
+        '        SUBSTRING(CGZLSS.ZLBH, 1, CHARINDEX('#39'-'#39', CGZLSS.ZLBH) - ' +
+        '1) AS prefix_part,'
+      '        ROW_NUMBER() OVER ('
+      
+        '            PARTITION BY SUBSTRING(CGZLSS.ZLBH, 1, CHARINDEX('#39'-'#39 +
+        ', CGZLSS.ZLBH) - 1)'
+      '            ORDER BY CGZLSS.ZLBH'
+      '        ) AS rn'
+      '    FROM CGZLSS'
+      '    WHERE CGZLSS.CGNO =:CGNO'
+      '      AND CGZLSS.CLBH =:CLBH'
+      ') t'
+      'WHERE rn = 1'
+      'ORDER BY ZLBH;')
     Left = 32
     Top = 48
     ParamData = <

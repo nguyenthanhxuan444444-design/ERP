@@ -84,6 +84,9 @@ type
     SN21: TMenuItem;
     SN386: TMenuItem;
     SN387: TMenuItem;
+    N71: TMenuItem;
+    SN71: TMenuItem;
+    SN388: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SN10Click(Sender: TObject);
@@ -137,6 +140,7 @@ type
     procedure SN21Click(Sender: TObject);
     procedure SN386Click(Sender: TObject);
     procedure SN387Click(Sender: TObject);
+    procedure SN388Click(Sender: TObject);
   private
      MKID:String;
      LanguageID:String;
@@ -763,6 +767,11 @@ end;
 procedure Tmain.SN387Click(Sender: TObject);
 begin
     showFm(Pointer(CostingPriceList_LYS), TCostingPriceList_LYS, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.SN388Click(Sender: TObject);
+begin
+    showFm(Pointer(BomUsing), TBomUsing, TMenuItem(Sender).Name);
 end;
 
 end.

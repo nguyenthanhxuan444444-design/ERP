@@ -259,7 +259,6 @@ begin
   Application.Title := 'LaiYih ERP -Production';
   Application.CreateForm(TDM2, DM2);
   Application.CreateForm(Tmain, main);
-  Application.CreateForm(TMassPro_PrintCard, MassPro_PrintCard);
   login.hide;
   login.free;
   Application.Run;

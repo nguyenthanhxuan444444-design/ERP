@@ -5131,22 +5131,11 @@ begin
       SQL.Add('WHERE DDBH = ''' + Query_AP.FieldByName('ZLBH').AsString + '''');
       SQL.Add('ORDER BY CC');
       Active := true;
+    end;
 
-      for i := DBGridEh_APS.Columns.Count - 1 downto 1 do
-      begin
-        DBGridEh_APS.Columns.Delete(i);
-      end;
-
-      while not Eof do
-      begin
-        NewColumn := DBGridEh_APS.Columns.Add;
-        NewColumn.FieldName := FieldByName('Size').AsString;
-        NewColumn.Title.Caption := '¤Ø½X|' + FieldByName('Size').AsString + '#';
-        NewColumn.Footer.DisplayFormat := '###,##0';
-        NewColumn.Footer.ValueType := fvtSum;
-        NewColumn.Width := 50;
-        Next;
-      end;
+    for i := DBGridEh_APS.Columns.Count - 1 downto 1 do
+    begin
+      DBGridEh_APS.Columns.Delete(i);
     end;
 
     with Query_APS do
@@ -5157,6 +5146,13 @@ begin
       QTemp.First;
       while not QTemp.Eof do
       begin
+        NewColumn := DBGridEh_APS.Columns.Add;
+        NewColumn.FieldName := FieldByName('Size').AsString;
+        NewColumn.Title.Caption := '¤Ø½X|' + FieldByName('Size').AsString + '#';
+        NewColumn.Footer.DisplayFormat := '###,##0';
+        NewColumn.Footer.ValueType := fvtSum;
+        NewColumn.Width := 50;
+
         SQL.Add(', MAX(CASE WHEN Size = ''' + QTemp.FieldByName('Size').AsString + ''' THEN Pairs END) AS ''' + QTemp.FieldByName('Size').AsString + '''');
         QTemp.Next;
       end;
@@ -5424,9 +5420,8 @@ begin
       Query_APS.Next;
     end;
 
-    SQL.Add(') AS CD;');
-    SQL.Add('WHERE DDBH IS NOT NULL');
-    ShowMessage(SQL.Text);
+    SQL.Add(') AS CD');
+    SQL.Add('WHERE DDBH IS NOT NULL;');
     ExecSQL;
   end;
 
@@ -5451,10 +5446,10 @@ begin
   BAPS4.Enabled := false;
   BAPS5.Enabled := false;
 end;
-
+       
 procedure TScheduleUpload.Query_APSAfterOpen(DataSet: TDataSet);
 begin
-  BAPS1.Enabled := true; 
+  BAPS1.Enabled := true;
   BAPS2.Enabled := true;
   BAPS3.Enabled := true;
   BAPS4.Enabled := false;
@@ -5571,13 +5566,36 @@ begin
   begin
     Active := false;
     SQL.Clear;
-    SQL.Add('UPDATE SMDD SET PlanDate = SC.schedule_date, PlanEDate = SC.finish_date');
+    SQL.Add('UPDATE SMDD SET DepNo = SC.DepNo, PlanDate = SC.schedule_date, PlanEDate = SC.finish_date, UserID = ''' + main.Edit1.Text + ''', UserDate = GETDATE()');
     SQL.Add('FROM (');
-    SQL.Add('  SELECT DDZL.DDBH, SC.schedule_date, SC.finish_date FROM schedule_crawler AS SC');
+    SQL.Add('  SELECT DDZL.DDBH, SC.schedule_date, SC.finish_date, LD.GXLB, LD.DepNo FROM schedule_crawler AS SC');
     SQL.Add('  LEFT JOIN DDZL ON DDZL.DDBH = CASE WHEN LEN(SC.ry) - LEN(REPLACE(SC.ry, ''-'', '''')) < 2 THEN SC.ry ELSE SUBSTRING(SC.ry, 1, LEN(SC.ry) - CHARINDEX(''-'', REVERSE(SC.ry))) END');
+    SQL.Add('  LEFT JOIN (');
+    SQL.Add('    SELECT LD.Building, LD.Lean, Section.GXLB,');
+    SQL.Add('    CASE Section.GXLB WHEN ''A'' THEN LD.Dep_A WHEN ''S'' THEN LD.Dep_S WHEN ''C'' THEN LD.Dep_C WHEN ''O'' THEN LD.Dep_O END AS DepNo');
+    SQL.Add('    FROM (');
+    SQL.Add('      SELECT ''A'' AS GXLB UNION ALL');
+    SQL.Add('      SELECT ''S'' AS GXLB UNION ALL');
+    SQL.Add('      SELECT ''C'' AS GXLB UNION ALL');
+    SQL.Add('      SELECT ''O'' AS GXLB');
+    SQL.Add('    ) AS Section');
+    SQL.Add('    CROSS JOIN (');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 1'' AS Lean, ''VDH0523'' AS Dep_A, ''VDH0582'' AS Dep_S, ''VDH0530'' AS Dep_C, ''VDH301'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 2'' AS Lean, ''VDH0524'' AS Dep_A, ''VDH0583'' AS Dep_S, ''VDH0531'' AS Dep_C, ''VDH301'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 3'' AS Lean, ''VDH0525'' AS Dep_A, ''VDH0584'' AS Dep_S, ''VDH0532'' AS Dep_C, ''VDH301'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 4'' AS Lean, ''VDH0581'' AS Dep_A, ''VDH0585'' AS Dep_S, ''VDH0577'' AS Dep_C, ''VDH301'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 5'' AS Lean, ''VDH0526'' AS Dep_A, ''VDH0586'' AS Dep_S, ''VDH0533'' AS Dep_C, ''VDH303'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 6'' AS Lean, ''VDH0527'' AS Dep_A, ''VDH0587'' AS Dep_S, ''VDH0534'' AS Dep_C, ''VDH303'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 7'' AS Lean, ''VDH0528'' AS Dep_A, ''VDH0588'' AS Dep_S, ''VDH0535'' AS Dep_C, ''VDH303'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 8'' AS Lean, ''VDH0529'' AS Dep_A, ''VDH0589'' AS Dep_S, ''VDH0536'' AS Dep_C, ''VDH302'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 9'' AS Lean, ''VDH0548'' AS Dep_A, ''VDH0590'' AS Dep_S, ''VDH0552'' AS Dep_C, ''VDH302'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 10'' AS Lean, ''VDH0549'' AS Dep_A, ''VDH0591'' AS Dep_S, ''VDH0553'' AS Dep_C, ''VDH304'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 11'' AS Lean, ''VDH0550'' AS Dep_A, ''VDH0592'' AS Dep_S, ''VDH0554'' AS Dep_C, ''VDH304'' AS Dep_O');
+    SQL.Add('    ) AS LD');
+    SQL.Add('  ) AS LD ON LD.Building = SC.building_no AND LD.Lean = SC.lean_no');
     SQL.Add('  WHERE SC.schedule_date >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) + 1, 0) AND SC.finish_date IS NOT NULL');
     SQL.Add(') AS SC');
-    SQL.Add('WHERE SMDD.YSBH = SC.DDBH');
+    SQL.Add('WHERE SMDD.YSBH = SC.DDBH AND SMDD.GXLB = SC.GXLB');
     ExecSQL;
   end;
 

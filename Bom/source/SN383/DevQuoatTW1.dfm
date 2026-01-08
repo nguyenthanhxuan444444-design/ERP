@@ -1,6 +1,6 @@
 object DevQuoatTW: TDevQuoatTW
-  Left = 228
-  Top = 235
+  Left = 82
+  Top = 127
   Width = 1334
   Height = 857
   Caption = 'DevQuoatTW'
@@ -22,7 +22,7 @@ object DevQuoatTW: TDevQuoatTW
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1326
+    Width = 1318
     Height = 65
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -285,7 +285,7 @@ object DevQuoatTW: TDevQuoatTW
   object Panel4: TPanel
     Left = 0
     Top = 65
-    Width = 1326
+    Width = 1318
     Height = 65
     Align = alTop
     TabOrder = 1
@@ -353,7 +353,7 @@ object DevQuoatTW: TDevQuoatTW
       Left = 278
       Top = 6
       Width = 237
-      Height = 28
+      Height = 24
       CharCase = ecUpperCase
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -367,7 +367,7 @@ object DevQuoatTW: TDevQuoatTW
       Left = 279
       Top = 37
       Width = 237
-      Height = 28
+      Height = 24
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -395,7 +395,7 @@ object DevQuoatTW: TDevQuoatTW
       Left = 79
       Top = 6
       Width = 109
-      Height = 28
+      Height = 24
       CharCase = ecUpperCase
       Color = clYellow
       Font.Charset = DEFAULT_CHARSET
@@ -477,8 +477,8 @@ object DevQuoatTW: TDevQuoatTW
   object DBGrid1: TDBGridEh
     Left = 0
     Top = 130
-    Width = 1326
-    Height = 696
+    Width = 1318
+    Height = 688
     Align = alClient
     DataSource = DS1
     Flat = False

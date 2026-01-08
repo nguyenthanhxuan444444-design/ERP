@@ -81,6 +81,7 @@ type
     Query1: TQuery;
     QRBand2: TQRBand;
     QRSysData2: TQRSysData;
+    NgayLabel: TQRLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -96,7 +97,7 @@ var
   WareStock_Print_Monthly_Import: TWareStock_Print_Monthly_Import;
 
 implementation
-  uses main1,AnyStockImport1;
+  uses main1,AnyStockImport1, AnyStock1;
 {$R *.dfm}
 procedure TWareStock_Print_Monthly_Import.ReadIni();
 var MyIni :Tinifile;
@@ -133,8 +134,8 @@ begin
 end;
 
 procedure TWareStock_Print_Monthly_Import.FormCreate(Sender: TObject);
-var year,month,day:word;
-    sYear,sMonth,sDay:String;
+var year,month,day,year1,month1,day1:word;
+    sYear,sMonth,sDay,sYear1,sMonth1,sDay1:String;
 begin
   ReadIni();
   decodedate(AnyStockImport.DTP1.Date,Year,Month,Day);  //LYN-IT04250600013
@@ -146,6 +147,17 @@ begin
     sMonth:='0'+sMonth;
   if length(sDay)=1 then
     sDay:='0'+sDay;
+  //28.11.2025
+  decodedate(Now,Year1,Month1,Day1);
+  sYear1:=floattostr(Year1);
+  sMonth1:=floattostr(Month1);
+  sDay1:=floattostr(day1);
+  if length(sMonth1)=1 then
+    sMonth1:='0'+sMonth1;
+  if length(sDay1)=1 then
+    sDay1:='0'+sDay1;
+  //==========
+
   //上個月底日期
   if ((AnyStockImport.CBX3.Text='VTXX') or (AnyStockImport.CBX3.Text='VTXY') or (AnyStockImport.CBX3.Text='VTXZ') or (AnyStockImport.CBX3.Text='VLXX') or (AnyStockImport.CBX3.Text='VLXY') or (AnyStockImport.CBX3.Text='VLXZ'))then
   begin
@@ -156,7 +168,16 @@ begin
   end;
   KCHBQRLabel.Caption:= AnyStockImport.Edit3.Text;
   QRLabel60.Caption:='BANG KIEM KE NGUYEN VAT LIEU THANG '+sMonth+' NAM '+sYear;
-  QRLabel1.Caption:= sYear + ' 年 ' +sMonth+ '月份原物料盤點表'; 
+  QRLabel1.Caption:= sYear + ' 年 ' +sMonth+ '月份原物料盤點表';
+  //28.11.2025
+  if AnyStock.NgayKK='Y' then
+  begin
+    NgayLabel.Caption:='Ngay 日 '+sDay1+' thang 月 '+sMonth1+ ' nam 年 '+sYear1;
+  end else
+  begin
+    NgayLabel.Caption:='Ngay 日 '+sDay+' thang 月 '+sMonth+ ' nam 年 '+sYear;
+  end;
+  //======
 end;
 
 end.

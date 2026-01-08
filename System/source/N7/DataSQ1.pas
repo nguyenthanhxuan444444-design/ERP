@@ -22,10 +22,12 @@ type
     Query2qty: TIntegerField;
     DBGrid1: TDBGridEh;
     Button1: TButton;
+    Button2: TButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -144,4 +146,65 @@ begin
 
 end;
 
+procedure TDataSQ.Button2Click(Sender: TObject);
+var   a:string;
+      eclApp,WorkBook:olevariant;
+ //     xlsFileName:string;
+      i,j:integer;
+begin
+  with query1 do
+ begin
+  active:=false;
+  sql.clear;
+  sql.add('select a.*,b.*,d.YWSM,d.ZWSM,e.DepName, c.Qty from SCBL a left join SCBLs b on a.BLNO=b.BLNO');
+  sql.add('left join SCBLYYs c on a.BLNO = c.BLNO');
+  sql.add('left join SCBLYY d on c.YYBH=d.YYBH');
+  sql.add('left join BDepartment e on e.ID=c.DepNO');
+  sql.add('where a.BLNO like''%'+Edit2.Text+'%'' ');
+  sql.add('order by a.BLNO asc');
+  active:=true;
+ end;
+  with DBGridEh1 do
+    begin
+    for i := 0 to Columns.Count - 1 do
+    Columns[i].Width := 100; // Gán width là 100 cho m?i c?t
+    end;
+
+  if  query1.active  then
+    begin
+    try
+      eclApp:=CreateOleObject('Excel.Application');
+      WorkBook:=CreateOleObject('Excel.Sheet');
+    except
+      Application.MessageBox('¨S¦³¦w¸ËMicrosoft   Excel','Microsoft   Excel',MB_OK+MB_ICONWarning);
+      Exit;
+    end;
+    try
+        WorkBook:=eclApp.workbooks.Add;
+        for   i:=0   to  28   do
+          begin
+              eclApp.Cells(1,i+1):=query1.fields[i].FieldName;
+          end;
+
+        query1.First;
+        j:=2;
+        while   not   query1.Eof   do
+          begin
+            for   i:=0   to  28   do
+            begin
+              eclApp.Cells(j,i+1):=query1.Fields[i].Value;
+            end;
+          query1.Next;
+          inc(j);
+          end;
+      eclapp.columns.autofit;
+      showmessage('Succeed');
+      eclApp.Visible:=True;
+      except
+        on   F:Exception   do
+          showmessage(F.Message);
+      end;
+    end;
+
+end;
 end.

@@ -1,8 +1,8 @@
 object Quotation: TQuotation
-  Left = 406
-  Top = 118
+  Left = 477
+  Top = 226
   Width = 1372
-  Height = 884
+  Height = 806
   Caption = 'Quotation'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -829,7 +829,7 @@ object Quotation: TQuotation
     Left = 0
     Top = 195
     Width = 1356
-    Height = 650
+    Height = 572
     ActivePage = TS4
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
@@ -1177,7 +1177,7 @@ object Quotation: TQuotation
         Left = 0
         Top = 145
         Width = 1348
-        Height = 474
+        Height = 396
         Align = alClient
         DataSource = DS3
         Flat = False
@@ -1276,7 +1276,7 @@ object Quotation: TQuotation
         Left = 0
         Top = 121
         Width = 1348
-        Height = 498
+        Height = 420
         Align = alClient
         DataSource = DS4
         Flat = False
@@ -1331,7 +1331,7 @@ object Quotation: TQuotation
             Footers = <>
             Title.Caption = #37327#29986#21934#20729'|VND'
             Title.Color = clYellow
-            Width = 55
+            Width = 72
           end
           item
             EditButtons = <>
@@ -1346,12 +1346,11 @@ object Quotation: TQuotation
             FieldName = 'Season'
             Footers = <>
             PickList.Strings = (
-              'FH24'
-              'SS25'
-              'FH25'
-              '5SS26')
-            Title.Caption = #23395#21029'|Sea'
+              'F26'
+              'S26')
+            Title.Caption = #23395#21029'|Season'
             Title.Color = clYellow
+            Width = 52
           end
           item
             Color = clSilver
@@ -1360,6 +1359,13 @@ object Quotation: TQuotation
             Footers = <>
             Title.Caption = #21295#29575'|ERP'
             Width = 60
+          end
+          item
+            Color = clSilver
+            EditButtons = <>
+            FieldName = 'CostingEx'
+            Footers = <>
+            Title.Caption = #21295#29575'|Costing'
           end
           item
             EditButtons = <>
@@ -1382,7 +1388,7 @@ object Quotation: TQuotation
             FieldName = 'ERP_VN'
             Footers = <>
             Title.Caption = 'ERP|VNPrice'
-            Width = 60
+            Width = 72
           end
           item
             EditButtons = <>
@@ -1746,7 +1752,7 @@ object Quotation: TQuotation
         Left = 0
         Top = 55
         Width = 1348
-        Height = 564
+        Height = 486
         Align = alClient
         DataSource = DS5
         Flat = False
@@ -2272,13 +2278,15 @@ object Quotation: TQuotation
     DatabaseName = 'DB'
     DataSource = DS3
     SQL.Strings = (
+      ''
       'select CGBJS.*,CLZL.YWPM,CLZL.DWBH,'
       
         '       IsNull((select top 1 CWHL from CWHLS  where HLYEAR=Year(G' +
-        'etDate()) and HLMONTH=Month(GetDate()) and HLDay=1),0) as ErpEx,'
+        'etDate()) and HLMONTH=Month(GetDate()) and HLDay=1),0) as ErpEx,' +
+        'MaterialCBDEx.CWHL as CostingEx'
       
-        '       XXZL.Article,SamplePrice, round(MaterialCBD.SamplePrice*I' +
-        'SNULL(CWHL,0),0)as SamplePriceVN,'
+        '       ,XXZL.Article,SamplePrice, round(MaterialCBD.SamplePrice*' +
+        'ISNULL(CWHL,0),0)as SamplePriceVN,'
       
         '       MaterialCBDFilter.YN as MUnkLock,CLZL.YN as CLZL_YN,CLZL.' +
         'CQDH,CLZL.CLZMLB'
@@ -2288,11 +2296,7 @@ object Quotation: TQuotation
         'left join XXZL on XXZL.XieXing=CGBJS.XieXing and XXZL.SheHao=CGB' +
         'JS.SheHao'
       'left join MaterialCBD on MaterialCBD.CLBH=CGBJS.CLBH'
-      
-        'left join MaterialCBDEx on MaterialCBDEx.Season=(case when month' +
-        '(GETDATE())<07 then '#39'SS'#39'+SUBSTRING(CAST(YEAR(GETDATE())+1 as VAR' +
-        'CHAR),3,2) else '#39'FH'#39'+SUBSTRING(CAST(YEAR(GETDATE()) as VARCHAR),' +
-        '3,2) end )'
+      'left join MaterialCBDEx on MaterialCBDEx.Season=CGBJS.Season'
       'left join MaterialCBDFilter on MaterialCBDFilter.CLBH=CGBJS.CLBH'
       'where CGBJS.BJNO=:BJNO'
       'order by CGBJS.CLBH')
@@ -2364,6 +2368,9 @@ object Quotation: TQuotation
       FieldName = 'ErpEx'
       DisplayFormat = '##,#0'
     end
+    object BJDetCostingEx: TFloatField
+      FieldName = 'CostingEx'
+    end
     object BJDetSuppEx: TFloatField
       FieldName = 'SuppEx'
       DisplayFormat = '##,#0'
@@ -2403,6 +2410,7 @@ object Quotation: TQuotation
     end
     object BJDetSeason: TStringField
       FieldName = 'Season'
+      OnSetText = BJDetSeasonSetText
       FixedChar = True
       Size = 5
     end

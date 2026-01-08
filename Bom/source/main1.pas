@@ -86,6 +86,7 @@ type
     SN387: TMenuItem;
     N71: TMenuItem;
     SN71: TMenuItem;
+    SN388: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SN10Click(Sender: TObject);
@@ -139,6 +140,7 @@ type
     procedure SN21Click(Sender: TObject);
     procedure SN386Click(Sender: TObject);
     procedure SN387Click(Sender: TObject);
+    procedure SN388Click(Sender: TObject);
   private
      MKID:String;
      LanguageID:String;
@@ -173,7 +175,7 @@ uses DM3,BOMM1, BOMVN1, PartType1, MaterialNew1, PARTNEW1, ProdRate1,
   ImportVNBOM1, VD3SpecialBOM1, OrderKhuonIn1, OrderDetailKhuonIn1,
   KhuonInInWarehouse1, KhuonInOutWarehouse1, KhuonInStockMonth1,
   KhuonInDeliver1, SOPProcessCapcity1, SKU_Price_BUYNO1, BOM_OrderList1,
-  CostingPriceList1,SKU_SA_CODE1,CostingCBD1, BOM_N385_LYS;
+  CostingPriceList1,SKU_SA_CODE1,CostingCBD1, BOM_N385_LYS, BomUsing1;
 
 {$R *.dfm}
 //
@@ -765,6 +767,11 @@ end;
 procedure Tmain.SN387Click(Sender: TObject);
 begin
     showFm(Pointer(CostingPriceList_LYS), TCostingPriceList_LYS, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.SN388Click(Sender: TObject);
+begin
+    showFm(Pointer(BomUsing), TBomUsing, TMenuItem(Sender).Name);
 end;
 
 end.

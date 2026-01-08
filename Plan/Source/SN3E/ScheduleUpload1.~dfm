@@ -797,6 +797,12 @@ object ScheduleUpload: TScheduleUpload
           Width = 81
           Height = 49
           Caption = 'Update To Cycle Plan'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = []
+          ParentFont = False
           TabOrder = 10
           WordWrap = True
           OnClick = Button2Click
@@ -1223,7 +1229,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 2
           OnChange = CB_Building_GCDChange
@@ -1239,7 +1245,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 3
         end
@@ -1558,7 +1564,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 2
           OnChange = CB_Building_3DChange
@@ -1574,7 +1580,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 3
         end
@@ -3649,7 +3655,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 2
           OnChange = CB_Building_HCChange
@@ -3665,7 +3671,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 3
         end
@@ -4277,7 +4283,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 3
           OnChange = CB_Building_SQChange
@@ -4293,7 +4299,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 0
+          ItemHeight = 16
           ParentFont = False
           TabOrder = 4
         end
@@ -4442,8 +4448,8 @@ object ScheduleUpload: TScheduleUpload
           object DBGridEh_SQ: TDBGridEh
             Left = 0
             Top = 0
-            Width = 1414
-            Height = 513
+            Width = 1354
+            Height = 505
             Align = alClient
             DataSource = DS_SQ
             Flat = False

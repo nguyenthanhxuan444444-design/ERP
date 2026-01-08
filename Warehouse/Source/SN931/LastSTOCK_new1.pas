@@ -158,6 +158,7 @@ type
     DBGridEh7: TDBGridEh;
     DS6: TDataSource;
     qry6: TQuery;
+    Button1: TButton;
     procedure btn1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -177,6 +178,7 @@ type
     procedure btn_Print_TongClick(Sender: TObject);
     procedure DBGridEh7DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumnEh; State: TGridDrawState);
+    procedure Button1Click(Sender: TObject);
   private
     XXCC:array of string;
     LastSizeR:array of TLastSizeR;
@@ -185,6 +187,7 @@ type
     STLastMonDate:string; //上個月初
     EDLastMonDate:string; //上個月底
     //
+    AppDir:String;
     LastMon2:string;//上上一個月(Month) 月結累積加總計算
     LastYear2:string;//上上一個月(Year)
     //
@@ -1011,4 +1014,43 @@ begin
   end;
 end;
 
+procedure TLastSTOCK.Button1Click(Sender: TObject);
+var eclApp,WorkBook,ExcelApp,Sheet, Range:olevariant;
+    i,j,k,maxRn1Value,rowNumber:integer;
+begin
+    AppDir:=ExtractFilePath(Application.ExeName);
+  if(not DirectoryExists(AppDir+'Additional\'))  then ForceDirectories(AppDir+'Additional\');
+     CopyFile(Pchar('\\192.168.71.7\lys_erp\Additional\Asset_SN24_CCDC.xls'),Pchar(AppDir+'Additional\Asset_SN24_CCDC.xls'),false);
+  if FileExists(AppDir+'Additional\Asset_SN24_CCDC.xls') then
+     if  qry1.active  then
+     begin
+      try
+        eclApp:=CreateOleObject('Excel.Application');
+        WorkBook:=CreateOleObject('Excel.Sheet');
+      except
+        Application.MessageBox('No Microsoft   Excel','Microsoft   Excel',MB_OK+MB_ICONWarning);
+        Exit;
+      end;
+      try
+        eclApp.WorkBooks.Open(AppDir+'Additional\Asset_SN24_CCDC.xls');
+        i:=7;
+          while not qry1.Eof do
+          begin
+            eclApp.Cells(i,2):=qry1.fieldbyname('RYNO').Value;
+            eclApp.Cells(i,3):=qry1.fieldbyname('STYLE_NAME').Value;
+            eclApp.Cells(i,4):=qry1.fieldbyname('Style_No').Value;
+            eclApp.Cells(i,5):=qry1.fieldbyname('YSSM').Value;
+            eclApp.ActiveSheet.Rows[i+1].Insert;
+            qry1.Next; // Correct syntax here
+            inc(i);
+          end;
+        eclApp.ActiveSheet.Rows[i].delete;
+        showmessage('Succeed');
+        eclApp.Visible:=True;
+      except
+        on   F:Exception   do
+          showmessage(F.Message);
+      end;
+  end;
+end;
 end.

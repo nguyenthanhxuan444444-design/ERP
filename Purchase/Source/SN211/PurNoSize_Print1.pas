@@ -206,14 +206,14 @@ begin
                     if not Mas.FieldByName('ZLNO').isnull then
                       begin
                         Mas.Edit;
-                        Mas.FieldByName('ZLNO').asstring:=Mas.FieldByName('ZLNO').asstring+' '+Det.fieldbyname('ZLBH').Value
-                            +'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+') ';
+                        Mas.FieldByName('ZLNO').asstring:=Mas.FieldByName('ZLNO').asstring+' '+Det.fieldbyname('ZLBH').Value;
+                           // +'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+') ';
                       end
                       else
                         begin
                           Mas.Edit;
-                          Mas.FieldByName('ZLNO').asstring:=' '+Det.fieldbyname('ZLBH').Value
-                            +'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+')';
+                          Mas.FieldByName('ZLNO').asstring:=' '+Det.fieldbyname('ZLBH').Value;
+                            //+'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+')';
                         end;
                     Det.Next;
                   end;
@@ -225,14 +225,14 @@ begin
                       if not Mas.FieldByName('ZLNO').isnull then
                         begin
                           Mas.Edit;
-                          Mas.FieldByName('ZLNO').asstring:=Mas.FieldByName('ZLNO').asstring+' '+Det.fieldbyname('ZLBH').Value
-                              +'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+') ';
+                          Mas.FieldByName('ZLNO').asstring:=Mas.FieldByName('ZLNO').asstring+' '+Det.fieldbyname('ZLBH').Value;
+                             // +'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+') ';
                         end
                         else
                           begin
                             Mas.Edit;
-                            Mas.FieldByName('ZLNO').asstring:=' '+Det.fieldbyname('ZLBH').Value
-                              +'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+')';
+                            Mas.FieldByName('ZLNO').asstring:=' '+Det.fieldbyname('ZLBH').Value;
+                             // +'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+')';
                           end;
                       Det.Next;
                     end;
@@ -245,11 +245,11 @@ begin
                     end;
                   while not Det.Eof do
                     begin}
-                      Mas.FieldByName('ZLNO').asstring:=Mas.FieldByName('ZLNO').asstring+Det.fieldbyname('ZLBH').Value+'('+Det.fieldbyname('Qty').asstring;
-                      if not Det.fieldbyname('Article').isnull then
+                      Mas.FieldByName('ZLNO').asstring:=Mas.FieldByName('ZLNO').asstring+Det.fieldbyname('ZLBH').Value;//+'('+Det.fieldbyname('Qty').asstring;
+                      {if not Det.fieldbyname('Article').isnull then
                         begin
                           Mas.FieldByName('ZLNO').asstring:=Mas.FieldByName('ZLNO').asstring+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+')';
-                        end;
+                        end;   }
                      { Det.Next;
                     end; }
                 end;
@@ -279,14 +279,14 @@ begin
               if not Mas.FieldByName('ZLNO').isnull then
                 begin
                   Mas.Edit;
-                  Mas.FieldByName('ZLNO').asstring:=Mas.FieldByName('ZLNO').asstring+' '+Det.fieldbyname('ZLBH').Value
-                  +'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+') ';
+                  Mas.FieldByName('ZLNO').asstring:=Mas.FieldByName('ZLNO').asstring+' '+Det.fieldbyname('ZLBH').Value;
+                  //+'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+') ';
                 end
                 else
                   begin
                     Mas.Edit;
-                    Mas.FieldByName('ZLNO').asstring:=' '+Det.fieldbyname('ZLBH').Value
-                      +'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+')';
+                    Mas.FieldByName('ZLNO').asstring:=' '+Det.fieldbyname('ZLBH').Value;
+                      //+'('+floattostr(Det.fieldbyname('Qty').Value)+'&'+ Det.fieldbyname('XieMing').Value+'&'+Det.fieldbyname('Article').Value+')';
                   end;
               Det.Next;
             end;

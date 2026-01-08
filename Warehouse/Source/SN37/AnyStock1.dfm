@@ -1,8 +1,8 @@
 object AnyStock: TAnyStock
-  Left = 341
-  Top = 312
-  Width = 1525
-  Height = 655
+  Left = 281
+  Top = 261
+  Width = 1612
+  Height = 629
   Caption = 'AnyStock'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object AnyStock: TAnyStock
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1509
+    Width = 1596
     Height = 129
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -62,6 +62,7 @@ object AnyStock: TAnyStock
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+      OnDblClick = Label3DblClick
     end
     object Label5: TLabel
       Left = 231
@@ -196,15 +197,25 @@ object AnyStock: TAnyStock
       Caption = 'SIZE:'
     end
     object Label12: TLabel
+      Left = 551
+      Top = 13
+      Width = 57
+      Height = 17
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = 'HGLB:'
+      OnDblClick = Label12DblClick
+    end
+    object Label13: TLabel
       Left = 1224
-      Top = 32
+      Top = 72
       Width = 41
       Height = 16
       Caption = 'Don vi:'
     end
-    object Label13: TLabel
+    object Label14: TLabel
       Left = 1224
-      Top = 64
+      Top = 104
       Width = 41
       Height = 16
       Caption = 'Xuong:'
@@ -228,9 +239,9 @@ object AnyStock: TAnyStock
       OnKeyPress = Edit1KeyPress
     end
     object Button1: TButton
-      Left = 815
+      Left = 931
       Top = 92
-      Width = 105
+      Width = 92
       Height = 33
       Caption = 'Query'
       TabOrder = 3
@@ -246,9 +257,9 @@ object AnyStock: TAnyStock
       OnKeyPress = Edit3KeyPress
     end
     object Button2: TButton
-      Left = 936
-      Top = 58
-      Width = 89
+      Left = 932
+      Top = 57
+      Width = 90
       Height = 33
       Caption = 'EXCEL'
       TabOrder = 4
@@ -267,7 +278,7 @@ object AnyStock: TAnyStock
     object CB1: TCheckBox
       Left = 795
       Top = 43
-      Width = 78
+      Width = 56
       Height = 17
       Caption = 'Qty<0'
       Font.Charset = DEFAULT_CHARSET
@@ -279,7 +290,7 @@ object AnyStock: TAnyStock
       TabOrder = 6
     end
     object Button3: TButton
-      Left = 1031
+      Left = 1029
       Top = 57
       Width = 89
       Height = 33
@@ -288,8 +299,8 @@ object AnyStock: TAnyStock
       OnClick = Button3Click
     end
     object Button4: TButton
-      Left = 1127
-      Top = 91
+      Left = 1395
+      Top = 90
       Width = 89
       Height = 33
       Caption = 'Database'
@@ -331,11 +342,11 @@ object AnyStock: TAnyStock
       TabOrder = 11
     end
     object CB3: TCheckBox
-      Left = 880
+      Left = 856
       Top = 42
-      Width = 137
+      Width = 81
       Height = 17
-      Caption = '>2014'
+      Caption = '<2014'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -16
@@ -372,11 +383,11 @@ object AnyStock: TAnyStock
       OnKeyPress = Edit1KeyPress
     end
     object Button5: TButton
-      Left = 934
-      Top = 92
+      Left = 1125
+      Top = 19
       Width = 91
       Height = 33
-      Caption = 'PrintCard'
+      Caption = 'Print Card'
       TabOrder = 16
       OnClick = Button5Click
     end
@@ -389,9 +400,9 @@ object AnyStock: TAnyStock
       TabOrder = 17
     end
     object Button6: TButton
-      Left = 1031
+      Left = 1126
       Top = 91
-      Width = 89
+      Width = 90
       Height = 33
       Caption = 'DetailPrt'
       TabOrder = 18
@@ -427,22 +438,75 @@ object AnyStock: TAnyStock
       ParentFont = False
       TabOrder = 21
     end
-    object Button7: TButton
-      Left = 1032
-      Top = 16
-      Width = 89
-      Height = 33
-      Caption = 'Print Monthly'
+    object CheckBox1: TCheckBox
+      Left = 819
+      Top = 69
+      Width = 46
+      Height = 17
+      Caption = 'H'
+      Checked = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      State = cbChecked
       TabOrder = 22
-      OnClick = Button7Click
+      Visible = False
+      OnClick = CheckBox1Click
     end
-    object Button8: TButton
-      Left = 1128
-      Top = 16
+    object btnUploadFile: TPanel
+      Left = 1126
+      Top = 56
+      Width = 90
+      Height = 33
+      Hint = 'Please upload file Process Rec.'
+      BevelInner = bvRaised
+      Caption = 'Process Rec'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 23
+      OnClick = btnUploadFileClick
+    end
+    object Button7: TButton
+      Left = 1028
+      Top = 21
       Width = 89
       Height = 33
       Caption = 'Print Yearly'
-      TabOrder = 23
+      TabOrder = 24
+      OnClick = Button7Click
+    end
+    object CB4: TCheckBox
+      Left = 815
+      Top = 101
+      Width = 101
+      Height = 17
+      Caption = 'Sum(MatNo)'
+      TabOrder = 25
+    end
+    object CB5: TCheckBox
+      Left = 869
+      Top = 70
+      Width = 56
+      Height = 17
+      Caption = 'Qty>0'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 26
+    end
+    object Button8: TButton
+      Left = 1029
+      Top = 92
+      Width = 89
+      Height = 33
+      Caption = 'STT'
+      TabOrder = 27
       OnClick = Button8Click
     end
     object KCBHEdit1: TEdit
@@ -451,45 +515,96 @@ object AnyStock: TAnyStock
       Width = 81
       Height = 24
       CharCase = ecUpperCase
-      TabOrder = 24
+      TabOrder = 28
     end
-    object Edit7: TEdit
-      Left = 1272
-      Top = 24
-      Width = 121
+    object HGLBEdit: TEdit
+      Left = 612
+      Top = 9
+      Width = 81
       Height = 24
-      TabOrder = 25
+      CharCase = ecUpperCase
+      TabOrder = 29
     end
-    object CheckBox1: TCheckBox
-      Left = 880
-      Top = 16
-      Width = 97
+    object HGLBCBX: TComboBox
+      Left = 705
+      Top = 9
+      Width = 144
+      Height = 24
+      Style = csDropDownList
+      ItemHeight = 16
+      TabOrder = 30
+      Visible = False
+      Items.Strings = (
+        ''
+        'in('#39'H11'#39','#39'XT'#39')'
+        'not in ('#39'GC'#39','#39'H11'#39','#39'XT'#39')')
+    end
+    object Button9: TButton
+      Left = 857
+      Top = 5
+      Width = 63
+      Height = 33
+      Caption = 'Import'
+      TabOrder = 31
+      Visible = False
+      OnClick = Button9Click
+    end
+    object Button10: TButton
+      Left = 932
+      Top = 22
+      Width = 89
+      Height = 33
+      Caption = 'Print Monthly'
+      TabOrder = 32
+      OnClick = Button10Click
+    end
+    object DTP2: TDateTimePicker
+      Left = 1270
+      Top = 8
+      Width = 106
+      Height = 25
+      Date = 39289.406377673610000000
+      Format = 'yyyy/MM/dd'
+      Time = 39289.406377673610000000
+      TabOrder = 33
+    end
+    object DTP3: TDateTimePicker
+      Left = 1270
+      Top = 40
+      Width = 106
+      Height = 24
+      Date = 39289.406377673610000000
+      Format = 'yyyy/MM/dd'
+      Time = 39289.406377673610000000
+      TabOrder = 34
+    end
+    object CheckBox2: TCheckBox
+      Left = 1239
+      Top = 13
+      Width = 26
       Height = 17
-      Caption = 'Qty>0'
-      TabOrder = 26
+      TabOrder = 35
     end
     object Edit8: TEdit
       Left = 1272
-      Top = 56
+      Top = 96
       Width = 121
       Height = 24
-      TabOrder = 27
+      TabOrder = 36
     end
-    object Button9: TButton
-      Left = 1229
-      Top = 92
-      Width = 89
-      Height = 33
-      Caption = 'STT'
-      TabOrder = 28
-      OnClick = Button9Click
+    object Edit7: TEdit
+      Left = 1272
+      Top = 64
+      Width = 121
+      Height = 24
+      TabOrder = 37
     end
   end
   object PC1: TPageControl
     Left = 0
     Top = 129
-    Width = 1509
-    Height = 487
+    Width = 1596
+    Height = 461
     ActivePage = TS1
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
@@ -504,8 +619,8 @@ object AnyStock: TAnyStock
       object DBGrid1: TDBGridEh
         Left = 0
         Top = 0
-        Width = 1501
-        Height = 456
+        Width = 1588
+        Height = 430
         Align = alClient
         DataSource = DS1
         Flat = False
@@ -521,6 +636,7 @@ object AnyStock: TAnyStock
         FooterFont.Name = 'MS Sans Serif'
         FooterFont.Style = []
         FooterRowCount = 1
+        FrozenCols = 4
         OptionsEh = [dghFixed3D, dghHighlightFocus, dghClearSelection, dghAutoSortMarking, dghMultiSortMarking, dghDialogFind]
         ParentFont = False
         PopupMenu = PopupMenu1
@@ -533,6 +649,7 @@ object AnyStock: TAnyStock
         TitleFont.Name = 'MS Sans Serif'
         TitleFont.Style = []
         UseMultiTitle = True
+        OnDrawColumnCell = DBGrid1DrawColumnCell
         Columns = <
           item
             EditButtons = <>
@@ -720,7 +837,7 @@ object AnyStock: TAnyStock
             Title.Font.Name = 'MS Sans Serif'
             Title.Font.Style = []
             Title.TitleButton = True
-            Width = 59
+            Width = 56
           end
           item
             EditButtons = <>
@@ -757,6 +874,105 @@ object AnyStock: TAnyStock
             Title.Font.Name = 'MS Sans Serif'
             Title.Font.Style = []
             Width = 95
+          end
+          item
+            EditButtons = <>
+            FieldName = 'HGLB'
+            Footers = <>
+            Width = 50
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CNO'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'QtyWH'
+            Footer.ValueType = fvtSum
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'QtyAc'
+            Footer.ValueType = fvtSum
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'QtyP'
+            Footer.ValueType = fvtSum
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'Remark'
+            Footers = <>
+            Width = 120
+          end
+          item
+            EditButtons = <>
+            FieldName = 'UserID'
+            Footers = <>
+            Title.Caption = 'KVT|ID'
+            Width = 60
+          end
+          item
+            EditButtons = <>
+            FieldName = 'UserDate'
+            Footers = <>
+            Title.Caption = 'KVT|Date'
+            Width = 80
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CFMID'
+            Footers = <>
+            Title.Caption = 'Confirm CQK|ID'
+            Width = 60
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CFMDate'
+            Footers = <>
+            Title.Caption = 'Confirm CQK|Date'
+            Width = 80
+          end
+          item
+            EditButtons = <>
+            FieldName = 'UserID1'
+            Footers = <>
+            Title.Caption = 'NVKT|ID'
+            Width = 60
+          end
+          item
+            EditButtons = <>
+            FieldName = 'UserDate1'
+            Footers = <>
+            Title.Caption = 'NVKT|Date'
+            Width = 80
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CFMID1'
+            Footers = <>
+            Title.Caption = 'Confirm CQKT|ID'
+            Width = 60
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CFMDate1'
+            Footers = <>
+            Title.Caption = 'Confirm CQKT|Date'
+            Width = 80
+          end
+          item
+            EditButtons = <>
+            FieldName = 'LifecycleEndDate'
+            Footers = <>
+            Title.Caption = 'Material Lifecycle End Date'
+            Visible = False
+            Width = 181
           end>
       end
     end
@@ -766,8 +982,8 @@ object AnyStock: TAnyStock
       object DBGrid2: TDBGridEh
         Left = 0
         Top = 0
-        Width = 1501
-        Height = 456
+        Width = 1588
+        Height = 430
         Align = alClient
         DataSource = DS2
         Flat = False
@@ -895,8 +1111,136 @@ object AnyStock: TAnyStock
           end>
       end
     end
+    object TS3: TTabSheet
+      Caption = 'Total Department'
+      ImageIndex = 2
+      object DBGrid3: TDBGridEh
+        Left = 0
+        Top = 0
+        Width = 1588
+        Height = 430
+        Align = alClient
+        DataSource = DS3
+        Flat = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        FooterColor = clWindow
+        FooterFont.Charset = DEFAULT_CHARSET
+        FooterFont.Color = clWindowText
+        FooterFont.Height = -12
+        FooterFont.Name = 'MS Sans Serif'
+        FooterFont.Style = []
+        FooterRowCount = 1
+        OptionsEh = [dghFixed3D, dghHighlightFocus, dghClearSelection, dghAutoSortMarking, dghMultiSortMarking, dghDialogFind]
+        ParentFont = False
+        SumList.Active = True
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -15
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        UseMultiTitle = True
+        OnEditButtonClick = DBGrid3EditButtonClick
+        Columns = <
+          item
+            EditButtons = <>
+            FieldName = 'CLBH'
+            Footer.FieldName = 'CLBH'
+            Footer.ValueType = fvtCount
+            Footers = <>
+            Title.Caption = #26448#26009#32232#34399'|CLBH'
+            Width = 76
+          end
+          item
+            EditButtons = <>
+            FieldName = 'YWPM'
+            Footers = <>
+            Title.Caption = #29289#26009#36234#25991'|YWPM'
+            Width = 126
+          end
+          item
+            EditButtons = <>
+            FieldName = 'ZWPM'
+            Footers = <>
+            Title.Caption = #29289#26009#20013#25991'|ZWPM'
+            Width = 103
+          end
+          item
+            ButtonStyle = cbsEllipsis
+            Color = 12582911
+            EditButtons = <>
+            FieldName = 'Qty'
+            Footer.ValueType = fvtSum
+            Footers = <>
+            Title.Caption = #25976#37327'|Qty'
+            Width = 44
+          end
+          item
+            EditButtons = <>
+            FieldName = 'DepID'
+            Footers = <>
+            Title.Caption = #37096#38272'ID|DepID'
+            Width = 89
+          end
+          item
+            EditButtons = <>
+            FieldName = 'DepName'
+            Footers = <>
+            Title.Caption = #37096#38272#21517#31281'|DepName'
+            Width = 79
+          end
+          item
+            EditButtons = <>
+            FieldName = 'DepMemo'
+            Footers = <>
+            Title.Caption = #37096#38272#25551#36848'|DepMemo'
+            Width = 68
+          end
+          item
+            EditButtons = <>
+            FieldName = 'VNPrice'
+            Footers = <>
+            Title.Caption = #36234#30462#21934#20729'|VNPrice'
+          end
+          item
+            EditButtons = <>
+            FieldName = 'USPrice'
+            Footers = <>
+            Title.Caption = #36234#30462#32654#37329'|USPrice'
+          end
+          item
+            EditButtons = <>
+            FieldName = 'VNACC'
+            Footer.FieldName = 'VNACC'
+            Footer.ValueType = fvtSum
+            Footers = <>
+            Title.Caption = #36234#30462#32317#37329#38989'|VNACC'
+          end
+          item
+            EditButtons = <>
+            FieldName = 'USACC'
+            Footer.FieldName = 'USACC'
+            Footer.ValueType = fvtSum
+            Footers = <>
+            Title.Caption = #32654#37329#32317#37329#38989'|USACC'
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CKBH'
+            Footers = <>
+            Title.Caption = #20489#24235#21029'|CKBH'
+            Width = 57
+          end>
+      end
+    end
   end
   object Query1: TQuery
+    AfterOpen = Query1AfterOpen
+    AfterScroll = Query1AfterScroll
     OnCalcFields = Query1CalcFields
     DatabaseName = 'DB'
     SQL.Strings = (
@@ -1027,9 +1371,9 @@ object AnyStock: TAnyStock
         '           group by JGZLS.ZMLB ) JGCKTemp on JGCKTemp.ZMLB=CLZL.' +
         'CLDH'
       
-        'select clzl.zsdh,zszl.zsqm,#CLZLKC.CLDH,IsNull(#CLZLKC.LBBH,CLLB' +
-        'FLS.LBBH) as LBBH,CLZL.YWPM,CLZL.ZWPM,#CLZLKC.DWBH,isnull(#CLZLK' +
-        'C.LastRem,0) as LastRem,'
+        'select CLZL_HAIQUAN.CNO,clzl.zsdh,zszl.zsqm,#CLZLKC.CLDH,IsNull(' +
+        '#CLZLKC.LBBH,CLLBFLS.LBBH) as LBBH,CLZL.YWPM,CLZL.ZWPM,#CLZLKC.D' +
+        'WBH,isnull(#CLZLKC.LastRem,0) as LastRem,'
       
         '       isnull(#CLZLKC.RKQty,0) as RKQty,isnull(#CLZLKC.LLQty,0) ' +
         'as LLQty,'
@@ -1037,12 +1381,13 @@ object AnyStock: TAnyStock
         '       isnull(round(#CLZLKC.JGRK,2),0) as JGRK,isnull(round(#CLZ' +
         'LKC.JGCK,2),0) as JGCK,'
       
-        '       isnull(round(#CLZLKC.JGCKTemp,2),0) as JGCKTemp,ISnull(KC' +
-        'ZLS.DFL,KCZLS.KCBH) as DFL,KCZLS.CKBH,KCZLS.KCBH,'
+        '       isnull(round(#CLZLKC.JGCKTemp,2),0) as JGCKTemp,KCZLS.KCB' +
+        'H,KCZLS.CKBH,'
       
         '       isnull(Round(#CLZLKC.LastRem,2),0)+isnull(Round(#CLZLKC.R' +
         'KQty,2),0)-isnull(Round(#CLZLKC.LLQty,2),0)+isnull(Round(#CLZLKC' +
-        '.JGRK,2),0)-isnull(Round(#CLZLKC.JGCK,2),0) as Qty'
+        '.JGRK,2),0)-isnull(Round(#CLZLKC.JGCK,2),0) as Qty ,CLZL_Lifecyc' +
+        'le.LifecycleEndDate'
       'from #CLZLKC '
       'left join CLZL on CLZL.CLDH=#CLZLKC.CLDH '
       'left join zszl on zszl.zsdh=clzl.zsdh '
@@ -1050,7 +1395,9 @@ object AnyStock: TAnyStock
       '                            ) KCZLS on KCZLS.CLBH=#CLZLKC.CLDH'
       
         'left join CLLBFLS on CLLBFLS.CLBH=CLZL.CLDH and CLLBFLS.GSBH='#39'VT' +
-        'X'#39
+        'X'#39' '
+      'left join CLZL_HAIQUAN on CLZL_HAIQUAN.CLDH=#CLZLKC.CLDH'
+      'left join CLZL_Lifecycle on CLZL_Lifecycle.CLBH = #CLZLKC.CLDH'
       
         '  where not (#CLZLKC.LastRem is null  and #CLZLKC.RKQty is null ' +
         'and #CLZLKC.LLQty is null '
@@ -1063,8 +1410,9 @@ object AnyStock: TAnyStock
       'and CLZL.YWPM like '#39'%%'#39
       'order by #CLZLKC.CLDH'
       '  ')
-    Left = 504
-    Top = 160
+    UpdateObject = UpdateSQL1
+    Left = 512
+    Top = 288
     object Query1zsqm: TStringField
       FieldName = 'zsqm'
       FixedChar = True
@@ -1138,25 +1486,77 @@ object AnyStock: TAnyStock
       FixedChar = True
       Size = 6
     end
-    object Query1CNO: TStringField
-      FieldName = 'HGBH'
-      FixedChar = True
-      Size = 40
+    object Query1HGLB: TStringField
+      FieldName = 'HGLB'
+      Size = 4
     end
-    object Query1DFL: TStringField
-      FieldName = 'DFL'
+    object Query1CNO2: TStringField
+      FieldName = 'CNO'
+      Size = 15
+    end
+    object Query1QtyWH: TCurrencyField
+      FieldName = 'QtyWH'
+    end
+    object Query1QtyAc: TCurrencyField
+      FieldName = 'QtyAc'
+    end
+    object Query1QtyP: TCurrencyField
+      FieldName = 'QtyP'
+    end
+    object Query1Remark: TStringField
+      FieldName = 'Remark'
+      Size = 255
+    end
+    object Query1UserID: TStringField
+      FieldName = 'UserID'
+      Size = 10
+    end
+    object Query1UserDate: TDateTimeField
+      FieldName = 'UserDate'
+    end
+    object Query1CFMID: TStringField
+      FieldName = 'CFMID'
+      Size = 10
+    end
+    object Query1CFMDate: TDateTimeField
+      FieldName = 'CFMDate'
+    end
+    object Query1UserID1: TStringField
+      FieldName = 'UserID1'
+      Size = 10
+    end
+    object Query1UserDate1: TDateTimeField
+      FieldName = 'UserDate1'
+    end
+    object Query1CFMID1: TStringField
+      FieldName = 'CFMID1'
+      Size = 10
+    end
+    object Query1CFMDate1: TDateTimeField
+      FieldName = 'CFMDate1'
+    end
+    object Query1LifecycleEndDate: TStringField
+      FieldName = 'LifecycleEndDate'
       FixedChar = True
       Size = 50
+    end
+    object Query1KCMC: TStringField
+      FieldName = 'KCMC'
+      Size = 50
+    end
+    object Query1STT: TStringField
+      FieldName = 'STT'
+      Size = 10
     end
   end
   object DS1: TDataSource
     DataSet = Query1
-    Left = 504
-    Top = 192
+    Left = 512
+    Top = 320
   end
   object PopupMenu1: TPopupMenu
-    Left = 504
-    Top = 228
+    Left = 512
+    Top = 360
     object NN1: TMenuItem
       Caption = 'Detail'
       OnClick = NN1Click
@@ -1168,11 +1568,44 @@ object AnyStock: TAnyStock
     object NN3: TMenuItem
       Caption = 'Print'
     end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object Copy1: TMenuItem
+      Caption = 'Copy '
+      Enabled = False
+      Visible = False
+      OnClick = Copy1Click
+    end
+    object Modify1: TMenuItem
+      Caption = 'Modify'
+      Enabled = False
+      Visible = False
+      OnClick = Modify1Click
+    end
+    object Save1: TMenuItem
+      Caption = 'Save'
+      Enabled = False
+      Visible = False
+      OnClick = Save1Click
+    end
+    object Cancel1: TMenuItem
+      Caption = 'Cancel'
+      Enabled = False
+      Visible = False
+      OnClick = Cancel1Click
+    end
+    object Confirm1: TMenuItem
+      Caption = 'Confirm'
+      Enabled = False
+      Visible = False
+      OnClick = Confirm1Click
+    end
   end
   object temp: TQuery
     DatabaseName = 'dB'
-    Left = 472
-    Top = 160
+    Left = 464
+    Top = 288
   end
   object Query2: TQuery
     DatabaseName = 'DB'
@@ -1392,8 +1825,8 @@ object AnyStock: TAnyStock
         'SIZE_KCZL.CLBH and SIZE_JGCK.HGLB=SIZE_KCZL.HGLB and SIZE_JGCK.S' +
         'IZE=SIZE_KCZL.SIZE'
       'Left join CLZL on CLZL.CLDH=SIZE_KCZL.CLBH')
-    Left = 544
-    Top = 160
+    Left = 552
+    Top = 288
     object Query2CKBH: TStringField
       DisplayWidth = 6
       FieldName = 'CKBH'
@@ -1463,7 +1896,187 @@ object AnyStock: TAnyStock
   end
   object DS2: TDataSource
     DataSet = Query2
-    Left = 544
-    Top = 192
+    Left = 552
+    Top = 320
+  end
+  object Query3: TQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      
+        'Select KCCLMONTH_Dep.*,CLZL.YWPM,CLZL.ZWPM,CGBJS.VNPrice,CGBJS.U' +
+        'SPrice,CGBJS.VNPrice*KCCLMONTH_Dep.Qty as VNACC,CGBJS.USPrice*KC' +
+        'CLMONTH_Dep.Qty as USACC from ('
+      
+        'Select KCCLMONTH_Dep.CKBH,KCCLMONTH_Dep.CLBH,KCCLMONTH_Dep.DepID' +
+        ',Sum(KCCLMONTH_Dep.Qty) as Qty,IsNull(Bdepartment.DepName,'#39'Stock' +
+        #39') as DepName,IsNull(Bdepartment.DepMemo,'#39'??'#39') as DepMemo '
+      'from ('
+      
+        'Select CKBH, CLBH, Case when Qty<0 then '#39'ZZZZZZZZZZ'#39' else DepID ' +
+        'end as DepID, Qty from ('#9' '
+      'Select CKBH, CLBH, DepID, Sum(Convert(float,Qty)) as Qty  from ('
+      'Select CKBH,CLBH,DepID,Qty,'#39'1'#39' as SB'
+      'from KCCLMONTH_BDepartment'
+      'where KCYEAR='#39'2023'#39' and KCMONTH='#39'02'#39
+      '        and KCCLMONTH_BDepartment.CKBH='#39'VTXX'#39' '
+      #9'       and KCCLMONTH_BDepartment.CLBH='#39'X101000003'#39' '
+      'Union all'
+      
+        'Select KCRK.CKBH,KCRKS.CLBH,IsNull(SGDH.DepID,IsNull(CGZLSS.Memo' +
+        ','#39'ZZZZZZZZZZ'#39')) as DepID,Sum(IsNull(KCRKSS.Qty, KCRKS.Qty)) as Q' +
+        'ty,'#39'2'#39' as SB'
+      'from KCRK'
+      'left join KCRKS on KCRK.RKNO=KCRKS.RKNO'
+      
+        'left join KCRKSS on KCRKSS.RKNO=KCRKS.RKNO and KCRKSS.CLBH=KCRKS' +
+        '.CLBH and KCRKSS.CGBH=KCRKS.CGBH and KCRKSS.RKSB=KCRKS.RKSB'
+      'left join SGDH on SGDH.SGNO=KCRKSS.CGBH'
+      
+        'left join CGZLSS on CGZLSS.CGNO=KCRK.ZSNO and CGZLSS.ZLBH=KCRKSS' +
+        '.CGBH  and CGZLSS.CLBH=KCRKSS.CLBH and CGZLSS.XXCC=KCRKSS.SIZE a' +
+        'nd CGZLSS.Stage='#39'TVu'#39' '
+      
+        'where  Convert(smalldatetime,convert(varchar,KCRK.USERDATE,111))' +
+        ' between '
+      #9#9#9' '#39'2023/03/01'#39' and '#39'2023/03/31'#39' '
+      '        and KCRK.CKBH='#39'VTXX'#39' and KCRKS.CLBH is not null'
+      #9'       and KCRKS.CLBH='#39'X101000003'#39' '
+      
+        'Group by KCRK.CKBH,KCRKS.CLBH,IsNull(SGDH.DepID,IsNull(CGZLSS.Me' +
+        'mo,'#39'ZZZZZZZZZZ'#39')) '
+      'Union all'
+      
+        'Select KCLL.CKBH,KCLLS.CLBH,KCLL.DepID,Sum(-1* KCLLS.Qty) as Qty' +
+        ' ,'#39'3'#39' as SB'
+      'from KCLL'
+      'left join KCLLS on KCLL.LLNO=KCLLS.LLNO'
+      
+        'where  KCLL.CFMID<>'#39'NO'#39' and Convert(smalldatetime,convert(varcha' +
+        'r,KCLL.CFMDATE,111)) between '
+      #9#9#9' '#39'2023/03/01'#39' and '#39'2023/03/31'#39' '
+      '        and KCLL.CKBH='#39'VTXX'#39' and KCLLS.CLBH is not null'
+      #9'       and KCLLS.CLBH='#39'X101000003'#39' '
+      'Group by  KCLL.CKBH,KCLLS.CLBH,KCLL.DepID   '
+      'Union all '
+      
+        'Select KCLL_Dep_DB.CKBH,KCLL_Dep_DBS.CLBH,KCLL_Dep_DBS.DepID,-1*' +
+        'Sum(KCLL_Dep_DBS.Qty) as Qty,'#39'4'#39' as SB'
+      'from KCLL_Dep_DB'
+      'left join KCLL_Dep_DBS on KCLL_Dep_DB.DBNO=KCLL_Dep_DBS.DBNO'
+      
+        'where  KCLL_Dep_DB.CFMID<>'#39'NO'#39' and Convert(smalldatetime,convert' +
+        '(varchar,KCLL_Dep_DB.CFMDATE,111)) between '
+      #9#9#9' '#39'2023/03/01'#39' and '#39'2023/03/31'#39' '
+      
+        '        and KCLL_Dep_DB.CKBH='#39'VTXX'#39' and KCLL_Dep_DBS.CLBH is not' +
+        ' null'
+      #9'       and KCLL_Dep_DBS.CLBH='#39'X101000003'#39' '
+      'Group by KCLL_Dep_DB.CKBH,KCLL_Dep_DBS.CLBH,KCLL_Dep_DBS.DepID  '
+      'Union all '
+      
+        'Select KCLL_Dep_DB.CKBH,KCLL_Dep_DBS.CLBH,KCLL_Dep_DBS.DepID1  a' +
+        's DepID,Sum(KCLL_Dep_DBS.Qty) as Qty,'#39'5'#39' as SB'
+      'from KCLL_Dep_DB'
+      'left join KCLL_Dep_DBS on KCLL_Dep_DB.DBNO=KCLL_Dep_DBS.DBNO'
+      
+        'where  KCLL_Dep_DB.CFMID<>'#39'NO'#39' and Convert(smalldatetime,convert' +
+        '(varchar,KCLL_Dep_DB.CFMDATE,111)) between '
+      #9#9#9' '#39'2023/03/01'#39' and '#39'2023/03/31'#39' '
+      
+        '           and KCLL_Dep_DB.CKBH='#39'VTXX'#39' and KCLL_Dep_DBS.CLBH is ' +
+        'not null'
+      #9'       and KCLL_Dep_DBS.CLBH='#39'X101000003'#39
+      
+        'Group by KCLL_Dep_DB.CKBH,KCLL_Dep_DBS.CLBH,KCLL_Dep_DBS.DepID1 ' +
+        ' )  KCCLMONTH_Dep'
+      'Group by CKBH, CLBH, DepID ) KCCLMONTH_Dep ) KCCLMONTH_Dep  '
+      'Left join BDepartment on BDepartment.ID=KCCLMONTH_Dep.DepID'
+      
+        'Group by KCCLMONTH_Dep.CKBH,KCCLMONTH_Dep.CLBH,KCCLMONTH_Dep.Dep' +
+        'ID,Bdepartment.DepName,Bdepartment.DepMemo ) KCCLMONTH_Dep'
+      'Left join CLZL on CLZL.CLDH=KCCLMONTH_Dep.CLBH'
+      'left join ('
+      
+        '    Select CLBH, USPrice ,VNPrice,rn  from (select CGBJS.CLBH,CG' +
+        'BJS.USPrice,CGBJS.VNPrice,'
+      
+        #9'ROW_NUMBER() over (PARTITION BY CGBJS.CLBH ORDER BY CGBJ.BJNO D' +
+        'ESC) as  rn'
+      #9'from CGBJ'
+      #9'left join CGBJS on CGBJ.BJNO=CGBJS.BJNO'
+      
+        #9'where CGBJ.GSBH='#39'VTX'#39' and CGBJS.CLBH is not null and (CGBJS.CLB' +
+        'H like '#39'X%'#39' or CGBJS.CLBH like '#39'Y%'#39' or CGBJS.CLBH like '#39'Z%'#39') '
+      #9') CGBJ where rn=1 ) CGBJS ON CGBJS.CLBH=KCCLMONTH_Dep.CLBH')
+    Left = 593
+    Top = 288
+    object Query3CKBH: TStringField
+      FieldName = 'CKBH'
+      FixedChar = True
+      Size = 4
+    end
+    object Query3CLBH: TStringField
+      FieldName = 'CLBH'
+      FixedChar = True
+      Size = 15
+    end
+    object Query3DepID: TStringField
+      FieldName = 'DepID'
+      FixedChar = True
+      Size = 50
+    end
+    object Query3Qty: TFloatField
+      FieldName = 'Qty'
+    end
+    object Query3DepName: TStringField
+      FieldName = 'DepName'
+      FixedChar = True
+      Size = 50
+    end
+    object Query3DepMemo: TStringField
+      FieldName = 'DepMemo'
+      FixedChar = True
+      Size = 50
+    end
+    object Query3YWPM: TStringField
+      FieldName = 'YWPM'
+      FixedChar = True
+      Size = 200
+    end
+    object Query3ZWPM: TStringField
+      FieldName = 'ZWPM'
+      FixedChar = True
+      Size = 200
+    end
+    object Query3VNPrice: TCurrencyField
+      FieldName = 'VNPrice'
+      DisplayFormat = '##,#0'
+    end
+    object Query3USPrice: TFloatField
+      FieldName = 'USPrice'
+      DisplayFormat = '##,#0.00'
+    end
+    object Query3VNACC: TFloatField
+      FieldName = 'VNACC'
+      DisplayFormat = '##,#0'
+    end
+    object Query3USACC: TFloatField
+      FieldName = 'USACC'
+      DisplayFormat = '##,#0.00'
+    end
+  end
+  object DS3: TDataSource
+    DataSet = Query3
+    Left = 593
+    Top = 320
+  end
+  object Query4: TQuery
+    DatabaseName = 'dB'
+    Left = 464
+    Top = 320
+  end
+  object UpdateSQL1: TUpdateSQL
+    Left = 512
+    Top = 248
   end
 end

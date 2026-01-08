@@ -370,8 +370,8 @@ begin
     SQL.Clear;
     SQL.Add('Select YWDDM.DDBH,YWDDM.YSBH,YWDDM.CKBH,IsNull(YWDD.Qty,DDZL.Pairs) as Pairs,YWDDM.LastRem,YWDDM.RKQty,YWDDM.XHQty,YWDDM.TRQty,YWDDM.Qty,');
     SQL.Add('case when LEFT(YWDDM.DDBH,2)in (''HK'',''JH'') then ''HOKA'' ELSE ''TEVA'' END as Customer,');
-    SQL.Add('xxzl.xieming as ModelName,KCCLMONTH_Order.KVBH,CAST(ROW_NUMBER() OVER (ORDER BY YWDDM.YSBH) AS VARCHAR(50)) as STT,');  // KCCLMONTH_Order.STT
-    SQL.Add('       DDZL.ShipDate,DDZL.ARTICLE,DDZL.DDZT,YWCPMemo.Memo,isnull(RK_CTS.CTS,0) - isnull(LL_CTS.CTS,0) as CTS   ');
+    SQL.Add('xxzl.xieming as ModelName,''K01'' as KVBH,ISNULL(KCCLMONTH_Order.STT,0) as STT,');  // KCCLMONTH_Order.STT
+    SQL.Add('       DDZL.ShipDate,DDZL.ARTICLE,DDZL.DDZT,YWCPMemo.Memo,isnull(RK_CTS.CTS,0) - isnull(LL_CTS.CTS,0) as CTS');
     SQL.Add('from (');
     if MergeYSBHCK.Checked=true then //Ty Bach use
     begin
@@ -381,7 +381,7 @@ begin
     SQL.Add('         Sum(YWCPXH.Qty) as XHQty,SUM(YWCPMONTH_DDZLTR.Qty) as TRQty,Case when SUM(YWCP.Qty) is not null and SUM(YWCPMONTH_DDZLTR.Qty) is not null then SUM(YWCP.Qty)-SUM(YWCPMONTH_DDZLTR.Qty) else SUM(YWCP.Qty) end as Qty');
     SQL.Add('  from (');
     SQL.Add('	Select DDBH,Max(CKBH) as CKBH, Sum(Qty) as Qty from (');
-    SQL.Add('    Select YWCPMONTH.CKBH,YWCPMONTH.DDBH,YWCPMONTH.Qty,''1'' as SB ');
+    SQL.Add('    Select YWCPMONTH.CKBH,YWCPMONTH.DDBH,YWCPMONTH.Qty,''1'' as SB');
     SQL.Add('    From YWCPMONTH   ');
     SQL.Add('    where YWCPMONTH.KCYEAR='''+sYear+'''  ');
     SQL.Add('		and YWCPMONTH.KCMONTH='''+sMonth+''' ');
@@ -394,11 +394,11 @@ begin
     SQL.Add('	Select Max(YWCP.KCBH) as CKBH,YWCP.DDBH,-1*Sum( Case when SB=''3'' then YWCP.Qty else 0 end) as Qty,''3'' as SB');
     SQL.Add('	from (Select * from YWCP union all Select * from YWCPOld) YWCP');
     SQL.Add('	where convert(smalldatetime,convert(varchar,YWCP.EXEDATE,111)) between '''+Formatdatetime('yyyy/MM/dd',startofthemonth(DTP.date))+''' and '''+Formatdatetime('yyyy/MM/dd',DTP.date)+''' and IsNull(SB,'''')<>''''');
-    SQL.Add('	Group by YWCP.DDBH  ');
+    SQL.Add('	Group by YWCP.DDBH');
     SQL.Add('	) YWCPMONTH');
     SQL.Add('	Group by DDBH  ) YWCP  ');
     SQL.Add('  Left join  (');
-    SQL.Add('    Select YWCPMONTH.CKBH,YWCPMONTH.DDBH,YWCPMONTH.Qty,''1'' as SB ');
+    SQL.Add('    Select YWCPMONTH.CKBH,YWCPMONTH.DDBH,YWCPMONTH.Qty,''1'' as SB');
     SQL.Add('	From YWCPMONTH   ');
     SQL.Add('	where YWCPMONTH.KCYEAR='''+sYear+'''  ');
     SQL.Add('		 and YWCPMONTH.KCMONTH='''+sMonth+'''  ) YWCPMonth on YWCP.DDBH=YWCPMonth.DDBH');
@@ -411,7 +411,7 @@ begin
     SQL.Add('	Select Max(YWCP.KCBH) as CKBH,YWCP.DDBH,Sum( Case when SB=''3'' then YWCP.Qty else 0 end) as Qty,''5'' as SB');
     SQL.Add('	from (Select * from YWCP union all Select * from YWCPOld) YWCP');
     SQL.Add('	where convert(smalldatetime,convert(varchar,YWCP.EXEDATE,111)) between '''+Formatdatetime('yyyy/MM/dd',startofthemonth(DTP.date))+''' and '''+Formatdatetime('yyyy/MM/dd',DTP.date)+''' and IsNull(SB,'''')<>''''');
-    SQL.Add('	Group by YWCP.DDBH ) YWCPXH on YWCP.DDBH=YWCPXH.DDBH');
+    SQL.Add('	Group by YWCP.DDBH) YWCPXH on YWCP.DDBH=YWCPXH.DDBH');
     SQL.Add('   Left join (');
     //20221126 н╫зя
     SQL.Add(' Select YWCPDDTR.CKBH,YWCPDDTR.DDBH, Case when IsNull(YWCP.Qty,0)<YWCPDDTR.Qty then IsNull(YWCP.Qty,0) else YWCPDDTR.Qty end as  Qty,YWCPDDTR.SB from (');
@@ -467,7 +467,7 @@ begin
     SQL.Add('   and YWDDM.DDBH in (Select DDBH  from #YWCPDDTR union all Select DDBH1  from #YWCPDDTR ) ');
     if MemoEdit.Text<>'' then
     SQL.Add('   and YWCPMemo.Memo like ''%'+MemoEdit.Text+'%'' ');
-    SQL.Add('Order by YWDDM.YSBH ');
+    SQL.Add('Order by KCCLMONTH_Order.stt,YWDDM.YSBH ');
     //FuncObj.WriteErrorLog(sql.Text);
     Active:=true;
   end;

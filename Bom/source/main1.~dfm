@@ -191,6 +191,10 @@ object main: Tmain
           Caption = 'N387 CostingPriceList LYS'
           OnClick = SN387Click
         end
+        object SN388: TMenuItem
+          Caption = 'N388 Bom Using'
+          OnClick = SN388Click
+        end
       end
       object SN39: TMenuItem
         Caption = 'N39 Model Status'
@@ -308,6 +312,12 @@ object main: Tmain
       object SN66: TMenuItem
         Caption = 'N66 Khuon In Phieu Xuat'
         OnClick = SN66Click
+      end
+    end
+    object N71: TMenuItem
+      Caption = 'N7'
+      object SN71: TMenuItem
+        Caption = 'N71 Import KH'
       end
     end
     object SN7: TMenuItem

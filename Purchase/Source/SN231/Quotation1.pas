@@ -170,6 +170,7 @@ type
     BBTT2: TBitBtn;
     DBEdit14: TDBEdit;
     ITBtn: TButton;
+    BJDetCostingEx: TFloatField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BB1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -223,6 +224,7 @@ type
     procedure ITBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BDT6Click(Sender: TObject);
+    procedure BJDetSeasonSetText(Sender: TField; const Text: String);
   private
      GSBH_SFL:String;
     // CBDExchange:string;
@@ -807,9 +809,9 @@ begin
                   BJDet.FieldByName('BJLX').Value:='1';
                   BJDet.FieldByName('YN').Value:='1';
                   //20180324 Check if Costing Price> Price
-                  if (((GSBH_SFL='PD') and (GSBH_Check = main.Edit2.Text))) then  //量產
+                  if (('VDH'= main.Edit2.Text) or ('VDX'= main.Edit2.Text))  then  //量產                                       
                   begin
-                    if (( BJDet.FieldByName('Season').IsNull) or ((copy(BJDet.fieldbyname('Season').AsString,1,2)<>'S') and (copy(BJDet.fieldbyname('Season').AsString,1,2)<>'F'))) then
+                    if (( BJDet.FieldByName('Season').IsNull) or ((copy(BJDet.fieldbyname('Season').AsString,1,1)<>'S') and (copy(BJDet.fieldbyname('Season').AsString,1,1)<>'F'))) then
                     begin
                         showmessage('Season should be like S24 or F24(24 can be changed)!');
                         abort;
@@ -823,15 +825,7 @@ begin
                       SQL.Add(',Round(convert(money,MaterialCBD.samplePrice)*convert(money,MaterialCBDEx.CWHL),0) as samplePriceVN  ');
                       SQL.Add(',CLZL.YN as CLZL_YN,MaterialCBDFilter.YN as MUnkLock,CLZL.CQDH,CLZL.CLZMLB from CLZL ');
                       SQL.Add('Left join MaterialCBD_His MaterialCBD on CLZL.CLDH=MaterialCBD.CLBH and MaterialCBD.Season='''+BJDet.fieldbyname('Season').AsString+'''');
-                      if ((main.edit2.Text='VC2') or (main.edit2.Text='VC1'))then
-                          sql.add('and MaterialCBD.GSBH=''VC1''')
-                      else
-                          sql.add('and MaterialCBD.GSBH=''CDC''');     //Cariuma
-                      SQL.Add('Left join MaterialCBDEx on MaterialCBD.Season=MaterialCBDEx.Season ');  
-                      if ((main.Edit2.Text='CDC') or  (main.Edit2.Text='VA12'))  then
-                        sql.add('and MaterialCBDEx.GSBH=''CDC''')
-                      else if ((main.Edit2.Text='VC1') or  (main.Edit2.Text='VC2'))  then
-                        sql.add('and MaterialCBDEx.GSBH=''VC1''');     //Cariuma
+                      SQL.Add('Left join MaterialCBDEx on MaterialCBD.Season=MaterialCBDEx.Season ');
                       SQL.Add('left join MaterialCBDFilter on MaterialCBDFilter.CLBH=CLZL.CLDH ');
                       SQL.Add('where CLZL.CLDH='''+BJDet.fieldbyname('CLBH').AsString+''' ');
                       //funcObj.WriteErrorLog(sql.Text);
@@ -847,6 +841,8 @@ begin
                       if ((CheckMaterialCBD(BJDet,Qtemp)=False) and (BJDet.FieldByName('USPrice').Value<>0) and (BJDet.FieldByName('VNPrice').Value<>0))  then
                       begin
                         Showmessage(BJDet.FieldByName('CLBH').AsString+' Bao gia cao hon bao gia khai thac!');
+                        BJDet.FieldByName('BJNO').value:=null;
+                        abort;
                       end else
                       begin
                         upDet.apply(ukinsert);
@@ -891,9 +887,9 @@ begin
 
                   BJDet.FieldByName('userID').Value:=main.edit1.text;
                   BJDet.FieldByName('userdate').Value:=formatdatetime('yyyy/MM/dd',Ndate);
-                  if (((GSBH_SFL='PD') and (GSBH_Check = main.Edit2.Text)) ) then  //量產&有開發報價匯率
+                  if (('VDH'= main.Edit2.Text) or ('VDX'= main.Edit2.Text))  then  //量產&有開發報價匯率
                   begin
-                    if (( BJDet.FieldByName('Season').IsNull) or ((copy(BJDet.fieldbyname('Season').AsString,1,2)<>'S') and (copy(BJDet.fieldbyname('Season').AsString,1,2)<>'F'))) then
+                    if (( BJDet.FieldByName('Season').IsNull) or ((copy(BJDet.fieldbyname('Season').AsString,1,1)<>'S') and (copy(BJDet.fieldbyname('Season').AsString,1,1)<>'F'))) then
                     begin
                         showmessage('Season should be like S24 or F24(24 can be changed)!');
                         abort;
@@ -907,16 +903,12 @@ begin
                       SQL.Add(',Round(convert(money,MaterialCBD.samplePrice)*convert(money,MaterialCBDEx.CWHL),0) as samplePriceVN  ');
                       SQL.Add(',CLZL.YN as CLZL_YN,MaterialCBDFilter.YN as MUnkLock,CLZL.CQDH,CLZL.CLZMLB from CLZL ');
                       //新增報價匯率
-                      SQL.Add('Left join MaterialCBD_His MaterialCBD on CLZL.CLDH=MaterialCBD.CLBH and MaterialCBD.Season='''+BJDet.fieldbyname('Season').AsString+'''');   
-                      if main.edit2.Text='VC2' then
-                        SQL.Add('and MaterialCBD.KFCQ=''FNS''')    //Cariuma
-                      else
-                        SQL.Add('and MaterialCBD.KFCQ=''JNG''');
+                      SQL.Add('Left join MaterialCBD_His MaterialCBD on CLZL.CLDH=MaterialCBD.CLBH and MaterialCBD.Season='''+BJDet.fieldbyname('Season').AsString+'''');
                       SQL.Add('Left join MaterialCBDEx on MaterialCBD.Season=MaterialCBDEx.Season ');
                       SQL.Add('left join MaterialCBDFilter on MaterialCBDFilter.CLBH=CLZL.CLDH ');
                       SQL.Add('where CLZL.CLDH='''+BJDet.fieldbyname('CLBH').AsString+''' ');
                       //funcObj.WriteErrorLog(sql.Text);
-                      //showmessage(SQL.text);
+                      showmessage(SQL.text);
                       Active:=true;
                     end;
                     //20180324 Check if Costing Price> Price 成本單價鎖定
@@ -926,7 +918,9 @@ begin
                       //showmessage('cost checking');
                       if ((CheckMaterialCBD(BJDet,Qtemp)=false) and (BJDet.FieldByName('USPrice').Value<>0) and (BJDet.FieldByName('VNPrice').Value<>0))   then
                       begin
-                        Showmessage(BJDet.FieldByName('CLBH').AsString+' Bao gia cao hon bao gia khai thac!');
+                        Showmessage(BJDet.FieldByName('CLBH').AsString+' Bao gia cao hon bao gia khai thac!');  
+                        BJDet.FieldByName('BJNO').value:=null;
+                        abort;
                       end else
                       begin
                         upDet.apply(ukmodify);
@@ -1465,5 +1459,24 @@ begin
 end;
 
 
+procedure TQuotation.BJDetSeasonSetText(Sender: TField;
+  const Text: String);
+begin
+  Sender.Value:=Text;
+  with Qtemp do
+  begin
+    Active:=false;
+    SQL.Clear;
+    SQL.Add('select CWHL from MaterialCBDEx where season='''+Sender.AsString+'''');
+    Active:=true;
+    if RecordCount>0 then
+    begin
+      BJDet.Edit;
+      BJDet.FieldByName('CostingEx').Value:=FieldByName('CWHL').Value;
+      BJDet.Post;
+    end;
+    Active:=false;
+  end;
+end;
 
 end.

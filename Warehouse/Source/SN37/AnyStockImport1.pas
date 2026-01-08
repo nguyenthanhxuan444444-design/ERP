@@ -425,6 +425,15 @@ end;
 
 procedure TAnyStockImport.Button2Click(Sender: TObject);
 begin
+  //28.11.2025
+  if  Messagedlg(Pchar('Ngay kiem ke hien thi theo ngay hien tai hay ngay StockDate ?'),mtInformation,[mbNo,mbYes],0)=mrYes then
+  begin
+     NgayKK:='Y' ;
+  end else
+  begin
+     NgayKK:='N' ;
+  end;
+  //=========
   if Edit3.Text='' then
   begin
     showmessage('Pls key in Shelves');

@@ -74,6 +74,7 @@
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.ledTotal2 = new CustomControl.LxLedControl();
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -93,6 +94,8 @@
             this.lrtxtLog = new System.Windows.Forms.RichTextBox();
             this.timerInventory = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabCtrMain.SuspendLayout();
             this.PagReaderSetting.SuspendLayout();
             this.gbCmdBeeper.SuspendLayout();
@@ -522,7 +525,8 @@
             // 
             this.lvRealList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.RFIDNO,
-            this.Date});
+            this.Date,
+            this.columnHeader8});
             this.lvRealList.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lvRealList.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvRealList.FullRowSelect = true;
@@ -611,6 +615,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.ledTotal2);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.label9);
@@ -629,6 +634,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "RFID SCAN";
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.label13.Location = new System.Drawing.Point(3, 138);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(77, 13);
+            this.label13.TabIndex = 94;
+            this.label13.Text = "Số lượng RFID";
+            // 
             // ledTotal2
             // 
             this.ledTotal2.BackColor = System.Drawing.Color.Transparent;
@@ -638,9 +653,9 @@
             this.ledTotal2.FadedColor = System.Drawing.Color.DimGray;
             this.ledTotal2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.ledTotal2.HighlightOpaque = ((byte)(50));
-            this.ledTotal2.Location = new System.Drawing.Point(83, 86);
+            this.ledTotal2.Location = new System.Drawing.Point(140, 267);
             this.ledTotal2.Name = "ledTotal2";
-            this.ledTotal2.Size = new System.Drawing.Size(248, 80);
+            this.ledTotal2.Size = new System.Drawing.Size(162, 51);
             this.ledTotal2.TabIndex = 93;
             this.ledTotal2.Text = "0";
             this.ledTotal2.TextAlignment = CustomControl.LxLedControl.Alignment.Right;
@@ -651,7 +666,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label12.Location = new System.Drawing.Point(1, 111);
+            this.label12.Location = new System.Drawing.Point(11, 284);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(76, 20);
             this.label12.TabIndex = 92;
@@ -740,7 +755,7 @@
             this.ledReal2.FadedColor = System.Drawing.Color.DimGray;
             this.ledReal2.ForeColor = System.Drawing.Color.LimeGreen;
             this.ledReal2.HighlightOpaque = ((byte)(50));
-            this.ledReal2.Location = new System.Drawing.Point(82, 86);
+            this.ledReal2.Location = new System.Drawing.Point(112, 86);
             this.ledReal2.Name = "ledReal2";
             this.ledReal2.Size = new System.Drawing.Size(249, 80);
             this.ledReal2.TabIndex = 77;
@@ -769,7 +784,8 @@
             // 
             this.lvRealList2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
-            this.columnHeader2});
+            this.columnHeader2,
+            this.columnHeader7});
             this.lvRealList2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lvRealList2.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvRealList2.FullRowSelect = true;
@@ -781,6 +797,7 @@
             this.lvRealList2.TabIndex = 79;
             this.lvRealList2.UseCompatibleStateImageBehavior = false;
             this.lvRealList2.View = System.Windows.Forms.View.Details;
+            this.lvRealList2.SelectedIndexChanged += new System.EventHandler(this.lvRealList2_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -849,6 +866,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1022, 32);
             this.panel1.TabIndex = 14;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "Memo";
+            this.columnHeader7.Width = 300;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "Memo";
+            this.columnHeader8.Width = 300;
             // 
             // R2000UartDemo
             // 
@@ -955,6 +982,9 @@
         private CustomControl.LxLedControl ledTotal1;
         private System.Windows.Forms.Label label12;
         private CustomControl.LxLedControl ledTotal2;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
     }
 }
 
