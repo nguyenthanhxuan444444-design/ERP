@@ -82,10 +82,6 @@ type
     Label6: TLabel;
     Label8: TLabel;
     Query1Image: TStringField;
-    RadioGroup1: TRadioGroup;
-    rbGo: TRadioButton;
-    rbChat: TRadioButton;
-    rbMay: TRadioButton;
     procedure bExFClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure DBGrid1CellClick(Column: TColumnEh);
@@ -108,7 +104,6 @@ type
     procedure UpImageClick(Sender: TObject);
     procedure InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
   const FieldName: string; Row, Column: Integer);
-    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -125,7 +120,7 @@ uses main1;
 {$R *.dfm}
 
 
-procedure TProducMatFailure.InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
+{procedure TProducMatFailure.InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
   const FieldName: string; Row, Column: Integer);
 var
   Pic: OleVariant;
@@ -176,8 +171,71 @@ begin
   // Can duoi
   Pic.Left := CellLeft + (CellWidth - Pic.Width) / 2;
   Pic.Top  := CellTop + (CellHeight * 0.03);
-  //Pic.Top := CellTop + (CellHeight - Pic.Height) - (CellHeight * 0.03);
+end;}
+
+procedure TProducMatFailure.InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
+  const FieldName: string; Row, Column: Integer);
+var
+  Pic: OleVariant;
+  Rg: OleVariant;
+  CellLeft, CellTop, CellWidth, CellHeight: Double;
+  origW, origH, newW, newH: Double;
+  ImagePath: string;
+begin
+  // Duong anh trong field
+  ImagePath := Trim(Query.FieldByName(FieldName).AsString);
+
+  // Neu rong thi khong lam gi
+  if ImagePath = '' then
+    Exit;
+
+  // Neu file khong ton tai thi exit
+  if not FileExists(ImagePath) then
+    Exit;
+
+  // Chen anh
+  Pic := Worksheet.Pictures.Insert(ImagePath);
+
+  // Lay vung merge cua o
+  Rg := Worksheet.Cells[Row, Column].MergeArea;
+
+  CellLeft   := Rg.Left;
+  CellTop    := Rg.Top;
+  CellWidth  := Rg.Width;
+  CellHeight := Rg.Height;
+
+  // Kich thuoc goc cua anh
+  origW := Pic.Width;
+  origH := Pic.Height;
+
+  // Scale theo chieu ngang nhu cu
+  newW := CellWidth * 0.95;
+  newH := newW * (origH / origW);
+
+  if newH > CellHeight * 0.95 then
+  begin
+    newH := CellHeight * 0.95;
+    newW := newH * (origW / origH);
+  end;
+
+  // Gioi han anh chi nam trong nua tren cua vung merge
+  if newH > (CellHeight / 2) * 0.95 then
+  begin
+    newH := (CellHeight / 2) * 0.95;
+    newW := newH * (origW / origH);
+  end;
+
+  Pic.Width  := newW;
+  Pic.Height := newH;
+
+  // Canh giua theo chieu ngang
+  Pic.Left := CellLeft + (CellWidth - Pic.Width) / 2;
+
+  // Canh giua trong nua tren
+  Pic.Top := CellTop + ((CellHeight / 2) - Pic.Height) / 2;
 end;
+
+
 
 
 function TProducMatFailure.GetUsernameByID(const AID: string): string;
@@ -861,6 +919,7 @@ begin
     DBGrid1.Canvas.Font.Color := clRed;
 end;
 
+
 procedure TProducMatFailure.UpImageClick(Sender: TObject);
 var
   SourceFile, DestFile: string;
@@ -877,12 +936,7 @@ begin
     SourceFile := OpenPictureDialog1.FileName;
     
     // Tao duong dan den o mang
-    if rbGo.Checked then
-      DestFile := '\\192.168.71.102\Anh\Go\' + ExtractFileName(SourceFile)
-    else if rbChat.Checked then
-      DestFile := '\\192.168.71.102\Anh\Chat\' + ExtractFileName(SourceFile)
-    else if rbMay.Checked then
-      DestFile := '\\192.168.71.102\Anh\May\' + ExtractFileName(SourceFile);
+    DestFile := '\\192.168.71.11\FileServer\QC-QIP\KHO IMQC\HINHNG\' + ExtractFileName(SourceFile);
 
     try
       // Copy file len o mang, ghi de neu da ton tai
@@ -898,11 +952,6 @@ begin
         ShowMessage('Loi khi upload: ' + E.Message);
     end;
   end;
-end;
-
-procedure TProducMatFailure.FormCreate(Sender: TObject);
-begin
-  rbGo.Checked := True;
 end;
 
 end.

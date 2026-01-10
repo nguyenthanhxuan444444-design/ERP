@@ -602,6 +602,8 @@ type
     EdRKNO: TEdit;
     Label36: TLabel;
     EdSID: TEdit;
+    edtDefects: TEdit;
+    Label37: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -1252,6 +1254,9 @@ begin
         sql.Add('       and ZSZL.ZSYWJC like '''+edtSupp.Text+'%'' ');
         sql.Add('       and clzl.YWPM like ''%'+edtMatName.Text+'%'' ');
         sql.Add('       and clzl.YWPM like ''%'+Edit3.Text+'%'' ');
+
+        if edtDefects.Text <> '' then
+          SQL.Add(' and lqc.QC_Reason like ''%'+edtDefects.Text+'%'' ');
         if Edit4.Text <> '' then
             sql.Add('       and lqc.ReportID like '''+Edit4.Text+'%'' ');
 
