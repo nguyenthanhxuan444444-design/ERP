@@ -41,8 +41,6 @@ type
     edtSKU: TEdit;
     Label3: TLabel;
     edtStyle: TEdit;
-    Label4: TLabel;
-    edtSize: TEdit;
     QSig: TQuery;
     Panel2: TPanel;
     DBGridEh1: TDBGridEh;
@@ -204,8 +202,6 @@ begin
       SQL.Add('and CLBH like ''' +edtCLBH.Text+ '%'' ');
     if edtZSBH.Text <> '' then
       SQL.Add('and Supplier like ''' +edtZSBH.Text+ '%'' ');
-    if edtSize.Text <> '' then
-      SQL.Add('and Size = '''+edtSize.Text+''' ');
     if ckUSERDate.Checked then
       SQL.Add('and CAST(USERDate as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date) + ''' ');
     if ckInsDate.Checked then
