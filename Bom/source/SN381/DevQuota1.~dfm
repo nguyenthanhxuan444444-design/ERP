@@ -1,7 +1,7 @@
 object DevQuota: TDevQuota
-  Left = 627
-  Top = 242
-  Width = 1130
+  Left = 611
+  Top = 151
+  Width = 1299
   Height = 578
   Caption = 'CostingMTL cost'
   Color = clBtnFace
@@ -23,7 +23,7 @@ object DevQuota: TDevQuota
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1114
+    Width = 1283
     Height = 65
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -268,9 +268,9 @@ object DevQuota: TDevQuota
   object mainPC: TPageControl
     Left = 0
     Top = 65
-    Width = 1114
+    Width = 1283
     Height = 474
-    ActivePage = TabSheet7
+    ActivePage = TabSheet3
     Align = alClient
     TabOrder = 1
     object TabSheet2: TTabSheet
@@ -280,7 +280,7 @@ object DevQuota: TDevQuota
       object Panel4: TPanel
         Left = 0
         Top = 0
-        Width = 1106
+        Width = 1275
         Height = 65
         Align = alTop
         TabOrder = 0
@@ -687,7 +687,7 @@ object DevQuota: TDevQuota
       object DBGrid3: TDBGridEh
         Left = 0
         Top = 65
-        Width = 1106
+        Width = 1275
         Height = 381
         Align = alClient
         DataSource = DS3
@@ -883,7 +883,7 @@ object DevQuota: TDevQuota
       object PC1: TPageControl
         Left = 0
         Top = 0
-        Width = 1106
+        Width = 1275
         Height = 446
         ActivePage = TS2
         Align = alClient
@@ -899,7 +899,7 @@ object DevQuota: TDevQuota
           object Panel2: TPanel
             Left = 0
             Top = 0
-            Width = 1098
+            Width = 1267
             Height = 66
             Align = alTop
             TabOrder = 0
@@ -1247,7 +1247,7 @@ object DevQuota: TDevQuota
           object DBGrid1: TDBGridEh
             Left = 0
             Top = 66
-            Width = 1098
+            Width = 1267
             Height = 349
             Align = alClient
             DataSource = DS1
@@ -1415,7 +1415,7 @@ object DevQuota: TDevQuota
           object Panel3: TPanel
             Left = 0
             Top = 0
-            Width = 1098
+            Width = 1267
             Height = 57
             Align = alTop
             TabOrder = 0
@@ -1806,7 +1806,7 @@ object DevQuota: TDevQuota
           object DBGrid2: TDBGridEh
             Left = 0
             Top = 57
-            Width = 1098
+            Width = 1267
             Height = 358
             Align = alClient
             Ctl3D = False
@@ -2022,7 +2022,7 @@ object DevQuota: TDevQuota
       object Panel5: TPanel
         Left = 0
         Top = 0
-        Width = 1106
+        Width = 1275
         Height = 65
         Align = alTop
         TabOrder = 0
@@ -2227,8 +2227,8 @@ object DevQuota: TDevQuota
           TabOrder = 1
         end
         object Button4: TButton
-          Left = 999
-          Top = 39
+          Left = 991
+          Top = 31
           Width = 81
           Height = 29
           Caption = 'QUERY'
@@ -2384,11 +2384,19 @@ object DevQuota: TDevQuota
           ParentFont = False
           TabOrder = 12
         end
+        object CKKFCQ: TCheckBox
+          Left = 992
+          Top = 8
+          Width = 97
+          Height = 17
+          Caption = 'Factory'
+          TabOrder = 13
+        end
       end
       object DBGridEh1: TDBGridEh
         Left = 0
         Top = 65
-        Width = 1106
+        Width = 1275
         Height = 381
         Align = alClient
         DataSource = DS4
@@ -2419,6 +2427,7 @@ object DevQuota: TDevQuota
           item
             EditButtons = <>
             FieldName = 'Season'
+            Footer.ValueType = fvtCount
             Footers = <>
             ReadOnly = True
             Width = 55
@@ -2894,7 +2903,7 @@ object DevQuota: TDevQuota
       object Panel7: TPanel
         Left = 0
         Top = 0
-        Width = 1106
+        Width = 1275
         Height = 41
         Align = alTop
         TabOrder = 0
@@ -3110,7 +3119,7 @@ object DevQuota: TDevQuota
       object DBGridEh3: TDBGridEh
         Left = 0
         Top = 41
-        Width = 1106
+        Width = 1275
         Height = 405
         Align = alClient
         DataSource = DS6
@@ -3182,7 +3191,7 @@ object DevQuota: TDevQuota
       object Panel8: TPanel
         Left = 0
         Top = 0
-        Width = 1106
+        Width = 1275
         Height = 49
         Align = alTop
         TabOrder = 0
@@ -3495,7 +3504,7 @@ object DevQuota: TDevQuota
       object DBGridEh5: TDBGridEh
         Left = 889
         Top = 49
-        Width = 217
+        Width = 386
         Height = 397
         Align = alClient
         DataSource = DataSource1
@@ -3563,7 +3572,7 @@ object DevQuota: TDevQuota
       object Panel9: TPanel
         Left = 0
         Top = 0
-        Width = 1106
+        Width = 1275
         Height = 49
         Align = alTop
         TabOrder = 0
@@ -3716,7 +3725,7 @@ object DevQuota: TDevQuota
       object dbgrdh1: TDBGridEh
         Left = 0
         Top = 49
-        Width = 1106
+        Width = 1275
         Height = 397
         Align = alClient
         Ctl3D = False
@@ -4572,6 +4581,11 @@ object DevQuota: TDevQuota
       Caption = 'SR# List'
       OnClick = SRList2Click
     end
+    object Delete2: TMenuItem
+      Caption = 'Delete'
+      Enabled = False
+      OnClick = Delete2Click
+    end
   end
   object TemQry1: TQuery
     DatabaseName = 'DB'
@@ -4607,7 +4621,7 @@ object DevQuota: TDevQuota
       '          ,ZSZL_DEV.DeliveryTerm,MaterialMOQ.Remark as PurRemark'
       
         '   ,MaterialCBD_His.Season,max(xxzl.ARTICLE) as sku,MaterialCBD_' +
-        'His.Freight'
+        'His.Freight,MaterialCBD_His.XieXing,MaterialCBD_His.SheHao'
       'From MaterialCBD_His'
       'LEFT JOIN CLZL   ON MaterialCBD_His.CLBH = CLZL.cldh '
       'LEFT JOIN ZSZL on ZSZL.ZSDH=MaterialCBD_His.ZSBH '
@@ -4674,8 +4688,9 @@ object DevQuota: TDevQuota
         'rialCBD_His.userdate,MaterialCBD_His.Season'
       
         '          ,ZSZL_DEV.DeliveryTerm,MaterialMOQ.Remark,MaterialCBD_' +
-        'His.Freight'
+        'His.Freight,MaterialCBD_His.XieXing,MaterialCBD_His.SheHao'
       'ORDER BY ZSDH')
+    UpdateObject = UpdateQuery1
     Left = 308
     Top = 272
     object StringField1: TStringField
@@ -4781,6 +4796,16 @@ object DevQuota: TDevQuota
     end
     object Query1YN: TBooleanField
       FieldName = 'YN'
+    end
+    object Query1XieXing: TStringField
+      FieldName = 'XieXing'
+      FixedChar = True
+      Size = 15
+    end
+    object Query1SheHao: TStringField
+      FieldName = 'SheHao'
+      FixedChar = True
+      Size = 5
     end
   end
   object CalculateQuery: TQuery
@@ -5391,5 +5416,107 @@ object DevQuota: TDevQuota
       '  YN = :OLD_YN')
     Left = 668
     Top = 360
+  end
+  object UpdateQuery1: TUpdateSQL
+    ModifySQL.Strings = (
+      'update MaterialCBD_His'
+      'set'
+      '  MaterialCBD_His."YN" = :"YN",'
+      '  MaterialCBD_His."CLBH" = :"CLBH",'
+      '  MaterialCBD_His."YWPM" = :"YWPM",'
+      '  MaterialCBD_His."ZWPM" = :"ZWPM",'
+      '  MaterialCBD_His."DWBH" = :"DWBH",'
+      '  MaterialCBD_His."ZSDH" = :"ZSDH",'
+      '  MaterialCBD_His."ZSYWJC" = :"ZSYWJC",'
+      '  MaterialCBD_His."SamplePrice" = :"SamplePrice",'
+      '  MaterialCBD_His."PriceFormula" = :"PriceFormula",'
+      '  MaterialCBD_His."CostingRemark" = :"CostingRemark",'
+      '  MaterialCBD_His."userID" = :"userID",'
+      '  MaterialCBD_His."userdate" = :"userdate",'
+      '  MaterialCBD_His."CQDH" = :"CQDH",'
+      '  MaterialCBD_His."ProdLeadTime" = :"ProdLeadTime",'
+      '  MaterialCBD_His."Forecast_Leadtime" = :"Forecast_Leadtime",'
+      '  MaterialCBD_His."ProdMOQ" = :"ProdMOQ",'
+      '  MaterialCBD_His."Surcharge" = :"Surcharge",'
+      '  MaterialCBD_His."Dyingfee" = :"Dyingfee",'
+      '  MaterialCBD_His."ExtraPrice" = :"ExtraPrice",'
+      '  MaterialCBD_His."DeliveryTerm" = :"DeliveryTerm",'
+      '  MaterialCBD_His."PurRemark" = :"PurRemark",'
+      '  MaterialCBD_His."Season" = :"Season",'
+      '  MaterialCBD_His."sku" = :"sku",'
+      '  MaterialCBD_His."Freight" = :"Freight"'
+      'where'
+      '  MaterialCBD_His."YN" = :"OLD_YN" and'
+      '  MaterialCBD_His."CLBH" = :"OLD_CLBH" and'
+      '  MaterialCBD_His."YWPM" = :"OLD_YWPM" and'
+      '  MaterialCBD_His."ZWPM" = :"OLD_ZWPM" and'
+      '  MaterialCBD_His."DWBH" = :"OLD_DWBH" and'
+      '  MaterialCBD_His."ZSDH" = :"OLD_ZSDH" and'
+      '  MaterialCBD_His."ZSYWJC" = :"OLD_ZSYWJC" and'
+      '  MaterialCBD_His."SamplePrice" = :"OLD_SamplePrice" and'
+      '  MaterialCBD_His."PriceFormula" = :"OLD_PriceFormula" and'
+      '  MaterialCBD_His."CostingRemark" = :"OLD_CostingRemark" and'
+      '  MaterialCBD_His."userID" = :"OLD_userID" and'
+      '  MaterialCBD_His."userdate" = :"OLD_userdate" and'
+      '  MaterialCBD_His."CQDH" = :"OLD_CQDH" and'
+      '  MaterialCBD_His."ProdLeadTime" = :"OLD_ProdLeadTime" and'
+      
+        '  MaterialCBD_His."Forecast_Leadtime" = :"OLD_Forecast_Leadtime"' +
+        ' and'
+      '  MaterialCBD_His."ProdMOQ" = :"OLD_ProdMOQ" and'
+      '  MaterialCBD_His."Surcharge" = :"OLD_Surcharge" and'
+      '  MaterialCBD_His."Dyingfee" = :"OLD_Dyingfee" and'
+      '  MaterialCBD_His."ExtraPrice" = :"OLD_ExtraPrice" and'
+      '  MaterialCBD_His."DeliveryTerm" = :"OLD_DeliveryTerm" and'
+      '  MaterialCBD_His."PurRemark" = :"OLD_PurRemark" and'
+      '  MaterialCBD_His."Season" = :"OLD_Season" and'
+      '  MaterialCBD_His."sku" = :"OLD_sku" and'
+      '  MaterialCBD_His."Freight" = :"OLD_Freight"')
+    InsertSQL.Strings = (
+      'insert into MaterialCBD_His'
+      
+        '  (MaterialCBD_His."YN", MaterialCBD_His."CLBH", MaterialCBD_His' +
+        '."YWPM", '
+      
+        '   MaterialCBD_His."ZWPM", MaterialCBD_His."DWBH", MaterialCBD_H' +
+        'is."ZSDH", '
+      '   MaterialCBD_His."ZSYWJC", MaterialCBD_His."SamplePrice", '
+      'MaterialCBD_His."PriceFormula", '
+      '   MaterialCBD_His."CostingRemark", MaterialCBD_His."userID", '
+      'MaterialCBD_His."userdate", '
+      '   MaterialCBD_His."CQDH", MaterialCBD_His."ProdLeadTime", '
+      'MaterialCBD_His."Forecast_Leadtime", '
+      '   MaterialCBD_His."ProdMOQ", MaterialCBD_His."Surcharge", '
+      'MaterialCBD_His."Dyingfee", '
+      
+        '   MaterialCBD_His."ExtraPrice", MaterialCBD_His."DeliveryTerm",' +
+        ' '
+      'MaterialCBD_His."PurRemark", '
+      
+        '   MaterialCBD_His."Season", MaterialCBD_His."sku", MaterialCBD_' +
+        'His."Freight")'
+      'values'
+      
+        '  (:"YN", :"CLBH", :"YWPM", :"ZWPM", :"DWBH", :"ZSDH", :"ZSYWJC"' +
+        ', '
+      ':"SamplePrice", '
+      
+        '   :"PriceFormula", :"CostingRemark", :"userID", :"userdate", :"' +
+        'CQDH", '
+      
+        '   :"ProdLeadTime", :"Forecast_Leadtime", :"ProdMOQ", :"Surcharg' +
+        'e", :"Dyingfee", '
+      
+        '   :"ExtraPrice", :"DeliveryTerm", :"PurRemark", :"Season", :"sk' +
+        'u", :"Freight")')
+    DeleteSQL.Strings = (
+      'DELETE FROM MaterialCBD_His'
+      'WHERE   CLBH = :OLD_CLBH'
+      '  AND Season = :OLD_Season'
+      '  AND zsbh = :OLD_zsdh'
+      'and XieXing= :OLD_XieXing'
+      'and SheHao= :OLD_SheHao')
+    Left = 308
+    Top = 377
   end
 end

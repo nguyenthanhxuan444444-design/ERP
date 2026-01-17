@@ -437,6 +437,7 @@ object CostingPriceList_LYS: TCostingPriceList_LYS
           Items.Strings = (
             'YIH'
             'YQA'
+            'TYB'
             '')
         end
         object CB_B: TComboBox

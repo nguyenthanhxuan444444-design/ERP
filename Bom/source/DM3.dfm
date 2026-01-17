@@ -1,8 +1,8 @@
 object DM2: TDM2
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Left = 804
-  Top = 164
+  Left = 1497
+  Top = 622
   Height = 249
   Width = 309
   object DBBOM: TDatabase

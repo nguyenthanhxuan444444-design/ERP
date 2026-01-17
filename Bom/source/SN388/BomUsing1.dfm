@@ -1,7 +1,7 @@
 object BomUsing: TBomUsing
-  Left = 956
-  Top = 268
-  Width = 1305
+  Left = 454
+  Top = 181
+  Width = 1447
   Height = 675
   Caption = 'Bom Using'
   Color = clBtnFace
@@ -22,7 +22,7 @@ object BomUsing: TBomUsing
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1289
+    Width = 1431
     Height = 65
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -262,7 +262,7 @@ object BomUsing: TBomUsing
       Font.Style = []
       ParentFont = False
       TabOrder = 7
-      OnClick = bbt6Click
+      Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -292,256 +292,434 @@ object BomUsing: TBomUsing
       Font.Style = []
       ParentFont = False
       TabOrder = 8
-      OnClick = Button1Click
-    end
-  end
-  object Panel4: TPanel
-    Left = 0
-    Top = 65
-    Width = 1289
-    Height = 65
-    Align = alTop
-    TabOrder = 1
-    object Label12: TLabel
-      Left = -1
-      Top = 10
-      Width = 77
-      Height = 16
-      Alignment = taRightJustify
-      AutoSize = False
-      Caption = 'Article:'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -15
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-    end
-    object Label1: TLabel
-      Left = 32
-      Top = 32
-      Width = 46
-      Height = 16
-      Caption = 'Xiexing:'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = 16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-    end
-    object Label2: TLabel
-      Left = 200
-      Top = 16
-      Width = 44
-      Height = 16
-      Caption = 'BWBH:'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = 16
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-    end
-    object Button3: TButton
-      Left = 568
-      Top = 27
-      Width = 81
-      Height = 34
-      Caption = 'QUERY'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -15
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 0
-      OnClick = Button3Click
-    end
-    object Article: TEdit
-      Left = 79
-      Top = 6
-      Width = 114
-      Height = 24
-      CharCase = ecUpperCase
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -15
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 1
-    end
-    object CB1: TCheckBox
-      Left = 664
-      Top = 40
-      Width = 97
-      Height = 17
-      Caption = 'userdate fillter'
-      TabOrder = 2
       Visible = False
     end
-    object BWBH: TEdit
-      Left = 256
-      Top = 8
-      Width = 121
-      Height = 21
-      TabOrder = 3
-    end
-    object Xiexing: TEdit
-      Left = 80
-      Top = 32
-      Width = 113
-      Height = 21
-      TabOrder = 4
-    end
   end
-  object DBGrid1: TDBGridEh
+  object PC1: TPageControl
     Left = 0
-    Top = 130
-    Width = 1289
-    Height = 506
+    Top = 65
+    Width = 1431
+    Height = 571
+    ActivePage = TS1
     Align = alClient
-    DataSource = DS1
-    Flat = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -15
     Font.Name = 'MS Sans Serif'
     Font.Style = []
-    FooterColor = clWindow
-    FooterFont.Charset = DEFAULT_CHARSET
-    FooterFont.Color = clWindowText
-    FooterFont.Height = -12
-    FooterFont.Name = 'MS Sans Serif'
-    FooterFont.Style = []
-    FooterRowCount = 1
     ParentFont = False
-    SumList.Active = True
-    TabOrder = 2
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -15
-    TitleFont.Name = 'MS Sans Serif'
-    TitleFont.Style = []
-    UseMultiTitle = True
-    Columns = <
-      item
-        EditButtons = <>
-        FieldName = 'ARTICLE'
-        Footers = <>
-        ReadOnly = True
+    TabOrder = 1
+    object TS1: TTabSheet
+      Caption = 'BOM'
+      ImageIndex = 1
+      object DBGrid1: TDBGridEh
+        Left = 0
+        Top = 49
+        Width = 1423
+        Height = 491
+        Align = alClient
+        DataSource = DS2
+        Flat = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        FooterColor = clWindow
+        FooterFont.Charset = DEFAULT_CHARSET
+        FooterFont.Color = clWindowText
+        FooterFont.Height = -12
+        FooterFont.Name = 'MS Sans Serif'
+        FooterFont.Style = []
+        FooterRowCount = 1
+        FrozenCols = 4
+        OptionsEh = [dghFixed3D, dghHighlightFocus, dghClearSelection, dghAutoSortMarking, dghMultiSortMarking, dghDialogFind]
+        ParentFont = False
+        SumList.Active = True
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -15
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        UseMultiTitle = True
+        OnGetCellParams = DBGrid1GetCellParams
+        Columns = <
+          item
+            EditButtons = <>
+            FieldName = 'XieXing'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'XH'
+            Footer.ValueType = fvtCount
+            Footers = <>
+            Title.Caption = 'XH|'#24207#34399
+            Width = 26
+          end
+          item
+            EditButtons = <>
+            FieldName = 'BWBH'
+            Footers = <>
+            Title.Caption = 'Part|'#37096#20301#32232#34399
+            Title.TitleButton = True
+            Width = 68
+          end
+          item
+            EditButtons = <>
+            FieldName = 'BWMC'
+            Footers = <>
+            Title.Caption = 'PartName|'#37096#20301#21517#31281
+            Width = 140
+          end
+          item
+            EditButtons = <>
+            FieldName = 'DType'
+            Footers = <>
+            Visible = False
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CLBH'
+            Footers = <>
+            Title.Caption = 'Material|'#26448#26009#32232#34399
+            Title.TitleButton = True
+            Width = 107
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CLMC'
+            Footers = <>
+            Title.Caption = 'Material|'#26448#26009#21517#31281
+            Width = 376
+          end
+          item
+            EditButtons = <>
+            FieldName = 'DWBH'
+            Footers = <>
+            Title.Caption = 'Unit|'#21934#20301
+            Width = 47
+          end
+          item
+            EditButtons = <>
+            FieldName = 'LYCC'
+            Footers = <>
+            Title.Caption = 'CC|'#21015#21360#23610#23544
+            Width = 60
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CLSL'
+            Footers = <>
+            Title.Caption = 'Usage|'#29992#37327
+            Width = 59
+          end
+          item
+            Color = clYellow
+            EditButtons = <>
+            FieldName = 'Price'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'LOSS'
+            Footers = <>
+            Width = 47
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CCQQ'
+            Footers = <>
+            Title.Caption = 'SizeRange|'#23610#23544#36215
+            Width = 50
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CCQZ'
+            Footers = <>
+            Title.Caption = 'SizeRange|'#23610#23544#36804
+            Width = 58
+          end
+          item
+            EditButtons = <>
+            FieldName = 'BWLB'
+            Footers = <>
+            Title.Caption = 'UnitClass|'#37096#20301#39006#21029
+            Width = 68
+          end
+          item
+            EditButtons = <>
+            FieldName = 'ZSYWJC'
+            Footers = <>
+            Title.Caption = 'Supplier|'#24288#21830#21517#31281
+            Title.TitleButton = True
+            Width = 102
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CLZMLB'
+            Footers = <>
+            Title.Caption = 'Material Class|'#26448#26009#23376#27597#39006#21029
+            Width = 90
+          end
+          item
+            EditButtons = <>
+            FieldName = 'BWZW'
+            Footers = <>
+            Title.Caption = 'UnitName|'#37096#20301#20013#25991#35498#26126
+            Width = 100
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CLZW'
+            Footers = <>
+            Title.Caption = 'MaterialName|'#26448#26009#20013#25991
+            Width = 312
+          end
+          item
+            EditButtons = <>
+            FieldName = 'userdate'
+            Footers = <>
+            Title.Caption = #30064#21205#26085#26399'|UserDate'
+            Width = 72
+          end>
       end
-      item
-        EditButtons = <>
-        FieldName = 'XieXing'
-        Footers = <>
-        ReadOnly = True
+      object Panel2: TPanel
+        Left = 0
+        Top = 0
+        Width = 1423
+        Height = 49
+        Align = alTop
+        TabOrder = 1
+        object Label5: TLabel
+          Left = 239
+          Top = 10
+          Width = 69
+          Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'BWBH:'
+        end
+        object Label23: TLabel
+          Left = 12
+          Top = 11
+          Width = 61
+          Height = 16
+          Alignment = taRightJustify
+          AutoSize = False
+          Caption = 'Xiexing:'
+        end
+        object BWBH: TEdit
+          Left = 319
+          Top = 8
+          Width = 134
+          Height = 24
+          CharCase = ecUpperCase
+          Color = clYellow
+          TabOrder = 0
+        end
+        object Button2: TButton
+          Left = 464
+          Top = 6
+          Width = 74
+          Height = 33
+          Caption = 'QUERY'
+          TabOrder = 1
+          OnClick = Button2Click
+        end
+        object Xiexing: TEdit
+          Left = 84
+          Top = 8
+          Width = 172
+          Height = 24
+          CharCase = ecUpperCase
+          Color = clYellow
+          TabOrder = 2
+        end
       end
-      item
-        EditButtons = <>
-        FieldName = 'BWBH'
-        Footers = <>
-        ReadOnly = True
-        Width = 68
-      end
-      item
-        Color = clYellow
-        EditButtons = <>
-        FieldName = 'Price'
-        Footers = <>
-        Width = 120
-      end
-      item
-        EditButtons = <>
-        FieldName = 'USERID'
-        Footers = <>
-        ReadOnly = True
-      end
-      item
-        EditButtons = <>
-        FieldName = 'USERDATE'
-        Footers = <>
-        ReadOnly = True
-      end>
+    end
   end
-  object CLZLQry: TQuery
-    DatabaseName = 'DB'
-    SQL.Strings = (
-      'select  *from MaterialCBD_BomUsing')
-    UpdateObject = UpCLZL
-    Left = 92
-    Top = 264
-    object CLZLQryARTICLE: TStringField
-      FieldName = 'ARTICLE'
-      Origin = 'DB.MaterialCBD_BomUsing.ARTICLE'
-      FixedChar = True
-    end
-    object CLZLQryXieXing: TStringField
-      FieldName = 'XieXing'
-      Origin = 'DB.MaterialCBD_BomUsing.XieXing'
-      FixedChar = True
-      Size = 15
-    end
-    object CLZLQryBWBH: TStringField
-      FieldName = 'BWBH'
-      Origin = 'DB.MaterialCBD_BomUsing.BWBH'
-      FixedChar = True
-      Size = 4
-    end
-    object CLZLQryPrice: TFloatField
-      FieldName = 'Price'
-      Origin = 'DB.MaterialCBD_BomUsing.Price'
-    end
-    object CLZLQryUSERID: TStringField
-      FieldName = 'USERID'
-      Origin = 'DB.MaterialCBD_BomUsing.USERID'
-      FixedChar = True
-      Size = 15
-    end
-    object CLZLQryUSERDATE: TDateTimeField
-      FieldName = 'USERDATE'
-      Origin = 'DB.MaterialCBD_BomUsing.USERDATE'
-    end
-  end
-  object DS1: TDataSource
-    DataSet = CLZLQry
+  object DS2: TDataSource
+    DataSet = XXZLS
     Left = 92
     Top = 296
   end
-  object UpCLZL: TUpdateSQL
+  object XXZLS: TQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      
+        'select XXZLS.XH, XXZLS.BWBH,BWZL.ywsm BWMC,XXZLS.CLBH,'#39'Assembly'#39 +
+        ' as DType,'
+      '       CLZL.YWPM as CLMC, CLZL.ZWPM as CLZW,BWZL.zwsm  as BWZW,'
+      
+        '       CLZL.DWBH,CLZL.LYCC,LBZLS.BZ,XXZLS.BWLB,ZSZL.ZSYWJC,XXZLS' +
+        '.LOSS,XXZLS.CLSL,'
+      '       XXZLS.CCQQ,XXZLS.CCQZ,CLZL.CLZMLB,XXZLS.userdate'
+      
+        '       ,(case when XXZLS.CLBH<>XXZLS_Log.CLBH then XXZLS_Log.Log' +
+        '_DateTime end) as '#39'CLBH_Log'#39
+      
+        '       ,(case when XXZLS.CLSL<>XXZLS_Log.CLSL then XXZLS_Log.Log' +
+        '_DateTime end) as '#39'CLSL_Log'#39',XXZLS.XieXing,XXZLS.SheHao,CLZL.ywp' +
+        'm,BWZL.ywsm'
+      '       ,MaterialCBD_BomUsing.Price,MaterialCBD_BomUsing.userid'
+      'FROM XXZLS'
+      
+        'LEFT join (select XieXing,SheHao,BWBH,Max(CLBH) as CLBH,Max(CLSL' +
+        ') as CLSL,Max(Log_DateTime) as Log_DateTime from XXZLS_Log'
+      
+        '            where XXZLS_Log.XieXing='#39'HKF2020'#39'  and Log_DateTime>' +
+        '=GetDate()-1'
+      '           Group by XieXing,SheHao,BWBH'
+      
+        '          )  XXZLS_Log on XXZLS_Log.XieXing=XXZLS.XieXing and XX' +
+        'ZLS_Log.SheHao=XXZLS.SheHao and XXZLS_Log.BWBH=XXZLS.BWBH'
+      'LEFT JOIN BWZL  ON XXZLS.BWBH = BWZL.bwdh'
+      'LEFT JOIN CLZL   ON XXZLS.CLBH = CLZL.cldh'
+      
+        'LEFT JOIN LBZLS ON SUBSTRING(XXZLS.CLBH,1,1) = LBZLS.lbdh AND LB' +
+        'ZLS.LB='#39'05'#39
+      'LEFT JOIN ZSZL on ZSZL.ZSDH=XXZLS.CSBH'
+      
+        'left join MaterialCBD_BomUsing on MaterialCBD_BomUsing.XieXing=x' +
+        'xzls.XieXing and MaterialCBD_BomUsing.BWBH=xxzls.BWBH'
+      'where XXZLS.XieXing='#39'HKF20209'#39
+      'ORDER BY XXZLS.XH'
+      ''
+      '')
+    UpdateObject = UpXXZLS
+    Left = 92
+    Top = 264
+    object XXZLSXH: TStringField
+      FieldName = 'XH'
+      FixedChar = True
+      Size = 3
+    end
+    object XXZLSBWBH: TStringField
+      FieldName = 'BWBH'
+      FixedChar = True
+      Size = 4
+    end
+    object XXZLSBWMC: TStringField
+      FieldName = 'BWMC'
+      FixedChar = True
+      Size = 40
+    end
+    object XXZLSCLBH: TStringField
+      FieldName = 'CLBH'
+      FixedChar = True
+      Size = 15
+    end
+    object XXZLSDType: TStringField
+      FieldName = 'DType'
+      FixedChar = True
+      Size = 8
+    end
+    object XXZLSCLMC: TStringField
+      FieldName = 'CLMC'
+      FixedChar = True
+      Size = 200
+    end
+    object XXZLSCLZW: TStringField
+      FieldName = 'CLZW'
+      FixedChar = True
+      Size = 200
+    end
+    object XXZLSBWZW: TStringField
+      FieldName = 'BWZW'
+      FixedChar = True
+      Size = 40
+    end
+    object XXZLSDWBH: TStringField
+      FieldName = 'DWBH'
+      FixedChar = True
+      Size = 4
+    end
+    object XXZLSLYCC: TStringField
+      FieldName = 'LYCC'
+      FixedChar = True
+      Size = 1
+    end
+    object XXZLSBZ: TStringField
+      FieldName = 'BZ'
+      FixedChar = True
+    end
+    object XXZLSBWLB: TStringField
+      FieldName = 'BWLB'
+      FixedChar = True
+      Size = 1
+    end
+    object XXZLSZSYWJC: TStringField
+      FieldName = 'ZSYWJC'
+      FixedChar = True
+    end
+    object XXZLSLOSS: TFloatField
+      FieldName = 'LOSS'
+      DisplayFormat = '##,#0'
+    end
+    object XXZLSCLSL: TFloatField
+      FieldName = 'CLSL'
+      DisplayFormat = '##,#0.0000'
+    end
+    object XXZLSCCQQ: TStringField
+      FieldName = 'CCQQ'
+      FixedChar = True
+      Size = 6
+    end
+    object XXZLSCCQZ: TStringField
+      FieldName = 'CCQZ'
+      FixedChar = True
+      Size = 6
+    end
+    object XXZLSCLZMLB: TStringField
+      FieldName = 'CLZMLB'
+      FixedChar = True
+      Size = 1
+    end
+    object XXZLSuserdate: TDateTimeField
+      FieldName = 'userdate'
+    end
+    object XXZLSCLBH_Log: TStringField
+      FieldName = 'CLBH_Log'
+      FixedChar = True
+    end
+    object XXZLSCLSL_Log: TStringField
+      FieldName = 'CLSL_Log'
+      FixedChar = True
+    end
+    object XXZLSXieXing: TStringField
+      FieldName = 'XieXing'
+      FixedChar = True
+      Size = 15
+    end
+    object XXZLSPrice: TFloatField
+      FieldName = 'Price'
+    end
+    object XXZLSuserid: TStringField
+      FieldName = 'userid'
+      FixedChar = True
+      Size = 15
+    end
+  end
+  object UpXXZLS: TUpdateSQL
     ModifySQL.Strings = (
       'update MaterialCBD_BomUsing'
       'set'
       '  Price = :Price,'
       '  USERID = :USERID,'
-      '  USERDATE = :USERDATE'
+      '  USERDATE = GETDATE()'
       'where'
-      '  ARTICLE = :OLD_ARTICLE and'
       '  XieXing = :OLD_XieXing and'
       '  BWBH = :OLD_BWBH and'
       '  Price = :OLD_Price and'
-      '  USERID = :OLD_USERID and'
-      '  USERDATE = :OLD_USERDATE')
-    InsertSQL.Strings = (
-      'insert into MaterialCBD_BomUsing'
-      '  (ARTICLE, XieXing, BWBH, Price, USERID, USERDATE)'
-      'values'
-      '  (:ARTICLE, :XieXing, :BWBH, :Price, :USERID, :USERDATE)')
-    DeleteSQL.Strings = (
-      'delete from MaterialCBD_BomUsing'
-      'where'
-      '  ARTICLE = :OLD_ARTICLE and'
-      '  XieXing = :OLD_XieXing and'
-      '  BWBH = :OLD_BWBH and'
-      '  Price = :OLD_Price and'
-      '  USERID = :OLD_USERID and'
-      '  USERDATE = :OLD_USERDATE')
-    Left = 96
-    Top = 332
+      '  USERID = :OLD_USERID')
+    Left = 92
+    Top = 340
   end
-  object opendialog: TOpenDialog
-    Left = 96
-    Top = 368
+  object temp: TQuery
+    DatabaseName = 'DB'
+    Left = 172
+    Top = 260
   end
 end

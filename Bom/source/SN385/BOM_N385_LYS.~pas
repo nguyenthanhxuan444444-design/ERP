@@ -136,6 +136,7 @@ begin
       //KHDH:='0054';
      // KFCQ := CB_FTY.Text;
       //KFCQ:='YIH';
+
   end
   else if main.Edit2.Text='HBA' then
   begin

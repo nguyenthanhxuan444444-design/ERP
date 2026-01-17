@@ -790,12 +790,16 @@ begin
   begin
     cb1.Visible:=true;
   end;
-  if ((main.Edit1.Text='334193')or (main.Edit1.Text='351198')or (main.Edit1.Text='316503')) then
+  if ((main.Edit1.Text='334193')or (main.Edit1.Text='351198')) then
   begin
-  TS2.Visible := False;
-  TS4.Visible := False;
-  TabSheet1.Visible := False;
-  TabSheet2.Visible := False;
+  TS2.TabVisible  := False;
+  TS4.TabVisible  := False;
+  TabSheet1.TabVisible  := False;
+  TabSheet2.TabVisible  := False;
+  bbt5.Visible:= False;
+  bbt6.Visible:= False;
+  Print.visible := False;
+  Excel.Visible := False;
   end;
 end;
 

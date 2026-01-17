@@ -265,8 +265,8 @@ begin
     sql.add('           )group by convert(varchar,SCBZCL.BZDate,111),Bdepartment.GXLB ');
     sql.add('           ) SCBZCL on SCBZCL.DepNo=PerHours.DepNO and SCBZCL.GXLB=PerHours.GXLB and SCBZCL.Dates=PerHours.Dates');
     sql.add('group by PerHours.dates,PerHours.DepNo,PerHours.DepName,PerHours.GXLB,SCBZCL.PlanQty,PerDay.TotQty ');
-    //sql.add('order by PerHours.GXLB,PerHours.DepNo,PerHours.DepName,SCBZCL.PlanQty,PerDay.TotQty ');
-    sql.add('order by PerHours.GXLB,RIGHT(PerHours.DepName,2),SCBZCL.PlanQty,PerDay.TotQty ');
+    sql.add('order by PerHours.GXLB,PerHours.DepNo,PerHours.DepName,SCBZCL.PlanQty,PerDay.TotQty ');
+    //sql.add('order by PerHours.GXLB,RIGHT(PerHours.DepName,2),SCBZCL.PlanQty,PerDay.TotQty ');
     //funcobj.WriteErrorLog(sql.Text);
 
    { field   :=   TIntegerField.Create(nil);
