@@ -101,6 +101,8 @@ type
     EdRKNO: TEdit;
     Label10: TLabel;
     EdSID: TEdit;
+    Label11: TLabel;
+    edtDefects: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -233,6 +235,9 @@ begin
             sql.Add('       and CONVERT(varchar(10),DateInput,111) between');
             sql.add('           '''+formatdatetime('yyyy/MM/dd',DTP3.date)+''''+' and '+''''+formatdatetime('yyyy/MM/dd',DTP4.date)+''' ');
         end;
+
+        if edtDefects.Text <> '' then
+          SQL.Add(' and mc.QC_Reason like ''%'+edtDefects.Text+'%'' ');
         if edtMatID.Text <> '' then
             sql.Add('       and mc.CLBH like ''%'+edtMatID.Text+'%'' ');
         if edtSupp.Text <> '' then
@@ -263,6 +268,8 @@ begin
                sql.Add('   or Final_Status=''Fail'' ');
             sql.Add(')');
         end;
+
+        SQL.Add('order by DateInput');
 
         //funcObj.WriteErrorLog(sql.Text);
         active:=true;

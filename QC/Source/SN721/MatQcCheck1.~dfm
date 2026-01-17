@@ -478,6 +478,7 @@ object MatQcCheck: TMatQcCheck
       Width = 46
       Height = 16
       Caption = 'Defects'
+      Visible = False
     end
     object edt2: TEdit
       Left = 345
@@ -849,6 +850,7 @@ object MatQcCheck: TMatQcCheck
       Width = 84
       Height = 24
       TabOrder = 21
+      Visible = False
       OnKeyPress = edtDefectsKeyPress
     end
   end

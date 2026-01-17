@@ -16,7 +16,6 @@ object ProducMatFailure: TProducMatFailure
   Visible = True
   WindowState = wsMaximized
   OnClose = FormClose
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
@@ -532,42 +531,6 @@ object ProducMatFailure: TProducMatFailure
       Caption = 'UpImage'
       TabOrder = 0
       OnClick = UpImageClick
-    end
-    object RadioGroup1: TRadioGroup
-      Left = 784
-      Top = 48
-      Width = 81
-      Height = 105
-      Caption = 'Don vi'
-      TabOrder = 27
-      Visible = False
-    end
-    object rbGo: TRadioButton
-      Left = 792
-      Top = 72
-      Width = 49
-      Height = 17
-      Caption = 'Go'
-      TabOrder = 28
-      Visible = False
-    end
-    object rbChat: TRadioButton
-      Left = 792
-      Top = 96
-      Width = 65
-      Height = 17
-      Caption = 'Chat'
-      TabOrder = 29
-      Visible = False
-    end
-    object rbMay: TRadioButton
-      Left = 792
-      Top = 120
-      Width = 57
-      Height = 17
-      Caption = 'May'
-      TabOrder = 30
-      Visible = False
     end
   end
   object DBGrid1: TDBGridEh

@@ -1,8 +1,8 @@
 object IncomeMatEvaPainting: TIncomeMatEvaPainting
   Left = 192
   Top = 125
-  Width = 1305
-  Height = 675
+  Width = 1519
+  Height = 768
   Caption = 'Income Mat Eva Painting'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,8 +23,8 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1289
-    Height = 200
+    Width = 1503
+    Height = 161
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -75,173 +75,6 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Height = 20
       Caption = 'Style:'
     end
-    object Label4: TLabel
-      Left = 648
-      Top = 112
-      Width = 35
-      Height = 20
-      Caption = 'Size:'
-    end
-    object BB1: TBitBtn
-      Left = 8
-      Top = 8
-      Width = 49
-      Height = 49
-      Hint = 'Insert one New Record'
-      Caption = 'Insert'
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 1
-      OnClick = BB1Click
-      Glyph.Data = {
-        76010000424D7601000000000000760000002800000020000000100000000100
-        04000000000000010000130B0000130B00001000000000000000000000000000
-        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-        33333333FF33333333FF333993333333300033377F3333333777333993333333
-        300033F77FFF3333377739999993333333333777777F3333333F399999933333
-        33003777777333333377333993333333330033377F3333333377333993333333
-        3333333773333333333F333333333333330033333333F33333773333333C3333
-        330033333337FF3333773333333CC333333333FFFFF77FFF3FF33CCCCCCCCCC3
-        993337777777777F77F33CCCCCCCCCC3993337777777777377333333333CC333
-        333333333337733333FF3333333C333330003333333733333777333333333333
-        3000333333333333377733333333333333333333333333333333}
-      Layout = blGlyphTop
-      NumGlyphs = 2
-    end
-    object BB2: TBitBtn
-      Left = 56
-      Top = 8
-      Width = 49
-      Height = 49
-      Hint = 'Delete one Record'
-      Caption = 'Delete'
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 2
-      OnClick = BB2Click
-      Glyph.Data = {
-        76010000424D7601000000000000760000002800000020000000100000000100
-        04000000000000010000130B0000130B00001000000000000000000000000000
-        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-        333333333333333333FF33333333333330003333333333333777333333333333
-        300033FFFFFF3333377739999993333333333777777F3333333F399999933333
-        3300377777733333337733333333333333003333333333333377333333333333
-        3333333333333333333F333333333333330033333F33333333773333C3333333
-        330033337F3333333377333CC3333333333333F77FFFFFFF3FF33CCCCCCCCCC3
-        993337777777777F77F33CCCCCCCCCC399333777777777737733333CC3333333
-        333333377F33333333FF3333C333333330003333733333333777333333333333
-        3000333333333333377733333333333333333333333333333333}
-      Layout = blGlyphTop
-      NumGlyphs = 2
-    end
-    object BB3: TBitBtn
-      Left = 104
-      Top = 8
-      Width = 49
-      Height = 49
-      Hint = 'Modify Current'
-      Caption = 'Modify'
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 3
-      OnClick = BB3Click
-      Glyph.Data = {
-        76010000424D7601000000000000760000002800000020000000100000000100
-        04000000000000010000120B0000120B00001000000000000000000000000000
-        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00500005000555
-        555557777F777555F55500000000555055557777777755F75555005500055055
-        555577F5777F57555555005550055555555577FF577F5FF55555500550050055
-        5555577FF77577FF555555005050110555555577F757777FF555555505099910
-        555555FF75777777FF555005550999910555577F5F77777775F5500505509990
-        3055577F75F77777575F55005055090B030555775755777575755555555550B0
-        B03055555F555757575755550555550B0B335555755555757555555555555550
-        BBB35555F55555575F555550555555550BBB55575555555575F5555555555555
-        50BB555555555555575F555555555555550B5555555555555575}
-      Layout = blGlyphTop
-      NumGlyphs = 2
-    end
-    object BB4: TBitBtn
-      Left = 152
-      Top = 8
-      Width = 49
-      Height = 49
-      Hint = 'Save Current'
-      Caption = 'Save'
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 4
-      OnClick = BB4Click
-      Glyph.Data = {
-        76010000424D7601000000000000760000002800000020000000100000000100
-        04000000000000010000120B0000120B00001000000000000000000000000000
-        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555
-        555555555555555555555555555555555555555555FF55555555555559055555
-        55555555577FF5555555555599905555555555557777F5555555555599905555
-        555555557777FF5555555559999905555555555777777F555555559999990555
-        5555557777777FF5555557990599905555555777757777F55555790555599055
-        55557775555777FF5555555555599905555555555557777F5555555555559905
-        555555555555777FF5555555555559905555555555555777FF55555555555579
-        05555555555555777FF5555555555557905555555555555777FF555555555555
-        5990555555555555577755555555555555555555555555555555}
-      Layout = blGlyphTop
-      NumGlyphs = 2
-    end
-    object BB5: TBitBtn
-      Left = 200
-      Top = 8
-      Width = 49
-      Height = 49
-      Hint = 'Cancel'
-      Caption = 'Cancel'
-      Enabled = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 5
-      OnClick = BB5Click
-      Glyph.Data = {
-        76010000424D7601000000000000760000002800000020000000100000000100
-        04000000000000010000130B0000130B00001000000000000000000000000000
-        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-        333333333333333333333333333333333333333FFF33FF333FFF339993370733
-        999333777FF37FF377733339993000399933333777F777F77733333399970799
-        93333333777F7377733333333999399933333333377737773333333333990993
-        3333333333737F73333333333331013333333333333777FF3333333333910193
-        333333333337773FF3333333399000993333333337377737FF33333399900099
-        93333333773777377FF333399930003999333337773777F777FF339993370733
-        9993337773337333777333333333333333333333333333333333333333333333
-        3333333333333333333333333333333333333333333333333333}
-      Layout = blGlyphTop
-      NumGlyphs = 2
-    end
     object BB6: TBitBtn
       Left = 248
       Top = 8
@@ -255,7 +88,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
-      TabOrder = 6
+      TabOrder = 1
       OnClick = BB6Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -274,8 +107,8 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       NumGlyphs = 2
     end
     object Button1: TButton
-      Left = 1075
-      Top = 89
+      Left = 1067
+      Top = 73
       Width = 81
       Height = 33
       Caption = 'Search'
@@ -296,7 +129,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 7
+      TabOrder = 2
       Visible = False
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -319,7 +152,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Top = 72
       Width = 121
       Height = 28
-      TabOrder = 8
+      TabOrder = 3
     end
     object bExcel: TBitBtn
       Left = 384
@@ -335,7 +168,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 9
+      TabOrder = 4
       OnClick = bExcelClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -367,7 +200,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
-      TabOrder = 10
+      TabOrder = 5
       OnClick = bExFClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -391,14 +224,14 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Width = 57
       Height = 17
       Caption = 'PDF'
-      TabOrder = 11
+      TabOrder = 6
     end
     object edtZSBH: TEdit
       Left = 520
       Top = 72
       Width = 121
       Height = 28
-      TabOrder = 12
+      TabOrder = 7
     end
     object ckUSERDate: TCheckBox
       Left = 8
@@ -406,7 +239,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Width = 105
       Height = 17
       Caption = 'USERDate:'
-      TabOrder = 13
+      TabOrder = 8
     end
     object dtpUSERDate: TDateTimePicker
       Left = 120
@@ -415,14 +248,14 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Height = 28
       Date = 45973.457989131940000000
       Time = 45973.457989131940000000
-      TabOrder = 14
+      TabOrder = 9
     end
     object edtCLBH: TEdit
       Left = 704
       Top = 72
       Width = 121
       Height = 28
-      TabOrder = 15
+      TabOrder = 10
     end
     object MenuCode: TEdit
       Left = 1624
@@ -430,7 +263,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Width = 121
       Height = 28
       ReadOnly = True
-      TabOrder = 16
+      TabOrder = 11
       Text = 'MenuCode'
       Visible = False
     end
@@ -439,7 +272,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Top = 72
       Width = 121
       Height = 28
-      TabOrder = 17
+      TabOrder = 12
     end
     object ckInsDate: TCheckBox
       Left = 8
@@ -447,7 +280,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Width = 137
       Height = 17
       Caption = 'Inspection date:'
-      TabOrder = 18
+      TabOrder = 13
     end
     object dtpInsDate: TDateTimePicker
       Left = 144
@@ -456,35 +289,197 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Height = 28
       Date = 45985.377885949080000000
       Time = 45985.377885949080000000
-      TabOrder = 19
+      TabOrder = 14
     end
     object edtSKU: TEdit
       Left = 328
       Top = 112
       Width = 121
       Height = 28
-      TabOrder = 20
+      TabOrder = 15
     end
     object edtStyle: TEdit
       Left = 520
       Top = 112
       Width = 121
       Height = 28
-      TabOrder = 21
+      TabOrder = 16
     end
-    object edtSize: TEdit
-      Left = 704
+    object BB1: TBitBtn
+      Left = 8
+      Top = 8
+      Width = 49
+      Height = 49
+      Hint = 'Insert one New Record'
+      Caption = 'Insert'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 17
+      OnClick = BB1Click
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000130B0000130B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+        33333333FF33333333FF333993333333300033377F3333333777333993333333
+        300033F77FFF3333377739999993333333333777777F3333333F399999933333
+        33003777777333333377333993333333330033377F3333333377333993333333
+        3333333773333333333F333333333333330033333333F33333773333333C3333
+        330033333337FF3333773333333CC333333333FFFFF77FFF3FF33CCCCCCCCCC3
+        993337777777777F77F33CCCCCCCCCC3993337777777777377333333333CC333
+        333333333337733333FF3333333C333330003333333733333777333333333333
+        3000333333333333377733333333333333333333333333333333}
+      Layout = blGlyphTop
+      NumGlyphs = 2
+    end
+    object BB2: TBitBtn
+      Left = 56
+      Top = 8
+      Width = 49
+      Height = 49
+      Hint = 'Delete one Record'
+      Caption = 'Delete'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 18
+      OnClick = BB2Click
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000130B0000130B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+        333333333333333333FF33333333333330003333333333333777333333333333
+        300033FFFFFF3333377739999993333333333777777F3333333F399999933333
+        3300377777733333337733333333333333003333333333333377333333333333
+        3333333333333333333F333333333333330033333F33333333773333C3333333
+        330033337F3333333377333CC3333333333333F77FFFFFFF3FF33CCCCCCCCCC3
+        993337777777777F77F33CCCCCCCCCC399333777777777737733333CC3333333
+        333333377F33333333FF3333C333333330003333733333333777333333333333
+        3000333333333333377733333333333333333333333333333333}
+      Layout = blGlyphTop
+      NumGlyphs = 2
+    end
+    object BB3: TBitBtn
+      Left = 104
+      Top = 8
+      Width = 49
+      Height = 49
+      Hint = 'Modify Current'
+      Caption = 'Modify'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 19
+      OnClick = BB3Click
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000120B0000120B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00500005000555
+        555557777F777555F55500000000555055557777777755F75555005500055055
+        555577F5777F57555555005550055555555577FF577F5FF55555500550050055
+        5555577FF77577FF555555005050110555555577F757777FF555555505099910
+        555555FF75777777FF555005550999910555577F5F77777775F5500505509990
+        3055577F75F77777575F55005055090B030555775755777575755555555550B0
+        B03055555F555757575755550555550B0B335555755555757555555555555550
+        BBB35555F55555575F555550555555550BBB55575555555575F5555555555555
+        50BB555555555555575F555555555555550B5555555555555575}
+      Layout = blGlyphTop
+      NumGlyphs = 2
+    end
+    object BB4: TBitBtn
+      Left = 152
+      Top = 8
+      Width = 49
+      Height = 49
+      Hint = 'Save Current'
+      Caption = 'Save'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 20
+      OnClick = BB4Click
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000120B0000120B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555
+        555555555555555555555555555555555555555555FF55555555555559055555
+        55555555577FF5555555555599905555555555557777F5555555555599905555
+        555555557777FF5555555559999905555555555777777F555555559999990555
+        5555557777777FF5555557990599905555555777757777F55555790555599055
+        55557775555777FF5555555555599905555555555557777F5555555555559905
+        555555555555777FF5555555555559905555555555555777FF55555555555579
+        05555555555555777FF5555555555557905555555555555777FF555555555555
+        5990555555555555577755555555555555555555555555555555}
+      Layout = blGlyphTop
+      NumGlyphs = 2
+    end
+    object BB5: TBitBtn
+      Left = 200
+      Top = 8
+      Width = 49
+      Height = 49
+      Hint = 'Cancel'
+      Caption = 'Cancel'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 21
+      OnClick = BB5Click
+      Glyph.Data = {
+        76010000424D7601000000000000760000002800000020000000100000000100
+        04000000000000010000130B0000130B00001000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+        333333333333333333333333333333333333333FFF33FF333FFF339993370733
+        999333777FF37FF377733339993000399933333777F777F77733333399970799
+        93333333777F7377733333333999399933333333377737773333333333990993
+        3333333333737F73333333333331013333333333333777FF3333333333910193
+        333333333337773FF3333333399000993333333337377737FF33333399900099
+        93333333773777377FF333399930003999333337773777F777FF339993370733
+        9993337773337333777333333333333333333333333333333333333333333333
+        3333333333333333333333333333333333333333333333333333}
+      Layout = blGlyphTop
+      NumGlyphs = 2
+    end
+    object btClear: TButton
+      Left = 1067
       Top = 112
-      Width = 121
-      Height = 28
+      Width = 81
+      Height = 33
+      Caption = 'Clear'
       TabOrder = 22
+      OnClick = btClearClick
     end
   end
   object DBGrid1: TDBGridEh
     Left = 0
-    Top = 200
-    Width = 1289
-    Height = 436
+    Top = 161
+    Width = 1503
+    Height = 263
     Align = alClient
     DataSource = DS1
     Flat = False
@@ -517,93 +512,43 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       item
         EditButtons = <>
         FieldName = 'ReportID'
-        Footer.Color = clYellow
-        Footer.ValueType = fvtCount
         Footers = <>
       end
       item
         EditButtons = <>
         FieldName = 'InspecDate'
         Footers = <>
-        Title.Caption = #27298#39511#26085#26399' Inspection date'
         Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Size'
-        Footers = <>
-        Width = 50
       end
       item
         EditButtons = <>
         FieldName = 'CLBH'
         Footers = <>
-        Title.Caption = #26448#26009#32232#34399' Material code'
         Width = 100
       end
       item
         EditButtons = <>
         FieldName = 'Supplier'
         Footers = <>
-        Title.Caption = #20379#25033#21830'  Supplier'
+        Width = 100
+      end
+      item
+        EditButtons = <>
+        FieldName = 'SKU'
+        Footers = <>
+        Width = 100
+      end
+      item
+        EditButtons = <>
+        FieldName = 'StyleName'
+        Footers = <>
         Width = 100
       end
       item
         EditButtons = <>
         FieldName = 'DDBH'
         Footers = <>
-        Title.Caption = 'RY'
         Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'XieMing'
-        Footers = <>
-        ReadOnly = True
-        Title.Caption = #24418#20307' STYLE NAME'
-        Width = 122
-      end
-      item
-        EditButtons = <>
-        FieldName = 'ARTICLE'
-        Footers = <>
-        ReadOnly = True
-        Title.Caption = 'SKU'
-        Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'InQty'
-        Footers = <>
-        Title.Caption = 'Incoming material quantity'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'RandomQty'
-        Footers = <>
-        Title.Caption = 'Random check quantity'
-        Width = 100
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Issues'
-        Footers = <>
-        Title.Caption = #21839#38988' Defects'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'DeQty'
-        Footer.Color = clYellow
-        Footer.ValueType = fvtSum
-        Footers = <>
-        Title.Caption = 'Quantity not reached'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Remark'
-        Footers = <>
-        Title.Caption = #20633#35387' Remark'
-        Width = 200
       end
       item
         EditButtons = <>
@@ -614,7 +559,6 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
         EditButtons = <>
         FieldName = 'SCFDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
@@ -625,7 +569,6 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
         EditButtons = <>
         FieldName = 'LCFDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
@@ -636,19 +579,16 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
         EditButtons = <>
         FieldName = 'MSCFDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
         FieldName = 'USERID'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
         FieldName = 'USERDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
@@ -667,21 +607,279 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
         Footers = <>
       end>
   end
+  object Panel2: TPanel
+    Left = 0
+    Top = 424
+    Width = 1503
+    Height = 305
+    Align = alBottom
+    TabOrder = 2
+    object DBGridEh1: TDBGridEh
+      Left = 1
+      Top = 57
+      Width = 1501
+      Height = 247
+      Align = alClient
+      DataSource = DS2
+      Flat = False
+      FooterColor = clWindow
+      FooterFont.Charset = DEFAULT_CHARSET
+      FooterFont.Color = clWindowText
+      FooterFont.Height = -11
+      FooterFont.Name = 'MS Sans Serif'
+      FooterFont.Style = []
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      TitleFont.Style = []
+      OnGetCellParams = DBGridEh1GetCellParams
+      Columns = <
+        item
+          EditButtons = <>
+          FieldName = 'ReportID'
+          Footers = <>
+          Visible = False
+        end
+        item
+          EditButtons = <>
+          FieldName = 'Size'
+          Footers = <>
+          Width = 290
+        end
+        item
+          EditButtons = <>
+          FieldName = 'IQty'
+          Footers = <>
+          Title.Caption = 'IncomingQty'
+          Width = 78
+        end
+        item
+          EditButtons = <>
+          FieldName = 'RQty'
+          Footers = <>
+          Title.Caption = 'RandomQty'
+          Width = 68
+        end
+        item
+          EditButtons = <>
+          FieldName = 'Defects'
+          Footers = <>
+        end
+        item
+          EditButtons = <>
+          FieldName = 'DeQty'
+          Footers = <>
+        end
+        item
+          EditButtons = <>
+          FieldName = 'TDeQty'
+          Footers = <>
+          Visible = False
+        end
+        item
+          EditButtons = <>
+          FieldName = 'Remark'
+          Footers = <>
+        end
+        item
+          EditButtons = <>
+          FieldName = 'YN'
+          Footers = <>
+          Visible = False
+        end
+        item
+          EditButtons = <>
+          FieldName = 'USERID'
+          Footers = <>
+          ReadOnly = True
+        end
+        item
+          EditButtons = <>
+          FieldName = 'USERDate'
+          Footers = <>
+          ReadOnly = True
+        end>
+    end
+    object Panel3: TPanel
+      Left = 1
+      Top = 1
+      Width = 1501
+      Height = 56
+      Align = alTop
+      TabOrder = 1
+      object BitBtn1: TBitBtn
+        Left = 8
+        Top = 0
+        Width = 49
+        Height = 49
+        Hint = 'Insert one New Record'
+        Caption = 'Insert'
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 0
+        OnClick = BitBtn1Click
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000130B0000130B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          33333333FF33333333FF333993333333300033377F3333333777333993333333
+          300033F77FFF3333377739999993333333333777777F3333333F399999933333
+          33003777777333333377333993333333330033377F3333333377333993333333
+          3333333773333333333F333333333333330033333333F33333773333333C3333
+          330033333337FF3333773333333CC333333333FFFFF77FFF3FF33CCCCCCCCCC3
+          993337777777777F77F33CCCCCCCCCC3993337777777777377333333333CC333
+          333333333337733333FF3333333C333330003333333733333777333333333333
+          3000333333333333377733333333333333333333333333333333}
+        Layout = blGlyphTop
+        NumGlyphs = 2
+      end
+      object BitBtn2: TBitBtn
+        Left = 56
+        Top = 0
+        Width = 49
+        Height = 49
+        Hint = 'Delete one Record'
+        Caption = 'Delete'
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        OnClick = BitBtn2Click
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000130B0000130B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          333333333333333333FF33333333333330003333333333333777333333333333
+          300033FFFFFF3333377739999993333333333777777F3333333F399999933333
+          3300377777733333337733333333333333003333333333333377333333333333
+          3333333333333333333F333333333333330033333F33333333773333C3333333
+          330033337F3333333377333CC3333333333333F77FFFFFFF3FF33CCCCCCCCCC3
+          993337777777777F77F33CCCCCCCCCC399333777777777737733333CC3333333
+          333333377F33333333FF3333C333333330003333733333333777333333333333
+          3000333333333333377733333333333333333333333333333333}
+        Layout = blGlyphTop
+        NumGlyphs = 2
+      end
+      object BitBtn3: TBitBtn
+        Left = 104
+        Top = 0
+        Width = 49
+        Height = 49
+        Hint = 'Modify Current'
+        Caption = 'Modify'
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 2
+        OnClick = BitBtn3Click
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000120B0000120B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00500005000555
+          555557777F777555F55500000000555055557777777755F75555005500055055
+          555577F5777F57555555005550055555555577FF577F5FF55555500550050055
+          5555577FF77577FF555555005050110555555577F757777FF555555505099910
+          555555FF75777777FF555005550999910555577F5F77777775F5500505509990
+          3055577F75F77777575F55005055090B030555775755777575755555555550B0
+          B03055555F555757575755550555550B0B335555755555757555555555555550
+          BBB35555F55555575F555550555555550BBB55575555555575F5555555555555
+          50BB555555555555575F555555555555550B5555555555555575}
+        Layout = blGlyphTop
+        NumGlyphs = 2
+      end
+      object BitBtn4: TBitBtn
+        Left = 152
+        Top = 0
+        Width = 49
+        Height = 49
+        Hint = 'Save Current'
+        Caption = 'Save'
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 3
+        OnClick = BitBtn4Click
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000120B0000120B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00555555555555
+          555555555555555555555555555555555555555555FF55555555555559055555
+          55555555577FF5555555555599905555555555557777F5555555555599905555
+          555555557777FF5555555559999905555555555777777F555555559999990555
+          5555557777777FF5555557990599905555555777757777F55555790555599055
+          55557775555777FF5555555555599905555555555557777F5555555555559905
+          555555555555777FF5555555555559905555555555555777FF55555555555579
+          05555555555555777FF5555555555557905555555555555777FF555555555555
+          5990555555555555577755555555555555555555555555555555}
+        Layout = blGlyphTop
+        NumGlyphs = 2
+      end
+      object BitBtn5: TBitBtn
+        Left = 200
+        Top = 0
+        Width = 49
+        Height = 49
+        Hint = 'Cancel'
+        Caption = 'Cancel'
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 4
+        OnClick = BitBtn5Click
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000130B0000130B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          333333333333333333333333333333333333333FFF33FF333FFF339993370733
+          999333777FF37FF377733339993000399933333777F777F77733333399970799
+          93333333777F7377733333333999399933333333377737773333333333990993
+          3333333333737F73333333333331013333333333333777FF3333333333910193
+          333333333337773FF3333333399000993333333337377737FF33333399900099
+          93333333773777377FF333399930003999333337773777F777FF339993370733
+          9993337773337333777333333333333333333333333333333333333333333333
+          3333333333333333333333333333333333333333333333333333}
+        Layout = blGlyphTop
+        NumGlyphs = 2
+      end
+    end
+  end
   object Query1: TQuery
     AfterOpen = Query1AfterOpen
+    AfterScroll = Query1AfterScroll
     DatabaseName = 'DB'
     SQL.Strings = (
-      
-        'select QC_EvaPainting.*, xxzl.XieMing, DDZL.ARTICLE from QC_EvaP' +
-        'ainting'
-      'left join DDZL on DDZL.DDBH = QC_EvaPainting.DDBH'
-      
-        'left join xxzl on DDZL.XieXing = xxzl.XieXing and DDZL.SheHao = ' +
-        'xxzl.SheHao'
-      'where 1=3')
+      'select * from QC_EvaPainting')
     UpdateObject = UpSQL1
-    Left = 552
-    Top = 424
+    Left = 528
+    Top = 312
     object Query1ReportID: TIntegerField
       FieldName = 'ReportID'
     end
@@ -702,38 +900,6 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       FieldName = 'DDBH'
       FixedChar = True
       Size = 50
-    end
-    object Query1Size: TStringField
-      FieldName = 'Size'
-      FixedChar = True
-    end
-    object Query1InQty: TIntegerField
-      FieldName = 'InQty'
-    end
-    object Query1RandomQty: TIntegerField
-      FieldName = 'RandomQty'
-    end
-    object Query1Issues: TStringField
-      FieldName = 'Issues'
-      FixedChar = True
-      Size = 50
-    end
-    object Query1DeQty: TIntegerField
-      FieldName = 'DeQty'
-    end
-    object Query1Remark: TStringField
-      FieldName = 'Remark'
-      FixedChar = True
-      Size = 50
-    end
-    object Query1XieMing: TStringField
-      FieldName = 'XieMing'
-      FixedChar = True
-      Size = 50
-    end
-    object Query1ARTICLE: TStringField
-      FieldName = 'ARTICLE'
-      FixedChar = True
     end
     object Query1SCFID: TStringField
       FieldName = 'SCFID'
@@ -769,16 +935,25 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
     object Query1PreparedID: TStringField
       FieldName = 'PreparedID'
       FixedChar = True
-      Size = 50
     end
     object Query1PreparedDate: TDateTimeField
       FieldName = 'PreparedDate'
     end
+    object Query1SKU: TStringField
+      FieldName = 'SKU'
+      FixedChar = True
+      Size = 100
+    end
+    object Query1StyleName: TStringField
+      FieldName = 'StyleName'
+      FixedChar = True
+      Size = 100
+    end
   end
   object DS1: TDataSource
     DataSet = Query1
-    Left = 592
-    Top = 424
+    Left = 568
+    Top = 312
   end
   object UpSQL1: TUpdateSQL
     ModifySQL.Strings = (
@@ -789,12 +964,6 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       '  CLBH = :CLBH,'
       '  Supplier = :Supplier,'
       '  DDBH = :DDBH,'
-      '  Size = :Size,'
-      '  InQty = :InQty,'
-      '  RandomQty = :RandomQty,'
-      '  Issues = :Issues,'
-      '  DeQty = :DeQty,'
-      '  Remark = :Remark,'
       '  SCFID = :SCFID,'
       '  SCFDate = :SCFDate,'
       '  LCFID = :LCFID,'
@@ -804,76 +973,216 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       '  USERID = :USERID,'
       '  USERDate = :USERDate,'
       '  YN = :YN,'
-      '  PreparedID  = :PreparedID,'
-      '  PreparedDate = :PreparedDate'
+      '  PreparedID = :PreparedID,'
+      '  PreparedDate = :PreparedDate,'
+      '  SKU = :SKU,'
+      '  StyleName = :StyleName'
       'where'
-      '  ReportID = :OLD_ReportID')
+      '  ReportID = :OLD_ReportID and'
+      '  InspecDate = :OLD_InspecDate and'
+      '  CLBH = :OLD_CLBH and'
+      '  Supplier = :OLD_Supplier and'
+      '  DDBH = :OLD_DDBH and'
+      '  SCFID = :OLD_SCFID and'
+      '  SCFDate = :OLD_SCFDate and'
+      '  LCFID = :OLD_LCFID and'
+      '  LCFDate = :OLD_LCFDate and'
+      '  MSCFID = :OLD_MSCFID and'
+      '  MSCFDate = :OLD_MSCFDate and'
+      '  USERID = :OLD_USERID and'
+      '  USERDate = :OLD_USERDate and'
+      '  YN = :OLD_YN and'
+      '  PreparedID = :OLD_PreparedID and'
+      '  PreparedDate = :OLD_PreparedDate and'
+      '  SKU = :OLD_SKU and'
+      '  StyleName = :OLD_StyleName')
     InsertSQL.Strings = (
       'insert into QC_EvaPainting'
       
-        '  (ReportID, InspecDate, CLBH, Supplier, DDBH, Size, InQty, Rand' +
-        'omQty, '
+        '  (ReportID, InspecDate, CLBH, Supplier, DDBH, SCFID, SCFDate, L' +
+        'CFID, LCFDate, '
       
-        '   Issues, DeQty, Remark, SCFID, SCFDate, LCFID, LCFDate, MSCFID' +
-        ', MSCFDate, '
-      '   USERID, USERDate)'
+        '   MSCFID, MSCFDate, USERID, USERDate, YN, PreparedID, PreparedD' +
+        'ate, SKU, '
+      '   StyleName)'
       'values'
       
-        '  (:ReportID, :InspecDate, :CLBH, :Supplier, :DDBH, :Size, :InQt' +
-        'y, :RandomQty, '
+        '  (:ReportID, :InspecDate, :CLBH, :Supplier, :DDBH, :SCFID, :SCF' +
+        'Date, :LCFID, '
       
-        '   :Issues, :DeQty, :Remark, :SCFID, :SCFDate, :LCFID, :LCFDate,' +
-        ' :MSCFID, '
-      '   :MSCFDate, :USERID, :USERDate)')
+        '   :LCFDate, :MSCFID, :MSCFDate, :USERID, :USERDate, :YN, :Prepa' +
+        'redID, '
+      '   :PreparedDate, :SKU, :StyleName)')
     DeleteSQL.Strings = (
-      'update QC_EvaPainting'
-      'set YN = 0'
+      'delete from QC_EvaPainting'
       'where'
-      '  ReportID = :OLD_ReportID')
-    Left = 632
-    Top = 424
+      '  ReportID = :OLD_ReportID and'
+      '  InspecDate = :OLD_InspecDate and'
+      '  CLBH = :OLD_CLBH and'
+      '  Supplier = :OLD_Supplier and'
+      '  DDBH = :OLD_DDBH and'
+      '  SCFID = :OLD_SCFID and'
+      '  SCFDate = :OLD_SCFDate and'
+      '  LCFID = :OLD_LCFID and'
+      '  LCFDate = :OLD_LCFDate and'
+      '  MSCFID = :OLD_MSCFID and'
+      '  MSCFDate = :OLD_MSCFDate and'
+      '  USERID = :OLD_USERID and'
+      '  USERDate = :OLD_USERDate and'
+      '  YN = :OLD_YN and'
+      '  PreparedID = :OLD_PreparedID and'
+      '  PreparedDate = :OLD_PreparedDate and'
+      '  SKU = :OLD_SKU and'
+      '  StyleName = :OLD_StyleName')
+    Left = 616
+    Top = 312
   end
   object Qtemp: TQuery
     DatabaseName = 'DB'
-    Left = 512
-    Top = 424
+    Left = 488
+    Top = 312
   end
   object OpenDialog1: TOpenDialog
-    Left = 1464
-    Top = 128
+    Left = 688
+    Top = 32
   end
   object SaveDialog: TSaveDialog
-    Left = 1336
-    Top = 160
+    Left = 648
+    Top = 16
   end
   object QGetID: TQuery
     DatabaseName = 'DB'
-    Left = 480
-    Top = 424
-  end
-  object QIssues: TQuery
-    DatabaseName = 'DB'
-    Left = 448
-    Top = 424
-  end
-  object QDeQty: TQuery
-    DatabaseName = 'DB'
-    Left = 416
-    Top = 424
-  end
-  object QSize: TQuery
-    DatabaseName = 'DB'
-    Left = 384
-    Top = 424
+    Left = 440
+    Top = 312
   end
   object QSig: TQuery
     DatabaseName = 'DB'
-    Left = 400
-    Top = 368
+    Left = 392
+    Top = 312
+  end
+  object Query2: TQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      'select * from QC_EvaPaintingDetail'
+      'where 1=2')
+    UpdateObject = UpSQLDetail
+    Left = 304
+    Top = 544
+    object Query2ReportID: TStringField
+      FieldName = 'ReportID'
+      FixedChar = True
+    end
+    object Query2Size: TStringField
+      FieldName = 'Size'
+      FixedChar = True
+      Size = 50
+    end
+    object Query2IQty: TIntegerField
+      FieldName = 'IQty'
+    end
+    object Query2RQty: TIntegerField
+      FieldName = 'RQty'
+    end
+    object Query2Defects: TStringField
+      FieldName = 'Defects'
+      FixedChar = True
+      Size = 100
+    end
+    object Query2DeQty: TIntegerField
+      FieldName = 'DeQty'
+    end
+    object Query2TDeQty: TIntegerField
+      FieldName = 'TDeQty'
+    end
+    object Query2Remark: TStringField
+      FieldName = 'Remark'
+      FixedChar = True
+      Size = 100
+    end
+    object Query2YN: TSmallintField
+      FieldName = 'YN'
+    end
+    object Query2USERID: TStringField
+      FieldName = 'USERID'
+      FixedChar = True
+    end
+    object Query2USERDate: TDateTimeField
+      FieldName = 'USERDate'
+    end
+  end
+  object UpSQLDetail: TUpdateSQL
+    ModifySQL.Strings = (
+      'update QC_EvaPaintingDetail'
+      'set'
+      '  ReportID = :ReportID,'
+      '  Size = :Size,'
+      '  IQty = :IQty,'
+      '  RQty = :RQty,'
+      '  Defects = :Defects,'
+      '  DeQty = :DeQty,'
+      '  TDeQty = :TDeQty,'
+      '  Remark = :Remark,'
+      '  YN = :YN,'
+      '  USERID = :USERID,'
+      '  USERDate = :USERDate'
+      'where'
+      '  ReportID = :OLD_ReportID and'
+      '  Size = :OLD_Size and'
+      '  IQty = :OLD_IQty and'
+      '  RQty = :OLD_RQty and'
+      '  Defects = :OLD_Defects and'
+      '  DeQty = :OLD_DeQty and'
+      '  TDeQty = :OLD_TDeQty and'
+      '  Remark = :OLD_Remark and'
+      '  YN = :OLD_YN and'
+      '  USERID = :OLD_USERID and'
+      '  USERDate = :OLD_USERDate')
+    InsertSQL.Strings = (
+      'insert into QC_EvaPaintingDetail'
+      
+        '  (ReportID, Size, IQty, RQty, Defects, DeQty, TDeQty, Remark, Y' +
+        'N, USERID, '
+      '   USERDate)'
+      'values'
+      
+        '  (:ReportID, :Size, :IQty, :RQty, :Defects, :DeQty, :TDeQty, :R' +
+        'emark, '
+      '   :YN, :USERID, :USERDate)')
+    DeleteSQL.Strings = (
+      'delete from QC_EvaPaintingDetail'
+      'where'
+      '  ReportID = :OLD_ReportID and'
+      '  Size = :OLD_Size and'
+      '  IQty = :OLD_IQty and'
+      '  RQty = :OLD_RQty and'
+      '  Defects = :OLD_Defects and'
+      '  DeQty = :OLD_DeQty and'
+      '  TDeQty = :OLD_TDeQty and'
+      '  Remark = :OLD_Remark and'
+      '  YN = :OLD_YN and'
+      '  USERID = :OLD_USERID and'
+      '  USERDate = :OLD_USERDate')
+    Left = 344
+    Top = 544
+  end
+  object DS2: TDataSource
+    DataSet = Query2
+    Left = 272
+    Top = 544
+  end
+  object QIssues: TQuery
+    DatabaseName = 'DB'
+    Left = 384
+    Top = 240
   end
   object QRemark: TQuery
     DatabaseName = 'DB'
-    Left = 448
-    Top = 368
+    Left = 424
+    Top = 240
+  end
+  object QDeQty: TQuery
+    DatabaseName = 'DB'
+    Left = 464
+    Top = 240
   end
 end

@@ -1,6 +1,6 @@
 object DailyReport: TDailyReport
-  Left = 210
-  Top = 247
+  Left = 276
+  Top = 233
   Width = 1064
   Height = 573
   Caption = 'Daily Syn, Textile & Accessory'
@@ -7390,7 +7390,7 @@ object DailyReport: TDailyReport
     end
     object Label3: TLabel
       Left = 566
-      Top = 12
+      Top = 7
       Width = 43
       Height = 16
       Alignment = taRightJustify
@@ -7399,12 +7399,19 @@ object DailyReport: TDailyReport
     end
     object Label10: TLabel
       Left = 566
-      Top = 44
+      Top = 35
       Width = 43
       Height = 16
       Alignment = taRightJustify
       AutoSize = False
       Caption = 'SID'
+    end
+    object Label11: TLabel
+      Left = 566
+      Top = 60
+      Width = 46
+      Height = 16
+      Caption = 'Defects'
     end
     object edtSupp: TEdit
       Left = 100
@@ -7631,17 +7638,25 @@ object DailyReport: TDailyReport
     end
     object EdRKNO: TEdit
       Left = 616
-      Top = 8
+      Top = 5
       Width = 79
       Height = 24
       TabOrder = 14
     end
     object EdSID: TEdit
       Left = 616
-      Top = 40
+      Top = 31
       Width = 79
       Height = 24
       TabOrder = 15
+    end
+    object edtDefects: TEdit
+      Left = 616
+      Top = 56
+      Width = 79
+      Height = 24
+      CharCase = ecUpperCase
+      TabOrder = 16
     end
   end
   object qry_DR: TQuery

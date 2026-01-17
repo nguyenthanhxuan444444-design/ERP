@@ -148,6 +148,13 @@ object LeatherSummary: TLeatherSummary
       AutoSize = False
       Caption = 'SID'
     end
+    object Label37: TLabel
+      Left = 595
+      Top = 39
+      Width = 46
+      Height = 16
+      Caption = 'Defects'
+    end
     object edtMatID: TEdit
       Left = 100
       Top = 30
@@ -431,6 +438,14 @@ object LeatherSummary: TLeatherSummary
       Width = 62
       Height = 24
       TabOrder = 20
+    end
+    object edtDefects: TEdit
+      Left = 595
+      Top = 56
+      Width = 81
+      Height = 24
+      CharCase = ecUpperCase
+      TabOrder = 21
     end
   end
   object PageControl2: TPageControl
@@ -19357,7 +19372,7 @@ object LeatherSummary: TLeatherSummary
               Width = 89
               Height = 24
               Color = 13041606
-              ItemHeight = 0
+              ItemHeight = 16
               TabOrder = 7
             end
             object Button2: TButton
