@@ -517,7 +517,7 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       TabOrder = 25
     end
     object btCopy: TButton
-      Left = 336
+      Left = 366
       Top = 144
       Width = 73
       Height = 49
@@ -525,6 +525,16 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       TabOrder = 26
       Visible = False
       OnClick = btCopyClick
+    end
+    object btnCfm: TButton
+      Left = 290
+      Top = 144
+      Width = 75
+      Height = 49
+      Caption = 'Confirm'
+      TabOrder = 27
+      Visible = False
+      OnClick = btnCfmClick
     end
   end
   object DBGrid1: TDBGridEh

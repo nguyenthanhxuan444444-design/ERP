@@ -114,7 +114,7 @@ object StockIn_Report: TStockIn_Report
         AlignToBand = True
         AutoSize = True
         AutoStretch = False
-        Caption = #25104#22411'B '#21697'/C '#21697#21934
+        Caption = #25104#21697'B '#21697'/C '#21697#21934
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText

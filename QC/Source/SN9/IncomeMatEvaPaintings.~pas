@@ -220,10 +220,17 @@ begin
   bExF.Enabled := true;
 
   if Query1.RecordCount > 0 then
-    BitBtn1.Enabled := true
+  begin
+    BitBtn1.Enabled := true;
+    BitBtn2.Enabled := true;
+    BitBtn3.Enabled := true
+  end
   else
+  begin
     BitBtn1.Enabled := false;
-
+    BitBtn2.Enabled := false;
+    BitBtn3.Enabled := false;
+  end;
 end;
 
 procedure TIncomeMatEvaPainting.bExFClick(Sender: TObject);
@@ -233,7 +240,7 @@ var
   DuongDanFile, SaveFile, PdfFile, qty, issue, size, checksize: string;
   s: WideString;
   i, j, p, tdeqty, tinqty, traqty, tisqty, valInt: Integer;
-  derate, Tong: Double;
+  derate, Tong, vTong, vTraQty: Double;
   SigS, SigMS, SigL, SigP: Boolean;
 begin
   DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-04B.xlsx';
@@ -319,7 +326,7 @@ begin
     Worksheet.Cells[InsertRow, 2].Value := Query2.FieldByName('IQty').AsString;
     Worksheet.Cells[InsertRow, 3].Value := Query2.FieldByName('RQty').AsInteger;
 
-    //insert Size vao excel
+    //insert Defects vao excel
     with QIssues do
     begin
       Active := False;
@@ -510,6 +517,20 @@ begin
     Inc(InsertRow);
     Query2.Next;
   end;
+
+  //tinh % tong total defects qty
+  {vTong   := Worksheet.Cells[InsertRow + 1, 13].Value;
+  vTraQty := Worksheet.Cells[InsertRow + 1, 3].Value;
+
+  if vTraQty > 0 then
+  begin
+    Worksheet.Cells[InsertRow + 2, 13].Value := vTong / vTraQty;
+    Worksheet.Cells[InsertRow + 2, 13].NumberFormat := '0.00%';
+  end
+  else
+    Worksheet.Cells[InsertRow + 2, 13].Clear;}
+
+
 
   Worksheet.Rows[Format('%d:%d', [InsertRow, InsertRow])].Delete;
 
@@ -1044,16 +1065,6 @@ begin
     SQL.Add('select * from QC_EvaPaintingDetail ');
     SQL.Add('where ReportID = '''+Query1.FieldByName('ReportID').AsString+''' ');
     Active := true;
-  end;
-
-  if Query2.RecordCount > 0 then
-  begin
-    BitBtn2.Enabled := true;
-    BitBtn3.Enabled := true
-  end else
-  begin
-    BitBtn2.Enabled := false;
-    BitBtn3.Enabled := false;
   end;
 end;
 

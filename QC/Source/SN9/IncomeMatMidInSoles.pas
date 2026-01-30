@@ -95,6 +95,7 @@ type
     Query1PreparedID: TStringField;
     Query1PreparedDate: TDateTimeField;
     QSig: TQuery;
+    btnCfm: TButton;
     procedure Button1Click(Sender: TObject);
     function NewID: string;
     function GetUsernameByID(const AID: string): string;
@@ -117,6 +118,7 @@ type
     procedure DBGrid1GetCellParams(Sender: TObject; Column: TColumnEh;
       AFont: TFont; var Background: TColor; State: TGridDrawState);
     procedure btCopyClick(Sender: TObject);
+    procedure btnCfmClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -395,6 +397,7 @@ begin
       SQL.Add('and CAST(QC_MidInSole.USERDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date)+''' ');
     if edtStyle.Text <> '' then
       SQL.Add('and XieMing like ''%'+edtStyle.Text+'%'' ');
+    SQL.Add(' order by ReportID ');
     Active := true;
   end;
 end;
@@ -628,8 +631,11 @@ begin
   bbt6.Enabled:=true;
   bExcel.Enabled := true;
   bExF.Enabled := true;
+  
   if MenuCode.Text = 'N941' then
     btCopy.Visible := true;
+  {if (MenuCode.Text = 'N943') or (MenuCode.Text = 'N944') or (MenuCode.Text = 'N945') then
+    btnCfm.Visible := true;}
 end;
 
 procedure TIncomeMatMidInSole.bExcelClick(Sender: TObject);
@@ -995,22 +1001,6 @@ if (Query1.RecordCount > 0)  and not Query1.CachedUpdates then
     edtSHard.Text := Query1.FieldByName('SHard').AsString;
     dtpUSERDate.Date := Query1.FieldByName('USERDate').AsDateTime;
   end;
-
-  if Query1.CachedUpdates then
-  begin
-    with DBGrid1.FieldColumns['TempRoom'].PickList do
-    begin
-      Clear;
-      Add('I');
-      Add('II');
-      Add('III');
-      Add('IV');
-      Add('V');
-      Add('VI');
-      Add('VII');
-    end;
-  end else
-    DBGrid1.FieldColumns['TempRoom'].PickList.Clear;
 end;
 
 procedure TIncomeMatMidInSole.DBGrid1GetCellParams(Sender: TObject;
@@ -1117,6 +1107,45 @@ begin
   Query1.FieldByName('WPRSize').AsFloat      := OldWPRSize;
   Query1.FieldByName('SendDate').AsDateTime  := OldSendDate;
   Query1.Post;
+end;
+
+procedure TIncomeMatMidInSole.btnCfmClick(Sender: TObject);
+begin
+  Query1.RequestLive := true;
+  Query1.CachedUpdates := true;
+  BB4.Enabled := true;
+  BB5.Enabled := true;
+
+  if not Query1.Active then
+    Query1.Open;
+  Query1.DisableControls;
+  try
+    Query1.First; // quay ve dong dau
+    while not Query1.Eof do
+    begin
+      Query1.Edit;
+
+      // Gan gia tri Sign vao cache
+      if MenuCode.Text = 'N943' then
+      begin
+        Query1.FieldByName('SCFID').AsString := Main.Edit1.Text;
+        Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+      end else if MenuCode.Text = 'N944' then
+      begin
+        Query1.FieldByName('LCFID').AsString := Main.Edit1.Text;
+        Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+      end else if MenuCode.Text = 'N945' then
+      begin
+        Query1.FieldByName('MSCFID').AsString := Main.Edit1.Text;
+        Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
+      end;
+
+      Query1.Post; // Post chi vao cache, chua xuong SQL
+      Query1.Next;
+    end;
+  finally
+    Query1.EnableControls;
+  end;
 end;
 
 end.

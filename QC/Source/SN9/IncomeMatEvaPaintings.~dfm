@@ -646,16 +646,21 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
           EditButtons = <>
           FieldName = 'Size'
           Footers = <>
+          Width = 290
         end
         item
           EditButtons = <>
           FieldName = 'IQty'
           Footers = <>
+          Title.Caption = 'IncomingQty'
+          Width = 78
         end
         item
           EditButtons = <>
           FieldName = 'RQty'
           Footers = <>
+          Title.Caption = 'RandomQty'
+          Width = 68
         end
         item
           EditButtons = <>

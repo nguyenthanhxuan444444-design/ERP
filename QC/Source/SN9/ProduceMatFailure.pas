@@ -104,6 +104,7 @@ type
     procedure UpImageClick(Sender: TObject);
     procedure InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
   const FieldName: string; Row, Column: Integer);
+    procedure BB2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -486,7 +487,7 @@ begin
 
         //ghi noi dung textbox
         TB := Worksheet.Shapes.Item('TextBox 3');
-        TB.TextFrame.Characters.Text := StringReplace(Query1.FieldByName('VisualCheck').AsString, '_', #13#10, [rfReplaceAll]);
+        TB.TextFrame.Characters.Text := StringReplace(Query1.FieldByName('VisualCheck').AsString, ';', #13#10, [rfReplaceAll]);
       end;
 
     cur := Trim(Worksheet.Cells[r[i], c[i]].Value);
@@ -497,13 +498,15 @@ begin
   end;
 
 
-  //dien PO
+  //dien PO, xuong dong neu gap _
   begin
     s := edtDDBH.Text;
     s := StringReplace(s, '_', Chr(10), [rfReplaceAll]);
     Worksheet.Cells[7, 3].WrapText := True;
     Worksheet.Cells[7, 3].Value := s;
   end;
+
+
 
 
   //Kiem tra ky KCS Super
@@ -952,6 +955,23 @@ begin
         ShowMessage('Loi khi upload: ' + E.Message);
     end;
   end;
+end;
+
+procedure TProducMatFailure.BB2Click(Sender: TObject);
+begin
+if messagedlg('Are you sure you want to delete?',mtconfirmation,[mbYes,mbNo],0)<>mrYes then
+  begin
+    abort;
+  end;
+with query1 do
+  begin
+    cachedupdates:=true;
+    requestlive:=true;
+    edit;
+    fieldbyname('YN').Value:=0;
+  end;
+bb4.enabled:=true;
+bb5.enabled:=true;
 end;
 
 end.

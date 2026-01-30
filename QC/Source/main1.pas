@@ -154,6 +154,8 @@ type
     SN992: TMenuItem;
     SN993: TMenuItem;
     SN994: TMenuItem;
+    SN9A: TMenuItem;
+    SN9B: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure SN11Click(Sender: TObject);
@@ -263,6 +265,8 @@ type
     procedure SN992Click(Sender: TObject);
     procedure SN993Click(Sender: TObject);
     procedure SN994Click(Sender: TObject);
+    procedure SN9AClick(Sender: TObject);
+    procedure SN9BClick(Sender: TObject);
 
   private
     MKID: string;
@@ -305,7 +309,8 @@ uses DM3, QAStationP, Ontime1, QCIssue1, QCOntime1, QCDailyReport1, FeedbackWast
   RY_Inspection_Status1, Failed_Cartons_Input1, NguyenLieuDauVaoTN,
   DailyOutsourcingCheck_, IncomeMatRubberOutsole, IncomeMatMidInSoles,
   IncomeMatEvaPaintings, ProduceMatFailure, IncomeUpperMaterials,
-  LeatherMatInspections, HumidityChecks;
+  LeatherMatInspections, HumidityChecks, SoleWeekReports,
+  MonthlyReportMaterials;
 
 {$R *.dfm}
 //
@@ -1256,6 +1261,16 @@ procedure Tmain.SN994Click(Sender: TObject);
 begin
   ShowFm(Pointer(HumidityCheck), THumidityCheck, TMenuItem(Sender).Name);
   HumidityCheck.MenuCode.Text := 'N994'
+end;
+
+procedure Tmain.SN9AClick(Sender: TObject);
+begin
+  ShowFm(Pointer(SoleWeekReport), TSoleWeekReport, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.SN9BClick(Sender: TObject);
+begin
+  ShowFm(Pointer(MonthlyReportMaterial), TMonthlyReportMaterial, TMenuItem(Sender).Name);
 end;
 
 end.

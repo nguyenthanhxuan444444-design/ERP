@@ -585,6 +585,14 @@ object main: Tmain
           OnClick = SN994Click
         end
       end
+      object SN9A: TMenuItem
+        Caption = 'N9A Sole Week Report'
+        OnClick = SN9AClick
+      end
+      object SN9B: TMenuItem
+        Caption = 'N9B Monthly Report Material'
+        OnClick = SN9BClick
+      end
     end
   end
   object Query1: TQuery

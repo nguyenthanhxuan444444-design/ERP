@@ -1,8 +1,8 @@
 object OrderListOut_BC: TOrderListOut_BC
   Left = 557
-  Top = 233
+  Top = 244
   Width = 1146
-  Height = 504
+  Height = 493
   Caption = 'OrderListOut_BC'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,7 +20,7 @@ object OrderListOut_BC: TOrderListOut_BC
     Left = 0
     Top = 0
     Width = 1130
-    Height = 465
+    Height = 454
     ActivePage = TabSheet2
     Align = alClient
     TabOrder = 0
@@ -94,7 +94,7 @@ object OrderListOut_BC: TOrderListOut_BC
       end
       object Panel2: TPanel
         Left = 0
-        Top = 393
+        Top = 382
         Width = 1122
         Height = 41
         Align = alBottom
@@ -114,7 +114,7 @@ object OrderListOut_BC: TOrderListOut_BC
         Left = 0
         Top = 41
         Width = 1122
-        Height = 352
+        Height = 341
         Align = alClient
         DataSource = DS1
         Flat = False
@@ -342,7 +342,7 @@ object OrderListOut_BC: TOrderListOut_BC
       end
       object Panel4: TPanel
         Left = 0
-        Top = 393
+        Top = 382
         Width = 1122
         Height = 41
         Align = alBottom
@@ -368,7 +368,7 @@ object OrderListOut_BC: TOrderListOut_BC
         Left = 0
         Top = 41
         Width = 1122
-        Height = 352
+        Height = 341
         Align = alClient
         DataSource = DataSource1
         Flat = False
