@@ -22,9 +22,9 @@ object DailyReport: TDailyReport
   TextHeight = 16
   object PageControl1: TPageControl
     Left = 0
-    Top = 89
+    Top = 105
     Width = 1048
-    Height = 445
+    Height = 429
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
@@ -34,7 +34,7 @@ object DailyReport: TDailyReport
         Left = 0
         Top = 47
         Width = 1040
-        Height = 367
+        Height = 351
         Align = alClient
         DataSource = DS_DR
         Flat = False
@@ -494,14 +494,14 @@ object DailyReport: TDailyReport
         Left = 0
         Top = 0
         Width = 1040
-        Height = 414
+        Height = 398
         Align = alClient
         TabOrder = 0
         object PageControl2: TPageControl
           Left = 1
           Top = 1
           Width = 1038
-          Height = 412
+          Height = 396
           ActivePage = TabSheet3
           Align = alClient
           TabOrder = 0
@@ -7318,7 +7318,7 @@ object DailyReport: TDailyReport
     Left = 0
     Top = 0
     Width = 1048
-    Height = 89
+    Height = 105
     Align = alTop
     TabOrder = 1
     object Label4: TLabel
@@ -7560,8 +7560,8 @@ object DailyReport: TDailyReport
     object GroupBox1: TGroupBox
       Left = 699
       Top = -4
-      Width = 113
-      Height = 85
+      Width = 118
+      Height = 101
       TabOrder = 12
       object chkInspection: TCheckBox
         Left = 8
@@ -7602,6 +7602,14 @@ object DailyReport: TDailyReport
         Color = clRed
         ParentColor = False
         TabOrder = 3
+      end
+      object ckSettle: TCheckBox
+        Left = 8
+        Top = 80
+        Width = 105
+        Height = 17
+        Caption = 'NoSettlement'
+        TabOrder = 4
       end
     end
     object btnFeedBack: TBitBtn
@@ -7655,6 +7663,7 @@ object DailyReport: TDailyReport
       Top = 56
       Width = 79
       Height = 24
+      CharCase = ecUpperCase
       TabOrder = 16
     end
   end

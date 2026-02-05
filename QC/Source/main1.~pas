@@ -309,7 +309,8 @@ uses DM3, QAStationP, Ontime1, QCIssue1, QCOntime1, QCDailyReport1, FeedbackWast
   RY_Inspection_Status1, Failed_Cartons_Input1, NguyenLieuDauVaoTN,
   DailyOutsourcingCheck_, IncomeMatRubberOutsole, IncomeMatMidInSoles,
   IncomeMatEvaPaintings, ProduceMatFailure, IncomeUpperMaterials,
-  LeatherMatInspections, HumidityChecks, SoleWeekReports;
+  LeatherMatInspections, HumidityChecks, SoleWeekReports,
+  MonthlyReportMaterials;
 
 {$R *.dfm}
 //
@@ -1264,7 +1265,7 @@ end;
 
 procedure Tmain.SN9AClick(Sender: TObject);
 begin
-  ShowFm(Pointer(SoleWeekReport), TSoleWeekReport, TMenuItem(Sender).Name);
+  ShowFm(Pointer(RejectedMaterial), TSoleWeekReport, TMenuItem(Sender).Name);
 end;
 
 procedure Tmain.SN9BClick(Sender: TObject);

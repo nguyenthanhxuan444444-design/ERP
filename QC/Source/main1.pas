@@ -1265,7 +1265,7 @@ end;
 
 procedure Tmain.SN9AClick(Sender: TObject);
 begin
-  ShowFm(Pointer(SoleWeekReport), TSoleWeekReport, TMenuItem(Sender).Name);
+  ShowFm(Pointer(RejectedMaterial), TRejectedMaterial, TMenuItem(Sender).Name);
 end;
 
 procedure Tmain.SN9BClick(Sender: TObject);

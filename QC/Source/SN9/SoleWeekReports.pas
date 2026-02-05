@@ -7,11 +7,7 @@ uses
   Dialogs, DBTables, DB, GridsEh, DBGridEh, StdCtrls, Mask, DBCtrls,
   Buttons, ExtCtrls, ComObj, ShellAPI, ComCtrls, DBCtrlsEh;
 type
-  TSoleWeekReport = class(TForm)
-    DBGrid1: TDBGridEh;
-    Panel2: TPanel;
-    DBGridEh1: TDBGridEh;
-    Panel3: TPanel;
+  TRejectedMaterial = class(TForm)
     Query1: TQuery;
     DS1: TDataSource;
     UpSQL1: TUpdateSQL;
@@ -20,42 +16,7 @@ type
     SaveDialog: TSaveDialog;
     QGetID: TQuery;
     QSig: TQuery;
-    Query2: TQuery;
-    UpSQLDetail: TUpdateSQL;
-    DS2: TDataSource;
-    Query1ReportID: TIntegerField;
-    Query1FromDate: TDateTimeField;
-    Query1ToDate: TDateTimeField;
-    Query1SCFID: TStringField;
-    Query1SCFDate: TDateTimeField;
-    Query1LCFID: TStringField;
-    Query1LCFDate: TDateTimeField;
-    Query1PreparedID: TStringField;
-    Query2ReportID: TIntegerField;
-    Query2InDate: TDateTimeField;
-    Query2Supplier: TStringField;
-    Query2CLBH: TStringField;
-    Query2InQty: TStringField;
-    Query2RQty: TStringField;
-    Query2DeQty: TIntegerField;
-    Query2Unit: TStringField;
-    Query2Defects: TStringField;
-    Query2ImproveMethod: TStringField;
     BitBtn6: TBitBtn;
-    BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
-    BitBtn3: TBitBtn;
-    BitBtn4: TBitBtn;
-    Query2USERDate: TDateTimeField;
-    Query2USERID: TStringField;
-    Query2YN: TSmallintField;
-    Query2DeRate: TFloatField;
-    Query1USERDate: TDateTimeField;
-    Query1USERID: TStringField;
-    Query1YN: TSmallintField;
-    BitBtn5: TBitBtn;
-    Query1MSCFID: TStringField;
-    Query1MSCFDate: TDateTimeField;
     Panel1: TPanel;
     Label1: TLabel;
     Button1: TButton;
@@ -64,8 +25,6 @@ type
     ckUSERDate: TCheckBox;
     dtpUSERDate: TDateTimePicker;
     MenuCode: TEdit;
-    ckDate: TCheckBox;
-    dtpFD: TDateTimePicker;
     BB1: TBitBtn;
     BB2: TBitBtn;
     BB3: TBitBtn;
@@ -75,15 +34,37 @@ type
     bbt6: TBitBtn;
     bExcel: TBitBtn;
     bExF: TBitBtn;
-    Label2: TLabel;
-    dtpTD: TDateTimePicker;
-    edtSup: TEdit;
-    brnQPac: TBitBtn;
-    Label3: TLabel;
-    Label4: TLabel;
-    edtCLBH: TEdit;
-    dtpInDate: TDateTimePicker;
+    DBGrid1: TDBGridEh;
+    Query1ReportID: TIntegerField;
+    Query1InDate: TDateTimeField;
+    Query1DDBH: TStringField;
+    Query1InsDate: TDateTimeField;
+    Query1Brand: TStringField;
+    Query1MatName: TStringField;
+    Query1Supplier: TStringField;
+    Query1DeReason: TStringField;
+    Query1DeQty: TIntegerField;
+    Query1ShoePO: TStringField;
+    Query1XFDate: TDateTimeField;
+    Query1Result: TStringField;
+    Query1SCFID: TStringField;
+    Query1SCFDate: TDateTimeField;
+    Query1MSCFID: TStringField;
+    Query1MSCFDate: TDateTimeField;
+    Query1LCFID: TStringField;
+    Query1LCFDate: TDateTimeField;
+    Query1PreparedID: TStringField;
+    Query1USERDate: TDateTimeField;
+    Query1USERID: TStringField;
+    Query1YN: TSmallintField;
     ckInDate: TCheckBox;
+    dtpInDate: TDateTimePicker;
+    Label2: TLabel;
+    edtSup: TEdit;
+    Label3: TLabel;
+    edtReason: TEdit;
+    Label4: TLabel;
+    edtDDBH: TEdit;
     procedure Button1Click(Sender: TObject);
     procedure Query1AfterOpen(DataSet: TDataSet);
     procedure BB1Click(Sender: TObject);
@@ -99,11 +80,7 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure BitBtn3Click(Sender: TObject);
-    procedure BitBtn4Click(Sender: TObject);
-    procedure BitBtn5Click(Sender: TObject);
     procedure bExFClick(Sender: TObject);
-    procedure DBGridEh1GetCellParams(Sender: TObject; Column: TColumnEh;
-      AFont: TFont; var Background: TColor; State: TGridDrawState);
     procedure DBGrid1GetCellParams(Sender: TObject; Column: TColumnEh;
       AFont: TFont; var Background: TColor; State: TGridDrawState);
     procedure PrintSign(
@@ -114,7 +91,6 @@ type
       ACol: Integer;
       UseUserName: Boolean
     );
-    procedure brnQPacClick(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
@@ -123,7 +99,7 @@ type
   end;
 
 var
-  SoleWeekReport: TSoleWeekReport;
+  RejectedMaterial: TRejectedMaterial;
 
 implementation
 
@@ -132,7 +108,7 @@ uses main1;
 {$R *.dfm}
 
 // Ham kiem tra va in chu ky
-procedure TSoleWeekReport.PrintSign(
+procedure TRejectedMaterial.PrintSign(
   AWorksheet: OleVariant;
   AQuery: TQuery;
   AInsertRow: Integer;
@@ -146,10 +122,10 @@ begin
      or (Trim(AQuery.FieldByName(AIDField).AsString) = '') then
     Exit;
 
-  AWorksheet.Cells[AInsertRow + 3, ACol].WrapText := True;
+  AWorksheet.Cells[AInsertRow + 2, ACol].WrapText := True;
 
   if UseUserName then
-    AWorksheet.Cells[AInsertRow + 3, ACol].Value :=
+    AWorksheet.Cells[AInsertRow + 2, ACol].Value :=
       GetUsernameByID(AQuery.FieldByName(AIDField).AsString)
       + Chr(10)
       + FormatDateTime(
@@ -157,11 +133,11 @@ begin
           AQuery.FieldByName(ADateField).AsDateTime
         )
   else
-    AWorksheet.Cells[AInsertRow + 3, ACol].Value :=
+    AWorksheet.Cells[AInsertRow + 2, ACol].Value :=
       AQuery.FieldByName(AIDField).AsString;
 end;
 
-function TSoleWeekReport.GetUsernameByID(const AID: string): string;
+function TRejectedMaterial.GetUsernameByID(const AID: string): string;
 begin
   Result := '';
   if AID = '' then Exit;
@@ -179,7 +155,7 @@ begin
   end;
 end;
 
-function TSoleWeekReport.NewID: string;
+function TRejectedMaterial.NewID: string;
 var
   Prefix, LastID: string;
   Seq: Integer;
@@ -192,7 +168,7 @@ begin
     SQL.Clear;
     SQL.Add(
       'select top 1 ReportID ' +
-      'from QC_SoleWeek ' +
+      'from QC_RejectMat ' +
       'where left(ReportID, 4) = :P ' +
       'order by ReportID desc');
     ParamByName('P').AsString := Prefix;
@@ -210,27 +186,30 @@ begin
   Result := Prefix + FormatFloat('0000', Seq);
 end;
 
-procedure TSoleWeekReport.Button1Click(Sender: TObject);
+procedure TRejectedMaterial.Button1Click(Sender: TObject);
 begin
   with query1 do
   begin
     Active := false;
     SQL.Clear;
-    SQL.Add('select * from QC_SoleWeek ');
+    SQL.Add('select * from QC_RejectMat ');
     SQL.Add('where ReportID like ''' +edtRID.Text+ '%''');
 
     if ckUSERDate.Checked then
       SQL.Add('and CAST(USERDate as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date) + ''' ');
-    if ckDate.Checked then
-    begin
-      SQL.Add('and CAST(FromDate as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpFD.Date) + ''' ');
-      SQL.Add('and CAST(ToDate as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpTD.Date) + ''' ');
-    end;
+    if ckInDate.Checked then
+      SQL.Add('and CAST(InDate as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpInDate.Date) + ''' ');
+    if edtDDBH.Text <> '' then
+      SQL.Add('and DDBH = '''+edtDDBH.Text+''' ');
+    if edtSup.Text <> '' then
+      SQL.Add('and Supplier = '''+edtDDBH.Text+''' ');
+    if edtReason.Text <> '' then
+      SQL.Add('and DeReason = '''+edtReason.Text+''' ');
     Active := true;
   end;
 end;
 
-procedure TSoleWeekReport.Query1AfterOpen(DataSet: TDataSet);
+procedure TRejectedMaterial.Query1AfterOpen(DataSet: TDataSet);
 begin
   BB1.Enabled:=true;
   BB2.Enabled:=true;
@@ -238,23 +217,9 @@ begin
   {bbt6.Enabled:=true;
   bExcel.Enabled := true;
   bExF.Enabled := true;}
-
-  if Query1.RecordCount > 0 then
-  begin
-    BitBtn1.Enabled := true;
-    BitBtn2.Enabled := true;
-    BitBtn3.Enabled := true
-  end
-  else
-  begin
-    BitBtn1.Enabled := false;
-    BitBtn2.Enabled := false;
-    BitBtn3.Enabled := false;
-  end;
-  Query2.Active := true;
 end;
 
-procedure TSoleWeekReport.BB1Click(Sender: TObject);
+procedure TRejectedMaterial.BB1Click(Sender: TObject);
 begin
   with query1 do
   begin
@@ -266,7 +231,7 @@ bb4.enabled:=true;
 bb5.enabled:=true;
 end;
 
-procedure TSoleWeekReport.BB2Click(Sender: TObject);
+procedure TRejectedMaterial.BB2Click(Sender: TObject);
 begin
 if messagedlg('Are you sure you want to delete?',mtconfirmation,[mbYes,mbNo],0)<>mrYes then
   begin
@@ -283,7 +248,7 @@ bb4.enabled:=true;
 bb5.enabled:=true;
 end;
 
-procedure TSoleWeekReport.BB3Click(Sender: TObject);
+procedure TRejectedMaterial.BB3Click(Sender: TObject);
 begin
 with query1 do
   begin
@@ -295,7 +260,7 @@ bb4.enabled:=true;
 bb5.enabled:=true;
 end;
 
-procedure TSoleWeekReport.BB4Click(Sender: TObject);
+procedure TRejectedMaterial.BB4Click(Sender: TObject);
 var i: integer;
 begin
   if not QGetID.Active then QGetID.Active;
@@ -306,7 +271,7 @@ begin
         case query1.updatestatus of
           usinserted:
             begin
-              if query1.fieldbyname('FromDate').isnull then
+              if query1.fieldbyname('DDBH').isnull then
               begin
                 query1.delete;
               end else
@@ -369,7 +334,7 @@ begin
   end;
 end;
 
-procedure TSoleWeekReport.BB5Click(Sender: TObject);
+procedure TRejectedMaterial.BB5Click(Sender: TObject);
 begin
   with Query1 do
   begin
@@ -381,12 +346,12 @@ begin
   end;
 end;
 
-procedure TSoleWeekReport.BB6Click(Sender: TObject);
+procedure TRejectedMaterial.BB6Click(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TSoleWeekReport.FormClose(Sender: TObject;
+procedure TRejectedMaterial.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
 if query1.requestlive then
@@ -398,118 +363,47 @@ if query1.requestlive then
    action:=Cafree;
 end;
 
-procedure TSoleWeekReport.FormDestroy(Sender: TObject);
+procedure TRejectedMaterial.FormDestroy(Sender: TObject);
 begin
-  SoleWeekReport := nil;
+  RejectedMaterial := nil;
 end;
 
-procedure TSoleWeekReport.BitBtn1Click(Sender: TObject);
+procedure TRejectedMaterial.BitBtn1Click(Sender: TObject);
 begin
-  with query2 do
+  with Query1 do
   begin
   RequestLive :=  true;
   CachedUpdates:= true;
   Insert;
   end;
-BitBtn4.enabled:=true;
-BitBtn5.enabled:=true;
 end;
 
-procedure TSoleWeekReport.BitBtn2Click(Sender: TObject);
+procedure TRejectedMaterial.BitBtn2Click(Sender: TObject);
 begin
 if messagedlg('Are you sure you want to delete?',mtconfirmation,[mbYes,mbNo],0)<>mrYes then
   begin
     abort;
   end;
-with query2 do
+with Query1 do
   begin
     cachedupdates:=true;
     requestlive:=true;
     edit;
     fieldbyname('YN').Value:=0;
   end;
-BitBtn4.enabled:=true;
-BitBtn5.enabled:=true;
 end;
 
-procedure TSoleWeekReport.BitBtn3Click(Sender: TObject);
+procedure TRejectedMaterial.BitBtn3Click(Sender: TObject);
 begin
-with query2 do
+with Query1 do
   begin
     cachedupdates:=true;
     requestlive:=true;
-    query2.edit;
-  end;
-BitBtn4.enabled:=true;
-BitBtn5.enabled:=true;
-end;
-
-procedure TSoleWeekReport.BitBtn4Click(Sender: TObject);
-var i: integer;
-begin
-  try
-    Query2.first;
-    for i:=1 to Query2.RecordCount do
-      begin
-        case Query2.updatestatus of
-          usinserted:
-            begin
-              if Query2.fieldbyname('InQty').isnull then
-              begin
-                Query2.delete;
-              end else
-              begin
-                Query2.Edit;
-                Query2.FieldByName('ReportID').Value := Query1.FieldByName('ReportID').Value;
-                Query2.FieldByName('USERID').Value := main.Edit1.Text;
-                Query2.FieldByName('YN').Value := 1;
-                Query2.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
-                UpSQLDetail.apply(ukinsert);
-              end;
-            end;
-          usmodified:
-             begin
-               if Query2.FieldByName('YN').value='0' then
-                 begin
-                   if messagedlg('Are you sure you want to delete?',mtconfirmation,[mbYes,mbNo],0)=mrYes then
-                   begin
-                    Query2.Edit;
-                    Query2.FieldByName('USERID').Value := main.Edit1.Text;
-                    UpSQLDetail.Apply(ukdelete)
-                   end;
-                 end else
-                 begin
-                  Query2.Edit;
-                  UpSQLDetail.apply(ukmodify);
-                 end;
-              end;
-        end;
-        Query2.next;
-      end;
-    Query2.active:=false;
-    Query2.cachedupdates:=false;
-    Query2.requestlive:=false;
-    Query2.active:=true;
-    BitBtn4.enabled:=false;
-    BitBtn5.enabled:=false;
-  except
-   Messagedlg('Have wrong, can not save data!',mtwarning,[mbyes],0);
+    Query1.edit;
   end;
 end;
 
-procedure TSoleWeekReport.BitBtn5Click(Sender: TObject);
-begin
-  with Query2 do
-  begin
-    CachedUpdates := false;
-    RequestLive := false;
-    BitBtn4.Enabled := false;
-    BitBtn5.Enabled := false;
-    DBGridEh1.ReadOnly := false;
-  end;
-end;
-
-procedure TSoleWeekReport.bExFClick(Sender: TObject);
+procedure TRejectedMaterial.bExFClick(Sender: TObject);
 var
   ExcelApp, Workbook, Worksheet, borderRange: OleVariant;
   StartRow, InsertRow, Col: Integer;
@@ -519,9 +413,9 @@ var
   SigS, SigMS, SigL, SigP: Boolean;
   s: WideString;
 begin
-  DuongDanFile := ExtractFilePath(ParamStr(0)) + 'SoleWeekReport.xlsx';
+  DuongDanFile := ExtractFilePath(ParamStr(0)) + 'RejectedMaterial.xlsx';
 
-  StartRow := 5;
+  StartRow := 3;
 
   SaveDialog := TSaveDialog.Create(nil);
   try
@@ -529,13 +423,13 @@ begin
     begin
       SaveDialog.Filter := 'Excel Files (*.xlsx)|*.xlsx';
       SaveDialog.DefaultExt := 'xlsx';
-      SaveDialog.FileName := 'SoleWeekReport_' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', Now) + '.xlsx';
+      SaveDialog.FileName := 'RejectedMaterial_' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', Now) + '.xlsx';
       SaveDialog.Title := 'Chon noi luu file Excel moi';
     end else
     begin
       SaveDialog.Filter := 'PDF (*.pdf)|*.pdf';
       SaveDialog.DefaultExt := 'pdf';
-      SaveDialog.FileName := 'SoleWeekReport_' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', Now) + '.pdf';
+      SaveDialog.FileName := 'RejectedMaterial_' + FormatDateTime('yyyy-mm-dd_hh-nn-ss', Now) + '.pdf';
       SaveDialog.Title := 'Chon noi luu file PDF moi';
     end;
 
@@ -552,15 +446,10 @@ begin
   Workbook := ExcelApp.Workbooks.Open(DuongDanFile);
   Worksheet := Workbook.WorkSheets[1];
 
-  //hang 2
-  s := VarToStr(Worksheet.Cells[2, 1].Value);
-  Worksheet.Cells[2, 1].Value := s + ' ' + FormatDateTime('dd/mm', Query1.FieldByName('FromDate').AsDateTime)
-  + '-' +  FormatDateTime('dd/mm', Query1.FieldByName('ToDate').AsDateTime);
-
-  Query2.First;
+  Query1.First;
   InsertRow := StartRow;
 
-  while not Query2.Eof do
+  while not Query1.Eof do
   begin
     Worksheet.Rows[Format('%d:%d', [InsertRow, InsertRow])].Insert;
 
@@ -569,47 +458,36 @@ begin
     borderRange.Borders.Weight := 2;
 
 
-    Worksheet.Cells[InsertRow, 1].Value := FormatDateTime('dd/mm/yyyy', Query2.FieldByName('InDate').AsDateTime);
-    Worksheet.Cells[InsertRow, 2].Value := Query2.FieldByName('Supplier').AsString;
-    Worksheet.Cells[InsertRow, 3].Value := Query2.FieldByName('CLBH').AsString;
-    Worksheet.Cells[InsertRow, 4].Value := Query2.FieldByName('InQty').AsString;
-    Worksheet.Cells[InsertRow, 5].Value := Query2.FieldByName('RQty').AsString;
-    Worksheet.Cells[InsertRow, 6].Value := Query2.FieldByName('DeQty').AsString;
-    Worksheet.Cells[InsertRow, 7].Value := Query2.FieldByName('DeRate').AsString + '%';
-    Worksheet.Cells[InsertRow, 8].Value := Query2.FieldByName('Unit').AsString;
-    Worksheet.Cells[InsertRow, 9].Value := Query2.FieldByName('Defects').AsString;
-    Worksheet.Cells[InsertRow, 10].Value := Query2.FieldByName('ImproveMethod').AsString;
-
-    //tinh tong InQty, RQty, DeQty
-    for Col := 4 to 6 do
-    begin
-      // Chuyen so cot sang chu cot Excel
-      ColLetter := Chr(Ord('A') + Col - 1);
-
-      // Gan cong thuc SUM
-      Worksheet.Cells[InsertRow + 2, Col].Formula :=
-        '=SUM(' + ColLetter + IntToStr(StartRow) + ':' +
-                 ColLetter + IntToStr(InsertRow) + ')';
-    end;
+    Worksheet.Cells[InsertRow, 1].Value := FormatDateTime('dd/mm/yyyy', Query1.FieldByName('InDate').AsDateTime);
+    Worksheet.Cells[InsertRow, 2].Value := Query1.FieldByName('DDBH').AsString;
+    Worksheet.Cells[InsertRow, 3].Value := FormatDateTime('dd/mm/yyyy', Query1.FieldByName('InsDate').AsDateTime);
+    Worksheet.Cells[InsertRow, 4].Value := Query1.FieldByName('Brand').AsString;
+    Worksheet.Cells[InsertRow, 5].Value := Query1.FieldByName('MatName').AsString;
+    Worksheet.Cells[InsertRow, 6].Value := Query1.FieldByName('Supplier').AsString;
+    Worksheet.Cells[InsertRow, 7].Value := Query1.FieldByName('DeReason').AsString;
+    Worksheet.Cells[InsertRow, 8].Value := Query1.FieldByName('DeQty').AsString;
+    Worksheet.Cells[InsertRow, 9].Value := Query1.FieldByName('ShoePO').AsString;
+    Worksheet.Cells[InsertRow, 10].Value := FormatDateTime('dd/mm/yyyy', Query1.FieldByName('XFDate').AsDateTime);
+    Worksheet.Cells[InsertRow, 11].Value := Query1.FieldByName('Result').AsString;
 
     Worksheet.Rows[InsertRow].AutoFit;
 
     Inc(InsertRow);
-    Query2.Next;
+    Query1.Next;
   end;
 
   Worksheet.Rows[Format('%d:%d', [InsertRow, InsertRow])].Delete;
 
   //in chu ky
   PrintSign(Worksheet, Query1, InsertRow, 'MSCFID', 'MSCFDate', 1, True);
-  PrintSign(Worksheet, Query1, InsertRow, 'SCFID',  'SCFDate',  4, True);
+  PrintSign(Worksheet, Query1, InsertRow, 'SCFID',  'SCFDate',  5, True);
   PrintSign(Worksheet, Query1, InsertRow, 'LCFID',  'LCFDate',  7, True);
   PrintSign(Worksheet, Query1, InsertRow, 'PreparedID', '', 10, False);
 
   //set header va loai file can in
   if cbPDF.Checked then
   begin
-    Worksheet.PageSetup.PrintTitleRows := '$1:$4';
+    Worksheet.PageSetup.PrintTitleRows := '$1:$2';
     Worksheet.PageSetup.RightHeader := '&P / &N';
     Workbook.ExportAsFixedFormat(0, SaveFile);
     ShowMessage('Duong dan PDF: ' + SaveFile);
@@ -617,7 +495,7 @@ begin
   end
   else
   begin
-    Worksheet.PageSetup.PrintTitleRows := '$1:$4';
+    Worksheet.PageSetup.PrintTitleRows := '$1:$2';
     Worksheet.PageSetup.RightHeader := '&P / &N';
     Workbook.SaveAs(SaveFile);
     ShowMessage('Duong dan Excel: ' + SaveFile);
@@ -630,15 +508,7 @@ begin
 
 end;
 
-procedure TSoleWeekReport.DBGridEh1GetCellParams(Sender: TObject;
-  Column: TColumnEh; AFont: TFont; var Background: TColor;
-  State: TGridDrawState);
-begin
-  if Query2.FieldByName('YN').Value = '0' then
-    DBGridEh1.Canvas.Font.Color := clRed;
-end;
-
-procedure TSoleWeekReport.DBGrid1GetCellParams(Sender: TObject;
+procedure TRejectedMaterial.DBGrid1GetCellParams(Sender: TObject;
   Column: TColumnEh; AFont: TFont; var Background: TColor;
   State: TGridDrawState);
 begin
@@ -646,35 +516,11 @@ begin
     DBGrid1.Canvas.Font.Color := clRed;
 end;
 
-procedure TSoleWeekReport.brnQPacClick(Sender: TObject);
+procedure TRejectedMaterial.DBGrid1KeyPress(Sender: TObject; var Key: Char);
 begin
-with Query2 do
-  begin
-    Close;
-    SQL.Clear;
 
-    SQL.Add('SELECT ReportID, InDate, Supplier, CLBH, InQty, RQty, DeQty, Unit,');
-    SQL.Add('       Defects, ImproveMethod, USERDate, USERID, YN,');
-    SQL.Add('       CONVERT(numeric(18,1),');
-    SQL.Add('         (CAST(DeQty as numeric(18,1))');
-    SQL.Add('          / CAST(RQty as numeric(18,1)) * 100)');
-    SQL.Add('       ) as DeRate');
-    SQL.Add('FROM QC_SoleWeekDetail');
-    SQL.Add('WHERE ReportID = :ReportID');
-
-    if ckInDate.Checked then
-      SQL.Add('and CAST(InDate as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpInDate.Date) + ''' ');
-    if edtSup.Text <> '' then
-      SQL.Add('and Supplier like '''+edtSup.Text+'%'' ');
-    if edtCLBH.Text <> '' then
-      SQL.Add('and CLBH like '''+edtCLBH.Text+'%'' ');
-
-    Open;
-  end;
-end;
-
-procedure TSoleWeekReport.DBGrid1KeyPress(Sender: TObject; var Key: Char);
-begin
+  if (DBGrid1.SelectedField.FieldName = 'Brand') then
+    Key := #0;
   // Neu nhan Enter
   if Key = #13 then
   begin

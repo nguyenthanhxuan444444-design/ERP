@@ -586,7 +586,7 @@ object main: Tmain
         end
       end
       object SN9A: TMenuItem
-        Caption = 'N9A Sole Week Report'
+        Caption = 'N9A Rejected Material'
         OnClick = SN9AClick
       end
       object SN9B: TMenuItem

@@ -103,6 +103,7 @@ type
     EdSID: TEdit;
     Label11: TLabel;
     edtDefects: TEdit;
+    ckSettle: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -257,6 +258,8 @@ begin
 
         if chkNotesting.Checked then
             sql.Add('   and isnull(Lab_Check,'''') = '''' ');
+        if ckSettle.Checked then
+            SQL.Add('and mc.Settlement is null ');
         if chkInspection.Checked or chkpass.Checked or chkFail.Checked then
         begin
             sql.Add('   and (1=2');
