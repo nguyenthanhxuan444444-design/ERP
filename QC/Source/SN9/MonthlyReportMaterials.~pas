@@ -65,11 +65,8 @@ type
     Query2ReportID: TIntegerField;
     Query2Supplier: TStringField;
     Query2CLBH: TStringField;
-    Query2LotQty: TIntegerField;
     Query2DeLotQty: TIntegerField;
-    Query2TotalQty: TIntegerField;
     Query2DeQty: TStringField;
-    Query2DeRate: TFloatField;
     Query2Defects: TStringField;
     Query2Inspector: TStringField;
     Query2Remark: TStringField;
@@ -82,6 +79,9 @@ type
     Label3: TLabel;
     Label4: TLabel;
     edtCLBH: TEdit;
+    Query2DeRate: TFloatField;
+    Query2LotQty: TStringField;
+    Query2TotalQty: TStringField;
     procedure BB1Click(Sender: TObject);
     procedure BB2Click(Sender: TObject);
     procedure BB4Click(Sender: TObject);
@@ -114,6 +114,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure brnQPacClick(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -190,7 +191,7 @@ begin
     SQL.Clear;
     SQL.Add(
       'select top 1 ReportID ' +
-      'from QC_SoleWeek ' +
+      'from QC_MonthlyMaterial ' +
       'where left(ReportID, 4) = :P ' +
       'order by ReportID desc');
     ParamByName('P').AsString := Prefix;
@@ -402,13 +403,6 @@ begin
                 Query2.FieldByName('USERID').Value := main.Edit1.Text;
                 Query2.FieldByName('YN').Value := 1;
                 Query2.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
-
-                if Pos('/', Query2.FieldByName('DeQty').AsString) = 0 then
-                  begin
-                    ShowMessage('Khong tim thay ky tu "/" trong DeQty');
-                    Exit;
-                  end;
-
                 UpSQLDetail.apply(ukinsert);
               end;
             end;
@@ -425,13 +419,6 @@ begin
                  end else
                  begin
                   Query2.Edit;
-
-                  if Pos('/', Query2.FieldByName('DeQty').AsString) = 0 then
-                  begin
-                    ShowMessage('Khong tim thay ky tu "/" trong DeQty');
-                    Exit;
-                  end;
-                  
                   UpSQLDetail.apply(ukmodify);
                  end;
               end;
@@ -494,7 +481,7 @@ begin
     if ckUSERDate.Checked then
       SQL.Add('and CAST(USERDate as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date) + ''' ');
     if ckMR.Checked then
-      SQL.Add('and CAST(MonthReport as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpMR.Date) + ''' ');
+      SQL.Add('AND CONVERT(char(7), MonthReport, 120) = ''' + FormatDateTime('yyyy-mm', dtpMR.Date) + ''' ');
     Active := true;
   end;
 end;
@@ -504,8 +491,8 @@ var
   ExcelApp, Workbook, Worksheet, borderRange: OleVariant;
   StartRow, InsertRow, Col, Err: Integer;
   DuongDanFile, SaveFile, ColLetter, Total: string;
-  i, p, N, SumVal, TotalRow, TotalColumn: Integer;
-  MaxHeight: Double;
+  i, p, TotalRow, TotalColumn: Integer;
+  MaxHeight, N, SumVal: Double;
   SigS, SigMS, SigL, SigP: Boolean;
   s: WideString;
 begin
@@ -564,29 +551,24 @@ begin
 
     Worksheet.Cells[InsertRow, 1].Value := Query2.FieldByName('Supplier').AsString;
     Worksheet.Cells[InsertRow, 2].Value := Query2.FieldByName('CLBH').AsString;
-    Worksheet.Cells[InsertRow, 3].Value := Query2.FieldByName('LotQty').AsString + 'PO';
-    Worksheet.Cells[InsertRow, 4].Value := Query2.FieldByName('DeLotQty').AsString + 'PO';
-    Worksheet.Cells[InsertRow, 5].Value := Query2.FieldByName('TotalQty').AsString + 'PRS';
-    Worksheet.Cells[InsertRow, 6].Value := Query2.FieldByName('DeQty').AsString + 'PRS';
+    Worksheet.Cells[InsertRow, 3].Value := Query2.FieldByName('LotQty').AsString;
+    Worksheet.Cells[InsertRow, 4].Value := Query2.FieldByName('DeLotQty').AsString;
+    Worksheet.Cells[InsertRow, 5].Value := Query2.FieldByName('TotalQty').AsString;
+    Worksheet.Cells[InsertRow, 6].Value := Query2.FieldByName('DeQty').AsString;
     Worksheet.Cells[InsertRow, 7].Value := Query2.FieldByName('DeRate').AsString + '%';
     Worksheet.Cells[InsertRow, 8].Value := Query2.FieldByName('Defects').AsString;
     Worksheet.Cells[InsertRow, 9].Value := Query2.FieldByName('Inspector').AsString;
     Worksheet.Cells[InsertRow, 10].Value := Query2.FieldByName('Remark').AsString;
     Worksheet.Cells[InsertRow, 11].Value := Query2.FieldByName('OKNG').AsString;
 
-    //tinh tong bang SUM Excel
+    //tinh tong
     for TotalColumn := 3 to 5 do
     begin
       SumVal := 0;
-
       for TotalRow := StartRow to InsertRow do
       begin
-        Val(
-          VarToStr(Worksheet.Cells[TotalRow, TotalColumn].Value),
-          N,
-          Err
-        );
-        SumVal := SumVal + N;
+        if not VarIsNull(Worksheet.Cells[TotalRow, TotalColumn].Value) then
+          SumVal := SumVal + Worksheet.Cells[TotalRow, TotalColumn].Value;
       end;
 
       Worksheet.Cells[InsertRow + 2, TotalColumn].Value := SumVal;
@@ -675,19 +657,8 @@ with Query2 do
     Close;
     SQL.Clear;
 
-    SQL.Add('SELECT ReportID, Supplier, CLBH, LotQty, DeLotQty, TotalQty, DeQty,');
-    SQL.Add('CAST(');
-    SQL.Add('  CAST(LEFT(DeQty, CHARINDEX(''/'', DeQty) - 1) AS FLOAT)');
-    SQL.Add('  /');
-    SQL.Add('  NULLIF(');
-    SQL.Add('    CAST(SUBSTRING(DeQty, CHARINDEX(''/'', DeQty) + 1, LEN(DeQty)) AS FLOAT),');
-    SQL.Add('    0');
-    SQL.Add('  )');
-    SQL.Add('  * 100');
-    SQL.Add('  AS DECIMAL(10,1)');
-    SQL.Add(') AS DeRate,');
-    SQL.Add('Defects, Inspector, Remark, OKNG, USERDate, USERID, YN');
-    SQL.Add('FROM QC_MonthlyMaterialDetail');
+    SQL.Add('SELECT * ');
+    SQL.Add('FROM QC_MonthlyMaterialDetail ');
     SQL.Add('WHERE ReportID = :ReportID');
 
     if edtSup.Text <> '' then
@@ -730,6 +701,14 @@ begin
       Query1.Post;
     end;
   end;
+end;
+
+procedure TMonthlyReportMaterial.FormCreate(Sender: TObject);
+begin
+  dtpMR.DateTime := Now;
+  //DBGridEh1.DataSource.AutoEdit := false;
+  DecimalSeparator := '.';
+  ThousandSeparator := #0;
 end;
 
 end.

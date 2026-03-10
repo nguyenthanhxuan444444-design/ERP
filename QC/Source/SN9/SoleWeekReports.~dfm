@@ -622,6 +622,7 @@ object RejectedMaterial: TRejectedMaterial
         EditButtons = <>
         FieldName = 'YN'
         Footers = <>
+        Visible = False
         Width = 50
       end>
   end

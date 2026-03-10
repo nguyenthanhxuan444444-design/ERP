@@ -15,9 +15,6 @@ type
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
-    Panel1: TPanel;
-    Button1: TButton;
-    Button2: TButton;
     DBGridEh1: TDBGridEh;
     Panel2: TPanel;
     Label5: TLabel;
@@ -105,13 +102,6 @@ type
     FloatField24: TFloatField;
     FloatField25: TFloatField;
     DS3: TDataSource;
-    Label1: TLabel;
-    ED_SKU1: TEdit;
-    Label2: TLabel;
-    CB1: TComboBox;
-    Label3: TLabel;
-    DTP5: TDateTimePicker;
-    Button7: TButton;
     QUpdate: TQuery;
     QSearch: TQuery;
     QGradeBField010: TFloatField;
@@ -164,12 +154,122 @@ type
     QInventoryBDEDesigner160: TFloatField;
     QInventoryBDEDesigner165: TFloatField;
     QInventoryBDEDesigner170: TFloatField;
-    Button8: TButton;
     QInventoryTotalQty: TFloatField;
+    QInventorykfjc: TStringField;
+    QInventoryField175: TFloatField;
+    QInventoryField180: TFloatField;
+    QInventoryField185: TFloatField;
+    QInventoryFloatField190: TFloatField;
+    QInventoryField195: TFloatField;
+    QInventoryField200: TFloatField;
+    QInventoryField205: TFloatField;
+    QInventoryField210: TFloatField;
+    QInventoryField215: TFloatField;
+    QInventoryField220: TFloatField;
+    QInventoryFloatField225: TFloatField;
+    QInventoryField230: TFloatField;
+    QInventoryField235: TFloatField;
+    QInventoryField240: TFloatField;
+    QInventoryField245: TFloatField;
+    QInventoryField250: TFloatField;
+    QInventoryField255: TFloatField;
+    QInventoryField260: TFloatField;
+    QInventoryField265: TFloatField;
+    QInventoryField270: TFloatField;
+    QInventoryField275: TFloatField;
+    QInventoryField280: TFloatField;
+    QInventorySTT: TIntegerField;
+    ts1: TTabSheet;
+    dbgrdh1: TDBGridEh;
+    ds4: TDataSource;
+    Qry_Carton: TQuery;
+    Qry_CartonSTT: TIntegerField;
+    Qry_Cartonkfjc: TStringField;
+    Qry_CartonGrade: TStringField;
+    Qry_CartonDDBH: TStringField;
+    Qry_CartonARTICLE: TStringField;
+    Qry_CartonKCBH: TStringField;
+    Qry_CartonCarton_No: TIntegerField;
+    Qry_CartonBDEDesigner010: TFloatField;
+    Qry_CartonBDEDesigner015: TFloatField;
+    Qry_CartonBDEDesigner020: TFloatField;
+    Qry_CartonBDEDesigner025: TFloatField;
+    Qry_CartonBDEDesigner030: TFloatField;
+    Qry_CartonBDEDesigner035: TFloatField;
+    Qry_CartonBDEDesigner040: TFloatField;
+    Qry_CartonBDEDesigner045: TFloatField;
+    Qry_CartonBDEDesigner050: TFloatField;
+    Qry_CartonBDEDesigner055: TFloatField;
+    Qry_CartonBDEDesigner060: TFloatField;
+    Qry_CartonBDEDesigner065: TFloatField;
+    Qry_CartonBDEDesigner070: TFloatField;
+    Qry_CartonBDEDesigner075: TFloatField;
+    Qry_CartonBDEDesigner080: TFloatField;
+    Qry_CartonBDEDesigner085: TFloatField;
+    Qry_CartonBDEDesigner090: TFloatField;
+    Qry_CartonBDEDesigner095: TFloatField;
+    Qry_CartonBDEDesigner100: TFloatField;
+    Qry_CartonBDEDesigner105: TFloatField;
+    Qry_CartonBDEDesigner110: TFloatField;
+    Qry_CartonBDEDesigner115: TFloatField;
+    Qry_CartonBDEDesigner120: TFloatField;
+    Qry_CartonBDEDesigner125: TFloatField;
+    Qry_CartonBDEDesigner130: TFloatField;
+    Qry_CartonBDEDesigner135: TFloatField;
+    Qry_CartonBDEDesigner140: TFloatField;
+    Qry_CartonBDEDesigner145: TFloatField;
+    Qry_CartonBDEDesigner150: TFloatField;
+    Qry_CartonBDEDesigner155: TFloatField;
+    Qry_CartonBDEDesigner160: TFloatField;
+    Qry_CartonBDEDesigner165: TFloatField;
+    Qry_CartonBDEDesigner170: TFloatField;
+    Qry_CartonBDEDesigner175: TFloatField;
+    Qry_CartonBDEDesigner180: TFloatField;
+    Qry_CartonBDEDesigner185: TFloatField;
+    Qry_CartonBDEDesigner190: TFloatField;
+    Qry_CartonBDEDesigner195: TFloatField;
+    Qry_CartonBDEDesigner200: TFloatField;
+    Qry_CartonBDEDesigner205: TFloatField;
+    Qry_CartonBDEDesigner210: TFloatField;
+    Qry_CartonBDEDesigner215: TFloatField;
+    Qry_CartonBDEDesigner220: TFloatField;
+    Qry_CartonBDEDesigner225: TFloatField;
+    Qry_CartonBDEDesigner230: TFloatField;
+    Qry_CartonBDEDesigner235: TFloatField;
+    Qry_CartonBDEDesigner240: TFloatField;
+    Qry_CartonBDEDesigner245: TFloatField;
+    Qry_CartonBDEDesigner250: TFloatField;
+    Qry_CartonBDEDesigner255: TFloatField;
+    Qry_CartonBDEDesigner260: TFloatField;
+    Qry_CartonBDEDesigner265: TFloatField;
+    Qry_CartonBDEDesigner270: TFloatField;
+    Qry_CartonBDEDesigner275: TFloatField;
+    Qry_CartonBDEDesigner280: TFloatField;
+    Qry_CartonTotalQty: TFloatField;
+    opendialog: TOpenDialog;
+    updtsql1: TUpdateSQL;
+    Qry_CartonKCBH_NEW: TStringField;
+    Qry_CartonCarton_No_NEW: TIntegerField;
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
     Label4: TLabel;
+    Button1: TButton;
+    Button2: TButton;
+    ED_SKU1: TEdit;
+    CB1: TComboBox;
+    DTP5: TDateTimePicker;
+    Button7: TButton;
+    Button8: TButton;
     ED_Order: TEdit;
-    QInventoryBDEDesigner000: TFloatField;
-    QInventoryKH: TStringField;
+    Label15: TLabel;
+    Ed_KCBH: TEdit;
+    Label16: TLabel;
+    ED_Carton: TEdit;
+    Button11: TButton;
+    btn1: TButton;
+    QCheck: TQuery;
     procedure Button1Click(Sender: TObject);
     procedure B_ExitClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -183,6 +283,13 @@ type
     procedure DTP5Change(Sender: TObject);
     procedure Button7Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
+    procedure Button11Click(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
+    procedure PC1Changing(Sender: TObject; var AllowChange: Boolean);
+    procedure UpdateKCRKS_BC(RKNO,Grade,DDBH,Size,DefectID,Carton_No,KCBH,Carton_No_old,KCBH_old,RorL:String;
+                    Qty,RemainQty,updateQty:Double);
+    procedure UpdateBCShoeMonth(KCYear,KCMonth,Grade,DDBH,Size,Carton_No,KCBH,Carton_No_old,KCBH_old:String;
+                          Qty,updateQty:Double);
   private
     { Private declarations }
     procedure ReCalculateClosingStock(KCDate: TDate);
@@ -216,12 +323,14 @@ end;
     
 procedure TInventory_BC.FormCreate(Sender: TObject);
 begin
-  if (main.ServerIP = '192.168.23.9') then
+  if (main.ServerIP = '192.168.40.9') then
     workflow := true
   else
     workflow := false;
 
   PC1.ActivePageIndex := 0;
+  Panel1.Height:=50;
+  
   DTP1.Date := StartOfTheMonth(Date);
   DTP2.Date := EndOfTheMonth(Date);
   DTP3.Date := StartOfTheMonth(Date);
@@ -256,12 +365,202 @@ begin
     end;
   end;
 
+
+  if PC1.ActivePageIndex=3 then
+  begin
+    with Qry_Carton do
+    begin
+      Active := false;
+      SQL.Clear;
+      SQL.Add('SELECT MAX(STT) AS STT,kfjc,Grade, KCRKS_BC.DDBH, KCRKS_BC.ARTICLE,KCBH,Carton_No,KCBH as KCBH_NEW,Carton_No as Carton_No_NEW');
+      SQL.Add(', MAX(CASE WHEN Size = ''01.0'' THEN Qty END) AS ''01.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''01.5'' THEN Qty END) AS ''01.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''02.0'' THEN Qty END) AS ''02.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''02.5'' THEN Qty END) AS ''02.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''03.0'' THEN Qty END) AS ''03.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''03.5'' THEN Qty END) AS ''03.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''04.0'' THEN Qty END) AS ''04.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''04.5'' THEN Qty END) AS ''04.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''05.0'' THEN Qty END) AS ''05.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''05.5'' THEN Qty END) AS ''05.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''06.0'' THEN Qty END) AS ''06.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''06.5'' THEN Qty END) AS ''06.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''07.0'' THEN Qty END) AS ''07.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''07.5'' THEN Qty END) AS ''07.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''08.0'' THEN Qty END) AS ''08.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''08.5'' THEN Qty END) AS ''08.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''09.0'' THEN Qty END) AS ''09.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''09.5'' THEN Qty END) AS ''09.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''10.0'' THEN Qty END) AS ''10.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''10.5'' THEN Qty END) AS ''10.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''11.0'' THEN Qty END) AS ''11.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''11.5'' THEN Qty END) AS ''11.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''12.0'' THEN Qty END) AS ''12.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''12.5'' THEN Qty END) AS ''12.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''13.0'' THEN Qty END) AS ''13.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''13.5'' THEN Qty END) AS ''13.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''14.0'' THEN Qty END) AS ''14.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''14.5'' THEN Qty END) AS ''14.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''15.0'' THEN Qty END) AS ''15.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''15.5'' THEN Qty END) AS ''15.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''16.0'' THEN Qty END) AS ''16.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''16.5'' THEN Qty END) AS ''16.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''17.0'' THEN Qty END) AS ''17.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''17.5'' THEN Qty END) AS ''17.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''18.0'' THEN Qty END) AS ''18.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''18.5'' THEN Qty END) AS ''18.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''19.0'' THEN Qty END) AS ''19.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''19.5'' THEN Qty END) AS ''19.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''20.0'' THEN Qty END) AS ''20.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''20.5'' THEN Qty END) AS ''20.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''21.0'' THEN Qty END) AS ''21.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''21.5'' THEN Qty END) AS ''21.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''22.0'' THEN Qty END) AS ''22.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''22.5'' THEN Qty END) AS ''22.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''23.0'' THEN Qty END) AS ''23.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''23.5'' THEN Qty END) AS ''23.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''24.0'' THEN Qty END) AS ''24.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''24.5'' THEN Qty END) AS ''24.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''25.0'' THEN Qty END) AS ''25.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''25.5'' THEN Qty END) AS ''25.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''26.0'' THEN Qty END) AS ''26.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''26.5'' THEN Qty END) AS ''26.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''27.0'' THEN Qty END) AS ''27.0''');
+      SQL.Add(', MAX(CASE WHEN Size = ''27.5'' THEN Qty END) AS ''27.5''');
+      SQL.Add(', MAX(CASE WHEN Size = ''28.0'' THEN Qty END) AS ''28.0''');
+      SQL.Add(', SUM(CASE WHEN Size = ''01.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''01.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''02.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''02.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''03.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''03.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''04.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''04.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''05.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''05.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''06.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''06.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''07.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''07.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''08.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''08.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''09.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''09.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''10.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''10.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''11.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''11.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''12.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''12.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''13.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''13.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''14.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''14.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''15.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''15.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''16.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''16.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''17.0'' THEN Qty ELSE 0 END) +');
+
+      SQL.Add(' SUM(CASE WHEN Size = ''17.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''18.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''18.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''19.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''19.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''20.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''20.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''21.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''21.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''22.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''22.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''23.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''23.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''24.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''24.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''25.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''25.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''26.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''26.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''27.0'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''27.5'' THEN Qty ELSE 0 END) +');
+      SQL.Add(' SUM(CASE WHEN Size = ''28.0'' THEN Qty ELSE 0 END) AS TotalQty ');
+      SQL.Add('FROM (');
+      SQL.Add('  SELECT * FROM (');
+      SQL.Add('  SELECT KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Article, KCRKS_BC.Size, SUM(KCRKS_BC.Qty) AS Qty,STT,KCBH,Carton_No FROM (');
+      //前月期末
+      SQL.Add('    SELECT STT,Grade, BCShoeMonth.DDBH, Size, Qty, DDZL.Article,KCBH,Carton_No FROM BCShoeMonth');
+      SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = BCShoeMonth.DDBH');
+      SQL.Add('    WHERE KCYear = ''' + sYear + ''' AND KCMonth = ''' + sMonth + '''');
+      SQL.Add('    AND BCShoeMonth.GSBH = ''' + main.Edit2.Text + '''');
+      if (CB1.ItemIndex > 0) then
+        SQL.Add('    AND BCShoeMonth.Grade = ''' + CB1.Text + '''');
+      if (ED_SKU1.Text <> '') then
+        SQL.Add('  AND DDZL.Article LIKE ''' + ED_SKU1.Text + '%''');
+      if (ED_Order.Text <> '') then
+        SQL.Add('  AND DDZL.DDBH LIKE ''' + ED_Order.Text + '%''');
+      if (ED_KCBH.Text <> '') then
+        SQL.Add('  AND KCBH LIKE ''' + ED_KCBH.Text + '%''');
+      if (ED_Carton.Text <> '') then
+        SQL.Add('  AND Carton_No LIKE ''' + ED_Carton.Text + '%''');
+      SQL.Add('    UNION ALL');
+      //當月入庫
+      SQL.Add('    SELECT NULL AS STT,KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size, KCRKS_BC.Qty, DDZL.Article,KCRKS_BC.KCBH,KCRKS_BC.Carton_No FROM KCRKS_BC');
+      SQL.Add('    LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
+      SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = KCRKS_BC.DDBH');
+      SQL.Add('    WHERE (KCRK_BC.flowflag not in (''X'') or (KCRK_BC.flowflag is null)) and KCRK_BC.GSBH = ''' + main.Edit2.Text + '''');
+      SQL.Add('    AND CONVERT(VARCHAR, KCRK_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd HH:mm:ss', DTP5.Date) + '''');
+      //SQL.Add('    AND CONVERT(VARCHAR, KCRK_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', DTP5.Date) + '''');
+      if (CB1.ItemIndex > 0) then
+        SQL.Add('    AND KCRKS_BC.Grade = ''' + CB1.Text + '''');
+      if (ED_SKU1.Text <> '') then
+        SQL.Add('  AND DDZL.Article LIKE ''' + ED_SKU1.Text + '%''');
+      if (ED_Order.Text <> '') then
+        SQL.Add('  AND DDZL.DDBH LIKE ''' + ED_Order.Text + '%''');
+      if (ED_KCBH.Text <> '') then
+        SQL.Add('  AND KCBH LIKE ''' + ED_KCBH.Text + '%''');
+      if (ED_Carton.Text <> '') then
+        SQL.Add('  AND Carton_No LIKE ''' + ED_Carton.Text + '%''');
+      SQL.Add('    UNION ALL');
+      //當月出庫
+      SQL.Add('    SELECT NULL AS STT,KCLLS_BC.Grade, KCLLS_BC.DDBH, KCLLS_BC.Size, KCLLS_BC.Qty*-1 AS Qty, DDZL.Article,KCLLS_BC.KCBH,KCLLS_BC.Carton_No FROM KCLLS_BC');
+      SQL.Add('    LEFT JOIN KCLL_BC ON KCLL_BC.LLNO = KCLLS_BC.LLNO');
+      SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = KCLLS_BC.DDBH');
+      SQL.Add('    WHERE (KCLL_BC.flowflag not in (''X'') or (KCLL_BC.flowflag is null)) and KCLL_BC.GSBH = ''' + main.Edit2.Text + '''');
+      SQL.Add('    AND CONVERT(VARCHAR, KCLL_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd HH:mm:ss', DTP5.Date) + '''');
+      //SQL.Add('    AND CONVERT(VARCHAR, KCLL_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', DTP5.Date) + '''');
+      if (CB1.ItemIndex > 0) then
+        SQL.Add('    AND KCLLS_BC.Grade = ''' + CB1.Text + '''');
+      if (ED_SKU1.Text <> '') then
+        SQL.Add('  AND DDZL.Article LIKE ''' + ED_SKU1.Text + '%''');
+      if (ED_Order.Text <> '') then
+        SQL.Add('  AND DDZL.DDBH LIKE ''' + ED_Order.Text + '%''');       
+      if (ED_KCBH.Text <> '') then
+        SQL.Add('  AND KCBH LIKE ''' + ED_KCBH.Text + '%''');
+      if (ED_Carton.Text <> '') then
+        SQL.Add('  AND Carton_No LIKE ''' + ED_Carton.Text + '%''');
+      SQL.Add('  ) AS KCRKS_BC');
+  //    SQL.Add('  LEFT JOIN DDZL ON DDZL.DDBH = KCRKS_BC.DDBH');
+  //    SQL.Add('  WHERE 1 = 1 and KCRKS_BC.Qty > 0');
+  //    if (ED_SKU1.Text <> '') then
+  //      SQL.Add('  AND DDZL.Article LIKE ''' + ED_SKU1.Text + '%''');
+      SQL.Add('  GROUP BY KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Article, KCRKS_BC.Size, KCRKS_BC.STT,KCBH,Carton_No');
+      SQL.Add(') AS KCRKS_BC');
+      SQL.Add('  ) AS KCRKS_BC');
+      SQL.Add('left join ddzl on ddzl.DDBH=KCRKS_BC.DDBH');
+      SQL.Add('left join kfzl on kfzl.kfdh=ddzl.KHBH');
+      SQL.Add('  WHERE 1 = 1 and KCRKS_BC.Qty > 0');
+      SQL.Add('GROUP BY kfjc,Grade, KCRKS_BC.DDBH, KCRKS_BC.ARTICLE,KCBH,Carton_No');
+      SQL.Add('ORDER BY MAX(STT),kfjc,Grade, KCRKS_BC.ARTICLE, KCRKS_BC.DDBH');
+      //showmessage(SQL.Text);
+      Active := true;
+    end
+  end
+  else
   with QInventory do
   begin
     Active := false;
     SQL.Clear;
-    SQL.Add('SELECT Grade, DDBH, Article,case when LEFT(DDBH,3)=''JTS'' OR LEFT(DDBH,3)=''TV'' then ''TEVA'' else ''HOKA'' END as KH');
-    SQL.Add(', MAX(CASE WHEN Size = ''00.0'' THEN Qty END) AS ''00.0''');
+    SQL.Add('SELECT MAX(STT) AS STT,kfjc,Grade, KCRKS_BC.DDBH, KCRKS_BC.ARTICLE');
     SQL.Add(', MAX(CASE WHEN Size = ''01.0'' THEN Qty END) AS ''01.0''');
     SQL.Add(', MAX(CASE WHEN Size = ''01.5'' THEN Qty END) AS ''01.5''');
     SQL.Add(', MAX(CASE WHEN Size = ''02.0'' THEN Qty END) AS ''02.0''');
@@ -295,8 +594,29 @@ begin
     SQL.Add(', MAX(CASE WHEN Size = ''16.0'' THEN Qty END) AS ''16.0''');
     SQL.Add(', MAX(CASE WHEN Size = ''16.5'' THEN Qty END) AS ''16.5''');
     SQL.Add(', MAX(CASE WHEN Size = ''17.0'' THEN Qty END) AS ''17.0''');
-    SQL.Add(', SUM(CASE WHEN Size = ''00.0'' THEN Qty ELSE 0 END) +');
-    SQL.Add(' SUM(CASE WHEN Size = ''01.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(', MAX(CASE WHEN Size = ''17.5'' THEN Qty END) AS ''17.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''18.0'' THEN Qty END) AS ''18.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''18.5'' THEN Qty END) AS ''18.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''19.0'' THEN Qty END) AS ''19.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''19.5'' THEN Qty END) AS ''19.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''20.0'' THEN Qty END) AS ''20.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''20.5'' THEN Qty END) AS ''20.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''21.0'' THEN Qty END) AS ''21.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''21.5'' THEN Qty END) AS ''21.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''22.0'' THEN Qty END) AS ''22.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''22.5'' THEN Qty END) AS ''22.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''23.0'' THEN Qty END) AS ''23.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''23.5'' THEN Qty END) AS ''23.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''24.0'' THEN Qty END) AS ''24.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''24.5'' THEN Qty END) AS ''24.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''25.0'' THEN Qty END) AS ''25.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''25.5'' THEN Qty END) AS ''25.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''26.0'' THEN Qty END) AS ''26.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''26.5'' THEN Qty END) AS ''26.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''27.0'' THEN Qty END) AS ''27.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''27.5'' THEN Qty END) AS ''27.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''28.0'' THEN Qty END) AS ''28.0''');
+    SQL.Add(', SUM(CASE WHEN Size = ''01.0'' THEN Qty ELSE 0 END) +');
     SQL.Add(' SUM(CASE WHEN Size = ''01.5'' THEN Qty ELSE 0 END) +');
     SQL.Add(' SUM(CASE WHEN Size = ''02.0'' THEN Qty ELSE 0 END) +');
     SQL.Add(' SUM(CASE WHEN Size = ''02.5'' THEN Qty ELSE 0 END) +');
@@ -328,12 +648,35 @@ begin
     SQL.Add(' SUM(CASE WHEN Size = ''15.5'' THEN Qty ELSE 0 END) +');
     SQL.Add(' SUM(CASE WHEN Size = ''16.0'' THEN Qty ELSE 0 END) +');
     SQL.Add(' SUM(CASE WHEN Size = ''16.5'' THEN Qty ELSE 0 END) +');
-    SQL.Add(' SUM(CASE WHEN Size = ''17.0'' THEN Qty ELSE 0 END) AS TotalQty ');
+    SQL.Add(' SUM(CASE WHEN Size = ''17.0'' THEN Qty ELSE 0 END) +');
+
+    SQL.Add(' SUM(CASE WHEN Size = ''17.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''18.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''18.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''19.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''19.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''20.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''20.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''21.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''21.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''22.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''22.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''23.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''23.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''24.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''24.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''25.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''25.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''26.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''26.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''27.0'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''27.5'' THEN Qty ELSE 0 END) +');
+    SQL.Add(' SUM(CASE WHEN Size = ''28.0'' THEN Qty ELSE 0 END) AS TotalQty ');
     SQL.Add('FROM (');
     SQL.Add('  SELECT * FROM (');
-    SQL.Add('  SELECT KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Article, KCRKS_BC.Size, SUM(KCRKS_BC.Qty) AS Qty FROM (');
+    SQL.Add('  SELECT KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Article, KCRKS_BC.Size, SUM(KCRKS_BC.Qty) AS Qty,STT FROM (');
     //前月期末
-    SQL.Add('    SELECT Grade, BCShoeMonth.DDBH, Size, Qty, DDZL.Article FROM BCShoeMonth');
+    SQL.Add('    SELECT STT,Grade, BCShoeMonth.DDBH, Size, Qty, DDZL.Article FROM BCShoeMonth');
     SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = BCShoeMonth.DDBH');
     SQL.Add('    WHERE KCYear = ''' + sYear + ''' AND KCMonth = ''' + sMonth + '''');
     SQL.Add('    AND BCShoeMonth.GSBH = ''' + main.Edit2.Text + '''');
@@ -345,10 +688,10 @@ begin
       SQL.Add('  AND DDZL.DDBH LIKE ''' + ED_Order.Text + '%''');
     SQL.Add('    UNION ALL');
     //當月入庫
-    SQL.Add('    SELECT KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size, KCRKS_BC.Qty, DDZL.Article FROM KCRKS_BC');
+    SQL.Add('    SELECT NULL AS STT,KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size, KCRKS_BC.Qty, DDZL.Article FROM KCRKS_BC');
     SQL.Add('    LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
     SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = KCRKS_BC.DDBH');
-    SQL.Add('    WHERE KCRK_BC.flowflag not in (''X'') and KCRK_BC.GSBH = ''' + main.Edit2.Text + '''');
+    SQL.Add('    WHERE (KCRK_BC.flowflag not in (''X'') or (KCRK_BC.flowflag is null))  and KCRK_BC.GSBH = ''' + main.Edit2.Text + '''');
     SQL.Add('    AND CONVERT(VARCHAR, KCRK_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', DTP5.Date) + '''');
     if (CB1.ItemIndex > 0) then
       SQL.Add('    AND KCRKS_BC.Grade = ''' + CB1.Text + '''');
@@ -358,10 +701,10 @@ begin
       SQL.Add('  AND DDZL.DDBH LIKE ''' + ED_Order.Text + '%''');
     SQL.Add('    UNION ALL');
     //當月出庫
-    SQL.Add('    SELECT KCLLS_BC.Grade, KCLLS_BC.DDBH, KCLLS_BC.Size, KCLLS_BC.Qty*-1 AS Qty, DDZL.Article FROM KCLLS_BC');
+    SQL.Add('    SELECT NULL AS STT,KCLLS_BC.Grade, KCLLS_BC.DDBH, KCLLS_BC.Size, KCLLS_BC.Qty*-1 AS Qty, DDZL.Article FROM KCLLS_BC');
     SQL.Add('    LEFT JOIN KCLL_BC ON KCLL_BC.LLNO = KCLLS_BC.LLNO');
     SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = KCLLS_BC.DDBH');
-    SQL.Add('    WHERE KCLL_BC.flowflag not in (''X'') and KCLL_BC.GSBH = ''' + main.Edit2.Text + '''');
+    SQL.Add('    WHERE (KCLL_BC.flowflag not in (''X'') or (KCLL_BC.flowflag is null)) and KCLL_BC.GSBH = ''' + main.Edit2.Text + '''');
     SQL.Add('    AND CONVERT(VARCHAR, KCLL_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', DTP5.Date) + '''');
     if (CB1.ItemIndex > 0) then
       SQL.Add('    AND KCLLS_BC.Grade = ''' + CB1.Text + '''');
@@ -374,12 +717,14 @@ begin
 //    SQL.Add('  WHERE 1 = 1 and KCRKS_BC.Qty > 0');
 //    if (ED_SKU1.Text <> '') then
 //      SQL.Add('  AND DDZL.Article LIKE ''' + ED_SKU1.Text + '%''');
-    SQL.Add('  GROUP BY KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Article, KCRKS_BC.Size');
+    SQL.Add('  GROUP BY KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Article, KCRKS_BC.Size, KCRKS_BC.STT');
     SQL.Add(') AS KCRKS_BC');
     SQL.Add('  ) AS KCRKS_BC');
+    SQL.Add('left join ddzl on ddzl.DDBH=KCRKS_BC.DDBH');
+    SQL.Add('left join kfzl on kfzl.kfdh=ddzl.KHBH');
     SQL.Add('  WHERE 1 = 1 and KCRKS_BC.Qty > 0');
-    SQL.Add('GROUP BY Grade, DDBH, Article');
-    SQL.Add('ORDER BY Grade, Article, DDBH');
+    SQL.Add('GROUP BY kfjc,Grade, KCRKS_BC.DDBH, KCRKS_BC.ARTICLE');
+    SQL.Add('ORDER BY MAX(STT),kfjc,Grade, KCRKS_BC.ARTICLE, KCRKS_BC.DDBH');
     //showmessage(SQL.Text);
     Active := true;
   end;
@@ -395,8 +740,20 @@ var
   a: string;
   eclApp, WorkBook: OleVariant;
   i, j: integer;
+  Q1:TQuery;
+  DBG1: TDBGridEh;
 begin
-  if (QInventory.Active) then
+  if PC1.ActivePageIndex=0 then
+  begin   
+    Q1:= QInventory;
+    DBG1:=DBGridEh1;
+  end
+  else
+  begin           
+    Q1:= Qry_Carton;
+    DBG1:=dbgrdh1;
+  end;
+  if (Q1.Active) then
   begin
     try
       eclApp := CreateOleObject('Excel.Application');
@@ -407,20 +764,20 @@ begin
     end;
     try
       WorkBook := eclApp.workbooks.Add;
-      for i:=0 to DBGridEh1.Columns.Count-1 do
+      for i:=0 to DBG1.Columns.Count-1 do
       begin
-        eclApp.Cells[1, i+1] := DBGridEh1.Columns[i].Title.Caption;
+        eclApp.Cells[1, i+1] := DBG1.Columns[i].Title.Caption;
       end;
-
-      QInventory.First;
+      eclApp.Cells[1, DBG1.Columns.Count+1]:=FormatDateTime('yyyy/MM/dd HH:mm:ss', DTP5.Date);
+      Q1.First;
       j := 2;
-      while not QInventory.Eof do
+      while not Q1.Eof do
       begin
-        for i:=0 to DBGridEh1.Columns.Count-1 do
+        for i:=0 to DBG1.Columns.Count-1 do
         begin
-          eclApp.Cells[j, i+1] := QInventory.FieldByName(DBGridEh1.Columns[i].FieldName).Value;
+          eclApp.Cells[j, i+1] := Q1.FieldByName(DBG1.Columns[i].FieldName).Value;
         end;
-        QInventory.Next;
+        Q1.Next;
         Inc(j);
       end;
 
@@ -466,13 +823,36 @@ begin
     SQL.Add(', MAX(CASE WHEN Size = ''12.5'' THEN Qty END) AS ''12.5''');
     SQL.Add(', MAX(CASE WHEN Size = ''13.0'' THEN Qty END) AS ''13.0''');
     SQL.Add(', MAX(CASE WHEN Size = ''13.5'' THEN Qty END) AS ''13.5''');
-    SQL.Add(', MAX(CASE WHEN Size = ''14.0'' THEN Qty END) AS ''14.0'''); 
+    SQL.Add(', MAX(CASE WHEN Size = ''14.0'' THEN Qty END) AS ''14.0''');
     SQL.Add(', MAX(CASE WHEN Size = ''14.5'' THEN Qty END) AS ''14.5''');
-    SQL.Add(', MAX(CASE WHEN Size = ''15.0'' THEN Qty END) AS ''15.0''');  
+    SQL.Add(', MAX(CASE WHEN Size = ''15.0'' THEN Qty END) AS ''15.0''');
     SQL.Add(', MAX(CASE WHEN Size = ''15.5'' THEN Qty END) AS ''15.5''');
     SQL.Add(', MAX(CASE WHEN Size = ''16.0'' THEN Qty END) AS ''16.0''');
     SQL.Add(', MAX(CASE WHEN Size = ''16.5'' THEN Qty END) AS ''16.5''');
     SQL.Add(', MAX(CASE WHEN Size = ''17.0'' THEN Qty END) AS ''17.0''');
+
+    SQL.Add(', MAX(CASE WHEN Size = ''17.5'' THEN Qty END) AS ''17.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''18.0'' THEN Qty END) AS ''18.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''18.5'' THEN Qty END) AS ''18.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''19.0'' THEN Qty END) AS ''19.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''19.5'' THEN Qty END) AS ''19.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''20.0'' THEN Qty END) AS ''20.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''20.5'' THEN Qty END) AS ''20.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''21.0'' THEN Qty END) AS ''21.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''21.5'' THEN Qty END) AS ''21.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''22.0'' THEN Qty END) AS ''22.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''22.5'' THEN Qty END) AS ''22.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''23.0'' THEN Qty END) AS ''23.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''23.5'' THEN Qty END) AS ''23.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''24.0'' THEN Qty END) AS ''24.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''24.5'' THEN Qty END) AS ''24.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''25.0'' THEN Qty END) AS ''25.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''25.5'' THEN Qty END) AS ''25.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''26.0'' THEN Qty END) AS ''26.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''26.5'' THEN Qty END) AS ''26.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''27.0'' THEN Qty END) AS ''27.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''27.5'' THEN Qty END) AS ''27.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''28.0'' THEN Qty END) AS ''28.0''');
     SQL.Add('FROM KCRKS_BC');
     SQL.Add('LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
     SQL.Add('LEFT JOIN BDepartment ON BDepartment.ID = KCRK_BC.DepID');
@@ -503,7 +883,7 @@ begin
     end;
     try
       WorkBook := eclApp.workbooks.Add;
-                            
+
       eclApp.Range[eclApp.Cells[1, 1], eclApp.Cells[1, DBGridEh2.Columns.Count]].Merge;
       eclApp.Cells[1, 1] := 'B品清單';
       eclApp.Cells[1, 1].Font.Size := 20;
@@ -564,7 +944,7 @@ begin
     Active := false;
     SQL.Clear;
     SQL.Add('SELECT CONVERT(SmallDateTime, CONVERT(VARCHAR, KCRK_BC.CFMDate, 111)) AS CFMDate,');
-    SQL.Add('BDepartment.DepName, KCRKS_BC.DDBH, QCBLYY.YWSM, XXZL.YSSM, DDZL.Article'); 
+    SQL.Add('BDepartment.DepName, KCRKS_BC.DDBH, QCBLYY.YWSM, XXZL.YSSM, DDZL.Article');
     SQL.Add(', MAX(CASE WHEN Size = ''01.0'' THEN Qty END) AS ''01.0''');
     SQL.Add(', MAX(CASE WHEN Size = ''02.0'' THEN Qty END) AS ''02.0''');
     SQL.Add(', MAX(CASE WHEN Size = ''02.5'' THEN Qty END) AS ''02.5''');
@@ -597,6 +977,29 @@ begin
     SQL.Add(', MAX(CASE WHEN Size = ''16.0'' THEN Qty END) AS ''16.0''');
     SQL.Add(', MAX(CASE WHEN Size = ''16.5'' THEN Qty END) AS ''16.5''');
     SQL.Add(', MAX(CASE WHEN Size = ''17.0'' THEN Qty END) AS ''17.0''');
+    
+    SQL.Add(', MAX(CASE WHEN Size = ''17.5'' THEN Qty END) AS ''17.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''18.0'' THEN Qty END) AS ''18.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''18.5'' THEN Qty END) AS ''18.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''19.0'' THEN Qty END) AS ''19.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''19.5'' THEN Qty END) AS ''19.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''20.0'' THEN Qty END) AS ''20.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''20.5'' THEN Qty END) AS ''20.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''21.0'' THEN Qty END) AS ''21.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''21.5'' THEN Qty END) AS ''21.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''22.0'' THEN Qty END) AS ''22.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''22.5'' THEN Qty END) AS ''22.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''23.0'' THEN Qty END) AS ''23.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''23.5'' THEN Qty END) AS ''23.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''24.0'' THEN Qty END) AS ''24.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''24.5'' THEN Qty END) AS ''24.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''25.0'' THEN Qty END) AS ''25.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''25.5'' THEN Qty END) AS ''25.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''26.0'' THEN Qty END) AS ''26.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''26.5'' THEN Qty END) AS ''26.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''27.0'' THEN Qty END) AS ''27.0''');
+    SQL.Add(', MAX(CASE WHEN Size = ''27.5'' THEN Qty END) AS ''27.5''');
+    SQL.Add(', MAX(CASE WHEN Size = ''28.0'' THEN Qty END) AS ''28.0''');
     SQL.Add('FROM KCRKS_BC');
     SQL.Add('LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
     SQL.Add('LEFT JOIN BDepartment ON BDepartment.ID = KCRK_BC.DepID');
@@ -627,7 +1030,7 @@ begin
     end;
     try
       WorkBook := eclApp.workbooks.Add;
-                            
+
       eclApp.Range[eclApp.Cells[1, 1], eclApp.Cells[1, DBGridEh3.Columns.Count]].Merge;
       eclApp.Cells[1, 1] := 'C品清單';
       eclApp.Cells[1, 1].Font.Size := 20;
@@ -706,30 +1109,34 @@ begin
   with QUpdate do
   begin
     SQL.Clear;
-    SQL.Add('DELETE FROM BCShoeMonth WHERE KCYear = ''' + IntToStr(YearOf(KCDate)) + ''' AND KCMonth = ''' + Format('%0.2d', [MonthOf(KCDate)]) + ''' AND GSBH = ''' + main.Edit2.Text + '''');
+    SQL.Add('DELETE FROM BCShoeMonth WHERE KCYear = ''' + IntToStr(YearOf(KCDate)) + ''' AND KCMonth = ''' + Format('%0.2d', [MonthOf(KCDate)]) + ''' AND GSBH = ''' + main.Edit2.Text + '''');  
+    //ShowMessage(SQL.text);
     ExecSQL;
 
     SQL.Clear;
-    SQL.Add('INSERT INTO BCShoeMonth (KCYear, KCMonth, GSBH, Grade, DDBH, Size, Qty, UserID, UserDate, YN)');
-    SQL.Add('SELECT ''' + IntToStr(YearOf(KCDate)) + ''' AS KCYear, ''' + Format('%0.2d', [MonthOf(KCDate)]) + ''' AS KCMonth, GSBH, Grade, DDBH, Size, SUM(KCRKS_BC.Qty) AS Qty, ''' + main.Edit1.Text + ''' AS UserID, GetDate() AS UserDate, ''1'' AS YN FROM (');
+    SQL.Add('INSERT INTO BCShoeMonth (KCYear, KCMonth, GSBH, Grade, DDBH, Size, Qty, UserID, UserDate, YN,KCBH,Carton_No  )');
+    SQL.Add('SELECT ''' + IntToStr(YearOf(KCDate)) + ''' AS KCYear, ''' + Format('%0.2d', [MonthOf(KCDate)]) + ''' AS KCMonth, GSBH, Grade, DDBH, Size, SUM(KCRKS_BC.Qty) AS Qty, ''' + main.Edit1.Text + ''' AS UserID');
+    //
+    SQL.Add(', GetDate() AS UserDate, ''1'' AS YN,KCBH,Carton_No FROM (');
     //前月期末
-    SQL.Add('  SELECT Grade, DDBH, Size, Qty, GSBH FROM BCShoeMonth');
+    SQL.Add('  SELECT Grade, DDBH, Size, Qty, GSBH,KCBH,Carton_No   FROM BCShoeMonth');
     SQL.Add('  WHERE KCYear = ''' + sYear + ''' AND KCMonth = ''' + sMonth + '''');
     SQL.Add('  AND GSBH = ''' + main.Edit2.Text + '''');
     SQL.Add('  UNION ALL');
     //當月入庫
-    SQL.Add('  SELECT KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size, KCRKS_BC.Qty, KCRK_BC.GSBH FROM KCRKS_BC');
+    SQL.Add('  SELECT KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size, KCRKS_BC.Qty, KCRK_BC.GSBH,KCBH,Carton_No  FROM KCRKS_BC');
     SQL.Add('  LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
-    SQL.Add('  WHERE KCRK_BC.flowflag not in (''X'') and KCRK_BC.GSBH = ''' + main.Edit2.Text + '''');
+    SQL.Add('  WHERE (KCRK_BC.flowflag not in (''X'') or KCRK_BC.flowflag is null )and KCRK_BC.GSBH = ''' + main.Edit2.Text + '''');
     SQL.Add('  AND CONVERT(VARCHAR, KCRK_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(KCDate)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', EndOfTheMonth(KCDate)) + '''');
     SQL.Add('  UNION ALL');
     //當月出庫
-    SQL.Add('  SELECT KCLLS_BC.Grade, KCLLS_BC.DDBH, KCLLS_BC.Size, KCLLS_BC.Qty*-1 AS Qty, KCLL_BC.GSBH FROM KCLLS_BC');
+    SQL.Add('  SELECT KCLLS_BC.Grade, KCLLS_BC.DDBH, KCLLS_BC.Size, KCLLS_BC.Qty*-1 AS Qty, KCLL_BC.GSBH,KCBH,Carton_No  FROM KCLLS_BC');
     SQL.Add('  LEFT JOIN KCLL_BC ON KCLL_BC.LLNO = KCLLS_BC.LLNO');
-    SQL.Add('  WHERE KCLL_BC.flowflag not in (''X'') and KCLL_BC.GSBH = ''' + main.Edit2.Text + '''');
+    SQL.Add('  WHERE (KCLL_BC.flowflag not in (''X'') or KCLL_BC.flowflag is null) and KCLL_BC.GSBH = ''' + main.Edit2.Text + '''');
     SQL.Add('  AND CONVERT(VARCHAR, KCLL_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(KCDate)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', EndOfTheMonth(KCDate)) + '''');
     SQL.Add(') AS KCRKS_BC');
-    SQL.Add('GROUP BY Grade, DDBH, Size, GSBH');
+    SQL.Add('GROUP BY Grade, DDBH, Size, GSBH,KCBH,Carton_No ');
+    //ShowMessage(SQL.text);
     ExecSQL;
   end;
 end;
@@ -743,4 +1150,645 @@ begin
   InventoryBC_Print.free;
 end;
 
+
+procedure TInventory_BC.Button11Click(Sender: TObject);
+var
+  i,j:integer; 
+  MsExcel:olevariant;
+  MsExcelWorkbook: Variant;   
+  flag:boolean;
+  Text2: String;    
+  DT: TDateTime;
+begin
+   with Qry_Carton do
+      begin
+         active:=false;
+         sql.Clear;
+        SQL.Add('SELECT MAX(STT) AS STT,kfjc,Grade, KCRKS_BC.DDBH, KCRKS_BC.ARTICLE,KCBH,Carton_No,KCBH as KCBH_NEW,Carton_No as Carton_No_NEW');
+        SQL.Add(', MAX(CASE WHEN Size = ''01.0'' THEN Qty END) AS ''01.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''01.5'' THEN Qty END) AS ''01.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''02.0'' THEN Qty END) AS ''02.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''02.5'' THEN Qty END) AS ''02.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''03.0'' THEN Qty END) AS ''03.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''03.5'' THEN Qty END) AS ''03.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''04.0'' THEN Qty END) AS ''04.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''04.5'' THEN Qty END) AS ''04.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''05.0'' THEN Qty END) AS ''05.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''05.5'' THEN Qty END) AS ''05.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''06.0'' THEN Qty END) AS ''06.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''06.5'' THEN Qty END) AS ''06.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''07.0'' THEN Qty END) AS ''07.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''07.5'' THEN Qty END) AS ''07.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''08.0'' THEN Qty END) AS ''08.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''08.5'' THEN Qty END) AS ''08.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''09.0'' THEN Qty END) AS ''09.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''09.5'' THEN Qty END) AS ''09.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''10.0'' THEN Qty END) AS ''10.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''10.5'' THEN Qty END) AS ''10.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''11.0'' THEN Qty END) AS ''11.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''11.5'' THEN Qty END) AS ''11.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''12.0'' THEN Qty END) AS ''12.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''12.5'' THEN Qty END) AS ''12.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''13.0'' THEN Qty END) AS ''13.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''13.5'' THEN Qty END) AS ''13.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''14.0'' THEN Qty END) AS ''14.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''14.5'' THEN Qty END) AS ''14.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''15.0'' THEN Qty END) AS ''15.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''15.5'' THEN Qty END) AS ''15.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''16.0'' THEN Qty END) AS ''16.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''16.5'' THEN Qty END) AS ''16.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''17.0'' THEN Qty END) AS ''17.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''17.5'' THEN Qty END) AS ''17.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''18.0'' THEN Qty END) AS ''18.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''18.5'' THEN Qty END) AS ''18.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''19.0'' THEN Qty END) AS ''19.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''19.5'' THEN Qty END) AS ''19.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''20.0'' THEN Qty END) AS ''20.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''20.5'' THEN Qty END) AS ''20.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''21.0'' THEN Qty END) AS ''21.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''21.5'' THEN Qty END) AS ''21.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''22.0'' THEN Qty END) AS ''22.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''22.5'' THEN Qty END) AS ''22.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''23.0'' THEN Qty END) AS ''23.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''23.5'' THEN Qty END) AS ''23.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''24.0'' THEN Qty END) AS ''24.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''24.5'' THEN Qty END) AS ''24.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''25.0'' THEN Qty END) AS ''25.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''25.5'' THEN Qty END) AS ''25.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''26.0'' THEN Qty END) AS ''26.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''26.5'' THEN Qty END) AS ''26.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''27.0'' THEN Qty END) AS ''27.0''');
+        SQL.Add(', MAX(CASE WHEN Size = ''27.5'' THEN Qty END) AS ''27.5''');
+        SQL.Add(', MAX(CASE WHEN Size = ''28.0'' THEN Qty END) AS ''28.0''');
+        SQL.Add(', SUM(CASE WHEN Size = ''01.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''01.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''02.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''02.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''03.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''03.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''04.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''04.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''05.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''05.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''06.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''06.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''07.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''07.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''08.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''08.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''09.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''09.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''10.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''10.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''11.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''11.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''12.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''12.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''13.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''13.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''14.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''14.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''15.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''15.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''16.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''16.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''17.0'' THEN Qty ELSE 0 END) +');
+
+        SQL.Add(' SUM(CASE WHEN Size = ''17.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''18.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''18.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''19.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''19.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''20.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''20.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''21.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''21.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''22.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''22.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''23.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''23.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''24.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''24.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''25.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''25.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''26.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''26.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''27.0'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''27.5'' THEN Qty ELSE 0 END) +');
+        SQL.Add(' SUM(CASE WHEN Size = ''28.0'' THEN Qty ELSE 0 END) AS TotalQty ');
+        SQL.Add('FROM (');
+        SQL.Add('  SELECT * FROM (');
+        SQL.Add('  SELECT KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Article, KCRKS_BC.Size, SUM(KCRKS_BC.Qty) AS Qty,STT,KCBH,Carton_No FROM (');
+        //前月期末   
+        sql.add('    SELECT STT,Grade, BCShoeMonth.DDBH, Size, Qty, DDZL.Article,KCBH,Carton_No FROM BCShoeMonth');
+        sql.add('    LEFT JOIN DDZL ON DDZL.DDBH = BCShoeMonth.DDBH');
+        sql.add('    WHERE 1=2');
+
+        sql.add('  ) AS KCRKS_BC');
+        sql.add('  GROUP BY KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Article, KCRKS_BC.Size, KCRKS_BC.STT,KCBH,Carton_No');
+        sql.add(') AS KCRKS_BC');
+        sql.add('  ) AS KCRKS_BC');
+        sql.add('left join ddzl on ddzl.DDBH=KCRKS_BC.DDBH');
+        sql.add('left join kfzl on kfzl.kfdh=ddzl.KHBH');
+        sql.add('  WHERE 1 = 1 and KCRKS_BC.Qty > 0');
+        sql.add('GROUP BY kfjc,Grade, KCRKS_BC.DDBH, KCRKS_BC.ARTICLE,KCBH,Carton_No');
+         active:=true;
+      end;
+  try
+    MsExcel:=CreateOleObject('Excel.Application');
+  except
+      on E:Exception do
+      begin
+        Application.MessageBox(PChar('NO EXCEL'+E.Message),'', MB_OK+MB_ICONWarning);
+        EXIT;
+      end;
+  end;
+  try
+   if OpenDialog.Execute=true then
+   begin
+      MsExcelWorkBook := msExcel.Workbooks.Open(OpenDialog.FileName);
+      with Qry_Carton do
+     begin
+       cachedupdates:=true;
+       requestlive:=true;
+       edit;
+       first;
+       j:=2;
+       flag:=true;
+       DTP5.DateTime  := StrToDateTime(MsExcel.WorkBooks[1].WorkSheets[1].Cells[1,66]);;
+       //lbl1.Caption := FormatDateTime('yyyy/m/d HH:mm:ss', DTP6.DateTime );
+       //DTP6:=StrToDateTime('2026/1/14 08:39:22');
+       while (flag=true) do
+          begin
+            Text2:=MsExcel.WorkBooks[1].WorkSheets[1].Cells[j,4];
+            if Text2='' then
+              break;
+            insert;
+            for   i:=0   to  Qry_Carton.fieldcount-1  do
+            begin
+              Text2:=MsExcel.WorkBooks[1].WorkSheets[1].Cells[j,i+1];
+              if (Text2<>'') and (Text2<>'NULL')  then
+                Qry_Carton.Fields[i].Value:=Text2;
+            end;
+            inc(j);
+          end;   //with UploadQuery do
+      end;     //with UploadQuery do      
+     MsExcel.ActiveWorkBook.Saved := True;
+     MsExcelWorkBook.Close;
+     MsExcel.Quit;
+     VarClear(MsExcel);
+    end;     //if OpenDialog.Execute=true
+
+  except
+   on E:Exception do
+      begin
+        Application.MessageBox(PChar('NO EXCEL '+E.Message),'', MB_OK);
+        MsExcel.ActiveWorkBook.Saved := True;
+        MsExcelWorkBook.Close;
+        MsExcel.Quit;
+        VarClear(MsExcel);
+        Exit;
+      end;  
+   end;  //except
+end;
+
+procedure TInventory_BC.btn1Click(Sender: TObject);
+var
+  iYear, iMonth, iDay: Word;
+  sYear, sMonth,Year,Month: string;
+  RKNO: string;
+  i: integer;
+  updateQty, j:Double;
+begin
+  //DefectID will
+  DecodeDate(DTP5.Date, iYear, iMonth, iDay);
+  IncAMonth(iYear, iMonth, iDay, -1);
+  sYear := IntToStr(iYear);
+  sMonth := IntToStr(iMonth);
+  if (Length(sMonth) = 1) then
+    sMonth := '0' + sMonth;
+
+   with Qry_Carton do
+      begin
+         First;
+        while not Eof do
+        begin
+            for i:=9 to 63 do
+            begin
+               if  (Qry_Carton.FieldByName(dbgrdh1.Columns[i].FieldName).asstring <>'') and
+                 ((Qry_Carton.FieldByName('KCBH').asstring<>Qry_Carton.FieldByName('KCBH_new').asstring)
+                  or (Qry_Carton.FieldByName('Carton_No').asstring<>Qry_Carton.FieldByName('Carton_No_new').asstring) ) then
+               begin
+                  //ShowMessage('SIZE:'+dbgrdh1.Columns[i].Title.Caption+';Qty:'+Qry_Carton.FieldByName(dbgrdh1.Columns[i].FieldName).asstring);
+
+                  //check Total
+                  with QSearch do
+                  begin
+
+                    active:=false;
+                    sql.Clear;
+                    SQL.Add('  select sum (Qty) as Qty from(');
+                    SQL.Add('  SELECT KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Article, KCRKS_BC.Size, SUM(KCRKS_BC.Qty) AS Qty,STT,KCBH,Carton_No FROM (');
+                    //前月期末
+                    SQL.Add('    SELECT STT,Grade, BCShoeMonth.DDBH, Size, Qty, DDZL.Article,KCBH,Carton_No FROM BCShoeMonth');
+                    SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = BCShoeMonth.DDBH');
+                    SQL.Add('    WHERE KCYear = ''' + sYear + ''' AND KCMonth = ''' + sMonth + '''');
+                    SQL.Add('    AND BCShoeMonth.GSBH = ''' + main.Edit2.Text + '''');
+                      SQL.Add('    AND BCShoeMonth.Grade = ''' + Qry_Carton.FieldByName('Grade').asstring + '''');
+                      SQL.Add('  AND DDZL.DDBH LIKE ''' + Qry_Carton.FieldByName('DDBH').asstring + '''');
+                      SQL.Add('  AND KCBH = ''' + Qry_Carton.FieldByName('KCBH').asstring + '''');
+                      SQL.Add('  AND Carton_No = ''' + Qry_Carton.FieldByName('Carton_No').asstring + '''');
+                    SQL.Add('	   And size='''+dbgrdh1.Columns[i].FieldName+'''');
+                    SQL.Add('    UNION ALL');
+                    //當月入庫
+                    SQL.Add('    SELECT NULL AS STT,KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size, KCRKS_BC.Qty, DDZL.Article,KCRKS_BC.KCBH,Carton_No FROM KCRKS_BC');
+                    SQL.Add('    LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
+                    SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = KCRKS_BC.DDBH');
+                    SQL.Add('    WHERE (KCRK_BC.flowflag not in (''X'') or (KCRK_BC.flowflag is null) ) and KCRK_BC.GSBH = ''' + main.Edit2.Text + '''');
+                    SQL.Add('    AND CONVERT(VARCHAR, KCRK_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd HH:mm:ss', DTP5.Date) + '''');
+                      SQL.Add('    AND KCRKS_BC.Grade = ''' +  Qry_Carton.FieldByName('Grade').asstring + '''');
+                      SQL.Add('  AND DDZL.DDBH LIKE ''' + Qry_Carton.FieldByName('DDBH').asstring + '''');
+                      SQL.Add('  AND KCRKS_BC.KCBH = ''' + Qry_Carton.FieldByName('KCBH').asstring + '''');
+                      SQL.Add('  AND Carton_No = ''' + Qry_Carton.FieldByName('Carton_No').asstring + '''');
+                    SQL.Add('	   And size='''+dbgrdh1.Columns[i].FieldName+'''');
+                    SQL.Add('    UNION ALL');
+                    //當月出庫
+                    SQL.Add('    SELECT NULL AS STT,KCLLS_BC.Grade, KCLLS_BC.DDBH, KCLLS_BC.Size, KCLLS_BC.Qty*-1 AS Qty, DDZL.Article,KCLLS_BC.KCBH,Carton_No FROM KCLLS_BC');
+                    SQL.Add('    LEFT JOIN KCLL_BC ON KCLL_BC.LLNO = KCLLS_BC.LLNO');
+                    SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = KCLLS_BC.DDBH');
+                    SQL.Add('    WHERE (KCLL_BC.flowflag not in (''X'') or (KCLL_BC.flowflag is null)) and KCLL_BC.GSBH = ''' + main.Edit2.Text + '''');
+                    SQL.Add('    AND CONVERT(VARCHAR, KCLL_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd HH:mm:ss', DTP5.Date) + '''');
+                      SQL.Add('    AND KCLLS_BC.Grade = ''' + Qry_Carton.FieldByName('Grade').asstring + '''');
+                      SQL.Add('  AND DDZL.DDBH LIKE ''' + Qry_Carton.FieldByName('DDBH').asstring + '''');
+                      SQL.Add('  AND KCLLS_BC.KCBH = ''' + Qry_Carton.FieldByName('KCBH').asstring + '''');
+                      SQL.Add('  AND Carton_No = ''' + Qry_Carton.FieldByName('Carton_No').asstring + '''');
+                    SQL.Add('	   And size='''+dbgrdh1.Columns[i].FieldName+'''');
+                    SQL.Add('  ) AS KCRKS_BC');
+                    SQL.Add('  GROUP BY KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Article, KCRKS_BC.Size, KCRKS_BC.STT,KCBH,Carton_No');
+                    SQL.Add('   )A   GROUP BY Grade, DDBH,KCBH,Carton_No');
+                    //ShowMessage(SQL.text);
+
+                    active:=true;
+
+                    if  FieldByName('Qty').Value <Qry_Carton.FieldByName(dbgrdh1.Columns[i].FieldName).Value then
+                    begin
+                      ShowMessage('Entry Qty over record');
+                      Exit;
+                    end;
+
+                    j:=Qry_Carton.FieldByName(dbgrdh1.Columns[i].FieldName).Value;
+
+                    Active := false;
+                    SQL.Clear;
+
+                    //check 當月入庫
+                    SQL.Add('SELECT KCRK_BC.RKNO,KCRK_BC.CFMDate,KCRKS_BC.Qty,ISNULL(RemainQty,Qty)as RemainQty,KCRKS_BC.DefectID');
+                    SQL.Add('    ,TMQty,RorL');
+                    SQL.Add('    FROM KCRKS_BC');
+                    SQL.Add('    LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
+                    SQL.Add('left join (');           
+                    SQL.Add('    SELECT Grade,sum(ISNULL(RemainQty,Qty)) as TMQty FROM KCRKS_BC');
+                    SQL.Add('    LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
+                    SQL.Add('    WHERE (KCRK_BC.flowflag not in (''X'') or (KCRK_BC.flowflag is null) ) and KCRK_BC.GSBH = ''' + main.Edit2.Text + '''');
+                    SQL.Add('    AND CONVERT(VARCHAR, KCRK_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd HH:mm:ss', DTP5.Date) + '''');
+                    SQL.Add('    AND KCRKS_BC.Grade = ''' +  Qry_Carton.FieldByName('Grade').asstring + '''');
+                    SQL.Add('    AND KCRKS_BC.DDBH = ''' + Qry_Carton.FieldByName('DDBH').asstring + '''');
+                    SQL.Add('    AND KCRKS_BC.KCBH = ''' + Qry_Carton.FieldByName('KCBH').asstring + '''');
+                    SQL.Add('    AND KCRKS_BC.Carton_No = ''' + Qry_Carton.FieldByName('Carton_No').asstring + '''');
+                    SQL.Add('	   And KCRKS_BC.size='''+dbgrdh1.Columns[i].FieldName+'''');
+                    SQL.Add('	    group by Grade');
+                    SQL.Add('    )RKTT on RKTT.Grade=KCRKS_BC.Grade');
+
+                    SQL.Add('WHERE (KCRK_BC.flowflag not in (''X'') or (KCRK_BC.flowflag is null) ) and KCRK_BC.GSBH = ''' + main.Edit2.Text + '''');
+                    SQL.Add('    AND CONVERT(VARCHAR, KCRK_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP5.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd HH:mm:ss', DTP5.Date) + '''');
+                    SQL.Add('    AND KCRKS_BC.Grade = ''' +  Qry_Carton.FieldByName('Grade').asstring + '''');
+                    SQL.Add('    AND KCRKS_BC.DDBH = ''' + Qry_Carton.FieldByName('DDBH').asstring + '''');
+                    SQL.Add('    AND KCRKS_BC.KCBH = ''' + Qry_Carton.FieldByName('KCBH').asstring + '''');
+                    SQL.Add('    AND KCRKS_BC.Carton_No = ''' + Qry_Carton.FieldByName('Carton_No').asstring + '''');
+                    SQL.Add('	   And KCRKS_BC.size='''+dbgrdh1.Columns[i].FieldName+'''');
+                    SQL.Add('order by KCRK_BC.CFMDate desc');
+                    //ShowMessage(SQL.text);
+                    active:=true;
+
+                    if  not eof then
+                    if j>FieldByName('TMQty').value then
+                       j:=FieldByName('TMQty').value;
+                    while not eof do
+                    begin
+                       if  j=0 then
+                          Break;
+                       //updateQty
+                       updateQty:=FieldByName('RemainQty').value;
+                       if updateQty>j then
+                          updateQty:=j;
+
+                         UpdateKCRKS_BC(FieldByName('RKNO').asstring,Qry_Carton.FieldByName('Grade').asstring,Qry_Carton.FieldByName('DDBH').asstring
+                                  ,dbgrdh1.Columns[i].FieldName,FieldByName('DefectID').asstring
+                                  ,Qry_Carton.FieldByName('Carton_No_NEW').asstring,Qry_Carton.FieldByName('KCBH_NEW').asstring
+                                  ,Qry_Carton.FieldByName('Carton_No').asstring,Qry_Carton.FieldByName('KCBH').asstring,FieldByName('RorL').asstring,
+                                  FieldByName('Qty').value,FieldByName('RemainQty').value,updateQty);
+                         UpdateKCRKS_BC(FieldByName('RKNO').asstring,Qry_Carton.FieldByName('Grade').asstring,Qry_Carton.FieldByName('DDBH').asstring
+                                  ,dbgrdh1.Columns[i].FieldName,FieldByName('DefectID').asstring
+                                  ,Qry_Carton.FieldByName('Carton_No').asstring,Qry_Carton.FieldByName('KCBH').asstring ,FieldByName('RorL').asstring
+                                  ,'','',
+                                  FieldByName('Qty').value,FieldByName('RemainQty').value,updateQty*-1);
+
+                           j:=j-updateQty;
+                       next;
+                    end;                     
+                    //update J
+                    //showmessage('UpdateBCShoeMonth ');    
+                    if  not eof then
+                    if Qry_Carton.FieldByName(dbgrdh1.Columns[i].FieldName).Value>FieldByName('TMQty').value then
+                       j:=Qry_Carton.FieldByName(dbgrdh1.Columns[i].FieldName).Value-FieldByName('TMQty').value+j;
+
+                    Active := false;
+                    SQL.Clear;
+                    //check rest of RK
+                    SQL.Add('SELECT KCRK_BC.RKNO,KCRK_BC.CFMDate,KCRKS_BC.Qty,ISNULL(RemainQty,Qty)as RemainQty,KCRKS_BC.DefectID,RorL FROM KCRKS_BC');
+                    SQL.Add('    LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
+                    SQL.Add('WHERE (KCRK_BC.flowflag not in (''X'') or (KCRK_BC.flowflag is null)) and KCRK_BC.GSBH = ''' + main.Edit2.Text + '''');
+                    SQL.Add('    AND KCRK_BC.CFMDate < ''' + FormatDateTime('yyyy/MM/dd HH:mm:ss', StartOfTheMonth(DTP5.Date)) + '''');
+                    SQL.Add('    AND KCRKS_BC.Grade = ''' +  Qry_Carton.FieldByName('Grade').asstring + '''');
+                    SQL.Add('    AND KCRKS_BC.DDBH LIKE ''' + Qry_Carton.FieldByName('DDBH').asstring + '''');
+                    SQL.Add('    AND KCBH = ''' + Qry_Carton.FieldByName('KCBH').asstring + '''');
+                    SQL.Add('    AND Carton_No = ''' + Qry_Carton.FieldByName('Carton_No').asstring + '''');
+                    SQL.Add('	   And size='''+dbgrdh1.Columns[i].FieldName+'''');
+                    SQL.Add('order by KCRK_BC.CFMDate desc');
+                    //ShowMessage(SQL.text);
+                    active:=true;
+                    while not eof do
+                    begin
+                       if  j=0 then
+                          Break;                                   
+                       {if ((FieldByName('Qty_Left').value>0) or  (FieldByName('Qty_Right').value>0 )) then
+                       begin
+                         ShowMessage('Single shoes cannot use the batch transfer function');
+                         Exit;
+                       end; }
+                       //updateQty
+                        if FieldByName('RemainQty').value<>-1 then
+                             updateQty:=FieldByName('RemainQty').value
+                        else
+                             updateQty:=FieldByName('Qty').value;
+                       if updateQty>j then
+                          updateQty:=j;        
+                          //showmessage('Update old');
+                         UpdateKCRKS_BC(FieldByName('RKNO').asstring,Qry_Carton.FieldByName('Grade').asstring,Qry_Carton.FieldByName('DDBH').asstring
+                                  ,dbgrdh1.Columns[i].FieldName,FieldByName('DefectID').asstring
+                                  ,Qry_Carton.FieldByName('Carton_No_NEW').asstring,Qry_Carton.FieldByName('KCBH_NEW').asstring
+                                  ,Qry_Carton.FieldByName('Carton_No').asstring,Qry_Carton.FieldByName('KCBH').asstring,FieldByName('RorL').asstring,
+                                  FieldByName('Qty').value
+                                  ,FieldByName('RemainQty').value
+                                  ,updateQty);
+                         UpdateKCRKS_BC(FieldByName('RKNO').asstring,Qry_Carton.FieldByName('Grade').asstring,Qry_Carton.FieldByName('DDBH').asstring
+                                  ,dbgrdh1.Columns[i].FieldName,FieldByName('DefectID').asstring
+                                  ,Qry_Carton.FieldByName('Carton_No').asstring,Qry_Carton.FieldByName('KCBH').asstring
+                                  ,'','',FieldByName('RorL').asstring,
+                                  FieldByName('Qty').value
+                                  ,FieldByName('RemainQty').value
+                                  ,updateQty*-1);
+                         UpdateBCShoeMonth(sYear,sMonth,Qry_Carton.FieldByName('Grade').asstring,Qry_Carton.FieldByName('DDBH').asstring,dbgrdh1.Columns[i].FieldName
+                                  ,Qry_Carton.FieldByName('Carton_No_NEW').asstring,Qry_Carton.FieldByName('KCBH_NEW').asstring
+                                  ,Qry_Carton.FieldByName('Carton_No').asstring,Qry_Carton.FieldByName('KCBH').asstring
+                                  ,-1,updateQty);
+                         UpdateBCShoeMonth(sYear,sMonth,Qry_Carton.FieldByName('Grade').asstring,Qry_Carton.FieldByName('DDBH').asstring,dbgrdh1.Columns[i].FieldName
+                                  ,Qry_Carton.FieldByName('Carton_No').asstring,Qry_Carton.FieldByName('KCBH').asstring
+                                  ,'',''
+                                  ,-1,updateQty*-1);
+
+                         j:=j-updateQty;
+                         next;
+                    end;
+                    exit;
+
+                  end;
+                  //end
+
+               end;
+            end;
+            Next;
+        end;
+
+      end;
+
+
+     { for i:=0 to DBG1.Columns.Count-1 do
+      begin
+        eclApp.Cells[1, i+1] := DBG1.Columns[i].Title.Caption;
+      end;
+      eclApp.Cells[1, DBG1.Columns.Count+1]:=FormatDateTime('yyyy/MM/dd HH:mm:ss', DTP5.Date);
+      Q1.First;
+      j := 2;
+      while not Q1.Eof do
+      begin
+        for i:=0 to DBG1.Columns.Count-1 do
+        begin
+          eclApp.Cells[j, i+1] := Q1.FieldByName(DBG1.Columns[i].FieldName).Value;
+        end;
+        Q1.Next;
+        Inc(j);
+      end;    }
+end;
+
+procedure TInventory_BC.PC1Changing(Sender: TObject;
+  var AllowChange: Boolean);
+begin
+      if PC1.ActivePageIndex=0 then
+          Panel1.Height:=81
+      else
+          Panel1.Height:=50;
+end;
+
+procedure TInventory_BC.UpdateKCRKS_BC(RKNO,Grade,DDBH,Size,DefectID,Carton_No,KCBH,Carton_No_old,KCBH_old,RorL:String;
+                    Qty,RemainQty,updateQty:Double);
+begin
+ //check
+    with QCheck do
+    begin
+       active:=false;
+       SQL.Clear;
+       SQL.Add('select * from KCRKS_BC');
+       SQL.Add('where RKNO='''+RKNO+'''');
+       SQL.Add('    and DefectID='''+DefectID+'''');
+       SQL.Add('    AND Grade = ''' +  Grade + '''');
+       SQL.Add('    AND DDBH = ''' + DDBH + '''');
+       SQL.Add('	  And size='''+Size+'''');
+       SQL.Add('    AND Carton_No LIKE ''' + Carton_No + '''');
+       SQL.Add('    AND KCBH LIKE ''' +KCBH+ '''');
+       SQL.Add('    AND RorL LIKE ''' +RorL+ '''');
+       active:=true;
+       if eof then
+       begin
+               //no data
+               QUpdate.active:=false;
+               QUpdate.SQL.Clear;
+               QUpdate.SQL.Add('INSERT INTO KCRKS_BC ');
+               QUpdate.SQL.Add('(RKNO, Grade, DDBH, Size, DefectID, CheckDate, UserID, UserDate, YN, Carton_No, KCBH, Qty, RemainQty,RorL) ');
+               QUpdate.SQL.Add('SELECT RKNO, Grade, DDBH, Size, DefectID, CheckDate, UserID, UserDate, YN');
+               QUpdate.SQL.Add('    ,''' + Carton_No + '''  AS Carton_No');
+               QUpdate.SQL.Add('    ,''' + KCBH + ''' AS KCBH');
+               QUpdate.SQL.Add('    ,' + FloatToStr(updateQty)+' AS Qty');
+               QUpdate.SQL.Add('    ,' + FloatToStr(updateQty)+' AS RemainQty');
+               QUpdate.SQL.Add('    ,RorL');
+               QUpdate.SQL.Add('From KCRKS_BC');
+               QUpdate.SQL.Add('where RKNO='''+RKNO+'''');
+               QUpdate.SQL.Add('    and DefectID='''+DefectID+'''');
+               QUpdate.SQL.Add('    AND Grade = ''' +  Grade + '''');
+               QUpdate.SQL.Add('    AND DDBH = ''' + DDBH + '''');
+               QUpdate.SQL.Add('	  And size='''+size+'''');
+               QUpdate.SQL.Add('	  And RorL='''+RorL+'''');
+               if Carton_No_old <> '' then
+               begin
+                 QUpdate.SQL.Add('    AND Carton_No LIKE ''' + Carton_No_old + '''');
+                 QUpdate.SQL.Add('    AND KCBH LIKE ''' + KCBH_old + '''');
+               end
+               else
+               begin
+                 QUpdate.SQL.Add('    AND Carton_No LIKE ''' + Carton_No + '''');
+                 QUpdate.SQL.Add('    AND KCBH LIKE ''' + KCBH + '''');
+               end;
+               QUpdate.ExecSQL();
+               Exit;
+       end
+       else
+       begin
+          QUpdate.Active := False;
+          QUpdate.SQL.Clear;
+          QUpdate.SQL.Text :=
+            'UPDATE KCRKS_BC ' +
+            'SET Qty = ISNULL(Qty, 0) + :UpdateQty ' +
+            ',RemainQty =ISNULL(RemainQty, Qty) + :UpdateQty ' +
+            'WHERE RKNO = :RKNO ' +
+            '  AND DefectID = :DefectID ' +
+            '  AND RorL = :RorL ' +
+            '  AND Grade = :Grade ' +
+            '  AND DDBH = :DDBH ' +
+            '  AND Size = :Size ' +
+            '  AND Carton_No = :Carton_No ' +
+            '  AND KCBH = :KCBH';
+          QUpdate.ParamByName('UpdateQty').AsFloat := updateQty;
+
+          QUpdate.ParamByName('RKNO').AsString     := RKNO;
+          QUpdate.ParamByName('DefectID').AsString := DefectID;
+          QUpdate.ParamByName('Grade').AsString    := Grade;
+          QUpdate.ParamByName('DDBH').AsString     := DDBH;
+          QUpdate.ParamByName('Size').AsString     := Size;
+          QUpdate.ParamByName('Carton_No').AsString:= Carton_No;
+          QUpdate.ParamByName('KCBH').AsString     := KCBH;
+          QUpdate.ParamByName('RorL').AsString:= RorL;
+          QUpdate.ExecSQL;
+           {if updateQty<0 then
+           begin        
+             QUpdate.active:=false;
+             QUpdate.SQL.Clear;
+             QUpdate.SQL.Add('delete KCRKS_BC');
+             QUpdate.SQL.Add('where RKNO='''+RKNO+'''');
+             QUpdate.SQL.Add('    and DefectID='''+DefectID+'''');
+             QUpdate.SQL.Add('    AND Grade = ''' +  Grade + '''');
+             QUpdate.SQL.Add('    AND DDBH = ''' + DDBH + '''');
+             QUpdate.SQL.Add('	  And size='''+Size+'''');
+             QUpdate.SQL.Add('    AND Carton_No = ''' + Carton_No + '''');
+             QUpdate.SQL.Add('    AND KCBH = ''' + KCBH + '''');
+             QUpdate.SQL.Add('    AND Qty = 0');
+             //showmessage(QUpdate.SQL.text);
+             QUpdate.ExecSQL();
+           end; }
+       end;
+
+    end;
+end;
+
+procedure TInventory_BC.UpdateBCShoeMonth(KCYear,KCMonth,Grade,DDBH,Size,Carton_No,KCBH,Carton_No_old,KCBH_old:String;
+                    Qty,updateQty:Double);
+begin
+    //check
+    with QCheck do
+    begin
+      
+       if Carton_No_old <>'' then
+       begin
+           active:=false;
+           SQL.Clear;
+            SQL.Add('    SELECT Grade, BCShoeMonth.DDBH, Size, Qty, DDZL.Article,KCBH,Carton_No FROM BCShoeMonth');
+            SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = BCShoeMonth.DDBH');
+            SQL.Add('    WHERE KCYear = ''' + KCYear + ''' AND KCMonth = ''' + KCMonth + '''');
+            SQL.Add('    AND BCShoeMonth.GSBH = ''' + main.Edit2.Text + '''');
+            SQL.Add('    AND BCShoeMonth.Grade = ''' + Grade + '''');
+            SQL.Add('    AND DDZL.DDBH = ''' + DDBH + '''');
+            SQL.Add('	   And size='''+size+'''');
+            SQL.Add('    AND KCBH = ''' + KCBH + '''');
+            SQL.Add('    AND Carton_No = ''' + Carton_No + '''');
+           active:=true;
+           if eof then
+           begin   
+               //no data
+               QUpdate.active:=false;
+               QUpdate.SQL.Clear;
+               QUpdate.SQL.Add('INSERT INTO BCShoeMonth ');
+               QUpdate.SQL.Add('(KCYear,KCMonth,GSBH,Grade,DDBH,Size,Qty,UserID, UserDate, YN,KCBH,Carton_No) ');
+               QUpdate.SQL.Add('SELECT KCYear,KCMonth,GSBH,Grade,DDBH,Size');
+               QUpdate.SQL.Add('    ,' + FloatToStr(updateQty)+' as Qty');
+               QUpdate.SQL.Add('    ,UserID, UserDate, YN');
+               QUpdate.SQL.Add('    ,''' + KCBH + ''' as KCBH');
+               QUpdate.SQL.Add('    ,''' + Carton_No + ''' as Carton_No');
+               QUpdate.SQL.Add('From BCShoeMonth');
+               QUpdate.SQL.Add('    WHERE KCYear = ''' + KCYear + ''' AND KCMonth = ''' + KCMonth + '''');
+               QUpdate.SQL.Add('    AND BCShoeMonth.GSBH = ''' + main.Edit2.Text + '''');
+               QUpdate.SQL.Add('    AND BCShoeMonth.Grade = ''' + Grade + '''');
+               QUpdate.SQL.Add('    AND DDBH = ''' + DDBH + '''');
+               QUpdate.SQL.Add('	  And size='''+size+'''');
+               QUpdate.SQL.Add('    AND Carton_No = ''' + Carton_No_old + '''');
+               QUpdate.SQL.Add('    AND KCBH = ''' + KCBH_old + '''');
+               //showmessage(QUpdate.SQL.text);
+               QUpdate.ExecSQL();
+               Exit;
+           end;
+           
+       end;
+       active:=false;
+       SQL.Clear;
+        SQL.Text :=
+          'UPDATE BCShoeMonth ' +
+          'SET Qty = ISNULL(Qty, 0) + :UpdateQty ' +
+          'WHERE KCYear = :KCYear ' +
+          '  AND KCMonth = :KCMonth ' +
+          '  AND GSBH = :GSBH ' +
+          '  AND Grade = :Grade ' +
+          '  AND DDBH = :DDBH ' +
+          '  AND Size = :Size ' +
+          '  AND KCBH = :KCBH ' +
+          '  AND Carton_No = :CartonNo';
+
+        ParamByName('UpdateQty').AsFloat := updateQty;
+        ParamByName('KCYear').AsString   := KCYear;
+        ParamByName('KCMonth').AsString  := KCMonth;
+        ParamByName('GSBH').AsString     := main.Edit2.Text;
+        ParamByName('Grade').AsString    := Grade;
+        ParamByName('DDBH').AsString     := DDBH;
+        ParamByName('Size').AsString     := Size;
+        ParamByName('KCBH').AsString     := KCBH;
+        ParamByName('CartonNo').AsString := Carton_No;
+
+       //showmessage(SQL.text);
+       ExecSQL();
+       {if updateQty<0 then
+       begin             
+         active:=false;
+         SQL.Clear;
+         SQL.Add('delete BCShoeMonth');
+         SQL.Add('    WHERE KCYear = ''' + KCYear + ''' AND KCMonth = ''' + KCMonth + '''');
+         SQL.Add('    AND BCShoeMonth.GSBH = ''' + main.Edit2.Text + '''');
+         SQL.Add('    AND BCShoeMonth.Grade = ''' + Grade + '''');
+         SQL.Add('    AND DDBH = ''' + DDBH + '''');
+         SQL.Add('	   And size='''+size+'''');
+         SQL.Add('    AND KCBH = ''' + KCBH + '''');
+         SQL.Add('    AND Carton_No = ''' + Carton_No + '''');
+         SQL.Add('    AND Qty = 0');
+         //showmessage(SQL.text);
+         ExecSQL();
+       end;  }
+
+    end;
+end;
 end.

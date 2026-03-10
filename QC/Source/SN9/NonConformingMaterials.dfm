@@ -1,23 +1,16 @@
-object IncomeMatMidInSole: TIncomeMatMidInSole
-  Left = 192
-  Top = 125
+object NonConformingMaterial: TNonConformingMaterial
+  Left = 197
+  Top = 206
   Width = 1305
   Height = 675
-  Caption = 'IncomeMatMidInSole'
+  Caption = 'Non Conforming Material'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  FormStyle = fsMDIChild
   OldCreateOrder = False
-  Position = poDefault
-  Visible = True
-  WindowState = wsMaximized
-  OnClose = FormClose
-  OnCreate = FormCreate
-  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -36,37 +29,30 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
     object Label1: TLabel
       Left = 272
       Top = 72
-      Width = 27
+      Width = 51
       Height = 20
-      Caption = 'RY:'
+      Caption = 'DDBH:'
     end
     object Label2: TLabel
-      Left = 488
-      Top = 40
+      Left = 456
+      Top = 8
       Width = 62
       Height = 20
       Caption = 'Supplier:'
     end
     object Label3: TLabel
-      Left = 488
-      Top = 72
+      Left = 456
+      Top = 40
       Width = 70
       Height = 20
       Caption = 'ReportID:'
     end
     object Label5: TLabel
-      Left = 8
-      Top = 72
+      Left = 272
+      Top = 8
       Width = 39
       Height = 20
       Caption = 'Style:'
-    end
-    object Label6: TLabel
-      Left = 8
-      Top = 104
-      Width = 105
-      Height = 20
-      Caption = 'Total order qty:'
     end
     object Label7: TLabel
       Left = 272
@@ -74,27 +60,6 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       Width = 48
       Height = 20
       Caption = 'MatID:'
-    end
-    object Label8: TLabel
-      Left = 256
-      Top = 104
-      Width = 95
-      Height = 20
-      Caption = 'Received qty:'
-    end
-    object Label9: TLabel
-      Left = 488
-      Top = 104
-      Width = 37
-      Height = 20
-      Caption = 'SKU:'
-    end
-    object Label4: TLabel
-      Left = 272
-      Top = 8
-      Width = 105
-      Height = 20
-      Caption = 'StandardHard:'
     end
     object BB1: TBitBtn
       Left = 0
@@ -288,8 +253,8 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       NumGlyphs = 2
     end
     object Button1: TButton
-      Left = 707
-      Top = 89
+      Left = 683
+      Top = 57
       Width = 81
       Height = 33
       Caption = 'Search'
@@ -329,7 +294,7 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       NumGlyphs = 2
     end
     object edtDDBH: TEdit
-      Left = 360
+      Left = 328
       Top = 72
       Width = 121
       Height = 28
@@ -350,7 +315,6 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       Font.Style = []
       ParentFont = False
       TabOrder = 9
-      OnClick = bExcelClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -408,8 +372,8 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       TabOrder = 11
     end
     object edtZSBH: TEdit
-      Left = 568
-      Top = 40
+      Left = 536
+      Top = 8
       Width = 121
       Height = 28
       TabOrder = 12
@@ -428,12 +392,13 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       Width = 113
       Height = 28
       Date = 45973.457989131940000000
+      Format = 'dd/MM/yyyy'
       Time = 45973.457989131940000000
       TabOrder = 14
     end
     object MenuCode: TEdit
-      Left = 840
-      Top = 48
+      Left = 696
+      Top = 168
       Width = 121
       Height = 28
       ReadOnly = True
@@ -442,8 +407,8 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       Visible = False
     end
     object edtRID: TEdit
-      Left = 568
-      Top = 72
+      Left = 536
+      Top = 40
       Width = 121
       Height = 28
       TabOrder = 16
@@ -454,52 +419,31 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       Width = 113
       Height = 28
       Date = 45981.575782071760000000
+      Format = 'dd/MM/yyyy'
       Time = 45981.575782071760000000
       TabOrder = 17
     end
     object edtStyle: TEdit
-      Left = 120
-      Top = 72
+      Left = 328
+      Top = 8
       Width = 121
       Height = 28
       TabOrder = 18
     end
-    object edtTOQty: TEdit
-      Left = 120
-      Top = 104
+    object edtMatID: TEdit
+      Left = 328
+      Top = 40
       Width = 121
       Height = 28
       TabOrder = 19
     end
-    object edtMatID: TEdit
-      Left = 360
-      Top = 40
-      Width = 121
-      Height = 28
-      TabOrder = 20
-    end
-    object edtRQty: TEdit
-      Left = 360
-      Top = 104
-      Width = 121
-      Height = 28
-      TabOrder = 21
-    end
-    object edtSKU: TEdit
-      Left = 568
-      Top = 104
-      Width = 121
-      Height = 28
-      TabOrder = 22
-    end
     object btClear: TButton
-      Left = 704
-      Top = 48
-      Width = 83
+      Left = 683
+      Top = 16
+      Width = 81
       Height = 33
       Caption = 'Clear'
-      TabOrder = 23
-      OnClick = btClearClick
+      TabOrder = 20
     end
     object ckInsDate: TCheckBox
       Left = 8
@@ -507,33 +451,7 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       Width = 137
       Height = 17
       Caption = 'Inspection date:'
-      TabOrder = 24
-    end
-    object edtSHard: TEdit
-      Left = 384
-      Top = 8
-      Width = 121
-      Height = 28
-      TabOrder = 25
-    end
-    object btCopy: TButton
-      Left = 366
-      Top = 144
-      Width = 73
-      Height = 49
-      Caption = 'Copy'
-      TabOrder = 26
-      Visible = False
-      OnClick = btCopyClick
-    end
-    object btnCfm: TButton
-      Left = 290
-      Top = 144
-      Width = 75
-      Height = 49
-      Caption = 'Confirm'
-      TabOrder = 27
-      OnClick = btnCfmClick
+      TabOrder = 21
     end
   end
   object DBGrid1: TDBGridEh
@@ -566,283 +484,128 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
     TitleFont.Style = []
     TitleLines = 2
     UseMultiTitle = True
-    OnCellClick = DBGrid1CellClick
-    OnGetCellParams = DBGrid1GetCellParams
-    OnKeyPress = DBGrid1KeyPress
     Columns = <
       item
         EditButtons = <>
         FieldName = 'ReportID'
         Footers = <>
-        ReadOnly = True
+        Width = 75
       end
       item
         EditButtons = <>
-        FieldName = 'TempRoom'
+        FieldName = 'ZSBH'
         Footers = <>
-        Title.Caption = #27298#39511#25151#38291#28331#24230' TempRoom'
-        Width = 90
+        Width = 200
       end
       item
         EditButtons = <>
-        FieldName = 'InspecDate'
+        FieldName = 'InDate'
         Footers = <>
-        Title.Caption = #27298#39511#26085#26399' InspecDate'
-        Width = 112
       end
       item
         EditButtons = <>
-        FieldName = 'CLBH'
+        FieldName = 'Qty'
         Footers = <>
-        Title.Caption = #26448#26009#32232#34399' MatID'
-        Width = 89
-      end
-      item
-        EditButtons = <>
-        FieldName = 'MatName'
-        Footers = <>
-        Title.Caption = #26448#26009#21517#31281' MatName'
-        Visible = False
-        Width = 116
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Supplier'
-        Footers = <>
-        Title.Caption = #20379#25033#21830' Supplier'
-        Width = 95
-      end
-      item
-        EditButtons = <>
-        FieldName = 'XieMing'
-        Footers = <>
-        Title.Caption = 'Dang giay/'#22411#39636#32232#34399'/Style'
-        Width = 147
       end
       item
         EditButtons = <>
         FieldName = 'DDBH'
         Footers = <>
-        Title.Caption = 'Lenh/ '#35330#21934'/RY'
-        Width = 133
+        Width = 200
       end
       item
         EditButtons = <>
-        FieldName = 'Mold'
-        Footers = <>
-        Title.Caption = 'TenHinhThe/'#22411#39636#21517#31281'/Mold'
-        Width = 107
-      end
-      item
-        EditButtons = <>
-        FieldName = 'TOderQty'
-        Footers = <>
-        Title.Caption = 'TongSLDonHang/'#35330#25976#32317#20849'/Total order quantity'
-        Width = 134
-      end
-      item
-        EditButtons = <>
-        FieldName = 'RQty'
-        Footers = <>
-        Title.Caption = 'SLNhan/'#25910#36008#25976#37327'/Q'#39'TY received'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Article'
-        Footers = <>
-        Title.Caption = 'SKU'
-        Width = 125
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Size'
+        FieldName = 'SKU'
         Footers = <>
       end
       item
         EditButtons = <>
-        FieldName = 'TArrQty'
+        FieldName = 'MaterialSpec'
         Footers = <>
-        Title.Caption = 'TongSLHangVe/Total Q'#39'TY arrival'
-        Width = 166
+        Width = 200
       end
       item
         EditButtons = <>
-        FieldName = 'IQty'
+        FieldName = 'Issue'
         Footers = <>
-        Title.Caption = 'SLKiemNghiem/Q'#39'TY Inspected'
-        Width = 177
-      end
-      item
-        EditButtons = <>
-        FieldName = 'ALeftHard'
-        Footers = <>
-        Title.Caption = 'Hardness '#30828#24230'|'#23526#38555'('#24038#65289'Actual (Left)/ A '#40670' A. Point'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'BLeftHard'
-        Footers = <>
-        Title.Caption = 'Hardness '#30828#24230'|'#23526#38555'('#24038#65289'Actual (Left)/ B '#40670' B. Point'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'ARightHard'
-        Footers = <>
-        Title.Caption = 'Hardness '#30828#24230'|'#23526#38555'('#21491') Actual (Right)A '#40670' A. Point'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'BRightHard'
-        Footers = <>
-        Title.Caption = 'Hardness '#30828#24230'|'#23526#38555'('#21491') Actual (Right)B '#40670' B. Point'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'SHard'
-        Footers = <>
-        Title.Caption = 'Hardness '#30828#24230'|'#27161#28310'Standard'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'LWeight'
-        Footers = <>
-        Title.Caption = 'Weight '#37325#37327'|'#23526#38555'('#24038') Actual (Left)'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'RWeight'
-        Footers = <>
-        Title.Caption = 'Weight '#37325#37327'|'#23526#38555'('#21491') Actual (Right)'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'SWeight'
-        Footers = <>
-        Title.Caption = 'Weight '#37325#37327'|'#27161#20934' Standard'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Issues'
-        Footers = <>
-        Title.Caption = 'Appearance '#22806#35264'|'#21839#38988' Issues'
         Width = 300
+      end
+      item
+        EditButtons = <>
+        FieldName = 'RandomQty'
+        Footers = <>
+        Width = 75
       end
       item
         EditButtons = <>
         FieldName = 'DeQty'
         Footers = <>
-        Title.Caption = 'Appearance '#22806#35264'|'#19981#33391#25976' Defects'
       end
       item
-        DisplayFormat = '0.0"%"'
         EditButtons = <>
         FieldName = 'DeRate'
         Footers = <>
-        ReadOnly = True
-        Title.Caption = 'Appearance '#22806#35264'|'#19981#33391#29575' Rate not reached'
       end
       item
         EditButtons = <>
-        FieldName = 'WPLLen'
+        FieldName = 'Result'
         Footers = <>
-        Title.Caption = 'Wooden pattern '#26408#27169'|'#38263#30701' Long - Short/ '#24038' Left'
-        Width = 80
-      end
-      item
-        EditButtons = <>
-        FieldName = 'WPRLen'
-        Footers = <>
-        Title.Caption = 'Wooden pattern '#26408#27169'|'#38263#30701' Long - Short/ '#21491' Right'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'WPLSize'
-        Footers = <>
-        Title.Caption = 'Wooden pattern '#26408#27169'|'#22823#23567' Big - small/ '#24038' Left'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'WPRSize'
-        Footers = <>
-        Title.Caption = 'Wooden pattern '#26408#27169'|'#22823#23567' Big - small/ '#21491' Right'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'SendDate'
-        Footers = <>
-        Title.Caption = 'LabTest '#29289#24615#27298#28204'|'#36865#28204#26085#26399' Send date'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'LabID'
-        Footers = <>
-        Title.Caption = 'LabTest '#29289#24615#27298#28204'|LabID'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'LabResult'
-        Footers = <>
-        Title.Caption = 'LabTest '#29289#24615#27298#28204'|'#28204#35430#32080#26524'LabTestResult'
-      end
-      item
-        EditButtons = <>
-        FieldName = 'Reject'
-        Footers = <>
-        Title.Caption = 'LabTest '#29289#24615#27298#28204'|'#22833#25943#38917#30446'Rejected'
+        Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'SCFID'
         Footers = <>
+        Width = 75
       end
       item
         EditButtons = <>
         FieldName = 'SCFDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
         FieldName = 'LCFID'
         Footers = <>
+        Width = 75
       end
       item
         EditButtons = <>
         FieldName = 'LCFDate'
         Footers = <>
-        ReadOnly = True
-      end
-      item
-        EditButtons = <>
-        FieldName = 'MSCFID'
-        Footers = <>
-      end
-      item
-        EditButtons = <>
-        FieldName = 'MSCFDate'
-        Footers = <>
-        ReadOnly = True
-      end
-      item
-        EditButtons = <>
-        FieldName = 'USERDate'
-        Footers = <>
-        ReadOnly = True
-      end
-      item
-        EditButtons = <>
-        FieldName = 'USERID'
-        Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
         FieldName = 'PreparedID'
         Footers = <>
+        Width = 150
       end
       item
         EditButtons = <>
-        FieldName = 'PreparedDate'
+        FieldName = 'DepUID'
+        Footers = <>
+        Width = 75
+      end
+      item
+        EditButtons = <>
+        FieldName = 'DepCFDate'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'YN'
+        Footers = <>
+        Visible = False
+      end
+      item
+        EditButtons = <>
+        FieldName = 'USERID'
+        Footers = <>
+        Width = 75
+      end
+      item
+        EditButtons = <>
+        FieldName = 'USERDATE'
         Footers = <>
       end>
   end
@@ -850,105 +613,47 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
     AfterOpen = Query1AfterOpen
     DatabaseName = 'DB'
     SQL.Strings = (
-      'select * from QC_MidInSole where 1=2'
-      '')
+      'select * from QC_NonConformingMaterial'
+      'where 1=3')
     UpdateObject = UpSQL1
     Left = 448
     Top = 400
     object Query1ReportID: TIntegerField
       FieldName = 'ReportID'
     end
-    object Query1InspecDate: TDateTimeField
-      FieldName = 'InspecDate'
-    end
-    object Query1CLBH: TStringField
-      FieldName = 'CLBH'
+    object Query1ZSBH: TStringField
+      FieldName = 'ZSBH'
       FixedChar = True
+      Size = 50
     end
-    object Query1MatName: TStringField
-      FieldName = 'MatName'
-      FixedChar = True
+    object Query1InDate: TDateTimeField
+      FieldName = 'InDate'
     end
-    object Query1TempRoom: TStringField
-      FieldName = 'TempRoom'
-      FixedChar = True
-    end
-    object Query1Supplier: TStringField
-      FieldName = 'Supplier'
-      FixedChar = True
-      Size = 30
-    end
-    object Query1Mold: TStringField
-      FieldName = 'Mold'
-      FixedChar = True
-    end
-    object Query1XieMing: TStringField
-      FieldName = 'XieMing'
-      FixedChar = True
-      Size = 30
+    object Query1Qty: TIntegerField
+      FieldName = 'Qty'
     end
     object Query1DDBH: TStringField
       FieldName = 'DDBH'
       FixedChar = True
-      Size = 1000
+      Size = 50
     end
-    object Query1TOderQty: TIntegerField
-      FieldName = 'TOderQty'
-    end
-    object Query1RQty: TIntegerField
-      FieldName = 'RQty'
-    end
-    object Query1Article: TStringField
-      FieldName = 'Article'
+    object Query1SKU: TStringField
+      FieldName = 'SKU'
       FixedChar = True
-      Size = 30
+      Size = 50
     end
-    object Query1Size: TStringField
-      FieldName = 'Size'
+    object Query1MaterialSpec: TStringField
+      FieldName = 'MaterialSpec'
       FixedChar = True
+      Size = 50
     end
-    object Query1TArrQty: TIntegerField
-      FieldName = 'TArrQty'
-    end
-    object Query1IQty: TIntegerField
-      FieldName = 'IQty'
-    end
-    object Query1ALeftHard: TStringField
-      FieldName = 'ALeftHard'
-      FixedChar = True
-    end
-    object Query1BLeftHard: TStringField
-      FieldName = 'BLeftHard'
-      FixedChar = True
-    end
-    object Query1ARightHard: TStringField
-      FieldName = 'ARightHard'
-      FixedChar = True
-    end
-    object Query1BRightHard: TStringField
-      FieldName = 'BRightHard'
-      FixedChar = True
-    end
-    object Query1SHard: TStringField
-      FieldName = 'SHard'
-      FixedChar = True
-    end
-    object Query1LWeight: TStringField
-      FieldName = 'LWeight'
-      FixedChar = True
-    end
-    object Query1RWeight: TStringField
-      FieldName = 'RWeight'
-      FixedChar = True
-    end
-    object Query1SWeight: TStringField
-      FieldName = 'SWeight'
-      FixedChar = True
-    end
-    object Query1Issues: TStringField
-      FieldName = 'Issues'
+    object Query1Issue: TStringField
+      FieldName = 'Issue'
       FixedChar = True
       Size = 255
+    end
+    object Query1RandomQty: TIntegerField
+      FieldName = 'RandomQty'
     end
     object Query1DeQty: TIntegerField
       FieldName = 'DeQty'
@@ -956,24 +661,10 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
     object Query1DeRate: TFloatField
       FieldName = 'DeRate'
     end
-    object Query1WPLLen: TIntegerField
-      FieldName = 'WPLLen'
-    end
-    object Query1WPRLen: TIntegerField
-      FieldName = 'WPRLen'
-    end
-    object Query1WPLSize: TIntegerField
-      FieldName = 'WPLSize'
-    end
-    object Query1WPRSize: TIntegerField
-      FieldName = 'WPRSize'
-    end
-    object Query1SendDate: TDateTimeField
-      FieldName = 'SendDate'
-    end
-    object Query1Reject: TStringField
-      FieldName = 'Reject'
+    object Query1Result: TStringField
+      FieldName = 'Result'
       FixedChar = True
+      Size = 50
     end
     object Query1SCFID: TStringField
       FieldName = 'SCFID'
@@ -989,12 +680,17 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
     object Query1LCFDate: TDateTimeField
       FieldName = 'LCFDate'
     end
-    object Query1MSCFID: TStringField
-      FieldName = 'MSCFID'
+    object Query1PreparedID: TStringField
+      FieldName = 'PreparedID'
+      FixedChar = True
+      Size = 50
+    end
+    object Query1DepUID: TStringField
+      FieldName = 'DepUID'
       FixedChar = True
     end
-    object Query1MSCFDate: TDateTimeField
-      FieldName = 'MSCFDate'
+    object Query1DepCFDate: TDateTimeField
+      FieldName = 'DepCFDate'
     end
     object Query1YN: TIntegerField
       FieldName = 'YN'
@@ -1003,33 +699,8 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       FieldName = 'USERID'
       FixedChar = True
     end
-    object Query1USERDate: TDateTimeField
-      FieldName = 'USERDate'
-    end
-    object Query1LabUID: TStringField
-      FieldName = 'LabUID'
-      FixedChar = True
-    end
-    object Query1LabChgDate: TDateTimeField
-      FieldName = 'LabChgDate'
-    end
-    object Query1PreparedID: TStringField
-      FieldName = 'PreparedID'
-      FixedChar = True
-      Size = 50
-    end
-    object Query1PreparedDate: TDateTimeField
-      FieldName = 'PreparedDate'
-    end
-    object Query1LabID: TStringField
-      FieldName = 'LabID'
-      FixedChar = True
-      Size = 200
-    end
-    object Query1LabResult: TStringField
-      FieldName = 'LabResult'
-      FixedChar = True
-      Size = 200
+    object Query1USERDATE: TDateTimeField
+      FieldName = 'USERDATE'
     end
   end
   object DS1: TDataSource
@@ -1039,100 +710,95 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
   end
   object UpSQL1: TUpdateSQL
     ModifySQL.Strings = (
-      'update QC_MidInSole'
+      'update QC_NonConformingMaterial'
       'set'
       '  ReportID = :ReportID,'
-      '  InspecDate = :InspecDate,'
-      '  CLBH = :CLBH,'
-      '  MatName = :MatName,'
-      '  TempRoom = :TempRoom,'
-      '  Supplier = :Supplier,'
-      '  Mold = :Mold,'
-      '  XieMing = :XieMing,'
+      '  ZSBH = :ZSBH,'
+      '  InDate = :InDate,'
+      '  Qty = :Qty,'
       '  DDBH = :DDBH,'
-      '  TOderQty = :TOderQty,'
-      '  RQty = :RQty,'
-      '  Article = :Article,'
-      '  Size = :Size,'
-      '  TArrQty = :TArrQty,'
-      '  IQty = :IQty,'
-      '  ALeftHard = :ALeftHard,'
-      '  BLeftHard = :BLeftHard,'
-      '  ARightHard = :ARightHard,'
-      '  BRightHard = :BRightHard,'
-      '  SHard = :SHard,'
-      '  LWeight = :LWeight,'
-      '  RWeight = :RWeight,'
-      '  SWeight = :SWeight,'
-      '  Issues = :Issues,'
+      '  SKU = :SKU,'
+      '  MaterialSpec = :MaterialSpec,'
+      '  Issue = :Issue,'
+      '  RandomQty = :RandomQty,'
       '  DeQty = :DeQty,'
       '  DeRate = :DeRate,'
-      '  WPLLen = :WPLLen,'
-      '  WPRLen = :WPRLen,'
-      '  WPLSize = :WPLSize,'
-      '  WPRSize = :WPRSize,'
-      '  SendDate = :SendDate,'
-      '  LabID = :LabID,'
-      '  LabResult = :LabResult,'
-      '  Reject = :Reject,'
+      '  Result = :Result,'
       '  SCFID = :SCFID,'
       '  SCFDate = :SCFDate,'
       '  LCFID = :LCFID,'
       '  LCFDate = :LCFDate,'
-      '  MSCFID = :MSCFID,'
-      '  MSCFDate = :MSCFDate,'
+      '  PreparedID = :PreparedID,'
+      '  DepUID = :DepUID,'
+      '  DepCFDate = :DepCFDate,'
       '  YN = :YN,'
       '  USERID = :USERID,'
-      '  USERDate = :USERDate,'
-      '  LabUID = :LabUID,'
-      '  LabChgDate = :LabChgDate,'
-      '  PreparedID = :PreparedID,'
-      '  PreparedDate = :PreparedDate'
+      '  USERDATE = :USERDATE'
       'where'
-      '  ReportID = :OLD_ReportID')
+      '  ReportID = :OLD_ReportID and'
+      '  ZSBH = :OLD_ZSBH and'
+      '  InDate = :OLD_InDate and'
+      '  Qty = :OLD_Qty and'
+      '  DDBH = :OLD_DDBH and'
+      '  SKU = :OLD_SKU and'
+      '  MaterialSpec = :OLD_MaterialSpec and'
+      '  Issue = :OLD_Issue and'
+      '  RandomQty = :OLD_RandomQty and'
+      '  DeQty = :OLD_DeQty and'
+      '  DeRate = :OLD_DeRate and'
+      '  Result = :OLD_Result and'
+      '  SCFID = :OLD_SCFID and'
+      '  SCFDate = :OLD_SCFDate and'
+      '  LCFID = :OLD_LCFID and'
+      '  LCFDate = :OLD_LCFDate and'
+      '  PreparedID = :OLD_PreparedID and'
+      '  DepUID = :OLD_DepUID and'
+      '  DepCFDate = :OLD_DepCFDate and'
+      '  YN = :OLD_YN and'
+      '  USERID = :OLD_USERID and'
+      '  USERDATE = :OLD_USERDATE')
     InsertSQL.Strings = (
-      'insert into QC_MidInSole'
+      'insert into QC_NonConformingMaterial'
       
-        '  (ReportID, InspecDate, CLBH, MatName, TempRoom, Supplier, Mold' +
-        ', XieMing, '
+        '  (ReportID, ZSBH, InDate, Qty, DDBH, SKU, MaterialSpec, Issue, ' +
+        'RandomQty, '
       
-        '   DDBH, TOderQty, RQty, Article, Size, TArrQty, IQty, ALeftHard' +
-        ', BLeftHard, '
-      
-        '   ARightHard, BRightHard, SHard, LWeight, RWeight, SWeight, Iss' +
-        'ues, DeQty, '
-      
-        '   DeRate, WPLLen, WPRLen, WPLSize, WPRSize, SendDate, LabID, La' +
-        'bResult, '
-      
-        '   Reject, SCFID, SCFDate, LCFID, LCFDate, MSCFID, MSCFDate, YN,' +
-        ' USERID, '
-      '   USERDate, LabUID, LabChgDate, PreparedID, PreparedDate)'
+        '   DeQty, DeRate, Result, SCFID, SCFDate, LCFID, LCFDate, Prepar' +
+        'edID, DepUID, '
+      '   DepCFDate, YN, USERID, USERDATE)'
       'values'
       
-        '  (:ReportID, :InspecDate, :CLBH, :MatName, :TempRoom, :Supplier' +
-        ', :Mold, '
+        '  (:ReportID, :ZSBH, :InDate, :Qty, :DDBH, :SKU, :MaterialSpec, ' +
+        ':Issue, '
       
-        '   :XieMing, :DDBH, :TOderQty, :RQty, :Article, :Size, :TArrQty,' +
-        ' :IQty, '
-      
-        '   :ALeftHard, :BLeftHard, :ARightHard, :BRightHard, :SHard, :LW' +
-        'eight, '
-      
-        '   :RWeight, :SWeight, :Issues, :DeQty, :DeRate, :WPLLen, :WPRLe' +
-        'n, :WPLSize, '
-      
-        '   :WPRSize, :SendDate, :LabID, :LabResult, :Reject, :SCFID, :SC' +
-        'FDate, '
-      
-        '   :LCFID, :LCFDate, :MSCFID, :MSCFDate, :YN, :USERID, :USERDate' +
-        ', :LabUID, '
-      '   :LabChgDate, :PreparedID, :PreparedDate)')
+        '   :RandomQty, :DeQty, :DeRate, :Result, :SCFID, :SCFDate, :LCFI' +
+        'D, :LCFDate, '
+      '   :PreparedID, :DepUID, :DepCFDate, :YN, :USERID, :USERDATE)')
     DeleteSQL.Strings = (
-      'update QC_MidInSole'
-      'set YN = 0'
+      'delete from QC_NonConformingMaterial'
       'where'
-      '  ReportID = :OLD_ReportID')
+      '  ReportID = :OLD_ReportID and'
+      '  ZSBH = :OLD_ZSBH and'
+      '  InDate = :OLD_InDate and'
+      '  Qty = :OLD_Qty and'
+      '  DDBH = :OLD_DDBH and'
+      '  SKU = :OLD_SKU and'
+      '  MaterialSpec = :OLD_MaterialSpec and'
+      '  Issue = :OLD_Issue and'
+      '  RandomQty = :OLD_RandomQty and'
+      '  DeQty = :OLD_DeQty and'
+      '  DeRate = :OLD_DeRate and'
+      '  Result = :OLD_Result and'
+      '  SCFID = :OLD_SCFID and'
+      '  SCFDate = :OLD_SCFDate and'
+      '  LCFID = :OLD_LCFID and'
+      '  LCFDate = :OLD_LCFDate and'
+      '  PreparedID = :OLD_PreparedID and'
+      '  DepUID = :OLD_DepUID and'
+      '  DepCFDate = :OLD_DepCFDate and'
+      '  YN = :OLD_YN and'
+      '  USERID = :OLD_USERID and'
+      '  USERDATE = :OLD_USERDATE')
     Left = 528
     Top = 400
   end
@@ -1142,12 +808,12 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
     Top = 400
   end
   object OpenDialog1: TOpenDialog
-    Left = 832
-    Top = 160
+    Left = 368
+    Top = 144
   end
   object SaveDialog: TSaveDialog
-    Left = 832
-    Top = 120
+    Left = 328
+    Top = 152
   end
   object QGetID: TQuery
     DatabaseName = 'DB'
@@ -1156,7 +822,11 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
   end
   object QSig: TQuery
     DatabaseName = 'DB'
-    Left = 328
+    Left = 336
     Top = 400
+  end
+  object OpenPictureDialog1: TOpenDialog
+    Left = 312
+    Top = 112
   end
 end

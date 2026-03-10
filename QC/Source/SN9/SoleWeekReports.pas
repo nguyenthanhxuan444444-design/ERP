@@ -280,7 +280,7 @@ begin
                 Query1.FieldByName('ReportID').Value := NewID;
                 Query1.FieldByName('USERID').Value := main.Edit1.Text;
                 Query1.FieldByName('YN').Value := 1;
-                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                 upsql1.apply(ukinsert);
               end;
             end;

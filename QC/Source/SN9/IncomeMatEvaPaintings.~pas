@@ -331,7 +331,7 @@ begin
     begin
       Active := False;
       SQL.Clear;
-      SQL.Add('select distinct Defects from QC_EvaPaintingDetail where ReportID = ''' + edtRID.Text + '''');
+      SQL.Add('select distinct Defects from QC_EvaPaintingDetail where ReportID = ''' + edtRID.Text + ''' order by Defects desc');
       Active := True;
 
       First;

@@ -1,8 +1,8 @@
 object StockOut_BC: TStockOut_BC
-  Left = 151
-  Top = 210
-  Width = 1675
-  Height = 627
+  Left = 323
+  Top = 213
+  Width = 1386
+  Height = 628
   Caption = 'StockOut_BC'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object StockOut_BC: TStockOut_BC
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 1659
+    Width = 1370
     Height = 65
     Align = alTop
     TabOrder = 0
@@ -312,9 +312,9 @@ object StockOut_BC: TStockOut_BC
   end
   object PC1: TPageControl
     Left = 0
-    Top = 201
-    Width = 1659
-    Height = 387
+    Top = 189
+    Width = 1370
+    Height = 400
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
@@ -325,8 +325,8 @@ object StockOut_BC: TStockOut_BC
       object DBGridEh1: TDBGridEh
         Left = 0
         Top = 0
-        Width = 1651
-        Height = 356
+        Width = 1362
+        Height = 369
         Align = alClient
         DataSource = DS1
         Flat = False
@@ -441,8 +441,8 @@ object StockOut_BC: TStockOut_BC
       object DBGridEh2: TDBGridEh
         Left = 0
         Top = 0
-        Width = 1659
-        Height = 376
+        Width = 1362
+        Height = 369
         Align = alClient
         DataSource = DS2
         Flat = False
@@ -542,7 +542,6 @@ object StockOut_BC: TStockOut_BC
             FieldName = 'Size'
             Footers = <>
             KeyList.Strings = (
-              'N/A'
               '01.0'
               '01.5'
               '02.0'
@@ -575,10 +574,31 @@ object StockOut_BC: TStockOut_BC
               '15.5'
               '16.0'
               '16.5'
-              '17.0')
+              '17.0'
+              '17.5'
+              '18.0'
+              '18.5'
+              '19.0'
+              '19.5'
+              '20.0'
+              '20.5'
+              '21.0'
+              '21.5'
+              '22.0'
+              '22.5'
+              '23.0'
+              '23.5'
+              '24.0'
+              '24.5'
+              '25.0'
+              '25.5'
+              '26.0'
+              '26.5'
+              '27.0'
+              '27.5'
+              '28.0')
             NotInKeyListIndex = 0
             PickList.Strings = (
-              'N/A'
               '01.0'
               '01.5'
               '02.0'
@@ -611,7 +631,30 @@ object StockOut_BC: TStockOut_BC
               '15.5'
               '16.0'
               '16.5'
-              '17.0')
+              '17.0'
+              '17.5'
+              '18.0'
+              '18.5'
+              '19.0'
+              '19.5'
+              '20.0'
+              '20.5'
+              '21.0'
+              '21.5'
+              '22.0'
+              '22.5'
+              '23.0'
+              '23.5'
+              '24.0'
+              '24.5'
+              '25.0'
+              '25.5'
+              '26.0'
+              '26.5'
+              '27.0'
+              '27.5'
+              '28.0'
+              '')
             Title.Caption = #23610#30908'|Size'
             Width = 50
           end
@@ -644,6 +687,106 @@ object StockOut_BC: TStockOut_BC
             ReadOnly = True
             Title.Caption = #30064#21205#26085#26399'|User Date'
             Width = 100
+          end
+          item
+            EditButtons = <>
+            FieldName = 'KCBH'
+            Footers = <>
+            Width = 60
+          end
+          item
+            EditButtons = <>
+            FieldName = 'Carton_No'
+            Footers = <>
+            Width = 75
+          end
+          item
+            EditButtons = <>
+            FieldName = 'DefectID'
+            Footers = <>
+            Width = 75
+          end
+          item
+            EditButtons = <>
+            FieldName = 'RKNO'
+            Footers = <>
+          end>
+      end
+      object dbgrdh1: TDBGridEh
+        Left = 0
+        Top = 0
+        Width = 1362
+        Height = 369
+        Align = alClient
+        DataSource = ds3
+        Flat = False
+        FooterColor = clWindow
+        FooterFont.Charset = DEFAULT_CHARSET
+        FooterFont.Color = clWindowText
+        FooterFont.Height = -13
+        FooterFont.Name = 'MS Sans Serif'
+        FooterFont.Style = []
+        FooterRowCount = 1
+        SumList.Active = True
+        TabOrder = 1
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -13
+        TitleFont.Name = 'MS Sans Serif'
+        TitleFont.Style = []
+        UseMultiTitle = True
+        OnGetCellParams = DBGridEh2GetCellParams
+        Columns = <
+          item
+            EditButtons = <>
+            FieldName = 'Qty'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'RemainQty'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'RKNO'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'Grade'
+            Footers = <>
+            Width = 23
+          end
+          item
+            EditButtons = <>
+            FieldName = 'DDBH'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'Size'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'DefectID'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'KCBH'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'Carton_No'
+            Footers = <>
+          end
+          item
+            EditButtons = <>
+            FieldName = 'CFMDate'
+            Footers = <>
           end>
       end
     end
@@ -651,7 +794,7 @@ object StockOut_BC: TStockOut_BC
   object Panel3: TPanel
     Left = 0
     Top = 65
-    Width = 1659
+    Width = 1370
     Height = 65
     Align = alTop
     TabOrder = 2
@@ -972,8 +1115,8 @@ object StockOut_BC: TStockOut_BC
   object Panel1: TPanel
     Left = 0
     Top = 130
-    Width = 1659
-    Height = 71
+    Width = 1370
+    Height = 59
     Align = alTop
     TabOrder = 3
     Visible = False
@@ -991,8 +1134,8 @@ object StockOut_BC: TStockOut_BC
       ParentFont = False
     end
     object Label4: TLabel
-      Left = 14
-      Top = 43
+      Left = 22
+      Top = 35
       Width = 37
       Height = 16
       Caption = 'Status'
@@ -1037,8 +1180,8 @@ object StockOut_BC: TStockOut_BC
       ParentFont = False
     end
     object Label2: TLabel
-      Left = 498
-      Top = 42
+      Left = 506
+      Top = 34
       Width = 55
       Height = 16
       Caption = 'Order No'
@@ -1050,8 +1193,8 @@ object StockOut_BC: TStockOut_BC
       ParentFont = False
     end
     object Label9: TLabel
-      Left = 666
-      Top = 40
+      Left = 674
+      Top = 32
       Width = 27
       Height = 16
       Caption = 'SKU'
@@ -1063,8 +1206,8 @@ object StockOut_BC: TStockOut_BC
       ParentFont = False
     end
     object Button1: TButton
-      Left = 624
-      Top = 2
+      Left = 808
+      Top = 18
       Width = 75
       Height = 29
       Caption = 'Query'
@@ -1085,8 +1228,8 @@ object StockOut_BC: TStockOut_BC
       TabOrder = 1
     end
     object GB1: TGroupBox
-      Left = 55
-      Top = 32
+      Left = 63
+      Top = 24
       Width = 430
       Height = 31
       TabOrder = 2
@@ -1185,8 +1328,8 @@ object StockOut_BC: TStockOut_BC
       TabOrder = 5
     end
     object EdOrder_No: TEdit
-      Left = 559
-      Top = 38
+      Left = 567
+      Top = 30
       Width = 98
       Height = 24
       Font.Charset = DEFAULT_CHARSET
@@ -1198,8 +1341,8 @@ object StockOut_BC: TStockOut_BC
       TabOrder = 6
     end
     object EdSKU: TEdit
-      Left = 696
-      Top = 36
+      Left = 704
+      Top = 28
       Width = 89
       Height = 24
       Font.Charset = DEFAULT_CHARSET
@@ -1313,7 +1456,8 @@ object StockOut_BC: TStockOut_BC
         'E, XXZL.XieMing, XXZL.YSSM, XXZL.JiJie, XXZL.DDMH, '
       
         'KCLLS_BC.Size, KCLLS_BC.Qty, KCLLS_BC.UserID, KCLLS_BC.UserDate,' +
-        ' KCLLS_BC.YN FROM KCLLS_BC'
+        ' KCLLS_BC.YN,KCBH,Carton_No,RKNO,DefectID'
+      ' FROM KCLLS_BC'
       'LEFT JOIN DDZL ON DDZL.DDBH = KCLLS_BC.DDBH'
       
         'LEFT JOIN XXZL ON XXZL.XieXing = DDZL.XieXing AND XXZL.SheHao = ' +
@@ -1325,9 +1469,10 @@ object StockOut_BC: TStockOut_BC
     Top = 328
     ParamData = <
       item
-        DataType = ftUnknown
+        DataType = ftString
         Name = 'LLNO'
         ParamType = ptUnknown
+        Size = 16
       end>
     object QKCLLSLLNO: TStringField
       FieldName = 'LLNO'
@@ -1380,6 +1525,24 @@ object StockOut_BC: TStockOut_BC
       FieldName = 'YN'
       Size = 1
     end
+    object QKCLLSKCBH: TStringField
+      FieldName = 'KCBH'
+      FixedChar = True
+      Size = 5
+    end
+    object QKCLLSCarton_No: TIntegerField
+      FieldName = 'Carton_No'
+    end
+    object QKCLLSDefectID: TStringField
+      FieldName = 'DefectID'
+      FixedChar = True
+      Size = 4
+    end
+    object QKCLLSRKNO: TStringField
+      FieldName = 'RKNO'
+      FixedChar = True
+      Size = 15
+    end
   end
   object DS2: TDataSource
     DataSet = QKCLLS
@@ -1388,31 +1551,51 @@ object StockOut_BC: TStockOut_BC
   end
   object UP_KCLLS: TUpdateSQL
     ModifySQL.Strings = (
-      'UPDATE  KCLLS_BC'
-      'SET'
+      'update KCLLS_BC'
+      'set'
+      '  LLNO = :LLNO,'
       '  Grade = :Grade,'
       '  DDBH = :DDBH,'
       '  Size = :Size,'
       '  Qty = :Qty,'
       '  UserID = :UserID,'
-      '  UserDate = GetDate()'
-      'WHERE '
-      '  LLNO = :OLD_LLNO AND'
-      '  Grade = :OLD_Grade AND'
-      '  DDBH = :OLD_DDBH AND'
-      '  Size = :OLD_Size')
+      '  UserDate = GetDate(),'
+      '  YN = :YN,'
+      '  KCBH = :KCBH,'
+      '  Carton_No = :Carton_No,'
+      '  RKNO = :RKNO,'
+      '  DefectID = :DefectID'
+      'where'
+      '  LLNO = :OLD_LLNO and'
+      '  Grade = :OLD_Grade and'
+      '  DDBH = :OLD_DDBH and'
+      '  Size = :OLD_Size and'
+      '  KCBH = :OLD_KCBH and'
+      '  Carton_No = :OLD_Carton_No and'
+      '  RKNO = :OLD_RKNO and'
+      '  DefectID = :OLD_DefectID')
     InsertSQL.Strings = (
-      'INSERT INTO KCLLS_BC'
-      '  (LLNO, Grade, DDBH, Size, Qty, UserID, UserDate, YN)'
-      'VALUES'
-      '  (:LLNO, :Grade, :DDBH, :Size, :Qty, :UserID, GetDate(), '#39'1'#39')')
+      'insert into KCLLS_BC'
+      
+        '  (LLNO, Grade, DDBH, Size, Qty, UserID, UserDate, YN, KCBH, Car' +
+        'ton_No, '
+      '   RKNO, DefectID)'
+      'values'
+      
+        '  (:LLNO, :Grade, :DDBH, :Size, :Qty, :UserID, GetDate(), :YN, :' +
+        'KCBH, :Carton_No, '
+      '   :RKNO, :DefectID)')
     DeleteSQL.Strings = (
-      'DELETE FROM KCLLS_BC'
-      'WHERE'
-      '  LLNO = :OLD_LLNO AND'
-      '  Grade = :OLD_Grade AND'
-      '  DDBH = :OLD_DDBH AND'
-      '  Size = :OLD_Size')
+      'delete from KCLLS_BC'
+      'where'
+      '  LLNO = :OLD_LLNO and'
+      '  Grade = :OLD_Grade and'
+      '  DDBH = :OLD_DDBH and'
+      '  Size = :OLD_Size and'
+      '  KCBH = :OLD_KCBH and'
+      '  Carton_No = :OLD_Carton_No and'
+      '  RKNO = :OLD_RKNO and'
+      '  DefectID = :OLD_DefectID')
     Left = 57
     Top = 360
   end
@@ -1425,5 +1608,158 @@ object StockOut_BC: TStockOut_BC
     DatabaseName = 'DB'
     Left = 90
     Top = 360
+  end
+  object updtsql2: TUpdateSQL
+    ModifySQL.Strings = (
+      'update KCRKS_BC'
+      'set'
+      '  RemainQty = :RemainQty'
+      'where'
+      '  RKNO = :RKNO and'
+      '  Grade = :Grade and'
+      '  DDBH = :DDBH and'
+      '  Size = :Size and'
+      '  DefectID = :DefectID and'
+      '  KCBH = :KCBH and'
+      '  Carton_No = :Carton_No and'
+      '  DefectID= :DefectID and'
+      '  RKNO = :RKNO')
+    InsertSQL.Strings = (
+      'insert into KCRKS_BC'
+      '  (RemainQty)'
+      'values'
+      '  (:RemainQty)')
+    DeleteSQL.Strings = (
+      'delete from KCRKS_BC'
+      'where'
+      '  RKNO = :OLD_RKNO and'
+      '  Grade = :OLD_Grade and'
+      '  DDBH = :OLD_DDBH and'
+      '  Size = :OLD_Size and'
+      '  DefectID = :OLD_DefectID and'
+      '  KCBH = :OLD_KCBH and'
+      '  Carton_No = :OLD_Carton_No')
+    Left = 193
+    Top = 360
+  end
+  object Qry_rupdate: TQuery
+    DatabaseName = 'DB'
+    DataSource = DS2
+    SQL.Strings = (
+      'select KCRKS_BC.RKNO,Grade,DDBH,Size,DefectID,KCBH,Carton_No'
+      ',Qty,ISNULL(RemainQty, Qty)-:Qty as RemainQty,KCRK_BC.CFMDate'
+      'from KCRKS_BC'
+      'left join KCRK_BC on KCRK_BC.RKNO=KCRKS_BC.RKNO'
+      'where KCRK_BC.CFMDate is not null'
+      
+        'and (KCRK_BC.flowflag not in ('#39'X'#39') or (KCRK_BC.flowflag is null)' +
+        ')'
+      'and ISNULL(RemainQty, Qty)>0'
+      'and DDBH=:DDBH'
+      'and Grade=:Grade'
+      'and Size=:Size'
+      'and KCBH=:KCBH '
+      'and Carton_No=:Carton_No'
+      'and DefectID=:DefectID'
+      'and KCRKS_BC.RKNO=:RKNO')
+    UpdateObject = updtsql2
+    Left = 194
+    Top = 328
+    ParamData = <
+      item
+        DataType = ftFloat
+        Name = 'Qty'
+        ParamType = ptUnknown
+        Size = 8
+      end
+      item
+        DataType = ftString
+        Name = 'DDBH'
+        ParamType = ptUnknown
+        Size = 16
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'Grade'
+        ParamType = ptUnknown
+        Size = 2
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'Size'
+        ParamType = ptUnknown
+        Size = 7
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'KCBH'
+        ParamType = ptUnknown
+        Size = 6
+      end
+      item
+        DataType = ftInteger
+        Name = 'Carton_No'
+        ParamType = ptUnknown
+        Size = 4
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'DefectID'
+        ParamType = ptUnknown
+        Size = 5
+      end
+      item
+        DataType = ftFixedChar
+        Name = 'RKNO'
+        ParamType = ptUnknown
+        Size = 16
+      end>
+    object Qry_rupdateRKNO: TStringField
+      FieldName = 'RKNO'
+      FixedChar = True
+      Size = 15
+    end
+    object Qry_rupdateGrade: TStringField
+      FieldName = 'Grade'
+      FixedChar = True
+      Size = 1
+    end
+    object Qry_rupdateDDBH: TStringField
+      FieldName = 'DDBH'
+      FixedChar = True
+      Size = 15
+    end
+    object Qry_rupdateSize: TStringField
+      FieldName = 'Size'
+      FixedChar = True
+      Size = 6
+    end
+    object Qry_rupdateDefectID: TStringField
+      FieldName = 'DefectID'
+      FixedChar = True
+      Size = 4
+    end
+    object Qry_rupdateKCBH: TStringField
+      FieldName = 'KCBH'
+      FixedChar = True
+      Size = 5
+    end
+    object Qry_rupdateCarton_No: TIntegerField
+      FieldName = 'Carton_No'
+    end
+    object Qry_rupdateQty: TFloatField
+      FieldName = 'Qty'
+    end
+    object Qry_rupdateRemainQty: TFloatField
+      FieldName = 'RemainQty'
+    end
+    object Qry_rupdateCFMDate: TDateTimeField
+      FieldName = 'CFMDate'
+    end
+  end
+  object ds3: TDataSource
+    DataSet = Qry_rupdate
+    Left = 193
+    Top = 296
   end
 end

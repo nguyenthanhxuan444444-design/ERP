@@ -666,12 +666,12 @@ end;
 
 procedure THumidityCheck.Query1AfterScroll(DataSet: TDataSet);
 begin
-  LockDBGrid;
+  //LockDBGrid;
 end;
 
 procedure THumidityCheck.DS1StateChange(Sender: TObject);
 begin
-  LockDBGrid;
+  //LockDBGrid;
 end;
 
 end.

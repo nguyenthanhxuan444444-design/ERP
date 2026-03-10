@@ -160,7 +160,8 @@ uses
   LeatherMatInspections in 'Source\SN9\LeatherMatInspections.pas' {LeatherMatInspection},
   HumidityChecks in 'Source\SN9\HumidityChecks.pas' {HumidityCheck},
   SoleWeekReports in 'Source\SN9\SoleWeekReports.pas' {RejectedMaterial},
-  MonthlyReportMaterials in 'Source\SN9\MonthlyReportMaterials.pas' {MonthlyReportMaterial};
+  MonthlyReportMaterials in 'Source\SN9\MonthlyReportMaterials.pas' {MonthlyReportMaterial},
+  NonConformingMaterials in 'Source\SN9\NonConformingMaterials.pas' {NonConformingMaterial};
 
 {$R *.res}
 
@@ -185,6 +186,7 @@ begin
   Application.Title := 'Lai Yih ERP system----QC';
   Application.CreateForm(TDM2, DM2);
   Application.CreateForm(Tmain, main);
+  Application.CreateForm(TNonConformingMaterial, NonConformingMaterial);
   QCFlowChart := TQCFlowChart.Create(main);
   login.Hide;
   login.Free;

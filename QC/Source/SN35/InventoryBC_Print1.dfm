@@ -1,6 +1,6 @@
 object InventoryBC_Print: TInventoryBC_Print
-  Left = 651
-  Top = 390
+  Left = 139
+  Top = 136
   Width = 1278
   Height = 599
   Caption = 'InventoryBC_Print'
@@ -152,7 +152,7 @@ object InventoryBC_Print: TInventoryBC_Print
         AlignToBand = False
         AutoSize = False
         AutoStretch = False
-        Caption = 'Xuong '#24288#21029': A'
+        Caption = 'Xuong '#24288#21029': A7'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -513,7 +513,7 @@ object InventoryBC_Print: TInventoryBC_Print
         AlignToBand = False
         AutoSize = False
         AutoStretch = False
-        Caption = 'So khu '#21312#22495#34399#30908' : J01'
+        Caption = 'So khu '#21312#22495#34399#30908' : K01'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -839,7 +839,7 @@ object InventoryBC_Print: TInventoryBC_Print
         AlignToBand = False
         AutoSize = False
         AutoStretch = False
-        Caption = 'CONG TY TNHH TY THAC'
+        Caption = 'CONG TY TNHH TY XUAN'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -883,9 +883,9 @@ object InventoryBC_Print: TInventoryBC_Print
         FontSize = 11
       end
       object QRLabel47: TQRLabel
-        Left = 861
+        Left = 940
         Top = 91
-        Width = 201
+        Width = 144
         Height = 20
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -894,14 +894,14 @@ object InventoryBC_Print: TInventoryBC_Print
         Frame.DrawRight = False
         Size.Values = (
           52.916666666666670000
-          2278.062500000000000000
+          2487.083333333333000000
           240.770833333333300000
-          531.812500000000000000)
+          381.000000000000000000)
         Alignment = taLeftJustify
         AlignToBand = False
         AutoSize = False
         AutoStretch = False
-        Caption = 'Bo phan '#37096#38272':  A-KCS A- '#21697#31649
+        Caption = 'Bo phan '#37096#38272':  AKCS'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -2386,9 +2386,9 @@ object InventoryBC_Print: TInventoryBC_Print
         FontSize = 8
       end
       object QRDBText5: TQRDBText
-        Left = 48
+        Left = 44
         Top = 9
-        Width = 65
+        Width = 73
         Height = 16
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -2397,16 +2397,16 @@ object InventoryBC_Print: TInventoryBC_Print
         Frame.DrawRight = False
         Size.Values = (
           42.333333333333330000
-          127.000000000000000000
+          116.416666666666700000
           23.812500000000000000
-          171.979166666666700000)
-        Alignment = taCenter
+          193.145833333333300000)
+        Alignment = taLeftJustify
         AlignToBand = False
         AutoSize = False
         AutoStretch = False
         Color = clWhite
         DataSet = Inventory_BC.QInventory
-        DataField = 'KH'
+        DataField = 'kfjc'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -2834,9 +2834,9 @@ object InventoryBC_Print: TInventoryBC_Print
       KeepOnOnePage = False
       BandType = rbPageFooter
       object QRLabel69: TQRLabel
-        Left = 988
+        Left = 983
         Top = 4
-        Width = 62
+        Width = 73
         Height = 17
         Frame.Color = clBlack
         Frame.DrawTop = False
@@ -2845,14 +2845,14 @@ object InventoryBC_Print: TInventoryBC_Print
         Frame.DrawRight = False
         Size.Values = (
           44.979166666666670000
-          2614.083333333333000000
+          2600.854166666667000000
           10.583333333333330000
-          164.041666666666700000)
+          193.145833333333300000)
         Alignment = taCenter
         AlignToBand = False
         AutoSize = True
         AutoStretch = False
-        Caption = 'T-KT-004D'
+        Caption = 'T-DCC-032C'
         Color = clWhite
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText

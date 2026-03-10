@@ -593,6 +593,10 @@ object main: Tmain
         Caption = 'N9B Monthly Report Material'
         OnClick = SN9BClick
       end
+      object SN9C: TMenuItem
+        Caption = 'N9C Non Conforming Material'
+        OnClick = SN9CClick
+      end
     end
   end
   object Query1: TQuery

@@ -379,6 +379,7 @@ begin
       SQL.Add('and CAST(USERDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date)+''' ');
     if edtStyle.Text <> '' then
       SQL.Add('and XieMing like ''%'+edtStyle.Text+'%'' ');
+    SQL.Add(' order by ReportID ');
     Active := true;
   end;
 end;

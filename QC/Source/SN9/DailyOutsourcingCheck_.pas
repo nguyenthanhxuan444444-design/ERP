@@ -66,6 +66,7 @@ type
     Query1PreparedDate: TDateTimeField;
     Query1DepUID: TStringField;
     QSig: TQuery;
+    Confirm: TButton;
     procedure BB1Click(Sender: TObject);
     procedure BB2Click(Sender: TObject);
     procedure BB3Click(Sender: TObject);
@@ -86,6 +87,7 @@ type
     function NewID: string;
     function GetUsernameByID(const AID: string): string;
     procedure DBGrid1CellClick(Column: TColumnEh);
+    procedure ConfirmClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -212,7 +214,7 @@ begin
                 Query1.FieldByName('ReportID').Value := NewID;
                 Query1.FieldByName('USERID').Value := main.Edit1.Text;
                 Query1.FieldByName('YN').Value := 1;
-                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                 upsql1.apply(ukinsert);
               end;
             end;
@@ -230,23 +232,23 @@ begin
                  begin
                   Query1.Edit;
                   if DBGrid1.SelectedField.FieldName = 'PreparedID' then
-                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
+                    //Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
                   else if MenuCode.Text = 'N921' then
                   begin
                     Query1.FieldByName('USERID').Value := main.Edit1.Text;
-                    Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                    //Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
                   end;
                   if MenuCode.Text = 'N922' then
                     begin
-                      Query1.FieldByName('DepInputDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      //Query1.FieldByName('DepInputDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
                     end;
                   if MenuCode.Text = 'N923' then
                     begin
-                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      //Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
                     end;
                   if MenuCode.Text = 'N924' then
                     begin
-                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      //Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
                     end;
                   upsql1.apply(ukmodify);
                  end;
@@ -490,7 +492,6 @@ end;
 
 procedure TDailyOutsourcingCheck.Button1Click(Sender: TObject);
 begin
-
   if MenuCode.Text = 'N921' then
   begin
     DBGrid1.FieldColumns['SCFID'].ReadOnly := True;
@@ -510,7 +511,7 @@ begin
     DBGrid1.FieldColumns['Supplier'].ReadOnly := True;
     DBGrid1.FieldColumns['VIDate'].ReadOnly := True;
     DBGrid1.FieldColumns['SCFID'].ReadOnly := True;
-    DBGrid1.FieldColumns['LCFID'].ReadOnly := True;
+    Confirm.Enabled := true;
   end else if MenuCode.Text = 'N923' then
   begin
     DBGrid1.FieldColumns['Parts'].ReadOnly := True;
@@ -525,6 +526,7 @@ begin
     DBGrid1.FieldColumns['Supplier'].ReadOnly := True;
     DBGrid1.FieldColumns['VIDate'].ReadOnly := True;
     DBGrid1.FieldColumns['DepUID'].ReadOnly := True;
+    Confirm.Enabled := true;
   end else if MenuCode.Text = 'N924' then
   begin
     DBGrid1.FieldColumns['Parts'].ReadOnly := True;
@@ -539,6 +541,7 @@ begin
     DBGrid1.FieldColumns['VIDate'].ReadOnly := True;
     DBGrid1.FieldColumns['SCFID'].ReadOnly := True;
     DBGrid1.FieldColumns['DepUID'].ReadOnly := True;
+    Confirm.Enabled := true;
   end;
 
   with Query1 do
@@ -757,6 +760,45 @@ if (Query1.RecordCount > 0)  and not Query1.CachedUpdates then
     edtZSBH.Text := Query1.FieldByName('Supplier').AsString;
     dtpUSERDate.Date := Query1.FieldByName('USERDate').AsDateTime;
     dtpVI.Date := Query1.FieldByName('VIDate').AsDateTime;
+  end;
+end;
+
+procedure TDailyOutsourcingCheck.ConfirmClick(Sender: TObject);
+begin
+  Query1.RequestLive := true;
+  Query1.CachedUpdates := true;
+  BB4.Enabled := true;
+  BB5.Enabled := true;
+
+  if not Query1.Active then
+    Query1.Open;
+  Query1.DisableControls;
+  try
+    Query1.First; // quay ve dong dau
+    while not Query1.Eof do
+    begin
+      Query1.Edit;
+
+      // Gan gia tri Sign vao cache
+      if MenuCode.Text = 'N922' then
+      begin
+        Query1.FieldByName('DepUID').AsString := Main.Edit1.Text;
+        Query1.FieldByName('DepInputDate').Value := FormatDateTime('yyyy-mm-dd', Now);
+      end else if MenuCode.Text = 'N923' then
+      begin
+        Query1.FieldByName('SCFID').AsString := Main.Edit1.Text;
+        Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
+      end else if MenuCode.Text = 'N924' then
+      begin
+        Query1.FieldByName('LCFID').AsString := Main.Edit1.Text;
+        Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd', Now)
+      end;
+
+      Query1.Post; // Post chi vao cache, chua xuong SQL
+      Query1.Next;
+    end;
+  finally
+    Query1.EnableControls;
   end;
 end;
 

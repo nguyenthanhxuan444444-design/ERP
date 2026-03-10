@@ -144,7 +144,7 @@ begin
     try
       MyIni := Tinifile.Create(AppDir+'\ComName.ini');
       ComNameCH:=MyIni.ReadString('ERP','ComNameCH','億春責任有限公司');
-      ComName:=MyIni.ReadString('ERP','ComName1','CONG TY TNHH TY XUAN');
+      ComName:=MyIni.ReadString('ERP','ComName','CONG TY TNHH TY XUAN');
     finally
       MyIni.Free;
     end;
@@ -190,5 +190,6 @@ begin
 
   QRLabel6.Caption := 'Ngay日 ' + sDay + ' thang月 ' + sMonth + ' nam年 ' + sYear;
 end;
+
 
 end.

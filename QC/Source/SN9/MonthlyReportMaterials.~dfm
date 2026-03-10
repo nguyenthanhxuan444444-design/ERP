@@ -16,6 +16,7 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
   Visible = True
   WindowState = wsMaximized
   OnClose = FormClose
+  OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
@@ -23,19 +24,19 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
     Left = 0
     Top = 161
     Width = 1721
-    Height = 117
-    Align = alClient
+    Height = 335
+    Align = alTop
     DataSource = DS1
     Flat = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
+    Font.Height = -11
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     FooterColor = clWindow
     FooterFont.Charset = DEFAULT_CHARSET
     FooterFont.Color = clWindowText
-    FooterFont.Height = -13
+    FooterFont.Height = -11
     FooterFont.Name = 'MS Sans Serif'
     FooterFont.Style = []
     FooterRowCount = 1
@@ -44,11 +45,9 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -16
+    TitleFont.Height = -11
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = []
-    TitleLines = 2
-    UseMultiTitle = True
     OnGetCellParams = DBGrid1GetCellParams
     OnKeyPress = DBGrid1KeyPress
     Columns = <
@@ -130,17 +129,17 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
   end
   object Panel2: TPanel
     Left = 0
-    Top = 278
+    Top = 496
     Width = 1721
-    Height = 601
+    Height = 383
     Align = alBottom
     TabOrder = 1
     object DBGridEh1: TDBGridEh
       Left = 1
       Top = 57
       Width = 1719
-      Height = 543
-      Align = alClient
+      Height = 325
+      Align = alTop
       DataSource = DS2
       Flat = False
       FooterColor = clWindow
@@ -149,6 +148,7 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
       FooterFont.Height = -11
       FooterFont.Name = 'MS Sans Serif'
       FooterFont.Style = []
+      FooterRowCount = 1
       SumList.Active = True
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
@@ -195,6 +195,7 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
           FieldName = 'TotalQty'
           Footer.ValueType = fvtSum
           Footers = <>
+          Width = 60
         end
         item
           EditButtons = <>
@@ -229,6 +230,7 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
           EditButtons = <>
           FieldName = 'OKNG'
           Footers = <>
+          Title.Caption = 'Result'
           Width = 150
         end
         item
@@ -605,9 +607,10 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
     object dtpMR: TDateTimePicker
       Left = 128
       Top = 112
-      Width = 105
+      Width = 89
       Height = 28
       Date = 45985.377885949080000000
+      Format = 'yyyy/MM'
       Time = 45985.377885949080000000
       TabOrder = 7
     end
@@ -1049,22 +1052,9 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
     DatabaseName = 'DB'
     DataSource = DS1
     SQL.Strings = (
-      
-        'SELECT ReportID, Supplier, CLBH, LotQty, DeLotQty, TotalQty, DeQ' +
-        'ty,'
-      'CAST('
-      '    CAST(LEFT(DeQty, CHARINDEX('#39'/'#39', DeQty) - 1) AS FLOAT)'
-      '    /'
-      
-        '    NULLIF(CAST(SUBSTRING(DeQty, CHARINDEX('#39'/'#39', DeQty) + 1, LEN(' +
-        'DeQty)) AS FLOAT), 0)'
-      '    * 100'
-      '    AS DECIMAL(10,1)'
-      
-        ') AS DeRate, Defects, Inspector, Remark, OKNG, USERDate, USERID,' +
-        ' YN'
+      'SELECT *'
       'FROM QC_MonthlyMaterialDetail'
-      'WHERE ReportID = :ReportID')
+      'WHERE ReportID = :ReportID and 2=2')
     UpdateObject = UpSQLDetail
     Left = 304
     Top = 544
@@ -1088,22 +1078,13 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
       FixedChar = True
       Size = 100
     end
-    object Query2LotQty: TIntegerField
-      FieldName = 'LotQty'
-    end
     object Query2DeLotQty: TIntegerField
       FieldName = 'DeLotQty'
-    end
-    object Query2TotalQty: TIntegerField
-      FieldName = 'TotalQty'
     end
     object Query2DeQty: TStringField
       FieldName = 'DeQty'
       FixedChar = True
       Size = 50
-    end
-    object Query2DeRate: TFloatField
-      FieldName = 'DeRate'
     end
     object Query2Defects: TStringField
       FieldName = 'Defects'
@@ -1135,6 +1116,19 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
     object Query2YN: TSmallintField
       FieldName = 'YN'
     end
+    object Query2DeRate: TFloatField
+      FieldName = 'DeRate'
+    end
+    object Query2LotQty: TStringField
+      FieldName = 'LotQty'
+      FixedChar = True
+      Size = 50
+    end
+    object Query2TotalQty: TStringField
+      FieldName = 'TotalQty'
+      FixedChar = True
+      Size = 50
+    end
   end
   object UpSQLDetail: TUpdateSQL
     ModifySQL.Strings = (
@@ -1147,6 +1141,7 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
       '  DeLotQty = :DeLotQty,'
       '  TotalQty = :TotalQty,'
       '  DeQty = :DeQty,'
+      '  DeRate = :DeRate,'
       '  Defects = :Defects,'
       '  Inspector = :Inspector,'
       '  Remark = :Remark,'
@@ -1162,6 +1157,7 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
       '  DeLotQty = :OLD_DeLotQty and'
       '  TotalQty = :OLD_TotalQty and'
       '  DeQty = :OLD_DeQty and'
+      '  DeRate = :OLD_DeRate and'
       '  Defects = :OLD_Defects and'
       '  Inspector = :OLD_Inspector and'
       '  Remark = :OLD_Remark and'
@@ -1171,15 +1167,17 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
       '  YN = :OLD_YN')
     InsertSQL.Strings = (
       'insert into QC_MonthlyMaterialDetail'
-      '  (ReportID, Supplier, CLBH, LotQty, DeLotQty, TotalQty, DeQty, '
+      
+        '  (ReportID, Supplier, CLBH, LotQty, DeLotQty, TotalQty, DeQty, ' +
+        'DeRate, '
       '   Defects, Inspector, Remark, OKNG, USERDate, USERID, YN)'
       'values'
       
         '  (:ReportID, :Supplier, :CLBH, :LotQty, :DeLotQty, :TotalQty, :' +
         'DeQty, '
       
-        '   :Defects, :Inspector, :Remark, :OKNG, :USERDate, :USERID, :YN' +
-        ')')
+        '   :DeRate, :Defects, :Inspector, :Remark, :OKNG, :USERDate, :US' +
+        'ERID, :YN)')
     DeleteSQL.Strings = (
       'delete from QC_MonthlyMaterialDetail'
       'where'
@@ -1190,6 +1188,7 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
       '  DeLotQty = :OLD_DeLotQty and'
       '  TotalQty = :OLD_TotalQty and'
       '  DeQty = :OLD_DeQty and'
+      '  DeRate = :OLD_DeRate and'
       '  Defects = :OLD_Defects and'
       '  Inspector = :OLD_Inspector and'
       '  Remark = :OLD_Remark and'

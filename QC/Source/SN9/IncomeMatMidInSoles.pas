@@ -62,8 +62,6 @@ type
     Query1WPLSize: TIntegerField;
     Query1WPRSize: TIntegerField;
     Query1SendDate: TDateTimeField;
-    Query1LabID: TStringField;
-    Query1LabResult: TStringField;
     Query1Reject: TStringField;
     Query1SCFID: TStringField;
     Query1SCFDate: TDateTimeField;
@@ -96,6 +94,8 @@ type
     Query1PreparedDate: TDateTimeField;
     QSig: TQuery;
     btnCfm: TButton;
+    Query1LabID: TStringField;
+    Query1LabResult: TStringField;
     procedure Button1Click(Sender: TObject);
     function NewID: string;
     function GetUsernameByID(const AID: string): string;
@@ -359,10 +359,10 @@ begin
   else
   begin
     LastID := QGetID.FieldByName('ReportID').AsString;
-    Seq := StrToInt(Copy(LastID, 5, 4)) + 1;
+    Seq := StrToInt(Copy(LastID, 5, 5)) + 1;
   end;
 
-  Result := Prefix + FormatFloat('0000', Seq);
+  Result := Prefix + FormatFloat('00000', Seq);
 end;
 
 procedure TIncomeMatMidInSole.Button1Click(Sender: TObject);
@@ -467,7 +467,7 @@ begin
                 Query1.FieldByName('ReportID').Value := NewID;
                 Query1.FieldByName('USERID').Value := main.Edit1.Text;
                 Query1.FieldByName('YN').Value := 1;
-                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                 upsql1.apply(ukinsert);
               end;
             end;
@@ -485,28 +485,28 @@ begin
                  begin
                   Query1.Edit;
                   if DBGrid1.SelectedField.FieldName = 'PreparedID' then
-                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
+                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd', Now)
                   else if MenuCode.Text = 'N941' then
                     begin
                       Query1.FieldByName('USERID').Value := main.Edit1.Text;
-                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N942' then
                     begin
                       Query1.FieldByName('LabUID').Value := main.Edit1.Text;
-                      Query1.FieldByName('LabChgDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('LabChgDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N943' then
                     begin
-                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N944' then
                     begin
-                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N945' then
                     begin
-                      Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   upsql1.apply(ukmodify);
                  end;
@@ -1129,15 +1129,15 @@ begin
       if MenuCode.Text = 'N943' then
       begin
         Query1.FieldByName('SCFID').AsString := Main.Edit1.Text;
-        Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+        Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
       end else if MenuCode.Text = 'N944' then
       begin
         Query1.FieldByName('LCFID').AsString := Main.Edit1.Text;
-        Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+        Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
       end else if MenuCode.Text = 'N945' then
       begin
         Query1.FieldByName('MSCFID').AsString := Main.Edit1.Text;
-        Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
+        Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd', Now)
       end;
 
       Query1.Post; // Post chi vao cache, chua xuong SQL

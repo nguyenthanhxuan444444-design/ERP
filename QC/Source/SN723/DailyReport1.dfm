@@ -1,8 +1,8 @@
 object DailyReport: TDailyReport
-  Left = -8
-  Top = -8
-  Width = 1936
-  Height = 1056
+  Left = 360
+  Top = 254
+  Width = 1156
+  Height = 656
   Caption = 'Daily Syn, Textile & Accessory'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,8 +23,8 @@ object DailyReport: TDailyReport
   object PageControl1: TPageControl
     Left = 0
     Top = 105
-    Width = 1920
-    Height = 912
+    Width = 1140
+    Height = 512
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
@@ -33,8 +33,8 @@ object DailyReport: TDailyReport
       object DBGrid1: TDBGridEh
         Left = 0
         Top = 47
-        Width = 1912
-        Height = 834
+        Width = 1132
+        Height = 434
         Align = alClient
         DataSource = DS_DR
         Flat = False
@@ -304,7 +304,7 @@ object DailyReport: TDailyReport
       object Panel7: TPanel
         Left = 0
         Top = 0
-        Width = 1912
+        Width = 1132
         Height = 47
         Align = alTop
         TabOrder = 1
@@ -493,15 +493,15 @@ object DailyReport: TDailyReport
       object Panel2: TPanel
         Left = 0
         Top = 0
-        Width = 1912
-        Height = 881
+        Width = 1132
+        Height = 481
         Align = alClient
         TabOrder = 0
         object PageControl2: TPageControl
           Left = 1
           Top = 1
-          Width = 1910
-          Height = 879
+          Width = 1130
+          Height = 479
           ActivePage = TabSheet3
           Align = alClient
           TabOrder = 0
@@ -7317,7 +7317,7 @@ object DailyReport: TDailyReport
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1920
+    Width = 1140
     Height = 105
     Align = alTop
     TabOrder = 1

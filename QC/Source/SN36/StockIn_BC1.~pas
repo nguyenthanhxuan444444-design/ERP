@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Buttons, StdCtrls, ExtCtrls, DB, DBTables, GridsEh, DBGridEh, ComObj,
-  ComCtrls;
+  ComCtrls, DateUtils;
 
 type
   TStockIn_BC = class(TForm)
@@ -30,7 +30,6 @@ type
     DBGridEh1: TDBGridEh;
     QKCRKS: TQuery;
     DS2: TDataSource;
-    DBGridEh2: TDBGridEh;
     UP_KCRKS: TUpdateSQL;
     QKCRKSRKNO: TStringField;
     QKCRKSGrade: TStringField;
@@ -94,6 +93,66 @@ type
     Ed_OrderNo: TEdit;
     Label9: TLabel;
     EdSKU: TEdit;
+    QKCRKSCarton_No: TIntegerField;
+    TabSheet3: TTabSheet;
+    DBGridEh3: TDBGridEh;
+    QKCRKSRemainQty: TFloatField;
+    QryPending: TQuery;
+    ds3: TDataSource;
+    updtsql1: TUpdateSQL;
+    DBGridEh2: TDBGridEh;
+    QryPendingSCBH: TStringField;
+    QryPendingDepID: TStringField;
+    QryPendingGSBH: TStringField;
+    QryPendingDefectID: TStringField;
+    QryPendingGrade: TStringField;
+    QryPendingQty: TIntegerField;
+    QryPendingYN: TIntegerField;
+    QryPendingDepName: TStringField;
+    QryPendingRemainQty: TFloatField;
+    Panel4: TPanel;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    dtp3: TDateTimePicker;
+    dtp4: TDateTimePicker;
+    btn1: TButton;
+    chk1: TCheckBox;
+    btn2: TButton;
+    Label10: TLabel;
+    Edit1: TEdit;
+    btn3: TButton;
+    Label11: TLabel;
+    Edit2: TEdit;
+    QKCRKSKCBH: TStringField;
+    tsReset: TTabSheet;
+    QryReset: TQuery;
+    ds4: TDataSource;
+    Panel5: TPanel;
+    BReset: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    dbgrdh1: TDBGridEh;
+    dbgrdh2: TDBGridEh;
+    Qry_rupdate: TQuery;
+    DataSource1: TDataSource;
+    updtsql2: TUpdateSQL;
+    QryResetGrade: TStringField;
+    QryResetDDBH: TStringField;
+    QryResetSize: TStringField;
+    QryResetKCBH: TStringField;
+    QryResetCarton_No: TIntegerField;
+    QryResetQty: TFloatField;
+    QKCRKSRorL: TStringField;
+    Qry_rupdateRKNO: TStringField;
+    Qry_rupdateGrade: TStringField;
+    Qry_rupdateDDBH: TStringField;
+    Qry_rupdateSize: TStringField;
+    Qry_rupdateDefectID: TStringField;
+    Qry_rupdateKCBH: TStringField;
+    Qry_rupdateCarton_No: TIntegerField;
+    Qry_rupdateQty: TFloatField;
+    Qry_rupdateRemainQty: TFloatField;
+    Qry_rupdateCFMDate: TDateTimeField;
     procedure BB1Click(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure BB2Click(Sender: TObject);
@@ -104,10 +163,9 @@ type
     procedure BB7Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
-    procedure QKCRKAfterOpen(DataSet: TDataSet);
     procedure DBGridEh1GetCellParams(Sender: TObject; Column: TColumnEh;
       AFont: TFont; var Background: TColor; State: TGridDrawState);
-    procedure Button2Click(Sender: TObject);
+    procedure B_ResetClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure PC1Change(Sender: TObject);
     procedure DBGridEh1DblClick(Sender: TObject);
@@ -136,6 +194,16 @@ type
     procedure BD8Click(Sender: TObject);
     procedure bbt6Click(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
+    procedure DBGridEh3DblClick(Sender: TObject);
+    procedure DBGridEh3GetCellParams(Sender: TObject; Column: TColumnEh;
+      AFont: TFont; var Background: TColor; State: TGridDrawState);
+    procedure btn2Click(Sender: TObject);
+    procedure btn3Click(Sender: TObject);
+    procedure BResetClick(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure QKCRKAfterOpen(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -172,20 +240,24 @@ end;
         
 procedure TStockIn_BC.FormCreate(Sender: TObject);
 begin
-  if (main.ServerIP = '192.168.23.9') then
+  if main.Edit2.Text='TBA' then         //NB
   begin
     workflow := true;
+    DBGridEh1.Columns[11].Visible := false;
+    DBGridEh2.Columns[13].Visible := false;
+    PC1.Pages[2].TabVisible := False;
   end
   else begin
     workflow := false;
     DBGridEh1.Columns[9].Visible := false;
-//    Label4.Visible := false;
-//    GB1.Visible := false;
-//    CB2.Checked := false;
-//    CB3.Checked := false;
-//    CB4.Checked := false;
+    Label4.Visible := false;
+    GB1.Visible := false;
+    CB2.Checked := false;
+    CB3.Checked := false;
+    CB4.Checked := false;
 //    Button1.Left := 704;
   end;
+  //PC1.Pages[4].TabVisible := False;
 
   with QSearch do
   begin
@@ -214,7 +286,7 @@ begin
       SQL.Add('SELECT YYBH, YWSM AS ZWSM FROM QCBLYY')
     else
       SQL.Add('SELECT YYBH, ZWSM FROM QCBLYY');
-    SQL.Add('WHERE GSBH = ''' + main.Edit2.Text + ''' AND DFL = ''AR'' AND YN = ''2''');
+    SQL.Add('WHERE GSBH = ''' + main.Edit2.Text + ''' AND DFL = ''AR'' AND YN = ''4''');
     SQL.Add('ORDER BY YYBH');
     Active := true;
 
@@ -232,6 +304,8 @@ begin
 
   DTP1.Date := Date - 3;
   DTP2.Date := Date;
+  DTP3.Date := Date - 7;
+  DTP4.Date := Date;
   PC1.ActivePageIndex := 0;
   BB1Click(Nil);
 end;
@@ -268,7 +342,6 @@ begin
   end;
   if (StatusSQL = '') then
     StatusSQL := '1 = 0';
-
   with QKCRK do
   begin
     Active := false;
@@ -300,14 +373,16 @@ begin
       SQL.Add('AND DepID LIKE ''' + ED_DepID.Text + '%''');
     if (ED_DepName.Text <> '') then
       SQL.Add('AND DepName LIKE ''' + ED_DepName.Text + '%''');
-    SQL.Add('AND (' + StatusSQL + ')');
+      
+    if main.Edit2.Text='TBA' then
+      SQL.Add('AND (' + StatusSQL + ')');
     SQL.Add('GROUP BY RKNO, Building, DepID, DepName, DepMemo, CFMDate, UserID, UserDate, YN, Status, GSBH');
     SQL.Add('ORDER BY RKNO DESC');
     //showmessage(SQL.Text);
     //funcobj.WriteErrorLog(sql.Text);
     Active := true;
   end;
-  QKCRKS.Active := true;
+  QKCRKS.Active := true;      
 end;
 
 procedure TStockIn_BC.BB2Click(Sender: TObject);
@@ -377,7 +452,7 @@ end;
 procedure TStockIn_BC.BB5Click(Sender: TObject);
 var
   i: integer;
-  Year, Month, RKNO: string;
+  Year, Month, RKNO, KCBH: string;
 begin
   try
     QKCRK.First;
@@ -386,9 +461,10 @@ begin
       case QKCRK.UpdateStatus of
         usInserted:
         begin
-          if (QKCRK.FieldByName('Building').AsString = '') then
+          if (QKCRK.FieldByName('Building').AsString = '')  then
           begin
-            QKCRK.Delete;
+            showmessage('Building Need to fill');
+            Exit;
           end
           else begin
             //計算入庫單流水號
@@ -425,15 +501,10 @@ begin
 
             QKCRK.Edit;
             QKCRK.FieldByName('RKNO').Value := RKNO;
+            //KCBH:=QKCRK.FieldByName('KCBH').AsString;
             QKCRK.FieldByName('UserID').Value := main.Edit1.Text;
             QKCRK.FieldByName('GSBH').Value := main.Edit2.Text;
             UP_KCRK.Apply(ukInsert);
-            if (workflow = false) then
-            begin
-              QUpdate.SQL.Clear;
-              QUpdate.SQL.Add('UPDATE KCRK_BC SET CFMDate = GetDate() WHERE RKNO = ''' + RKNO + '''');
-              QUpdate.ExecSQL;
-            end;
           end;
         end;
 
@@ -510,29 +581,24 @@ begin
   Department_BC.Show;
 end;
 
-procedure TStockIn_BC.QKCRKAfterOpen(DataSet: TDataSet);
-begin
-  BB2.Enabled := true;
-  // BB3.Enabled := true;
-  BB4.Enabled := true;
-end;
-
 procedure TStockIn_BC.DBGridEh1GetCellParams(Sender: TObject;
   Column: TColumnEh; AFont: TFont; var Background: TColor;
   State: TGridDrawState);
 begin
-  if (QKCRK.FieldByName('Status').AsString = 'Cancelled') then
-    DBGridEh1.Canvas.Font.Color := clFuchsia
-  else if (QKCRK.FieldByName('Status').AsString = 'Stock-In') then
-    DBGridEh1.Canvas.Font.Color := $0000D500
-  else if (QKCRK.FieldByName('Status').AsString = 'Under Review') then
-    DBGridEh1.Canvas.Font.Color := clBlue;
+
+  if main.Edit2.Text='TBA' then
+    if (QKCRK.FieldByName('Status').AsString = 'Cancelled') then
+      DBGridEh1.Canvas.Font.Color := clFuchsia
+    else if (QKCRK.FieldByName('Status').AsString = 'Stock-In') then
+      DBGridEh1.Canvas.Font.Color := $0000D500
+    else if (QKCRK.FieldByName('Status').AsString = 'Under Review') then
+      DBGridEh1.Canvas.Font.Color := clBlue;
 
   if (QKCRK.FieldByName('YN').AsString = '0') then
     DBGridEh1.Canvas.Font.Color := clRed;
 end;
 
-procedure TStockIn_BC.Button2Click(Sender: TObject);
+procedure TStockIn_BC.B_ResetClick(Sender: TObject);
 var
   a: string;
   eclApp, WorkBook: OleVariant;
@@ -579,12 +645,16 @@ procedure TStockIn_BC.PC1Change(Sender: TObject);
 begin
   if (PC1.ActivePageIndex = 0) then
   begin
+    Panel1.Visible := false;
+    Panel1.Visible := true;
+    Panel2.Visible := false;
     Panel2.Visible := true;
     Panel3.Visible := false;
   end
-  else begin
+  else if (PC1.ActivePageIndex = 1) then begin
     Panel3.Visible := true;
     Panel2.Visible := false;
+    Panel1.Visible := false;
     if (QKCRK.Active) then
     begin
       if (QKCRK.RecordCount > 0) then
@@ -604,6 +674,12 @@ begin
       BD3.Enabled := false;
       BD4.Enabled := false;
     end;
+  end
+  else
+  begin
+    Panel2.Visible := false;  
+    Panel3.Visible := false;
+    Panel1.Visible := false;
   end;
 end;
 
@@ -650,6 +726,7 @@ begin
   DBGridEh2.Columns[2].ButtonStyle := cbsEllipsis;
   DBGridEh2.Columns[9].ButtonStyle := cbsAuto;
   DBGridEh2.Columns[11].ButtonStyle := cbsAuto;
+  //DBGridEh2.Columns[13].ButtonStyle := cbsAuto;
   BD5.Enabled := true;
   BD6.Enabled := true;
 end;
@@ -697,6 +774,7 @@ begin
   DBGridEh2.Columns[2].ButtonStyle := cbsEllipsis;
   DBGridEh2.Columns[9].ButtonStyle := cbsAuto;
   DBGridEh2.Columns[11].ButtonStyle := cbsAuto;
+  //DBGridEh2.Columns[13].ButtonStyle := cbsAuto;
   BD5.Enabled := true;
   BD6.Enabled := true;
 end;
@@ -709,17 +787,31 @@ begin
     QKCRKS.First;
     for i := 1 to QKCRKS.RecordCount do
     begin
+      if ((QKCRKS.FieldByName('Qty').value - Trunc(QKCRKS.FieldByName('Qty').value)) <> 0) and (QKCRKS.FieldByName('RorL').AsString='')then
+      begin
+            showmessage('RorL can not be null for single shoe');
+            Exit;
+      end;
+      if main.Edit2.Text='TBA' then
+      begin
+        QKCRK.Edit;                              
+        QKCRK.FieldByName('KCBH').Value := 'NON';
+        QKCRK.FieldByName('Carton_No').Value := -1;
+      end;
       case QKCRKS.UpdateStatus of
         usInserted:
         begin
-          if (QKCRKS.FieldByName('Grade').AsString <> '') AND (QKCRKS.FieldByName('DDBH').AsString <> '') AND (QKCRKS.FieldByName('Size').AsString <> '') AND (QKCRKS.FieldByName('DefectID').AsString <> '') then
-          begin
+          if (QKCRKS.FieldByName('Grade').AsString <> '') AND (QKCRKS.FieldByName('DDBH').AsString <> '') AND (QKCRKS.FieldByName('Size').AsString <> '')
+                AND (QKCRKS.FieldByName('DefectID').AsString <> '') AND (QKCRKS.FieldByName('Carton_No').AsString <> '') AND (QKCRKS.FieldByName('KCBH').AsString <> '')then
+          begin            
             QKCRKS.Edit;
             QKCRKS.FieldByName('UserID').Value := main.Edit1.Text;
             UP_KCRKS.Apply(ukInsert);
-          end 
+          end
           else begin
-            QKCRKS.Delete;
+            showmessage('Grade/DDBH/Size/DefectID/KCBH/Carton_No Need to fill');
+            Exit;
+            //QKCRKS.Delete;
           end
         end;
 
@@ -744,12 +836,40 @@ begin
           begin
             UP_KCRKS.Apply(ukDelete);
           end
-          else if (QKCRKS.FieldByName('Grade').AsString <> '') AND (QKCRKS.FieldByName('DDBH').AsString <> '') AND (QKCRKS.FieldByName('Size').AsString <> '') AND (QKCRKS.FieldByName('DefectID').AsString <> '') then
+          else if (QKCRKS.FieldByName('Grade').AsString <> '') AND (QKCRKS.FieldByName('DDBH').AsString <> '') AND (QKCRKS.FieldByName('Size').AsString <> '')
+                AND (QKCRKS.FieldByName('DefectID').AsString <> '') AND (QKCRKS.FieldByName('Carton_No').AsString <> '') AND (QKCRKS.FieldByName('KCBH').AsString <> '')then
           begin
+              //check if stock out
+              with QSearch do
+              begin
+                Active := false;
+                SQL.Clear;
+                SQL.Add('select RemainQty-Qty as Qty from KCRKS_BC');
+                SQL.Add('where RKNO='''+QKCRK.FieldByName('RKNO').AsString+''' and DDBH='''+QKCRK.FieldByName('DDBH').AsString+'''');
+                SQL.Add('and Grade='''+QKCRK.FieldByName('Grade').AsString+''' and size='''+QKCRK.FieldByName('size').AsString+''' and defectID='''+QKCRK.FieldByName('defectID').AsString+'''');
+                SQL.Add('and Carton_No='''+QKCRK.FieldByName('Carton_No').AsString+''' and KCBH='''+QKCRK.FieldByName('KCBH').AsString+'''');
+                Active := true;
+
+                if (RecordCount > 0) then
+                begin     
+                    QKCRKS.Edit;
+                    QKCRKS.FieldByName('RemainQty').Value := QKCRKS.FieldByName('Qty').Value+QSearch.FieldByName('Qty').Value;
+                    if QKCRKS.FieldByName('RemainQty').Value<0 then
+                    begin
+                      ShowMessage('RemainQty can not be <0, check with IT');
+                      Exit;
+                    end;
+                end;
+              end;
             QKCRKS.Edit;
             QKCRKS.FieldByName('UserID').Value := main.Edit1.text;
             UP_KCRKS.Apply(ukModify);
-          end;
+          end
+          else begin
+            showmessage('Grade/DDBH/Size/DefectID/KCBH/Carton_No Need to fill');
+            Exit;
+            //QKCRKS.Delete;
+          end
         end;
       end;
 
@@ -772,7 +892,7 @@ begin
       QKCRK.RequestLive := true;
       QKCRK.CachedUpdates := true;
       QKCRK.Edit;
-      DBGridEh1.Columns[1].ReadOnly := true;  
+      DBGridEh1.Columns[1].ReadOnly := true;
       DBGridEh1.Columns[2].ReadOnly := true;
       QKCRK.FieldByName('B').Value := FieldByName('B').Value;
       QKCRK.FieldByName('C').Value := FieldByName('C').Value;
@@ -782,6 +902,7 @@ begin
     DBGridEh2.Columns[2].ButtonStyle := cbsNone;
     DBGridEh2.Columns[9].ButtonStyle := cbsNone;
     DBGridEh2.Columns[11].ButtonStyle := cbsNone;
+    //DBGridEh2.Columns[13].ButtonStyle := cbsNone;
     BD5.Enabled := false;
     BD6.Enabled := false;
   except
@@ -803,6 +924,7 @@ begin
   DBGridEh2.Columns[2].ButtonStyle := cbsNone;
   DBGridEh2.Columns[9].ButtonStyle := cbsNone;
   DBGridEh2.Columns[11].ButtonStyle := cbsNone;
+  //DBGridEh2.Columns[13].ButtonStyle := cbsNone;
   BD5.Enabled := false;
   BD6.Enabled := false;
 end;
@@ -857,7 +979,7 @@ end;
 
 procedure TStockIn_BC.QKCRKNewRecord(DataSet: TDataSet);
 begin
-  QKCRK.FieldByName('RKNO').Value := '(Auto-Generated)';
+  //QKCRK.FieldByName('RKNO').Value := '(Auto-Generated)';
 end;
 
 procedure TStockIn_BC.DBGridEh2Columns6EditButtonClick(Sender: TObject;
@@ -872,13 +994,15 @@ end;
 procedure TStockIn_BC.DBGridEh2GetCellParams(Sender: TObject;
   Column: TColumnEh; AFont: TFont; var Background: TColor;
   State: TGridDrawState);
-begin
-  if (QKCRK.FieldByName('Status').AsString = 'Cancelled') then
-    DBGridEh2.Canvas.Font.Color := clFuchsia
-  else if (QKCRK.FieldByName('Status').AsString = 'Stock-In') then
-    DBGridEh2.Canvas.Font.Color := $0000D500
-  else if (QKCRK.FieldByName('Status').AsString = 'Under Review') then
-    DBGridEh2.Canvas.Font.Color := clBlue;
+begin                                           
+
+  if main.Edit2.Text='TBA' then
+    if (QKCRK.FieldByName('Status').AsString = 'Cancelled') then
+      DBGridEh2.Canvas.Font.Color := clFuchsia
+    else if (QKCRK.FieldByName('Status').AsString = 'Stock-In') then
+      DBGridEh2.Canvas.Font.Color := $0000D500
+    else if (QKCRK.FieldByName('Status').AsString = 'Under Review') then
+      DBGridEh2.Canvas.Font.Color := clBlue;
 
   if (QKCRKS.FieldByName('YN').AsString = '0') then
     DBGridEh2.Canvas.Font.Color := clRed;
@@ -985,6 +1109,392 @@ begin
       ShowMessage(F.Message);
     end;
   end;
+end;
+
+procedure TStockIn_BC.btn1Click(Sender: TObject);
+begin
+
+  with QryPending do
+  begin
+    Active := false;
+    SQL.Clear;
+    sql.add('SELECT qcr.SCBH,');
+    sql.add('    qcr.DepNO as DepID,');
+    sql.add('    qcr.GSBH,');
+    sql.add('     LEFT(qcrd.YYBH,4) as DefectID,right(qcrd.YYBH,1) as Grade');
+    sql.add('    ,BDepartment.DepName');
+    sql.add('    ,SUM(qcrd.Qty) AS Qty');
+    sql.add('    ,SUM(qcrd.Qty)-ISNULL(RK_BC.Qty,0) as RemainQty');
+    sql.add('	   , case when SUM(qcrd.Qty)-ISNULL(RK_BC.Qty,0)>0 then 0 else 1 end as YN');
+    sql.add('FROM (select DISTINCT SCBH,GSBH from qcr where 1=1');
+    sql.add('    AND qcr.GSBH = ''' + main.Edit2.Text + '''');
+    sql.add('    AND qcr.USERDATE >= ''' + FormatDateTime('yyyy/MM/dd', DTP3.Date) + '''');
+    sql.add('    AND qcr.USERDATE < ''' + FormatDateTime('yyyy/MM/dd', DTP4.Date) + '''');
+    sql.add('    AND qcr.SCBH IS NOT NULL');
+    sql.add('and GXLB=''A''');
+    sql.add(') A');
+    sql.add('left join qcr on A.SCBH=qcr.SCBH and  A.GSBH=qcr.GSBH --full order');
+    sql.add('LEFT JOIN BDepartment  ON BDepartment.ID = qcr.DepNo');
+    sql.add('inner JOIN qcrd ON qcr.ProNo = qcrd.ProNo and  qcrd.YYBH LIKE ''%[B-C]'' ');
+    sql.add('left join (select DDBH,DepID,GSBH,DefectID,Grade,sum(Qty)as Qty from KCRKS_BC ');
+    sql.add('		left join KCRK_BC on KCRKS_BC.RKNO=KCRK_BC.RKNO group by  DDBH,DepID,GSBH,DefectID,Grade');
+    sql.add('   )RK_BC on RK_BC.DDBH=qcr.SCBH and RK_BC.DepID=qcr.DepNO and RK_BC.GSBH=qcr.GSBH ');
+    sql.add('             and RK_BC.DefectID=LEFT(qcrd.YYBH,4) and RK_BC.Grade=right(qcrd.YYBH,1) ');
+    sql.add('WHERE 1=1');
+    sql.add('GROUP BY ');
+    sql.add('    qcr.SCBH');
+    sql.add('    ,qcr.DepNO,BDepartment.DepName ');
+    sql.add('    ,qcr.GSBH');
+    sql.add('    ,qcrd.YYBH,RK_BC.Qty');
+    sql.add('Order by DepNO');
+
+    //showmessage(SQL.Text);
+    //funcobj.WriteErrorLog(sql.Text);
+    Active := true;
+  end;
+end;
+
+procedure TStockIn_BC.DBGridEh3DblClick(Sender: TObject);
+begin
+  if (DBGridEh3.SelectedField.FieldName = 'DepID') then
+  begin
+    ED_DepID.Text:=QryPending.FieldByName('DepID').value;      
+    with QSearch do
+    begin
+      Active := false;
+      SQL.Clear;
+      SQL.Add('SELECT Xuong, ID, DepName, DepMemo FROM BDepartment');
+      SQL.Add('where ID = '''+QryPending.FieldByName('DepID').AsString+'''');
+      //ShowMessage(SQL.text);
+      Active := true;
+
+      Button1Click(nil);
+      BB2Click(nil);
+
+      QKCRK.Edit;
+      QKCRK.FieldByName('Building').Value := FieldByName('Xuong').AsString;
+      QKCRK.FieldByName('DepID').Value := FieldByName('ID').AsString;
+      QKCRK.FieldByName('DepName').Value := FieldByName('DepName').AsString;
+      QKCRK.FieldByName('DepMemo').Value := FieldByName('DepMemo').AsString;      
+      Active := false;
+    end;
+    //BB5.Click;                   
+    Panel1.Visible := false;
+    Panel1.Visible := true;
+    Panel2.Visible := true;
+    Panel3.Visible := false;
+    PC1.ActivePageIndex:=0;
+  end;
+  
+  if (DBGridEh3.SelectedField.FieldName <> 'DepID') then
+  begin
+    if  not QKCRK.Active then
+      Exit;
+    if QKCRK.FieldByName('DepID').Value<>QryPending.FieldByName('DepID').value then
+    begin
+      ShowMessage('DepID Not the same!');
+      Exit;
+    end;
+
+    BD2.Click;
+    QKCRKS.Edit;
+    QKCRKS.FieldByName('Grade').Value := QryPending.FieldByName('Grade').AsString;
+    QKCRKS.FieldByName('DDBH').Value := QryPending.FieldByName('SCBH').AsString;
+    QKCRKS.FieldByName('Qty').Value := QryPending.FieldByName('Qty').AsString;
+    //add
+    if DBGridEh2.Columns[11].KeyList.IndexOf(QryPending.FieldByName('DefectID').AsString) = -1 then
+    begin
+      DBGridEh2.Columns[11].KeyList.Add(QryPending.FieldByName('DefectID').AsString);
+      DBGridEh2.Columns[11].PickList.Add(QryPending.FieldByName('DefectID').AsString);
+    end;
+    //  DBGridEh2.Columns[11].KeyList.Add(QryPending.FieldByName('DefectID').AsString);
+    QKCRKS.FieldByName('DefectID').Value := QryPending.FieldByName('DefectID').AsString;
+
+    QryPending.RequestLive := true;
+    QryPending.CachedUpdates := true;
+    QryPending.Edit;
+    QryPending.FieldByName('YN').Value := 1;
+    
+    Panel3.Visible := true;
+    Panel2.Visible := false;
+    Panel1.Visible := false;
+    PC1.ActivePageIndex:=1;  
+  end;
+end;
+
+procedure TStockIn_BC.DBGridEh3GetCellParams(Sender: TObject;
+  Column: TColumnEh; AFont: TFont; var Background: TColor;
+  State: TGridDrawState);
+begin
+  if (QryPending.FieldByName('YN').AsString = '0') then
+    DBGridEh3.Canvas.Font.Color := clFuchsia
+end;
+
+procedure TStockIn_BC.btn2Click(Sender: TObject);
+var
+  iYear, iMonth, iDay: Word;
+  sYear, sMonth: string; //讀取系統年月，用於抓取上月月結資料
+  Year, Month, RKNO, LLNO: string; //讀取最新入庫單編號
+  NDate: TDate;
+begin
+  if NOT QryPending.Active then
+  begin
+    showmessage('There is no Data!');
+    exit;
+  end;
+  if (Edit1.Text ='') or (Edit2.Text ='')  then
+  begin
+    showmessage('Please fill in Size & Qty!');
+    exit;
+  end;
+
+  if (QryPending.fieldbyname('YN').Value =0) then
+  begin
+
+    with QSearch do
+    begin
+      Active := false;
+      SQL.Clear;
+      SQL.Add('SELECT ');
+      SQL.Add('    CAST(YEAR(DATEADD(MONTH, -1, GETDATE())) AS VARCHAR(4)) AS PreviousYear, ');
+      SQL.Add('    RIGHT(''0'' + CAST(MONTH(DATEADD(MONTH, -1, GETDATE())) AS VARCHAR(2)), 2) AS PreviousMonth ');
+      Active := true;
+      sYear := FieldByName('PreviousYear').AsString;
+      sMonth := FieldByName('PreviousMonth').AsString;
+    end;
+
+    with QryPending do
+    begin
+      RequestLive := true;
+      CachedUpdates := true;
+      edit;
+      FieldByName('Qty').AsString := FieldByName('Qty').value -strtoint(Edit2.text);
+      FieldByName('RemainQty').AsString := FieldByName('RemainQty').value -strtoint(Edit2.text);
+      btn3Click(nil);
+    end;
+
+    with QSearch do
+    begin
+      Active := false;
+      SQL.Clear;
+      SQL.Add('SELECT GetDate() AS Today');
+      Active := true;
+      Year := FormatDateTime('yyyy', FieldByName('Today').AsDateTime);
+      Month := FormatDateTime('MM', FieldByName('Today').AsDateTime);
+      NDate := fieldbyname('Today').Value;
+
+      Active := false;
+      SQL.Clear;
+      SQL.Add('SELECT top 1 RKNO FROM KCRK_BC WHERE RKNO LIKE ''' + Year + Month + '%''');
+      SQL.Add('ORDER BY RKNO desc');
+      Active := true;
+      if (RecordCount > 0) then
+      begin
+        RKNO := FieldByName('RKNO').AsString;
+        RKNO := Copy(RKNO, 7, 5);
+        RKNO := IntToStr(StrToInt(RKNO) + 1);
+        while Length(RKNO) < 5 do
+        begin
+          RKNO := '0' + RKNO;
+        end;
+      end
+      else
+        RKNO := '00001';
+      RKNO := Year + Month + RKNO;
+
+      Active := false;
+      SQL.Clear;
+      SQL.Add('SELECT top 1 LLNO FROM KCLL_BC WHERE LLNO LIKE ''' + Year + Month + '%''');
+      SQL.Add('ORDER BY LLNO desc');
+      Active := true;
+      if (RecordCount > 0) then
+      begin
+        LLNO := FieldByName('LLNO').AsString;
+        LLNO := Copy(LLNO, 7, 5);
+        LLNO := IntToStr(StrToInt(LLNO) + 1);
+        while Length(LLNO) < 5 do
+        begin
+          LLNO := '0' + LLNO;
+        end;
+      end
+      else
+        LLNO := '00001';
+      LLNO := Year + Month + LLNO;
+      //如果有入庫單，新增一筆C級別的入庫單
+      Active := false;
+      SQL.Clear;
+      SQL.Add('Insert into KCRK_BC (RKNO, GSBH, CFMDate, flowflag, UserID, UserDate, YN,DepID)');
+      SQL.Add('Values (''' + RKNO + ''', ''' + main.Edit2.Text + ''', ''' + formatdatetime('YYYY/MM/DD HH:MM:SS', NDate) +
+        ''', ''Z'', ''' + main.Edit1.Text + ''', ''' + formatdatetime('YYYY/MM/DD HH:MM:SS', NDate) + ''', ''1'','''+QryPending.FieldByName('DepID').AsString+''')');
+
+      SQL.Add('Insert into KCRKS_BC (RKNO, Grade, DDBH, Size, Qty, CheckDate, UserID, UserDate, YN, DefectID,Carton_No, KCBH)');
+      SQL.Add('Values (''' + RKNO + ''', '''+QryPending.FieldByName('Grade').AsString+''', ''' + QryPending.FieldByName('SCBH').AsString + ''', ''' +
+        Edit1.text + ''', ' + QryPending.FieldByName('Qty').AsString + ', ''' +
+        formatdatetime('YYYY/MM/DD HH:MM:SS', NDate) + ''', ''' + main.Edit1.Text + ''', ''' +
+        formatdatetime('YYYY/MM/DD HH:MM:SS', NDate) + ''', ''1'','''+QryPending.FieldByName('DefectID').AsString+''', 0, ''Non'')');
+
+      //再新增一筆C級別的出庫單
+      SQL.Add('Insert into KCLL_BC (LLNO, Purpose, GSBH, ZLBH, CFMDATE,  UserID, UserDate, YN)');
+      SQL.Add('Values (''' + LLNO + ''', ''Return'', ''' + main.Edit2.Text + ''', null, ''' +
+        formatdatetime('YYYY/MM/DD HH:MM:SS', NDate) + ''',   ''' + main.Edit1.Text + ''', '''+
+        formatdatetime('YYYY/MM/DD HH:MM:SS', NDate) + ''', 1)');
+
+      SQL.Add('Insert into KCLLS_BC (LLNO, Grade, DDBH, Size, Qty, UserID, UserDate, YN,KCBH,Carton_No,RKNO,DefectID)');
+      SQL.Add('Values (''' + LLNO + ''', '''+QryPending.FieldByName('Grade').AsString+''', ''' + QryPending.FieldByName('SCBH').AsString +  ''',''' +
+        Edit1.text+ ''', ' + QryPending.FieldByName('Qty').AsString + ', '''+ main.Edit1.Text + ''', ''' +
+        formatdatetime('YYYY/MM/DD HH:MM:SS', NDate) + ''', 1,''Non'',0,''' + RKNO + ''',''' + QryPending.FieldByName('DefectID').AsString + ''')');
+
+      //showmessage(SQL.Text);
+      //exit;
+      ExecSQL();
+    end;
+  end;
+end;
+
+procedure TStockIn_BC.btn3Click(Sender: TObject);
+var
+  DepID, DepName, SCBH, GSBH, DefectID, Grade, YN: string;
+begin
+  with QryPending do
+  begin
+    DepID := FieldByName('DepID').AsString;
+    DepName := FieldByName('DepName').AsString;
+    SCBH := FieldByName('SCBH').AsString;
+    GSBH := FieldByName('GSBH').AsString;
+    DefectID := FieldByName('DefectID').AsString;
+    Grade := FieldByName('Grade').AsString;
+    YN := FieldByName('YN').AsString;
+
+    Insert;
+    Edit;
+
+    FieldByName('DepID').AsString := DepID;
+    FieldByName('DepName').AsString := DepName;
+    FieldByName('SCBH').AsString := SCBH;
+    FieldByName('GSBH').AsString := GSBH;
+    FieldByName('DefectID').AsString := DefectID;
+    FieldByName('Grade').AsString := Grade;
+    FieldByName('YN').AsString := '1';
+    FieldByName('Qty').AsString := Edit2.text;
+    FieldByName('RemainQty').AsString := '0';
+  end;
+end;
+
+procedure TStockIn_BC.BResetClick(Sender: TObject);
+begin
+
+  with QSearch do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add('SELECT YEAR(DATEADD(MM, -1, GetDate())) AS KCYear, RIGHT(''00'' + CAST(MONTH(DATEADD(MM, -1, GetDate())) AS VARCHAR), 2) AS KCMonth, GetDate() AS Today');
+    Active := true;
+  end;
+  with QryReset do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add('SELECT KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size,KCBH,Carton_No');
+    SQL.Add('       , SUM(KCRKS_BC.Qty) AS Qty FROM (');
+    //前月期末
+    SQL.Add('  SELECT Grade, DDBH, Size, Qty,KCBH,Carton_No FROM BCShoeMonth');
+    SQL.Add('  WHERE KCYear = ''' + QSearch.FieldByName('KCYear').AsString + ''' AND KCMonth = ''' + QSearch.FieldByName('KCMonth').AsString + '''');
+    SQL.Add('  UNION ALL');
+    //當月入庫
+    SQL.Add('  SELECT KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size, KCRKS_BC.Qty,KCBH,Carton_No FROM KCRKS_BC');
+    SQL.Add('  LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
+      SQL.Add('    WHERE (KCRK_BC.flowflag not in (''X'') or (KCRK_BC.flowflag is null))');
+    SQL.Add('  AND CONVERT(VARCHAR, KCRK_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(QSearch.FieldByName('Today').AsDateTime)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', QSearch.FieldByName('Today').AsDateTime) + '''');
+    SQL.Add('  UNION ALL');
+    //當月出庫
+    SQL.Add('  SELECT KCLLS_BC.Grade, KCLLS_BC.DDBH, KCLLS_BC.Size, KCLLS_BC.Qty*-1 AS Qty,KCBH,Carton_No FROM KCLLS_BC');
+    SQL.Add('  LEFT JOIN KCLL_BC ON KCLL_BC.LLNO = KCLLS_BC.LLNO');
+      SQL.Add('    WHERE (KCLL_BC.flowflag not in (''X'') or (KCLL_BC.flowflag is null)) ');
+    SQL.Add('  AND CONVERT(VARCHAR, KCLL_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(QSearch.FieldByName('Today').AsDateTime)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', QSearch.FieldByName('Today').AsDateTime) + '''');
+    SQL.Add(') AS KCRKS_BC');
+    SQL.Add('LEFT JOIN DDZL ON DDZL.DDBH = KCRKS_BC.DDBH');
+    SQL.Add('LEFT JOIN XXZL ON XXZL.XieXing = DDZL.XieXing AND XXZL.SheHao = DDZL.SheHao');
+    SQL.Add('WHERE 1 = 1');
+    SQL.Add('GROUP BY KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size,KCBH,Carton_No');
+    SQL.Add('HAVING SUM(KCRKS_BC.Qty) > 0');
+    //showmessage(SQL.text);
+    Active := true;
+  end;
+  Qry_rupdate.Active:= true;
+  Qry_rupdate.RequestLive := true;
+  Qry_rupdate.CachedUpdates := true;
+  //Qry_rupdate.Edit;
+
+
+end;
+
+procedure TStockIn_BC.Button3Click(Sender: TObject);
+var 
+  updateQty:Double;
+begin
+  updateQty:=QryReset.FieldByName('Qty').Value;
+  with Qry_rupdate do
+  begin
+      First;          
+          //ShowMessage('123');
+      while not eof do
+      begin
+          if updateQty<=0 then
+                Break;
+          Edit;
+          if FieldByName('Qty').Value>updateQty then
+          begin
+               FieldByName('RemainQty').Value:=updateQty;
+               updateQty:=0;
+          end
+          else            
+          begin
+               FieldByName('RemainQty').Value:=FieldByName('Qty').Value;
+               updateQty:=updateQty-FieldByName('Qty').Value;
+          end;
+          //ShowMessage('123');
+          updtsql2.Apply(ukModify);
+          Next;
+      end;
+
+  end;
+end;
+
+procedure TStockIn_BC.Button4Click(Sender: TObject);
+begin
+    with QUpdate do
+    begin
+           active:=false;
+           SQL.Clear;
+           SQL.Add('Update KCLLS_BC Set RKNO=''NON''');
+           SQL.Add('Update KCLLS_BC Set DefectID=''NON''');
+           SQL.Add('Update KCLLS_BC Set Carton_No= -1;');
+           SQL.Add('Update KCLLS_BC Set KCBH=''NON''');
+           SQL.Add('Update KCRKS_BC Set Carton_No= -1;');
+           SQL.Add('Update KCRKS_BC Set KCBH=''NON''');
+           SQL.Add('Update BCShoeMonth Set Carton_No= -1;');
+           SQL.Add('Update BCShoeMonth Set KCBH=''NON''');
+           SQL.Add('Update KCRKS_BC Set RemainQty= null;');
+           SQL.Add('Update KCRKS_BC Set RemainQty= 0 FROM KCRKS_BC left join KCRK_BC on KCRK_BC.RKNO=KCRKS_BC.RKNO');
+           SQL.Add('where KCRK_BC.CFMDate is not null and (KCRK_BC.flowflag not in (''X'') or (KCRK_BC.flowflag is null))');
+           //showmessage(SQL.text);
+           ExecSQL();
+    end;
+    with QryReset do
+    begin
+      First;
+      while not Eof do
+      begin
+           Button3Click(nil);
+           Next;
+      end;
+    end;
+end;
+
+procedure TStockIn_BC.QKCRKAfterOpen(DataSet: TDataSet);
+begin                 
+  BB2.Enabled := true;
+  BB4.Enabled := true;
 end;
 
 end.
