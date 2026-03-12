@@ -92,9 +92,16 @@ object RejectedMaterial: TRejectedMaterial
       Height = 20
       Caption = 'DDBH:'
     end
+    object Label6: TLabel
+      Left = 760
+      Top = 80
+      Width = 94
+      Height = 20
+      Caption = 'DefectName:'
+    end
     object Button1: TButton
       Left = 659
-      Top = 89
+      Top = 113
       Width = 81
       Height = 33
       Caption = 'Search'
@@ -134,8 +141,8 @@ object RejectedMaterial: TRejectedMaterial
       TabOrder = 4
     end
     object MenuCode: TEdit
-      Left = 1008
-      Top = 56
+      Left = 776
+      Top = 8
       Width = 121
       Height = 28
       ReadOnly = True
@@ -467,6 +474,16 @@ object RejectedMaterial: TRejectedMaterial
       Height = 28
       TabOrder = 19
     end
+    object DBMemo1: TDBMemo
+      Left = 856
+      Top = 48
+      Width = 409
+      Height = 97
+      DataField = 'DefectName'
+      DataSource = DS1
+      ScrollBars = ssVertical
+      TabOrder = 20
+    end
   end
   object DBGrid1: TDBGridEh
     Left = 0
@@ -549,6 +566,7 @@ object RejectedMaterial: TRejectedMaterial
         FieldName = 'DeReason'
         Footers = <>
         Width = 200
+        OnEditButtonClick = DBGrid1Columns7EditButtonClick
       end
       item
         EditButtons = <>
@@ -624,6 +642,12 @@ object RejectedMaterial: TRejectedMaterial
         Footers = <>
         Visible = False
         Width = 50
+      end
+      item
+        EditButtons = <>
+        FieldName = 'DefectName'
+        Footers = <>
+        Visible = False
       end>
   end
   object Query1: TQuery
@@ -631,7 +655,7 @@ object RejectedMaterial: TRejectedMaterial
     DatabaseName = 'DB'
     SQL.Strings = (
       'select * from QC_RejectMat'
-      'where 1=3'
+      'where 1=2'
       '')
     UpdateObject = UpSQL1
     Left = 512
@@ -721,6 +745,11 @@ object RejectedMaterial: TRejectedMaterial
     object Query1YN: TSmallintField
       FieldName = 'YN'
     end
+    object Query1DefectName: TStringField
+      FieldName = 'DefectName'
+      FixedChar = True
+      Size = 255
+    end
   end
   object DS1: TDataSource
     DataSet = Query1
@@ -752,7 +781,8 @@ object RejectedMaterial: TRejectedMaterial
       '  PreparedID = :PreparedID,'
       '  USERDate = :USERDate,'
       '  USERID = :USERID,'
-      '  YN = :YN'
+      '  YN = :YN,'
+      '  DefectName = :DefectName'
       'where'
       '  ReportID = :OLD_ReportID and'
       '  InDate = :OLD_InDate and'
@@ -775,7 +805,8 @@ object RejectedMaterial: TRejectedMaterial
       '  PreparedID = :OLD_PreparedID and'
       '  USERDate = :OLD_USERDate and'
       '  USERID = :OLD_USERID and'
-      '  YN = :OLD_YN')
+      '  YN = :OLD_YN and'
+      '  DefectName = :OLD_DefectName')
     InsertSQL.Strings = (
       'insert into QC_RejectMat'
       
@@ -784,7 +815,7 @@ object RejectedMaterial: TRejectedMaterial
       
         '   DeQty, ShoePO, XFDate, Result, SCFID, SCFDate, MSCFID, MSCFDa' +
         'te, LCFID, '
-      '   LCFDate, PreparedID, USERDate, USERID, YN)'
+      '   LCFDate, PreparedID, USERDate, USERID, YN, DefectName)'
       'values'
       
         '  (:ReportID, :InDate, :DDBH, :InsDate, :Brand, :MatName, :Suppl' +
@@ -792,7 +823,9 @@ object RejectedMaterial: TRejectedMaterial
       
         '   :DeQty, :ShoePO, :XFDate, :Result, :SCFID, :SCFDate, :MSCFID,' +
         ' :MSCFDate, '
-      '   :LCFID, :LCFDate, :PreparedID, :USERDate, :USERID, :YN)')
+      
+        '   :LCFID, :LCFDate, :PreparedID, :USERDate, :USERID, :YN, :Defe' +
+        'ctName)')
     DeleteSQL.Strings = (
       'delete from QC_RejectMat'
       'where'
@@ -827,12 +860,11 @@ object RejectedMaterial: TRejectedMaterial
     Top = 216
   end
   object OpenDialog1: TOpenDialog
-    Left = 688
-    Top = 32
+    Left = 696
   end
   object SaveDialog: TSaveDialog
     Left = 648
-    Top = 16
+    Top = 8
   end
   object QGetID: TQuery
     DatabaseName = 'DB'

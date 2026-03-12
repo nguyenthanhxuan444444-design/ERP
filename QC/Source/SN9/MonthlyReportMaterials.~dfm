@@ -132,14 +132,14 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
     Top = 496
     Width = 1721
     Height = 383
-    Align = alBottom
+    Align = alClient
     TabOrder = 1
     object DBGridEh1: TDBGridEh
       Left = 1
       Top = 57
       Width = 1719
       Height = 325
-      Align = alTop
+      Align = alClient
       DataSource = DS2
       Flat = False
       FooterColor = clWindow
@@ -209,10 +209,12 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
           Footers = <>
         end
         item
+          ButtonStyle = cbsNone
           EditButtons = <>
           FieldName = 'Defects'
           Footers = <>
           Width = 200
+          OnEditButtonClick = DBGridEh1Columns8EditButtonClick
         end
         item
           EditButtons = <>
@@ -279,6 +281,19 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
         Width = 47
         Height = 20
         Caption = 'CLBH:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -16
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+      end
+      object Label1: TLabel
+        Left = 688
+        Top = 16
+        Width = 60
+        Height = 20
+        Caption = 'Defects:'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -16
@@ -455,7 +470,7 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
         TabOrder = 5
       end
       object brnQPac: TBitBtn
-        Left = 684
+        Left = 884
         Top = 5
         Width = 44
         Height = 44
@@ -491,6 +506,23 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
         Height = 21
         CharCase = ecUpperCase
         TabOrder = 7
+      end
+      object DBMemo1: TDBMemo
+        Left = 1056
+        Top = 4
+        Width = 281
+        Height = 40
+        DataField = 'DefectName'
+        DataSource = DS2
+        ScrollBars = ssVertical
+        TabOrder = 8
+      end
+      object edtDefects: TEdit
+        Left = 752
+        Top = 16
+        Width = 121
+        Height = 21
+        TabOrder = 9
       end
     end
   end
@@ -1129,6 +1161,11 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
       FixedChar = True
       Size = 50
     end
+    object Query2DefectName: TStringField
+      FieldName = 'DefectName'
+      FixedChar = True
+      Size = 255
+    end
   end
   object UpSQLDetail: TUpdateSQL
     ModifySQL.Strings = (
@@ -1148,7 +1185,8 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
       '  OKNG = :OKNG,'
       '  USERDate = :USERDate,'
       '  USERID = :USERID,'
-      '  YN = :YN'
+      '  YN = :YN,'
+      '  DefectName = :DefectName'
       'where'
       '  ReportID = :OLD_ReportID and'
       '  Supplier = :OLD_Supplier and'
@@ -1164,20 +1202,23 @@ object MonthlyReportMaterial: TMonthlyReportMaterial
       '  OKNG = :OLD_OKNG and'
       '  USERDate = :OLD_USERDate and'
       '  USERID = :OLD_USERID and'
-      '  YN = :OLD_YN')
+      '  YN = :OLD_YN and'
+      '  DefectName = :OLD_DefectName')
     InsertSQL.Strings = (
       'insert into QC_MonthlyMaterialDetail'
       
         '  (ReportID, Supplier, CLBH, LotQty, DeLotQty, TotalQty, DeQty, ' +
         'DeRate, '
-      '   Defects, Inspector, Remark, OKNG, USERDate, USERID, YN)'
+      
+        '   Defects, Inspector, Remark, OKNG, USERDate, USERID, YN, Defec' +
+        'tName)'
       'values'
       
         '  (:ReportID, :Supplier, :CLBH, :LotQty, :DeLotQty, :TotalQty, :' +
-        'DeQty, '
+        'DeQty,'
       
         '   :DeRate, :Defects, :Inspector, :Remark, :OKNG, :USERDate, :US' +
-        'ERID, :YN)')
+        'ERID, :YN, :DefectName)')
     DeleteSQL.Strings = (
       'delete from QC_MonthlyMaterialDetail'
       'where'

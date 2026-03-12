@@ -65,6 +65,9 @@ type
     edtReason: TEdit;
     Label4: TLabel;
     edtDDBH: TEdit;
+    Query1DefectName: TStringField;
+    DBMemo1: TDBMemo;
+    Label6: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Query1AfterOpen(DataSet: TDataSet);
     procedure BB1Click(Sender: TObject);
@@ -92,6 +95,8 @@ type
       UseUserName: Boolean
     );
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid1Columns7EditButtonClick(Sender: TObject;
+      var Handled: Boolean);
   private
     { Private declarations }
   public
@@ -103,7 +108,7 @@ var
 
 implementation
 
-uses main1;
+uses main1, QC_MatDefect1;
 
 {$R *.dfm}
 
@@ -204,7 +209,7 @@ begin
     if edtSup.Text <> '' then
       SQL.Add('and Supplier = '''+edtDDBH.Text+''' ');
     if edtReason.Text <> '' then
-      SQL.Add('and DeReason = '''+edtReason.Text+''' ');
+      SQL.Add('and DeReason like ''%'+edtReason.Text+'%'' ');
     Active := true;
   end;
 end;
@@ -229,6 +234,7 @@ begin
   end;
 bb4.enabled:=true;
 bb5.enabled:=true;
+DBGrid1.FieldColumns['DeReason'].ButtonStyle:=  cbsEllipsis;
 end;
 
 procedure TRejectedMaterial.BB2Click(Sender: TObject);
@@ -258,6 +264,7 @@ with query1 do
   end;
 bb4.enabled:=true;
 bb5.enabled:=true;
+DBGrid1.FieldColumns['DeReason'].ButtonStyle:=  cbsEllipsis;
 end;
 
 procedure TRejectedMaterial.BB4Click(Sender: TObject);
@@ -548,6 +555,13 @@ begin
       Query1.Post;
     end;
   end;
+end;
+
+procedure TRejectedMaterial.DBGrid1Columns7EditButtonClick(Sender: TObject;
+  var Handled: Boolean);
+begin
+  QC_MatDefect:=TQC_MatDefect.create(self);
+  QC_MatDefect.Show;
 end;
 
 end.

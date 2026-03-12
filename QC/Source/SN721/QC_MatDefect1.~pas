@@ -60,7 +60,7 @@ var
 implementation
 
 uses Main1, DailyReport1, LeatherSummary1, {RubberChemical1, (N17) } MatQcCheck1,
-  MonthlyReportMaterials, SoleWeekReports;
+  MonthlyReportMaterials;
 
 {$R *.dfm}
 

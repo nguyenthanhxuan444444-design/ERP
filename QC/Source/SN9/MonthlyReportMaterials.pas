@@ -82,6 +82,11 @@ type
     Query2DeRate: TFloatField;
     Query2LotQty: TStringField;
     Query2TotalQty: TStringField;
+    Query2DefectName: TStringField;
+    DBMemo1: TDBMemo;
+    Label1: TLabel;
+    edtDefects: TEdit;
+    Label2: TLabel;
     procedure BB1Click(Sender: TObject);
     procedure BB2Click(Sender: TObject);
     procedure BB4Click(Sender: TObject);
@@ -115,6 +120,8 @@ type
     procedure brnQPacClick(Sender: TObject);
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
+    procedure DBGridEh1Columns8EditButtonClick(Sender: TObject;
+      var Handled: Boolean);
   private
     { Private declarations }
   public
@@ -126,7 +133,7 @@ var
 
 implementation
 
-uses main1;
+uses main1, QC_MatDefect1;
 
 {$R *.dfm}
 
@@ -352,6 +359,7 @@ begin
   end;
 BitBtn4.enabled:=true;
 BitBtn5.enabled:=true;
+DBGridEh1.FieldColumns['Defects'].ButtonStyle:= cbsEllipsis;
 end;
 
 procedure TMonthlyReportMaterial.BitBtn2Click(Sender: TObject);
@@ -381,6 +389,7 @@ with query2 do
   end;
 BitBtn4.enabled:=true;
 BitBtn5.enabled:=true;
+DBGridEh1.FieldColumns['Defects'].ButtonStyle:=  cbsEllipsis;
 end;
 
 procedure TMonthlyReportMaterial.BitBtn4Click(Sender: TObject);
@@ -665,6 +674,8 @@ with Query2 do
       SQL.Add('and Supplier like '''+edtSup.Text+'%'' ');
     if edtCLBH.Text <> '' then
       SQL.Add('and CLBH like '''+edtCLBH.Text+'%'' ');
+    if edtDefects.Text <> '' then
+      SQL.Add('and Defects like ''%'+edtDefects.Text+'%'' ');
 
     Open;
 end;
@@ -709,6 +720,13 @@ begin
   //DBGridEh1.DataSource.AutoEdit := false;
   DecimalSeparator := '.';
   ThousandSeparator := #0;
+end;
+
+procedure TMonthlyReportMaterial.DBGridEh1Columns8EditButtonClick(
+  Sender: TObject; var Handled: Boolean);
+begin
+  QC_MatDefect:=TQC_MatDefect.create(self);
+  QC_MatDefect.Show;
 end;
 
 end.
