@@ -33,7 +33,7 @@ type
     MenuCode: TEdit;
     edtRID: TEdit;
     dtpInsDate: TDateTimePicker;
-    edtStyle: TEdit;
+    edtSKU: TEdit;
     edtMatID: TEdit;
     btClear: TButton;
     ckInsDate: TCheckBox;
@@ -88,6 +88,9 @@ type
     );
     procedure Button1Click(Sender: TObject);
     procedure Query1AfterOpen(DataSet: TDataSet);
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure DBGrid1GetCellParams(Sender: TObject; Column: TColumnEh;
+      AFont: TFont; var Background: TColor; State: TGridDrawState);
   private
     { Private declarations }
   public
@@ -218,7 +221,7 @@ begin
                  end else
                  begin
                   Query1.Edit;
-                  if MenuCode.Text = 'N961' then
+                  {if MenuCode.Text = 'N961' then
                     begin
                       Query1.FieldByName('USERID').Value := main.Edit1.Text;
                       Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
@@ -239,7 +242,7 @@ begin
                   if MenuCode.Text = 'N965' then
                     begin
                       Query1.FieldByName('WMSCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
-                    end;
+                    end;}
                   upsql1.apply(ukmodify);
                  end;
               end;
@@ -344,6 +347,7 @@ begin
 
   DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS009-02B.xlsx';
   SaveDialog := TSaveDialog.Create(nil);
+  
   try
     if not cbPDF.Checked then
     begin
@@ -445,6 +449,15 @@ begin
 
     if ckUSERDate.Checked then
       SQL.Add('and CAST(USERDate as DATE) = ''' + FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date) + ''' ');
+    if edtZSBH.Text <> '' then
+      SQL.Add('and ZSBH = '''+edtZSBH.Text+''' ');
+    if edtDDBH.Text <> '' then
+      SQL.Add('and DDBH like '''+edtDDBH.Text+'%'' ');
+    if edtMatID.Text <> '' then
+      SQL.Add('and MaterialSpec like '''+edtMatID.Text+'%'' ');
+    if edtSKU.Text <> '' then
+      SQL.Add('and SKU like '''+edtSKU.Text+'%'' ');
+    
     Active := true;
   end;
 end;
@@ -457,6 +470,46 @@ begin
   bbt6.Enabled:=true;
   bExcel.Enabled := true;
   bExF.Enabled := true;
+end;
+
+procedure TNonConformingMaterial.DBGrid1KeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  // Neu nhan Enter
+  if Key = #13 then
+  begin
+
+    if (DBGrid1.SelectedField.FieldName = 'SCFID') and Query1.CachedUpdates then
+    begin
+      Query1.Edit;
+      Query1.FieldByName('SCFID').AsString := main.Edit1.Text;
+      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
+      Query1.Post;
+    end;
+
+    if (DBGrid1.SelectedField.FieldName = 'LCFID') and Query1.CachedUpdates then
+    begin
+      Query1.Edit;
+      Query1.FieldByName('LCFID').AsString := main.Edit1.Text;
+      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
+      Query1.Post;
+    end;
+    if (DBGrid1.SelectedField.FieldName = 'DepUID') and Query1.CachedUpdates then
+    begin
+      Query1.Edit;
+      Query1.FieldByName('DepUID').AsString := main.Edit1.Text;
+      Query1.FieldByName('DepCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
+      Query1.Post;
+    end;
+  end;
+end;
+
+procedure TNonConformingMaterial.DBGrid1GetCellParams(Sender: TObject;
+  Column: TColumnEh; AFont: TFont; var Background: TColor;
+  State: TGridDrawState);
+begin
+  if Query1.FieldByName('YN').Value = '0' then
+    DBGrid1.Canvas.Font.Color := clRed;
 end;
 
 end.

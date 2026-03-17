@@ -777,12 +777,14 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
         FieldName = 'LabID'
         Footers = <>
         Title.Caption = 'LabTest '#29289#24615#27298#28204'|LabID'
+        Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'LabResult'
         Footers = <>
         Title.Caption = 'LabTest '#29289#24615#27298#28204'|'#28204#35430#32080#26524'LabTestResult'
+        Width = 200
       end
       item
         EditButtons = <>

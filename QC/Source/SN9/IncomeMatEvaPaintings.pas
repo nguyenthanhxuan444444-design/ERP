@@ -59,7 +59,6 @@ type
     Query1InspecDate: TDateTimeField;
     Query1CLBH: TStringField;
     Query1Supplier: TStringField;
-    Query1DDBH: TStringField;
     Query1SCFID: TStringField;
     Query1SCFDate: TDateTimeField;
     Query1LCFID: TStringField;
@@ -91,6 +90,7 @@ type
     QRemark: TQuery;
     QDeQty: TQuery;
     btClear: TButton;
+    Query1DDBH: TStringField;
     procedure Button1Click(Sender: TObject);
     procedure Query1AfterOpen(DataSet: TDataSet);
     procedure bExFClick(Sender: TObject);
@@ -237,14 +237,25 @@ procedure TIncomeMatEvaPainting.bExFClick(Sender: TObject);
 var
   ExcelApp, Workbook, Worksheet, rng, CellValue: OleVariant;
   StartRow, InsertRow: Integer;
-  DuongDanFile, SaveFile, PdfFile, qty, issue, size, checksize: string;
+  DuongDanFile, SaveFile, PdfFile, qty, issue, size, checksize, AppDir, SrcFile, DstFile: string;
   s: WideString;
   i, j, p, tdeqty, tinqty, traqty, tisqty, valInt: Integer;
   derate, Tong, vTong, vTraQty: Double;
   SigS, SigMS, SigL, SigP: Boolean;
 begin
-  DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-04B.xlsx';
 
+  AppDir := ExtractFilePath(Application.ExeName);
+
+  if not DirectoryExists(AppDir) then
+    ForceDirectories(AppDir);
+
+  SrcFile := '\\192.168.71.4\erp\lys_erp\A-QIP-WS001-04B.xlsx';
+  DstFile := IncludeTrailingPathDelimiter(AppDir) + 'A-QIP-WS001-04B.xlsx';
+
+  if not CopyFile(PChar(SrcFile), PChar(DstFile), False) then
+    ShowMessage('Copy file that bai');
+
+  DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-04B.xlsx';
   SaveDialog := TSaveDialog.Create(nil);
   try
     if not cbPDF.Checked then

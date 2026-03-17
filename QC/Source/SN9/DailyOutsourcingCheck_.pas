@@ -284,11 +284,22 @@ procedure TDailyOutsourcingCheck.bExFClick(Sender: TObject);
 var
   ExcelApp, Workbook, Worksheet, borderRange: OleVariant;
   StartRow, InsertRow: Integer;
-  DuongDanFile, SaveFile, s: string;
+  DuongDanFile, SaveFile, s, AppDir, SrcFile, DstFile: string;
   i, p: Integer;
   SigS, SigDep, SigL, SigP: Boolean;
   MaxHeight: Double;
 begin
+  AppDir := ExtractFilePath(Application.ExeName);
+
+  if not DirectoryExists(AppDir) then
+    ForceDirectories(AppDir);
+
+  SrcFile := '\\192.168.71.4\erp\lys_erp\A-QIP-WS009-01D.xlsx';
+  DstFile := IncludeTrailingPathDelimiter(AppDir) + 'A-QIP-WS009-01D.xlsx';
+
+  if not CopyFile(PChar(SrcFile), PChar(DstFile), False) then
+    ShowMessage('Copy file that bai');
+
   DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS009-01D.xlsx';
 
   StartRow := 6;

@@ -504,7 +504,7 @@ begin
         SQL.Add('  AND Carton_No LIKE ''' + ED_Carton.Text + '%''');
       SQL.Add('    UNION ALL');
       //當月入庫
-      SQL.Add('    SELECT NULL AS STT,KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size, KCRKS_BC.Qty, DDZL.Article,KCBH,Carton_No FROM KCRKS_BC');
+      SQL.Add('    SELECT NULL AS STT,KCRKS_BC.Grade, KCRKS_BC.DDBH, KCRKS_BC.Size, KCRKS_BC.Qty, DDZL.Article,KCRKS_BC.KCBH,KCRKS_BC.Carton_No FROM KCRKS_BC');
       SQL.Add('    LEFT JOIN KCRK_BC ON KCRK_BC.RKNO = KCRKS_BC.RKNO');
       SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = KCRKS_BC.DDBH');
       SQL.Add('    WHERE (KCRK_BC.flowflag not in (''X'') or (KCRK_BC.flowflag is null)) and KCRK_BC.GSBH = ''' + main.Edit2.Text + '''');
@@ -522,7 +522,7 @@ begin
         SQL.Add('  AND Carton_No LIKE ''' + ED_Carton.Text + '%''');
       SQL.Add('    UNION ALL');
       //當月出庫
-      SQL.Add('    SELECT NULL AS STT,KCLLS_BC.Grade, KCLLS_BC.DDBH, KCLLS_BC.Size, KCLLS_BC.Qty*-1 AS Qty, DDZL.Article,KCBH,Carton_No FROM KCLLS_BC');
+      SQL.Add('    SELECT NULL AS STT,KCLLS_BC.Grade, KCLLS_BC.DDBH, KCLLS_BC.Size, KCLLS_BC.Qty*-1 AS Qty, DDZL.Article,KCLLS_BC.KCBH,KCLLS_BC.Carton_No FROM KCLLS_BC');
       SQL.Add('    LEFT JOIN KCLL_BC ON KCLL_BC.LLNO = KCLLS_BC.LLNO');
       SQL.Add('    LEFT JOIN DDZL ON DDZL.DDBH = KCLLS_BC.DDBH');
       SQL.Add('    WHERE (KCLL_BC.flowflag not in (''X'') or (KCLL_BC.flowflag is null)) and KCLL_BC.GSBH = ''' + main.Edit2.Text + '''');
@@ -551,7 +551,7 @@ begin
       SQL.Add('  WHERE 1 = 1 and KCRKS_BC.Qty > 0');
       SQL.Add('GROUP BY kfjc,Grade, KCRKS_BC.DDBH, KCRKS_BC.ARTICLE,KCBH,Carton_No');
       SQL.Add('ORDER BY MAX(STT),kfjc,Grade, KCRKS_BC.ARTICLE, KCRKS_BC.DDBH');
-      showmessage(SQL.Text);
+      //showmessage(SQL.Text);
       Active := true;
     end
   end
@@ -1110,7 +1110,7 @@ begin
   begin
     SQL.Clear;
     SQL.Add('DELETE FROM BCShoeMonth WHERE KCYear = ''' + IntToStr(YearOf(KCDate)) + ''' AND KCMonth = ''' + Format('%0.2d', [MonthOf(KCDate)]) + ''' AND GSBH = ''' + main.Edit2.Text + '''');  
-    //ShowMessage(SQL.text);
+    ShowMessage(SQL.text);
     ExecSQL;
 
     SQL.Clear;
@@ -1136,7 +1136,7 @@ begin
     SQL.Add('  AND CONVERT(VARCHAR, KCLL_BC.CFMDate, 111) BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(KCDate)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', EndOfTheMonth(KCDate)) + '''');
     SQL.Add(') AS KCRKS_BC');
     SQL.Add('GROUP BY Grade, DDBH, Size, GSBH,KCBH,Carton_No ');
-    //ShowMessage(SQL.text);
+    ShowMessage(SQL.text);
     ExecSQL;
   end;
 end;

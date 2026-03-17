@@ -548,7 +548,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
         EditButtons = <>
         FieldName = 'DDBH'
         Footers = <>
-        Width = 100
+        Width = 216
       end
       item
         EditButtons = <>
@@ -876,7 +876,8 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
     AfterScroll = Query1AfterScroll
     DatabaseName = 'DB'
     SQL.Strings = (
-      'select * from QC_EvaPainting')
+      'select * from QC_EvaPainting'
+      'where 2=2')
     UpdateObject = UpSQL1
     Left = 528
     Top = 312
@@ -893,11 +894,6 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
     end
     object Query1Supplier: TStringField
       FieldName = 'Supplier'
-      FixedChar = True
-      Size = 50
-    end
-    object Query1DDBH: TStringField
-      FieldName = 'DDBH'
       FixedChar = True
       Size = 50
     end
@@ -948,6 +944,11 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       FieldName = 'StyleName'
       FixedChar = True
       Size = 100
+    end
+    object Query1DDBH: TStringField
+      FieldName = 'DDBH'
+      FixedChar = True
+      Size = 1000
     end
   end
   object DS1: TDataSource

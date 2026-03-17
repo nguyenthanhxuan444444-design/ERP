@@ -411,7 +411,7 @@ procedure TProducMatFailure.bExFClick(Sender: TObject);
 var
   ExcelApp, Workbook, Worksheet, borderRange, Pic, Rg, TB: OleVariant;
   StartRow, InsertRow: Integer;
-  DuongDanFile, SaveFile: string;
+  DuongDanFile, SaveFile, AppDir, SrcFile, DstFile: string;
   SigS, SigWMS, SigL, SigI: Boolean;
   s: WideString;
   i, p: Integer;
@@ -420,6 +420,16 @@ var
   v: array[0..11] of WideString;
   cur: WideString;
 begin
+  AppDir := ExtractFilePath(Application.ExeName);
+
+  if not DirectoryExists(AppDir) then
+    ForceDirectories(AppDir);
+
+  SrcFile := '\\192.168.71.4\erp\lys_erp\A-QIP-WS001-07C.xlsx';
+  DstFile := IncludeTrailingPathDelimiter(AppDir) + 'A-QIP-WS001-07C.xlsx';
+
+  if not CopyFile(PChar(SrcFile), PChar(DstFile), False) then
+    ShowMessage('Copy file that bai');
 
   DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-07C.xlsx';
   SaveDialog := TSaveDialog.Create(nil);

@@ -10,7 +10,13 @@ object NonConformingMaterial: TNonConformingMaterial
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  FormStyle = fsMDIChild
   OldCreateOrder = False
+  Position = poDefault
+  Visible = True
+  WindowState = wsMaximized
+  OnClose = FormClose
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -50,9 +56,9 @@ object NonConformingMaterial: TNonConformingMaterial
     object Label5: TLabel
       Left = 272
       Top = 8
-      Width = 39
+      Width = 37
       Height = 20
-      Caption = 'Style:'
+      Caption = 'SKU:'
     end
     object Label7: TLabel
       Left = 272
@@ -423,7 +429,7 @@ object NonConformingMaterial: TNonConformingMaterial
       Time = 45981.575782071760000000
       TabOrder = 17
     end
-    object edtStyle: TEdit
+    object edtSKU: TEdit
       Left = 328
       Top = 8
       Width = 121
@@ -444,6 +450,7 @@ object NonConformingMaterial: TNonConformingMaterial
       Height = 33
       Caption = 'Clear'
       TabOrder = 20
+      Visible = False
     end
     object ckInsDate: TCheckBox
       Left = 8
@@ -484,11 +491,14 @@ object NonConformingMaterial: TNonConformingMaterial
     TitleFont.Style = []
     TitleLines = 2
     UseMultiTitle = True
+    OnGetCellParams = DBGrid1GetCellParams
+    OnKeyPress = DBGrid1KeyPress
     Columns = <
       item
         EditButtons = <>
         FieldName = 'ReportID'
         Footers = <>
+        ReadOnly = True
         Width = 75
       end
       item
@@ -601,12 +611,14 @@ object NonConformingMaterial: TNonConformingMaterial
         EditButtons = <>
         FieldName = 'USERID'
         Footers = <>
+        ReadOnly = True
         Width = 75
       end
       item
         EditButtons = <>
         FieldName = 'USERDATE'
         Footers = <>
+        ReadOnly = True
       end>
   end
   object Query1: TQuery

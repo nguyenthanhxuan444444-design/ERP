@@ -1114,10 +1114,10 @@ begin
     ExecSQL;
 
     SQL.Clear;
-    SQL.Add('INSERT INTO BCShoeMonth (KCYear, KCMonth, GSBH, Grade, DDBH, Size, Qty, UserID, UserDate, YN,KCBH,Carton_No  )');
+    SQL.Add('INSERT INTO BCShoeMonth (KCYear, KCMonth, GSBH, Grade, DDBH, Size, Qty, UserID, UserDate, YN,KCBH,Carton_No,STT )');
     SQL.Add('SELECT ''' + IntToStr(YearOf(KCDate)) + ''' AS KCYear, ''' + Format('%0.2d', [MonthOf(KCDate)]) + ''' AS KCMonth, GSBH, Grade, DDBH, Size, SUM(KCRKS_BC.Qty) AS Qty, ''' + main.Edit1.Text + ''' AS UserID');
     //
-    SQL.Add(', GetDate() AS UserDate, ''1'' AS YN,KCBH,Carton_No FROM (');
+    SQL.Add(', GetDate() AS UserDate, ''1'' AS YN,KCBH,Carton_No, ROW_NUMBER() OVER (ORDER BY Grade,DDBH,Size,GSBH) + ISNULL((SELECT MAX(STT) FROM BCShoeMonth),0) AS STT FROM (');
     //«e¤ë´Á¥½
     SQL.Add('  SELECT Grade, DDBH, Size, Qty, GSBH,KCBH,Carton_No   FROM BCShoeMonth');
     SQL.Add('  WHERE KCYear = ''' + sYear + ''' AND KCMonth = ''' + sMonth + '''');

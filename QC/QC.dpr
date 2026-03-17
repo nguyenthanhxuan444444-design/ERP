@@ -186,7 +186,6 @@ begin
   Application.Title := 'Lai Yih ERP system----QC';
   Application.CreateForm(TDM2, DM2);
   Application.CreateForm(Tmain, main);
-  Application.CreateForm(TNonConformingMaterial, NonConformingMaterial);
   QCFlowChart := TQCFlowChart.Create(main);
   login.Hide;
   login.Free;

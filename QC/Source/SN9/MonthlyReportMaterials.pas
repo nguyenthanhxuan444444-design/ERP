@@ -499,12 +499,23 @@ procedure TMonthlyReportMaterial.bExFClick(Sender: TObject);
 var
   ExcelApp, Workbook, Worksheet, borderRange: OleVariant;
   StartRow, InsertRow, Col, Err: Integer;
-  DuongDanFile, SaveFile, ColLetter, Total: string;
+  DuongDanFile, SaveFile, ColLetter, Total, AppDir, SrcFile, DstFile: string;
   i, p, TotalRow, TotalColumn: Integer;
   MaxHeight, N, SumVal: Double;
   SigS, SigMS, SigL, SigP: Boolean;
   s: WideString;
 begin
+  AppDir := ExtractFilePath(Application.ExeName);
+
+  if not DirectoryExists(AppDir) then
+    ForceDirectories(AppDir);
+
+  SrcFile := '\\192.168.71.4\erp\lys_erp\A-QIP-WS001-06B.xlsx';
+  DstFile := IncludeTrailingPathDelimiter(AppDir) + 'A-QIP-WS001-06B.xlsx';
+
+  if not CopyFile(PChar(SrcFile), PChar(DstFile), False) then
+    ShowMessage('Copy file that bai');
+
   DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-06B.xlsx';
 
   StartRow := 4;
