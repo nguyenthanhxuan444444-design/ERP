@@ -96,6 +96,8 @@ type
     btnCfm: TButton;
     Query1LabID: TStringField;
     Query1LabResult: TStringField;
+    Label10: TLabel;
+    edtSize: TEdit;
     procedure Button1Click(Sender: TObject);
     function NewID: string;
     function GetUsernameByID(const AID: string): string;
@@ -397,6 +399,8 @@ begin
       SQL.Add('and CAST(QC_MidInSole.USERDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date)+''' ');
     if edtStyle.Text <> '' then
       SQL.Add('and XieMing like ''%'+edtStyle.Text+'%'' ');
+    if edtSize.Text <> '' then
+      SQL.Add('and Size = '''+edtSize.Text+''' ');
     SQL.Add(' order by ReportID ');
     Active := true;
   end;

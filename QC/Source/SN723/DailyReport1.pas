@@ -481,13 +481,13 @@ begin
   SaveFN := ExtractFileName(SourceFile);
 
   // duong dan dich
-  DestDir := '\\192.168.71.76\BACKUP DataBase\QC\' + main.Edit2.Text + '\Mat\';
+  DestDir := '\\192.168.71.11\upload-QC\';
   DestFile := DestDir + SaveFN;
 
   // kiem tra thu muc ton tai
   if not DirectoryExists(DestDir) then
   begin
-    ShowMessage('Khong tim thay thu muc: ' + DestDir);
+    ShowMessage('Khong tim thay thu muc');
     Exit;
   end;
 
@@ -589,7 +589,7 @@ begin
 
   if not SaveDialog1.Execute then Exit;
 
-  SourceFile := '\\192.168.71.76\BACKUP DataBase\QC\' + main.Edit2.Text + '\Mat\' +
+  SourceFile := '\\192.168.71.11\upload-QC\' +
                 qry_DR.FieldByName('File_Name').AsString;
 
   DestFile := SaveDialog1.FileName;
@@ -653,7 +653,7 @@ begin
   if MessageDlg('You want to delete guarantee letter?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
     Exit;
 
-  FilePath := '\\192.168.71.76\BACKUP DataBase\QC\' + main.Edit2.Text + '\Mat\' +
+  FilePath := '\\192.168.71.11\upload-QC\' +
               qry_DR.FieldByName('File_Name').AsString;
 
   // kiem tra file ton tai

@@ -91,6 +91,9 @@ type
     QDeQty: TQuery;
     btClear: TButton;
     Query1DDBH: TStringField;
+    edtSize: TEdit;
+    Label4: TLabel;
+    btnQuery: TBitBtn;
     procedure Button1Click(Sender: TObject);
     procedure Query1AfterOpen(DataSet: TDataSet);
     procedure bExFClick(Sender: TObject);
@@ -120,6 +123,7 @@ type
     procedure btClearClick(Sender: TObject);
     procedure DBGridEh1GetCellParams(Sender: TObject; Column: TColumnEh;
       AFont: TFont; var Background: TColor; State: TGridDrawState);
+    procedure btnQueryClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -1107,6 +1111,20 @@ procedure TIncomeMatEvaPainting.DBGridEh1GetCellParams(Sender: TObject;
 begin
   if Query2.FieldByName('YN').Value = '0' then
     DBGridEh1.Canvas.Font.Color := clRed;
+end;
+
+procedure TIncomeMatEvaPainting.btnQueryClick(Sender: TObject);
+begin
+  with Query2 do
+  begin
+    Active := false;
+    SQL.Clear;
+    SQL.Add('select * from QC_EvaPaintingDetail ');
+    SQL.Add('where ReportID = '''+Query1.FieldByName('ReportID').AsString+''' ');
+    if edtSize.Text <> '' then
+      SQL.Add(' and Size = '''+edtSize.Text+''' ');
+    Active := true;
+  end;
 end;
 
 end.

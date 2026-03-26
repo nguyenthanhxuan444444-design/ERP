@@ -237,7 +237,7 @@ procedure TIncomeMatEvaPainting.bExFClick(Sender: TObject);
 var
   ExcelApp, Workbook, Worksheet, rng, CellValue: OleVariant;
   StartRow, InsertRow: Integer;
-  DuongDanFile, SaveFile, PdfFile, qty, issue, size, checksize: string;
+  DuongDanFile, SaveFile, PdfFile, qty, issue, size, checksize, AppDir, SrcFile, DstFile: string;
   s: WideString;
   i, j, p, tdeqty, tinqty, traqty, tisqty, valInt: Integer;
   derate, Tong, vTong, vTraQty: Double;

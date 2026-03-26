@@ -95,6 +95,8 @@ type
     Query1PreparedID: TStringField;
     Query1PreparedDate: TDateTimeField;
     QSig: TQuery;
+    Label10: TLabel;
+    edtSize: TEdit;
     procedure Button1Click(Sender: TObject);
     function NewID: string;
     function GetUsernameByID(const AID: string): string;
@@ -117,6 +119,7 @@ type
     procedure DBGrid1GetCellParams(Sender: TObject; Column: TColumnEh;
       AFont: TFont; var Background: TColor; State: TGridDrawState);
     procedure btCopyClick(Sender: TObject);
+    function SheetExists(WB: Variant; SheetName: string): Boolean;
   private
     { Private declarations }
   public
@@ -131,6 +134,20 @@ implementation
 uses main1;
 
 {$R *.dfm}
+function TIncomeMatRubberOutsoles.SheetExists(WB: Variant; SheetName: string): Boolean;
+var
+  i: Integer;
+begin
+  Result := False;
+  for i := 1 to WB.Worksheets.Count do
+  begin
+    if WB.Worksheets[i].Name = SheetName then
+    begin
+      Result := True;
+      Exit;
+    end;
+  end;
+end;
 
 procedure TIncomeMatRubberOutsoles.SetColumnsReadOnly;
 begin
@@ -379,6 +396,8 @@ begin
       SQL.Add('and CAST(USERDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date)+''' ');
     if edtStyle.Text <> '' then
       SQL.Add('and XieMing like ''%'+edtStyle.Text+'%'' ');
+    if edtSize.Text <> '' then
+      SQL.Add('and Size = '''+edtSize.Text+''' ');
     SQL.Add(' order by ReportID ');
     Active := true;
   end;
@@ -587,7 +606,7 @@ end;
 
 procedure TIncomeMatRubberOutsoles.bExcelClick(Sender: TObject);
 var
-  ExcelApp, Workbook, Worksheet: OleVariant;
+  ExcelApp, Workbook, Worksheet, CurWS: OleVariant;
   Row, Col: Integer;
 begin
   ExcelApp := CreateOleObject('Excel.Application');
@@ -613,9 +632,9 @@ end;
 
 procedure TIncomeMatRubberOutsoles.bExFClick(Sender: TObject);
 var
-  ExcelApp, Workbook, Worksheet, borderRange: OleVariant;
+  ExcelApp, Workbook, Worksheet, borderRange, CurWS: OleVariant;
   StartRow, InsertRow: Integer;
-  DuongDanFile, SaveFile, s, AppDir, SrcFile, DstFile: string;
+  DuongDanFile, SaveFile, curSize, lastSize, s, AppDir, SrcFile, DstFile: string;
   i, p: Integer;
   MaxHeight: Double;
   SigS, SigMS, SigL, SigP: Boolean;
@@ -739,6 +758,7 @@ begin
 
   while not Query1.Eof do
   begin
+
     Worksheet.Rows[Format('%d:%d', [InsertRow, InsertRow])].Insert;
 
     borderRange := Worksheet.Range[Format('A%d:S%d', [InsertRow, InsertRow])];

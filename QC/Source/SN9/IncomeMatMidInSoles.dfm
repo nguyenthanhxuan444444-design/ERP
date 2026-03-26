@@ -96,6 +96,13 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       Height = 20
       Caption = 'StandardHard:'
     end
+    object Label10: TLabel
+      Left = 512
+      Top = 8
+      Width = 35
+      Height = 20
+      Caption = 'Size:'
+    end
     object BB1: TBitBtn
       Left = 0
       Top = 144
@@ -534,6 +541,13 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       Caption = 'Confirm'
       TabOrder = 27
       OnClick = btnCfmClick
+    end
+    object edtSize: TEdit
+      Left = 568
+      Top = 8
+      Width = 121
+      Height = 28
+      TabOrder = 28
     end
   end
   object DBGrid1: TDBGridEh

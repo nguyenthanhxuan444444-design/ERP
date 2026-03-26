@@ -96,6 +96,13 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       Height = 20
       Caption = 'SHard:'
     end
+    object Label10: TLabel
+      Left = 488
+      Top = 8
+      Width = 35
+      Height = 20
+      Caption = 'Size:'
+    end
     object BB1: TBitBtn
       Left = 0
       Top = 144
@@ -524,6 +531,13 @@ object IncomeMatRubberOutsoles: TIncomeMatRubberOutsoles
       TabOrder = 26
       Visible = False
       OnClick = btCopyClick
+    end
+    object edtSize: TEdit
+      Left = 568
+      Top = 8
+      Width = 121
+      Height = 28
+      TabOrder = 27
     end
   end
   object DBGrid1: TDBGridEh
