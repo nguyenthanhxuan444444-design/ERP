@@ -124,7 +124,7 @@ object ScanShip: TScanShip
       ParentFont = False
     end
     object Label2: TLabel
-      Left = 600
+      Left = 896
       Top = 12
       Width = 78
       Height = 18
@@ -149,6 +149,13 @@ object ScanShip: TScanShip
       Alignment = taRightJustify
       AutoSize = False
       Caption = 'ShipDate'
+    end
+    object Label5: TLabel
+      Left = 624
+      Top = 16
+      Width = 85
+      Height = 18
+      Caption = 'Bien so xe : '
     end
     object BB1: TBitBtn
       Left = 16
@@ -378,9 +385,9 @@ object ScanShip: TScanShip
       OnClick = CBX1Click
     end
     object Edit2: TEdit
-      Left = 680
+      Left = 984
       Top = 8
-      Width = 121
+      Width = 249
       Height = 26
       CharCase = ecUpperCase
       TabOrder = 7
@@ -405,13 +412,20 @@ object ScanShip: TScanShip
     end
     object chdate: TDateTimePicker
       Left = 816
-      Top = 24
+      Top = 72
       Width = 113
       Height = 26
       Date = 41355.446081562500000000
       Time = 41355.446081562500000000
       TabOrder = 10
       Visible = False
+    end
+    object Edit5: TEdit
+      Left = 712
+      Top = 8
+      Width = 177
+      Height = 26
+      TabOrder = 11
     end
   end
   object DBGrid2: TDBGridEh

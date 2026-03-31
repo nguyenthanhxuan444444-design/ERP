@@ -3362,11 +3362,13 @@ begin
                   with Query_3D do
                   begin
                     Append;
-                    FieldByName('Building').Value := 'DT';
                     if (Sheet.Cells[CRow, 1].MergeCells) then
-                      FieldByName('Lean').Value := StringReplace(Sheet.Cells[CRow, 1].MergeArea.Cells[1, 1].Text, #$A, '', [rfReplaceAll])
+                      Lean := StringReplace(Sheet.Cells[CRow, 1].MergeArea.Cells[1, 1].Text, #$A, '', [rfReplaceAll])
                     else
-                      FieldByName('Lean').Value := StringReplace(Sheet.Cells[CRow, 1].Text, #$A, '', [rfReplaceAll]);
+                      Lean := StringReplace(Sheet.Cells[CRow, 1].Text, #$A, '', [rfReplaceAll]);
+
+                    FieldByName('Building').Value := Copy(Lean, 1, Pos('-', Lean) - 1);
+                    FieldByName('Lean').Value := Copy(Lean, Pos('-', Lean) + 1, Length(Lean) - Pos('-', Lean));
                     FieldByName('PlanDate').Value := PlanDate[i];
                     if (PlanBlock[i][0] > 0) then
                       FieldByName('RY').Value := QTemp.FieldByName('DDBH').AsString;
@@ -3591,11 +3593,15 @@ begin
                   with Query_1D do
                   begin
                     Append;
-                    FieldByName('Building').Value := 'DT';
                     if (Sheet.Cells[CRow, 1].MergeCells) then
-                      FieldByName('Lean').Value := StringReplace(Sheet.Cells[CRow, 1].MergeArea.Cells[1, 1].Text, #$A, '', [rfReplaceAll])
+                      TempStr := StringReplace(Sheet.Cells[CRow, 1].MergeArea.Cells[1, 1].Text, #$A, '', [rfReplaceAll])
                     else
-                      FieldByName('Lean').Value := StringReplace(Sheet.Cells[CRow, 1].Text, #$A, '', [rfReplaceAll]);
+                      TempStr := StringReplace(Sheet.Cells[CRow, 1].Text, #$A, '', [rfReplaceAll]);
+
+                    FieldByName('Building').Value := Copy(TempStr, 1, Pos('-', TempStr) - 1);
+                    Building := FieldByName('Building').AsString;
+                    FieldByName('Lean').Value := Copy(TempStr, Pos('-', TempStr) + 1, Length(TempStr) - Pos('-', TempStr));
+                    Lean := FieldByName('Lean').AsString;
                     FieldByName('PlanDate').Value := PlanDate;
                     if (PlanBlock[0] > 0) then
                     begin
@@ -3698,6 +3704,73 @@ begin
                   MinCycle := QTemp.FieldByName('MinCycle').AsInteger;
                   MaxCycle := QTemp.FieldByName('MaxCycle').AsInteger;
                   Remark := '';
+                end;
+              end
+              else begin
+                TempStr := StringReplace(StringReplace(Sheet.Cells[CRow, PlanBlock[7]].Text, 'T', '', [rfReplaceAll]), ' ', '', [rfReplaceAll]);
+                if (TryStrToInt(Sheet.Cells[CRow, PlanBlock[6]].Text, TempPairs)) AND (TempStr <> '') then
+                begin
+                  if Pos('-', TempStr) > 0 then
+                  begin
+                    CycleStart := StrToInt(Copy(TempStr, 1, Pos('-', TempStr)-1));
+                    CycleEnd := StrToInt(Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr)));
+                  end
+                  else begin
+                    CycleStart := StrToInt(TempStr);
+                    CycleEnd := StrToInt(TempStr);
+                  end;
+
+                  with Query_1D do
+                  begin
+                    Append;
+                    FieldByName('Building').Value := Building;
+                    FieldByName('Lean').Value := Lean;
+                    FieldByName('PlanDate').Value := PlanDate;
+                    FieldByName('RY').Value := RY;
+                    FieldByName('ARTICLE').Value := SKU;
+                    FieldByName('XieMing').Value := ShoeName;   
+                    FieldByName('XTMH').Value := XTMH;
+                    FieldByName('ShipDate').Value := ShipDate;
+                    FieldByName('RYPairs').Value := RYPairs;
+                    if (PlanBlock[6] > 0) then
+                      FieldByName('Pairs').Value := Sheet.Cells[CRow, PlanBlock[6]].Text;
+                    if (PlanBlock[7] > 0) then
+                    begin
+                      FieldByName('MinCycle').Value := MinCycle;
+                      FieldByName('MaxCycle').Value := MaxCycle;
+                      FieldByName('CycleStart').Value := CycleStart;
+                      FieldByName('CycleEnd').Value := CycleEnd;
+                    end;
+
+                    if (PlanBlock[8] > 0) then
+                    begin
+                      TempStr := Sheet.Cells[CRow, PlanBlock[8]].Text;
+                      if (TempStr <> '') then
+                      begin
+                        TempStr := StringReplace(UpperCase(StringReplace(Copy(TempStr, Pos(' ', TempStr), Length(TempStr)-Pos(' ', TempStr)+1), ' ', '', [rfReplaceAll])), 'H', ':', [rfReplaceAll]);
+                        StartTime := Copy(TempStr, 1, Pos('-', TempStr)-1);
+                        if (Pos(':', StartTime) = 2) then
+                          StartTime := '0' + StartTime;
+                        EndTime := Copy(TempStr, Pos('-', TempStr)+1, Length(TempStr)-Pos('-', TempStr));
+                        if (Pos(':', EndTime) = 2) then
+                          EndTime := '0' + EndTime;
+                        FieldByName('DeliveryTime').Value := StartTime + ' - ' + EndTime;
+                        DeliveryTime := StartTime + ' - ' + EndTime;
+                      end
+                      else begin
+                        FieldByName('DeliveryTime').Value := DeliveryTime;
+                      end;
+                    end;
+
+                    FieldByName('Remark').Value := Remark;
+                  end;
+
+                  Counter := 0;
+                  if (NotExistRY <> '') then
+                  begin
+                    Application.MessageBox(PChar('The following RY does not exist in database:' + #13#10#13#10 + '¡@Building: ' + Query_1D.FieldByName('Building').AsString + #13#10 + '¡@Lean: ' + Query_1D.FieldByName('Lean').AsString + #13#10 + '¡@RY: ' + NotExistRY), 'WARNING', MB_OK + MB_ICONWARNING);
+                    Query_1D.FieldByName('YN').Value := '2';
+                  end;
                 end;
               end;
 
@@ -4782,7 +4855,7 @@ begin
     if (OpenDialog1.Execute) then
     begin
       SelectedFileName := ExtractFileName(OpenDialog1.FileName);
-      Building := StringReplace(SelectedFileName, '.xlsx', '', [rfReplaceAll, rfIgnoreCase]);
+      //Building := StringReplace(SelectedFileName, '.xlsx', '', [rfReplaceAll, rfIgnoreCase]);
 
       IsValidFileName := False;
       for i := 0 to Length(AllowedFileNames) - 1 do
@@ -4842,7 +4915,8 @@ begin
                 MinCol_Date := 2;
                 MaxCol_Date := 2;
                 PlanFormat := '';
-                Lean := copy(Sheet.Cells[2, 5].Text,1,7);
+                Building := Copy(Sheet.Cells[2, 5].Text, 1, Pos('-', Sheet.Cells[2, 5].Text) - 1);
+                Lean := Copy(Sheet.Cells[2, 5].Text, Pos('-', Sheet.Cells[2, 5].Text) + 1, Length(Sheet.Cells[2, 5].Text) - Pos('-', Sheet.Cells[2, 5].Text));
                 for Row := 1 to 15 do
                 begin
                   if (Sheet.Cells[Row, 1].Text = '¥Ø¼Ð') then
@@ -5580,17 +5654,17 @@ begin
     SQL.Add('      SELECT ''O'' AS GXLB');
     SQL.Add('    ) AS Section');
     SQL.Add('    CROSS JOIN (');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 1'' AS Lean, ''VDH0523'' AS Dep_A, ''VDH0582'' AS Dep_S, ''VDH0530'' AS Dep_C, ''VDH301'' AS Dep_O UNION ALL');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 2'' AS Lean, ''VDH0524'' AS Dep_A, ''VDH0583'' AS Dep_S, ''VDH0531'' AS Dep_C, ''VDH301'' AS Dep_O UNION ALL');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 3'' AS Lean, ''VDH0525'' AS Dep_A, ''VDH0584'' AS Dep_S, ''VDH0532'' AS Dep_C, ''VDH301'' AS Dep_O UNION ALL');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 4'' AS Lean, ''VDH0581'' AS Dep_A, ''VDH0585'' AS Dep_S, ''VDH0577'' AS Dep_C, ''VDH301'' AS Dep_O UNION ALL');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 5'' AS Lean, ''VDH0526'' AS Dep_A, ''VDH0586'' AS Dep_S, ''VDH0533'' AS Dep_C, ''VDH303'' AS Dep_O UNION ALL');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 6'' AS Lean, ''VDH0527'' AS Dep_A, ''VDH0587'' AS Dep_S, ''VDH0534'' AS Dep_C, ''VDH303'' AS Dep_O UNION ALL');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 7'' AS Lean, ''VDH0528'' AS Dep_A, ''VDH0588'' AS Dep_S, ''VDH0535'' AS Dep_C, ''VDH303'' AS Dep_O UNION ALL');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 8'' AS Lean, ''VDH0529'' AS Dep_A, ''VDH0589'' AS Dep_S, ''VDH0536'' AS Dep_C, ''VDH302'' AS Dep_O UNION ALL');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 9'' AS Lean, ''VDH0548'' AS Dep_A, ''VDH0590'' AS Dep_S, ''VDH0552'' AS Dep_C, ''VDH302'' AS Dep_O UNION ALL');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 10'' AS Lean, ''VDH0549'' AS Dep_A, ''VDH0591'' AS Dep_S, ''VDH0553'' AS Dep_C, ''VDH304'' AS Dep_O UNION ALL');
-    SQL.Add('      SELECT ''DT'' AS Building, ''LINE 11'' AS Lean, ''VDH0550'' AS Dep_A, ''VDH0592'' AS Dep_S, ''VDH0554'' AS Dep_C, ''VDH304'' AS Dep_O');
+    SQL.Add('      SELECT ''3F'' AS Building, ''LINE 1'' AS Lean, ''VDH0616'' AS Dep_A, ''VDH0605'' AS Dep_S, ''VDH0594'' AS Dep_C, ''VDH302'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''3F'' AS Building, ''LINE 2'' AS Lean, ''VDH0617'' AS Dep_A, ''VDH0606'' AS Dep_S, ''VDH0595'' AS Dep_C, ''VDH302'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''3F'' AS Building, ''LINE 3'' AS Lean, ''VDH0618'' AS Dep_A, ''VDH0607'' AS Dep_S, ''VDH0596'' AS Dep_C, ''VDH304'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''3F'' AS Building, ''LINE 4'' AS Lean, ''VDH0619'' AS Dep_A, ''VDH0608'' AS Dep_S, ''VDH0597'' AS Dep_C, ''VDH304'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''3F'' AS Building, ''LINE 5'' AS Lean, ''VDH0620'' AS Dep_A, ''VDH0609'' AS Dep_S, ''VDH0598'' AS Dep_C, ''VDH305'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''3F'' AS Building, ''LINE 6'' AS Lean, ''VDH0621'' AS Dep_A, ''VDH0610'' AS Dep_S, ''VDH0599'' AS Dep_C, ''VDH305'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''4F'' AS Building, ''LINE 1'' AS Lean, ''VDH0622'' AS Dep_A, ''VDH0611'' AS Dep_S, ''VDH0600'' AS Dep_C, ''VDH301'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''4F'' AS Building, ''LINE 2'' AS Lean, ''VDH0623'' AS Dep_A, ''VDH0612'' AS Dep_S, ''VDH0601'' AS Dep_C, ''VDH301'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''4F'' AS Building, ''LINE 3'' AS Lean, ''VDH0624'' AS Dep_A, ''VDH0613'' AS Dep_S, ''VDH0602'' AS Dep_C, ''VDH303'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''4F'' AS Building, ''LINE 4'' AS Lean, ''VDH0625'' AS Dep_A, ''VDH0614'' AS Dep_S, ''VDH0603'' AS Dep_C, ''VDH303'' AS Dep_O UNION ALL');
+    SQL.Add('      SELECT ''4F'' AS Building, ''LINE 5'' AS Lean, ''VDH0626'' AS Dep_A, ''VDH0615'' AS Dep_S, ''VDH0604'' AS Dep_C, ''VDH303'' AS Dep_O');
     SQL.Add('    ) AS LD');
     SQL.Add('  ) AS LD ON LD.Building = SC.building_no AND LD.Lean = SC.lean_no');
     SQL.Add('  WHERE SC.schedule_date >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) + 1, 0) AND SC.finish_date IS NOT NULL');

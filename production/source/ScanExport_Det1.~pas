@@ -26,6 +26,8 @@ type
     Query1sgw: TFloatField;
     Query1rgw: TFloatField;
     Query1ogw: TFloatField;
+    Query1BSX: TStringField;
+    Query1CON_NO1: TStringField;
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Print1Click(Sender: TObject);
@@ -42,6 +44,8 @@ var
   ScanExport_Det: TScanExport_Det;
 
 implementation
+
+uses main1;
 
 {$R *.dfm}
 

@@ -61,7 +61,7 @@ begin
     sql.add('where ID like '+''''+edit1.Text+'%'+'''');
     sql.add('      and Depname like '+''''+'%'+edit2.Text+'%'+'''');
     sql.add('      and ProYN='+''''+'1'+'''');
-    sql.add('      and  GXLB =''C'' ');
+    sql.add('      and  GXLB =''C'' and yn=''1'' ');
     sql.add(' and GSBH='+''''+main.edit2.Text+'''');
     sql.add('order by ID');
     active:=true;

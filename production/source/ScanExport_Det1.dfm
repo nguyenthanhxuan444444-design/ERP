@@ -1,8 +1,8 @@
 object ScanExport_Det: TScanExport_Det
-  Left = 473
-  Top = 212
-  Width = 755
-  Height = 434
+  Left = 663
+  Top = 273
+  Width = 1016
+  Height = 554
   BorderIcons = [biSystemMenu]
   Caption = 'ScanExport_Det'
   Color = clBtnFace
@@ -23,8 +23,8 @@ object ScanExport_Det: TScanExport_Det
   object DBGridEh1: TDBGridEh
     Left = 0
     Top = 0
-    Width = 739
-    Height = 395
+    Width = 1000
+    Height = 515
     Align = alClient
     DataSource = DataSource1
     Flat = False
@@ -104,10 +104,15 @@ object ScanExport_Det: TScanExport_Det
       end
       item
         EditButtons = <>
-        FieldName = 'CON_NO'
+        FieldName = 'BSX'
+        Footers = <>
+        Title.Caption = 'Bien so xe'
+      end
+      item
+        EditButtons = <>
+        FieldName = 'CON_NO1'
         Footers = <>
         Title.Caption = #36008#27331#32232#34399'|CON_NO'
-        Width = 81
       end
       item
         EditButtons = <>
@@ -152,7 +157,6 @@ object ScanExport_Det: TScanExport_Det
       end>
   end
   object PrintDBGridEh1: TPrintDBGridEh
-    DBGridEh = DBGridEh1
     Options = []
     Page.BottomMargin = 0.200000000000000000
     Page.LeftMargin = 0.200000000000000000
@@ -164,11 +168,11 @@ object ScanExport_Det: TScanExport_Det
     PageFooter.Font.Name = 'MS Sans Serif'
     PageFooter.Font.Style = []
     PageHeader.CenterText.Strings = (
-      #25104#21697#20489#20986#36008#22806#31665#26126#32048#34920)
+      '??????????')
     PageHeader.Font.Charset = ANSI_CHARSET
     PageHeader.Font.Color = clWindowText
     PageHeader.Font.Height = -21
-    PageHeader.Font.Name = #26032#32048#26126#39636
+    PageHeader.Font.Name = '????'
     PageHeader.Font.Style = []
     Units = MM
     Left = 56
@@ -178,7 +182,19 @@ object ScanExport_Det: TScanExport_Det
     DatabaseName = 'DB'
     DataSource = ScanExport.dsMain
     SQL.Strings = (
-      'select *'
+      'SELECT *,'
+      '    CASE'
+      '        WHEN CHARINDEX('#39';'#39', CON_NO) > 0 '
+      '        THEN LEFT(CON_NO, CHARINDEX('#39';'#39', CON_NO) - 1) '
+      '        ELSE '#39#39' '
+      '    END AS BSX,'
+      '    CASE'
+      '        WHEN CHARINDEX('#39';'#39', CON_NO) > 0 '
+      
+        '        THEN SUBSTRING(CON_NO, CHARINDEX('#39';'#39', CON_NO) + 1, LEN(C' +
+        'ON_NO)) '
+      '        ELSE CON_NO '
+      '    END AS CON_NO1'
       'from (select * from YWCP union all select * from YWCPOLD) YWCP'
       'where DDBH=:DDBH'
       'order by CartonBar')
@@ -245,6 +261,14 @@ object ScanExport_Det: TScanExport_Det
     object Query1ogw: TFloatField
       FieldName = 'ogw'
       Origin = 'DB.YWCP.ogw'
+    end
+    object Query1BSX: TStringField
+      FieldName = 'BSX'
+      FixedChar = True
+    end
+    object Query1CON_NO1: TStringField
+      FieldName = 'CON_NO1'
+      FixedChar = True
     end
   end
   object DataSource1: TDataSource

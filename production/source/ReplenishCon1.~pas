@@ -94,6 +94,7 @@ type
     procedure BLCSAfterOpen(DataSet: TDataSet);
     procedure Button5Click(Sender: TObject);
     procedure N1Click(Sender: TObject);
+    procedure N2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -106,7 +107,7 @@ var
 
 implementation
 
-uses main1, EntryPrice1;
+uses main1, EntryPrice1, CheckQuotation1;
 
 {$R *.dfm}
 
@@ -344,6 +345,12 @@ procedure TReplenishCon.N1Click(Sender: TObject);
 begin
   EntryPrice:=TEntryPrice.create(self);
   EntryPrice.show;
+end;
+
+procedure TReplenishCon.N2Click(Sender: TObject);
+begin
+  CheckQuotation:=TCheckQuotation.create(self);
+  CheckQuotation.show;
 end;
 
 end.

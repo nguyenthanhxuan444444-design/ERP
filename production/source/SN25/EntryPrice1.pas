@@ -19,10 +19,18 @@ type
     Query1VNPrice: TCurrencyField;
     DS1: TDataSource;
     DBGridEh1: TDBGridEh;
+    Query2: TQuery;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Label1: TLabel;
+    Query1IsComputed: TIntegerField;
+    Label3: TLabel;
     procedure DBGridEh1DblClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure DBGridEh1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumnEh; State: TGridDrawState);
   private
     { Private declarations }
   public
@@ -60,23 +68,55 @@ end;
 
 procedure TEntryPrice.FormCreate(Sender: TObject);
 begin
+    with query2 do
+      begin
+        //20141202　weston修改原本常發現異常CWHL=0
+        active:=false;
+        sql.Clear;
+        sql.add('select top 1 CWHL from CWHL '); //20150409 weston 修改每月固定匯率
+        sql.add('           order by HLYEAR DESC,HLMONTH DESC ');
+        active:=true;
+        if recordcount>0 then Label2.Caption:=FieldByName('CWHL').AsString;
+        active:=false;
+      end;
+
+
     with query1 do
     begin
       Active:=false;
       sql.clear;
-      sql.Add('select KCRK.GSBH, KCRKS.RKNO,KCRKS.CLBH,KCRKS.VNPrice,KCRKS.USPrice,KCRK.USERDATE ,KCRKS.RKSB from KCRKS ');
+      sql.Add('select KCRK.GSBH, KCRKS.RKNO,KCRKS.CLBH,KCRKS.VNPrice,ROUND(ISNULL(KCRKS.USPrice, KCRKS.VNPrice / ' + label2.Caption + '),4) as USPrice,KCRK.USERDATE ,KCRKS.RKSB');
+      // Neu USPrice goc la NULL thi tra ve 1, nguoc lai tra ve 0
+      sql.Add(',CASE WHEN KCRKS.USPrice IS NULL THEN 1 ELSE 0 END as IsComputed ');
+      sql.add('from KCRKS ');
       sql.Add('left join KCRK on KCRKS.RKNO=KCRK.RKNO');
       sql.Add('where  KCRKS.CLBH='''+ReplenishCon.BLDet.FieldValues['CLBH']+''' ');
-      sql.Add('UNION ALL  ');
-      sql.Add('select KCRK_2014.GSBH, KCRKS_2014.RKNO,KCRKS_2014.CLBH,KCRKS_2014.VNPrice,KCRKS_2014.USPrice,KCRK_2014.USERDATE ,KCRKS_2014.RKSB');
-      sql.Add('from KCRKS_2014');
-      sql.Add('left join KCRK_2014 on KCRKS_2014.RKNO=KCRK_2014.RKNO');
-      sql.Add('where  KCRKS_2014.CLBH='''+ReplenishCon.BLDet.FieldValues['CLBH']+'''');
-      sql.Add('ORDER BY 2 desc ');
+      sql.Add('ORDER BY KCRK.RKNO desc ');
       active:=true;
     end;
 
-  //query1.Active:=true;
 end;
 
+procedure TEntryPrice.DBGridEh1DrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumnEh;
+  State: TGridDrawState);
+begin
+  // Kiem tra cot IsComputed chung ta da tao o SQL
+  // Neu IsComputed = 1 nghia la USPrice goc bi trong, dang hien gia tinh toan
+  if query1.FieldByName('IsComputed').AsInteger = 1 then
+  begin
+    DBGridEh1.Canvas.Brush.Color := $00CEF3FF; // Mau vang nhat hoac cam nhat
+    DBGridEh1.Canvas.Font.Color := clRed;      // Chu mau do de de phan biet
+  end;
+
+  // Giu mau xanh khi chon dong (Selected)
+  if gdSelected in State then
+  begin
+    DBGridEh1.Canvas.Brush.Color := clHighlight;
+    DBGridEh1.Canvas.Font.Color := clHighlightText;
+  end;
+
+  // Ve noi dung
+  DBGridEh1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
 end.

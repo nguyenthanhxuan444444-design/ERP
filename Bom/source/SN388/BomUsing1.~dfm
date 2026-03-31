@@ -1,6 +1,6 @@
 object BomUsing: TBomUsing
-  Left = 454
-  Top = 181
+  Left = 385
+  Top = 170
   Width = 1447
   Height = 675
   Caption = 'Bom Using'
@@ -254,7 +254,6 @@ object BomUsing: TBomUsing
       Height = 49
       Hint = 'Modify Current'
       Caption = 'Excel'
-      Enabled = False
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -262,7 +261,7 @@ object BomUsing: TBomUsing
       Font.Style = []
       ParentFont = False
       TabOrder = 7
-      Visible = False
+      OnClick = bbt6Click
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000130B0000130B00001000000000000000000000000000
@@ -347,7 +346,7 @@ object BomUsing: TBomUsing
         Columns = <
           item
             EditButtons = <>
-            FieldName = 'XieXing'
+            FieldName = 'ARTICLE'
             Footers = <>
           end
           item
@@ -416,9 +415,27 @@ object BomUsing: TBomUsing
             Width = 59
           end
           item
+            EditButtons = <>
+            FieldName = 'Qty'
+            Footers = <>
+          end
+          item
             Color = clYellow
             EditButtons = <>
-            FieldName = 'Price'
+            FieldName = 'Formula'
+            Footers = <>
+            Width = 120
+          end
+          item
+            EditButtons = <>
+            FieldName = 'DIFF'
+            Footers = <>
+            Title.Caption = 'DIFF|'#29992#37327#24046#24322
+          end
+          item
+            DisplayFormat = '0.00%'
+            EditButtons = <>
+            FieldName = 'Variance'
             Footers = <>
           end
           item
@@ -483,6 +500,14 @@ object BomUsing: TBomUsing
             Footers = <>
             Title.Caption = #30064#21205#26085#26399'|UserDate'
             Width = 72
+          end
+          item
+            Alignment = taCenter
+            EditButtons = <>
+            FieldName = 'bzcc'
+            Footers = <>
+            Title.Caption = 'StandardSize|'#27161#28310#23610#23544
+            Width = 100
           end>
       end
       object Panel2: TPanel
@@ -493,7 +518,7 @@ object BomUsing: TBomUsing
         Align = alTop
         TabOrder = 1
         object Label5: TLabel
-          Left = 239
+          Left = 183
           Top = 10
           Width = 69
           Height = 16
@@ -501,17 +526,15 @@ object BomUsing: TBomUsing
           AutoSize = False
           Caption = 'BWBH:'
         end
-        object Label23: TLabel
-          Left = 12
-          Top = 11
-          Width = 61
+        object Label1: TLabel
+          Left = 24
+          Top = 8
+          Width = 40
           Height = 16
-          Alignment = taRightJustify
-          AutoSize = False
-          Caption = 'Xiexing:'
+          Caption = 'Article:'
         end
         object BWBH: TEdit
-          Left = 319
+          Left = 263
           Top = 8
           Width = 134
           Height = 24
@@ -520,7 +543,7 @@ object BomUsing: TBomUsing
           TabOrder = 0
         end
         object Button2: TButton
-          Left = 464
+          Left = 424
           Top = 6
           Width = 74
           Height = 33
@@ -528,12 +551,11 @@ object BomUsing: TBomUsing
           TabOrder = 1
           OnClick = Button2Click
         end
-        object Xiexing: TEdit
-          Left = 84
+        object Edit1: TEdit
+          Left = 72
           Top = 8
-          Width = 172
+          Width = 121
           Height = 24
-          CharCase = ecUpperCase
           Color = clYellow
           TabOrder = 2
         end
@@ -549,48 +571,48 @@ object BomUsing: TBomUsing
     DatabaseName = 'DB'
     SQL.Strings = (
       
-        'select XXZLS.XH, XXZLS.BWBH,BWZL.ywsm BWMC,XXZLS.CLBH,'#39'Assembly'#39 +
-        ' as DType,'
+        'select distinct XXZLS.XH, XXZLS.BWBH,BWZL.ywsm BWMC,XXZLS.CLBH,'#39 +
+        'Assembly'#39' as DType,'
       '       CLZL.YWPM as CLMC, CLZL.ZWPM as CLZW,BWZL.zwsm  as BWZW,'
       
         '       CLZL.DWBH,CLZL.LYCC,LBZLS.BZ,XXZLS.BWLB,ZSZL.ZSYWJC,XXZLS' +
         '.LOSS,XXZLS.CLSL,'
       '       XXZLS.CCQQ,XXZLS.CCQZ,CLZL.CLZMLB,XXZLS.userdate'
       
-        '       ,(case when XXZLS.CLBH<>XXZLS_Log.CLBH then XXZLS_Log.Log' +
-        '_DateTime end) as '#39'CLBH_Log'#39
-      
-        '       ,(case when XXZLS.CLSL<>XXZLS_Log.CLSL then XXZLS_Log.Log' +
-        '_DateTime end) as '#39'CLSL_Log'#39',XXZLS.XieXing,XXZLS.SheHao,CLZL.ywp' +
-        'm,BWZL.ywsm'
-      '       ,MaterialCBD_BomUsing.Price,MaterialCBD_BomUsing.userid'
+        '        ,MaterialCBD_BomUsing.Qty, xxzl.ARTICLE,MaterialCBD_BomU' +
+        'sing.Qty-XXZLS.CLSL as DIFF,xxzl.bzcc,MaterialCBD_BomUsing.Formu' +
+        'la, ((MaterialCBD_BomUsing.Qty-XXZLS.CLSL)/XXZLS.CLSL) as Varian' +
+        'ce'
       'FROM XXZLS'
       
-        'LEFT join (select XieXing,SheHao,BWBH,Max(CLBH) as CLBH,Max(CLSL' +
-        ') as CLSL,Max(Log_DateTime) as Log_DateTime from XXZLS_Log'
-      
-        '            where XXZLS_Log.XieXing='#39'HKF2020'#39'  and Log_DateTime>' +
-        '=GetDate()-1'
-      '           Group by XieXing,SheHao,BWBH'
-      
-        '          )  XXZLS_Log on XXZLS_Log.XieXing=XXZLS.XieXing and XX' +
-        'ZLS_Log.SheHao=XXZLS.SheHao and XXZLS_Log.BWBH=XXZLS.BWBH'
+        'left join xxzl on xxzl.XieXing=xxzls.XieXing and xxzl.SheHao=xxz' +
+        'ls.SheHao'
       'LEFT JOIN BWZL  ON XXZLS.BWBH = BWZL.bwdh'
       'LEFT JOIN CLZL   ON XXZLS.CLBH = CLZL.cldh'
       
         'LEFT JOIN LBZLS ON SUBSTRING(XXZLS.CLBH,1,1) = LBZLS.lbdh AND LB' +
-        'ZLS.LB='#39'05'#39
+        'ZLS.LB='#39'13'#39
       'LEFT JOIN ZSZL on ZSZL.ZSDH=XXZLS.CSBH'
+      'LEFT JOIN MaterialCBD_BomUsing'
+      '  ON MaterialCBD_BomUsing.BWBH = XXZLS.BWBH'
+      ' AND MaterialCBD_BomUsing.ARTICLE ='
+      '     CASE'
+      '       WHEN CHARINDEX('#39'-'#39', XXZL.ARTICLE) > 0'
       
-        'left join MaterialCBD_BomUsing on MaterialCBD_BomUsing.XieXing=x' +
-        'xzls.XieXing and MaterialCBD_BomUsing.BWBH=xxzls.BWBH'
-      'where XXZLS.XieXing='#39'HKF20209'#39
-      'ORDER BY XXZLS.XH'
-      ''
+        '         THEN LEFT(XXZL.ARTICLE, CHARINDEX('#39'-'#39', XXZL.ARTICLE) - ' +
+        '1)'
+      '       ELSE XXZL.ARTICLE'
+      '     END'
+      #9' where XXZL.ARTICLE like'#39'1110519%'#39' and xxzl.SheHao='#39'90'#39
+      'ORDER BY XXZLS.BWBH'
       '')
     UpdateObject = UpXXZLS
     Left = 92
     Top = 264
+    object XXZLSARTICLE: TStringField
+      FieldName = 'ARTICLE'
+      FixedChar = True
+    end
     object XXZLSXH: TStringField
       FieldName = 'XH'
       FixedChar = True
@@ -611,11 +633,6 @@ object BomUsing: TBomUsing
       FixedChar = True
       Size = 15
     end
-    object XXZLSDType: TStringField
-      FieldName = 'DType'
-      FixedChar = True
-      Size = 8
-    end
     object XXZLSCLMC: TStringField
       FieldName = 'CLMC'
       FixedChar = True
@@ -626,11 +643,6 @@ object BomUsing: TBomUsing
       FixedChar = True
       Size = 200
     end
-    object XXZLSBWZW: TStringField
-      FieldName = 'BWZW'
-      FixedChar = True
-      Size = 40
-    end
     object XXZLSDWBH: TStringField
       FieldName = 'DWBH'
       FixedChar = True
@@ -640,6 +652,25 @@ object BomUsing: TBomUsing
       FieldName = 'LYCC'
       FixedChar = True
       Size = 1
+    end
+    object XXZLSCLSL: TFloatField
+      FieldName = 'CLSL'
+      DisplayFormat = '##,#0.0000'
+    end
+    object XXZLSQty: TFloatField
+      FieldName = 'Qty'
+    end
+    object XXZLSFormula: TStringField
+      FieldName = 'Formula'
+      FixedChar = True
+      Size = 50
+    end
+    object XXZLSDIFF: TFloatField
+      FieldName = 'DIFF'
+    end
+    object XXZLSLOSS: TFloatField
+      FieldName = 'LOSS'
+      DisplayFormat = '##,#0'
     end
     object XXZLSBZ: TStringField
       FieldName = 'BZ'
@@ -653,14 +684,6 @@ object BomUsing: TBomUsing
     object XXZLSZSYWJC: TStringField
       FieldName = 'ZSYWJC'
       FixedChar = True
-    end
-    object XXZLSLOSS: TFloatField
-      FieldName = 'LOSS'
-      DisplayFormat = '##,#0'
-    end
-    object XXZLSCLSL: TFloatField
-      FieldName = 'CLSL'
-      DisplayFormat = '##,#0.0000'
     end
     object XXZLSCCQQ: TStringField
       FieldName = 'CCQQ'
@@ -680,40 +703,48 @@ object BomUsing: TBomUsing
     object XXZLSuserdate: TDateTimeField
       FieldName = 'userdate'
     end
-    object XXZLSCLBH_Log: TStringField
-      FieldName = 'CLBH_Log'
-      FixedChar = True
-    end
-    object XXZLSCLSL_Log: TStringField
-      FieldName = 'CLSL_Log'
-      FixedChar = True
-    end
-    object XXZLSXieXing: TStringField
-      FieldName = 'XieXing'
-      FixedChar = True
-      Size = 15
-    end
-    object XXZLSPrice: TFloatField
-      FieldName = 'Price'
-    end
     object XXZLSuserid: TStringField
       FieldName = 'userid'
       FixedChar = True
       Size = 15
+    end
+    object XXZLSDType: TStringField
+      FieldName = 'DType'
+      FixedChar = True
+      Size = 8
+    end
+    object XXZLSBWZW: TStringField
+      FieldName = 'BWZW'
+      FixedChar = True
+      Size = 40
+    end
+    object XXZLSbzcc: TStringField
+      FieldName = 'bzcc'
+      FixedChar = True
+      Size = 6
+    end
+    object XXZLSVariance: TFloatField
+      FieldName = 'Variance'
     end
   end
   object UpXXZLS: TUpdateSQL
     ModifySQL.Strings = (
       'update MaterialCBD_BomUsing'
       'set'
-      '  Price = :Price,'
+      '  Formula = :Formula,'
+      '  Qty = :Qty,'
       '  USERID = :USERID,'
       '  USERDATE = GETDATE()'
       'where'
-      '  XieXing = :OLD_XieXing and'
       '  BWBH = :OLD_BWBH and'
-      '  Price = :OLD_Price and'
-      '  USERID = :OLD_USERID')
+      '  article ='
+      '  CASE'
+      
+        '    WHEN CHARINDEX('#39'-'#39', :Article) > 0 THEN LEFT(:Article, CHARIN' +
+        'DEX('#39'-'#39', :Article) - 1)'
+      '    ELSE :Article'
+      '  END'
+      '')
     Left = 92
     Top = 340
   end

@@ -326,7 +326,7 @@ end;
 
 procedure TScanBanDo.FormCreate(Sender: TObject);
 begin
-  KCBH:='A7';
+  KCBH:='A2';
   KHO.Caption:=KCBH;
   FreTimer.Enabled:=true;
 end;
@@ -334,7 +334,7 @@ end;
 procedure TScanBanDo.ChangeKCBH1Click(Sender: TObject);
 var value:string;
 begin
-  value := inputbox('KCBH', 'Ton kho', 'A7');
+  value := inputbox('KCBH', 'Ton kho', 'A2');
   if Value<>'' then
   begin
     KCBH:=Value;

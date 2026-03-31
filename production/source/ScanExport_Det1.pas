@@ -8,7 +8,6 @@ uses
 
 type
   TScanExport_Det = class(TForm)
-    DBGridEh1: TDBGridEh;
     PrintDBGridEh1: TPrintDBGridEh;
     Query1: TQuery;
     Query1CARTONBAR: TStringField;
@@ -26,6 +25,9 @@ type
     Query1sgw: TFloatField;
     Query1rgw: TFloatField;
     Query1ogw: TFloatField;
+    Query1BSX: TStringField;
+    Query1CON_NO1: TStringField;
+    DBGridEh1: TDBGridEh;
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Print1Click(Sender: TObject);

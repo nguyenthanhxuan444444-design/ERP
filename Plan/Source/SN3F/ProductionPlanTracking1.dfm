@@ -27,7 +27,7 @@ object ProductionPlanTracking: TProductionPlanTracking
     Top = 0
     Width = 1539
     Height = 691
-    ActivePage = TabSheet3
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
     object TabSheet1: TTabSheet
@@ -2134,7 +2134,7 @@ object ProductionPlanTracking: TProductionPlanTracking
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 1
           OnChange = CB_Building_UBChange
@@ -2150,7 +2150,7 @@ object ProductionPlanTracking: TProductionPlanTracking
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 2
         end

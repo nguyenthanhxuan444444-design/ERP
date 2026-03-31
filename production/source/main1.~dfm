@@ -1,8 +1,8 @@
 object main: Tmain
   Left = 646
   Top = 313
-  Width = 739
-  Height = 537
+  Width = 1212
+  Height = 623
   Caption = 's ciit '
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,8 +22,8 @@ object main: Tmain
   object Image1: TImage
     Left = 0
     Top = 0
-    Width = 723
-    Height = 440
+    Width = 1196
+    Height = 526
     Align = alClient
     AutoSize = True
     Stretch = True
@@ -39,8 +39,8 @@ object main: Tmain
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 440
-    Width = 723
+    Top = 526
+    Width = 1196
     Height = 38
     Panels = <>
   end
@@ -51,6 +51,52 @@ object main: Tmain
     Height = 21
     TabOrder = 2
     Visible = False
+  end
+  object Query1: TQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      'select BLimits.*,BLimit.YN'
+      'from BLimits'
+      
+        'Left join BLimit on BLimit.MKID=BLimits.MKID and BLimit.FORMID=B' +
+        'Limits.FORMID'
+      'where BLimits.USERID=:userid'
+      '      and BLimits.MKID=:mkid'
+      '      and BLimits.GSBH=:GSBH')
+    Left = 16
+    Top = 8
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'userid'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'mkid'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'GSBH'
+        ParamType = ptUnknown
+      end>
+  end
+  object BLimitHideQry: TQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      'select FORMID,YN'
+      'from BLimit'
+      'where BLimit.MKID=:mkid'
+      '')
+    Left = 16
+    Top = 40
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'mkid'
+        ParamType = ptUnknown
+      end>
   end
   object MainMenu1: TMainMenu
     AutoHotkeys = maManual
@@ -348,6 +394,10 @@ object main: Tmain
             Caption = 'N5216 Monthly Sock Report '#25104#21697#20489#26376#32080#26126#32048
             OnClick = SN5216Click
           end
+          object SN5217: TMenuItem
+            Caption = 'N5217 Order Problem'
+            OnClick = SN5217Click
+          end
         end
         object SN522: TMenuItem
           AutoLineReduction = maManual
@@ -408,6 +458,21 @@ object main: Tmain
         Caption = 'N55 FG Key In Order'
         OnClick = SN55Click
       end
+      object SN56: TMenuItem
+        Caption = 'N56 Scan Change KTP'
+        OnClick = SN56Click
+      end
+      object SN57: TMenuItem
+        Caption = 'N57 Scan Change Company'
+        object SN571: TMenuItem
+          Caption = 'N571 ScanIn'
+          OnClick = SN571Click
+        end
+        object SN572: TMenuItem
+          Caption = 'N572 ScanOut '
+          OnClick = SN572Click
+        end
+      end
     end
     object SN6: TMenuItem
       Caption = 'N6 Anlysis'
@@ -424,53 +489,8 @@ object main: Tmain
       Caption = 'N7 QC Check'
       object SN71: TMenuItem
         Caption = 'N71 Check Box'
+        OnClick = SN71Click
       end
     end
-  end
-  object Query1: TQuery
-    DatabaseName = 'DB'
-    SQL.Strings = (
-      'select BLimits.*,BLimit.YN'
-      'from BLimits'
-      
-        'Left join BLimit on BLimit.MKID=BLimits.MKID and BLimit.FORMID=B' +
-        'Limits.FORMID'
-      'where BLimits.USERID=:userid'
-      '      and BLimits.MKID=:mkid'
-      '      and BLimits.GSBH=:GSBH')
-    Left = 16
-    Top = 8
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'userid'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'mkid'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'GSBH'
-        ParamType = ptUnknown
-      end>
-  end
-  object BLimitHideQry: TQuery
-    DatabaseName = 'DB'
-    SQL.Strings = (
-      'select FORMID,YN'
-      'from BLimit'
-      'where BLimit.MKID=:mkid'
-      '')
-    Left = 16
-    Top = 40
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'mkid'
-        ParamType = ptUnknown
-      end>
   end
 end

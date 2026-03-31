@@ -464,6 +464,7 @@ object ScanIn: TScanIn
     Align = alRight
     Caption = 'Panel2'
     TabOrder = 3
+    Visible = False
     object DBGridEh3: TDBGridEh
       Left = 1
       Top = 1

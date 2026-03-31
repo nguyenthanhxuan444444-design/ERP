@@ -94,7 +94,7 @@ object QRScanOut_Dep: TQRScanOut_Dep
       Height = 28
       CharCase = ecUpperCase
       TabOrder = 2
-      Text = '_G'
+      Text = '_M'
     end
     object CheckBox1: TCheckBox
       Left = 420

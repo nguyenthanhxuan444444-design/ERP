@@ -1,8 +1,8 @@
 object ScanIn: TScanIn
   Left = -8
-  Top = -8
+  Top = 297
   Width = 1936
-  Height = 1056
+  Height = 820
   Caption = 'ScanIn'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -411,20 +411,20 @@ object ScanIn: TScanIn
     Left = 0
     Top = 153
     Width = 1920
-    Height = 864
+    Height = 628
     Align = alClient
     TabOrder = 1
     object Splitter1: TSplitter
       Left = 1698
       Top = 1
-      Height = 862
+      Height = 626
       Align = alRight
     end
     object DBGridEh1: TDBGridEh
       Left = 1
       Top = 1
       Width = 1697
-      Height = 862
+      Height = 626
       Align = alClient
       Color = 11927514
       DataSource = DS1
@@ -610,7 +610,7 @@ object ScanIn: TScanIn
       Left = 1701
       Top = 1
       Width = 218
-      Height = 862
+      Height = 626
       Align = alRight
       Caption = 'RightPanel'
       TabOrder = 2
@@ -618,7 +618,7 @@ object ScanIn: TScanIn
         Left = 1
         Top = 1
         Width = 216
-        Height = 707
+        Height = 471
         Align = alClient
         Color = 11927514
         DataSource = DS2
@@ -706,7 +706,7 @@ object ScanIn: TScanIn
       end
       object DBGridEhKCLL: TDBGridEh
         Left = 1
-        Top = 708
+        Top = 472
         Width = 216
         Height = 153
         Align = alBottom

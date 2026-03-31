@@ -1,8 +1,8 @@
 object ScanStockDet: TScanStockDet
-  Left = 286
-  Top = 281
-  Width = 1625
-  Height = 546
+  Left = 318
+  Top = 231
+  Width = 1386
+  Height = 535
   Caption = 'ScanStockDet'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object ScanStockDet: TScanStockDet
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1609
+    Width = 1370
     Height = 81
     Align = alTop
     TabOrder = 0
@@ -247,18 +247,59 @@ object ScanStockDet: TScanStockDet
       ParentFont = False
     end
     object Label15: TLabel
-      Left = 952
-      Top = 57
-      Width = 88
-      Height = 16
-      Alignment = taRightJustify
+      Left = 1317
+      Top = 12
+      Width = 168
+      Height = 20
       AutoSize = False
-      Caption = 'KHPO:'
+      Caption = 'Kiem Hang OK'#39511#36008'OK'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'MS Sans Serif'
-      Font.Style = []
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label17: TLabel
+      Left = 1316
+      Top = 49
+      Width = 209
+      Height = 16
+      AutoSize = False
+      Caption = 'Kiem Hang NG'#30064#24120#29376#27841
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label18: TLabel
+      Left = 1037
+      Top = 16
+      Width = 193
+      Height = 16
+      AutoSize = False
+      Caption = 'Nhap Kho OK'#20837#24235'OK'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label19: TLabel
+      Left = 1036
+      Top = 49
+      Width = 169
+      Height = 16
+      AutoSize = False
+      Caption = 'Dang Nhap Kho'#20837#24235#20013
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
       ParentFont = False
     end
     object Edit1: TEdit
@@ -338,19 +379,50 @@ object ScanStockDet: TScanStockDet
       ParentFont = False
       TabOrder = 7
     end
-    object Edit5: TEdit
-      Left = 1048
-      Top = 56
-      Width = 121
+    object TEdit
+      Left = 1255
+      Top = 11
+      Width = 49
       Height = 21
+      Color = clGreen
       TabOrder = 8
+    end
+    object TEdit
+      Left = 1255
+      Top = 46
+      Width = 49
+      Height = 24
+      Color = clRed
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 9
+    end
+    object Edit5: TEdit
+      Left = 976
+      Top = 14
+      Width = 49
+      Height = 21
+      Color = clBlue
+      TabOrder = 10
+    end
+    object Edit6: TEdit
+      Left = 976
+      Top = 48
+      Width = 48
+      Height = 21
+      Color = clYellow
+      TabOrder = 11
     end
   end
   object DBGridEh1: TDBGridEh
     Left = 0
     Top = 81
-    Width = 1609
-    Height = 426
+    Width = 1370
+    Height = 415
     Align = alClient
     DataSource = DS1
     Flat = False
@@ -384,203 +456,131 @@ object ScanStockDet: TScanStockDet
       item
         EditButtons = <>
         FieldName = 'DDBH'
-        Footers = <
-          item
-            FieldName = 'DDBH'
-            ValueType = fvtCount
-          end>
+        Footer.ValueType = fvtCount
+        Footers = <>
         Title.Caption = #35330#21934#32232#34399'|DDBH'
-        Title.TitleButton = True
-        Width = 77
       end
       item
         EditButtons = <>
         FieldName = 'YSBH'
         Footers = <>
         Title.Caption = #21046#20196#32232#34399'|YSBH'
-        Title.TitleButton = True
-        Width = 77
       end
       item
         EditButtons = <>
         FieldName = 'DepName'
         Footers = <>
         Title.Caption = #37096#38272#21517#31281'|DepName'
-        Width = 89
+        Width = 106
       end
       item
         EditButtons = <>
         FieldName = 'Article'
         Footers = <>
         Title.Caption = 'SKU#|Article'
-        Title.TitleButton = True
-        Width = 108
+        Width = 99
       end
       item
         EditButtons = <>
         FieldName = 'KHPO'
         Footers = <>
-        Title.Caption = #23458#25142'PO'
+        Title.Caption = #23458#25142'PO|KHPO'
+        Width = 91
       end
       item
         EditButtons = <>
         FieldName = 'XieMing'
         Footers = <>
         Title.Caption = #38795#22411#21517#31281'|XieMing'
-        Title.TitleButton = True
-        Width = 141
+        Width = 106
       end
       item
         EditButtons = <>
         FieldName = 'YSSM'
         Footers = <>
         Title.Caption = #38991#33394#21517#31281'|YSSM'
+        Width = 116
       end
       item
         EditButtons = <>
         FieldName = 'ETD'
         Footers = <>
         Title.Caption = #20986#36008#26085'|ETD'
-        Title.TitleButton = True
-        Width = 85
+        Width = 98
       end
       item
         EditButtons = <>
         FieldName = 'Country'
         Footers = <>
         Title.Caption = #20986#36008#22283#23478'|Country'
-        Title.TitleButton = True
-        Width = 106
+        Width = 118
       end
       item
         EditButtons = <>
         FieldName = 'KFJC'
         Footers = <>
         Title.Caption = #23458#25142#31777#31281'|KFJC'
-        Title.TitleButton = True
-        Width = 85
+        Width = 93
       end
       item
         Color = 11599792
         EditButtons = <>
         FieldName = 'Qty'
-        Footers = <
-          item
-            FieldName = 'Qty'
-            ValueType = fvtSum
-          end>
+        Footer.ValueType = fvtSum
+        Footers = <>
         Title.Caption = #35330#21934#38617#25976'|Qty'
-        Title.Font.Charset = ANSI_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -11
-        Title.Font.Name = #26032#32048#26126#39636
-        Title.Font.Style = []
-        Title.TitleButton = True
-        Width = 60
       end
       item
         Color = 11599792
         EditButtons = <>
         FieldName = 'okQty'
-        Footers = <
-          item
-            FieldName = 'okQty'
-            ValueType = fvtSum
-          end>
+        Footer.ValueType = fvtSum
+        Footers = <>
         Title.Caption = #20837#20489#38617#25976'|okQty'
-        Title.Font.Charset = ANSI_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -11
-        Title.Font.Name = #26032#32048#26126#39636
-        Title.Font.Style = []
-        Title.TitleButton = True
-        Width = 60
       end
       item
         Color = 11599792
         EditButtons = <>
         FieldName = 'LackQty'
-        Footers = <
-          item
-            FieldName = 'LackQty'
-            ValueType = fvtSum
-          end>
+        Footer.ValueType = fvtSum
+        Footers = <>
         Title.Caption = #23578#27424#38617#25976'|LackQty'
-        Title.Font.Charset = ANSI_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -11
-        Title.Font.Name = #26032#32048#26126#39636
-        Title.Font.Style = []
-        Title.TitleButton = True
-        Width = 60
       end
       item
         Color = 16759225
         EditButtons = <>
         FieldName = 'CTS'
-        Footers = <
-          item
-            FieldName = 'CTS'
-            ValueType = fvtSum
-          end>
+        Footer.ValueType = fvtSum
+        Footers = <>
         Title.Caption = #35330#21934#31665#25976'|CTS'
-        Title.Font.Charset = ANSI_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -11
-        Title.Font.Name = #26032#32048#26126#39636
-        Title.Font.Style = []
-        Title.TitleButton = True
-        Width = 60
       end
       item
         Color = 16759225
         EditButtons = <>
         FieldName = 'okCTS'
-        Footers = <
-          item
-            FieldName = 'okCTS'
-            ValueType = fvtSum
-          end>
+        Footer.ValueType = fvtSum
+        Footers = <>
         Title.Caption = #20837#20489#31665#25976'|okCTS'
-        Title.Font.Charset = ANSI_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -11
-        Title.Font.Name = #26032#32048#26126#39636
-        Title.Font.Style = []
-        Title.TitleButton = True
-        Width = 60
       end
       item
         Color = 16759225
         EditButtons = <>
         FieldName = 'LackCTS'
-        Footers = <
-          item
-            FieldName = 'LackCTS'
-            ValueType = fvtSum
-          end>
+        Footer.ValueType = fvtSum
+        Footers = <>
         Title.Caption = #23578#27424#31665#25976'|LackCTS'
-        Title.Font.Charset = ANSI_CHARSET
-        Title.Font.Color = clWindowText
-        Title.Font.Height = -11
-        Title.Font.Name = #26032#32048#26126#39636
-        Title.Font.Style = []
-        Title.TitleButton = True
-        Width = 60
       end
       item
         EditButtons = <>
         FieldName = 'InDate'
         Footers = <>
         Title.Caption = #20837#24235#26085#26399'|InDate'
-        Width = 86
       end
       item
         EditButtons = <>
         FieldName = 'LastInDate'
         Footers = <>
         Title.Caption = #26368#24460#20837#20489#26178#38291'|LastInDate'
-        Width = 86
       end
       item
         EditButtons = <>
@@ -590,20 +590,36 @@ object ScanStockDet: TScanStockDet
       end
       item
         EditButtons = <>
-        FieldName = 'DZQty'
-        Footers = <
-          item
-            FieldName = 'DZQty'
-            ValueType = fvtSum
-          end>
-        Title.Caption = #30701#35037#25976#37327'|DZQty'
-        Width = 59
+        FieldName = 'Status'
+        Footers = <>
+        Title.Caption = 'Status|Status'
+        Width = 38
       end
       item
         EditButtons = <>
-        FieldName = 'Status'
+        FieldName = 'SB'
         Footers = <>
-        Width = 37
+        Title.Caption = 'SB|SB'
+        Width = 38
+      end
+      item
+        EditButtons = <>
+        FieldName = 'KVBH'
+        Footers = <>
+        Title.Caption = #20301#32622'|KVBH'
+        Width = 91
+      end
+      item
+        EditButtons = <>
+        FieldName = 'POMEMO'
+        Footers = <>
+        Title.Caption = #23458#25142'PO| POMEMO'
+      end
+      item
+        EditButtons = <>
+        FieldName = 'DZQty'
+        Footers = <>
+        Title.Caption = #30701#35037#25976#37327'|DZQty'
       end>
   end
   object PrintDBGridEh1: TPrintDBGridEh
@@ -627,57 +643,90 @@ object ScanStockDet: TScanStockDet
     PageHeader.Font.Style = []
     Units = MM
     Left = 152
-    Top = 88
+    Top = 224
   end
   object Query1: TQuery
     DatabaseName = 'DB'
     SQL.Strings = (
-      ''
+      'SET ANSI_NULLS ON'
+      'SET QUOTED_IDENTIFIER ON'
+      'SET CONCAT_NULL_YIELDS_NULL ON'
+      'SET ANSI_WARNINGS ON'
+      'SET ANSI_PADDING ON'
+      'SET ARITHABORT ON'
+      'select YWCP.DDBH,YWDD.YSBH,'
+      '     '#39'1'#39' as DepName,'
+      '       XXZL.Article,max (YWCP.KCBH) as KCBH ,'
+      'STUFF(('
       
-        'select YWCP.DDBH,YWDD.YSBH,BDepartment.DepName,XXZL.Article,YWCP' +
-        '.KCBH,XXZL.XieMing,YWDD.ETD,LBZLS.YWSM as Country,KFZL.KFJC,'
+        '       SELECT '#39', '#39' + kv2.KVBH + '#39'('#39' + CAST(SUM(kv2.Qty) AS VARCH' +
+        'AR(20)) + '#39')'#39
+      '       FROM YWCP kv2'
+      '       WHERE kv2.DDBH = YWCP.DDBH'
+      '       GROUP BY kv2.KVBH'
+      '       FOR XML PATH('#39#39'), TYPE).value('#39'.'#39', '#39'VARCHAR(500)'#39')'
+      '    ,1,2,'#39#39') AS KVBH,Person'
+      '       ,XXZL.XieMing,YWDD.ETD,LBZLS.YWSM as Country,KFZL.KFJC,'
       
         '       YWDD.Qty,sum(YWCP.Qty) as okQty,YWDD.Qty-isnull(sum(YWCP.' +
         'Qty),0) as LackQty,sum(YWDDSDZ.Qty) as DZQty,'
       
         '       YWBZPO.CTS,count(YWCP.DDBH) as okCTS,YWBZPO.CTS-count(YWC' +
-        'P.DDBH) as LackCTS,max(YWCP.InDate) as InDate,max(YWCP.LastInDat' +
-        'e) as LastInDate,xxzl.YSSM ,KHPO,'#39#39' Status'
-      'from YWCP'
+        'P.DDBH) as LackCTS,max(YWCP.LastInDate) as LastInDate,max(YWCP.I' +
+        'nDate) as InDate,XXZL.yssm,KHPO,'
+      
+        '       STUFF((SELECT '#39'/'#39' + CAST(SB AS varchar(10))FROM (SELECT D' +
+        'ISTINCT SB FROM YWCP cp2 WHERE cp2.DDBH = YWCP.DDBH) t FOR XML P' +
+        'ATH('#39#39'), TYPE).value('#39'.'#39', '#39'VARCHAR(MAX)'#39'),1,1,'#39#39') AS SB,'#39#39' Statu' +
+        's,CONVERT(VARCHAR(8000), YWBZPO.MEMO) AS POMEMO'
+      'from YWCP  with (nolock)'
+      'left join YWDD  with (nolock) on YWDD.DDBH=YWCP.DDBH '
       'left join (select CartonBar,sum(Qty) as Qty from YWDDSDZ '
       
-        '             group by CartonBar ) YWDDSDZ on YWDDSDZ.CartonBar=Y' +
-        'WCP.CartonBar '
-      'left join YWDD on YWDD.DDBH=YWCP.DDBH '
-      'left join DDZL on YWDD.YSBH=DDZl.DDBH '
+        '           group by CartonBar ) YWDDSDZ on YWDDSDZ.CartonBar=YWC' +
+        'P.CartonBar '
+      'left join DDZL  with (nolock) on YWDD.YSBH=DDZl.DDBH '
       
-        'left join XXZL on DDZl.XieXing=XXZl.XieXing and DDZL.SheHao=XXZL' +
-        '.Shehao '
-      'left join LBZLS on LBZLS.LB='#39'06'#39' and LBZLS.LBDH=DDZL.DDGB'
-      'left join KFZL on KFZL.KFDH=DDZL.KHBH '
-      'left join (select YWBZPO.DDBH,sum(YWBZPO.CTS) as CTS '
+        'left join XXZL  with (nolock) on DDZl.XieXing=XXZl.XieXing and D' +
+        'DZL.SheHao=XXZL.Shehao '
       
-        '           from (select distinct YWBZPOS.DDBH,YWBZPOS.XH,YWBZPOS' +
-        '.CTS from YWBZPOS ) YWBZPO  '
+        'left join LBZLS  with (nolock) on LBZLS.LB='#39'06'#39' and LBZLS.LBDH=D' +
+        'DZL.DDGB'
+      'left join KFZL  with (nolock) on KFZL.KFDH=DDZL.KHBH '
+      'left join DDZL_PASS with (nolock) on YWCP.DDBH=DDZL_PASS.DDBH'
       
-        '           group by YWBZPO.DDBH) YWBZPO on YWCP.DDBH=YWBZPO.DDBH' +
+        'LEFT JOIN (SELECT A.DDBH,SUM(A.CTS) AS CTS,STUFF((SELECT '#39'/'#39' + B' +
+        '.MEMO FROM (SELECT DISTINCT DDBH, MEMO  '
+      
+        'FROM YWBZPOS WITH (NOLOCK)) B WHERE B.DDBH = A.DDBH FOR XML PATH' +
+        '('#39#39'), TYPE).value('#39'.'#39', '#39'VARCHAR(MAX)'#39'), 1, 1, '#39#39') AS MEMO FROM (' +
         ' '
-      'left join BDepartment on YWCP.DepNO = BDepartment.ID'
-      'where DDZL.DDBH like '#39'%'#39
-      '      and YWCP.KCBH like '#39'%'#39
-      '      and KFZL.KFJC like '#39'%%'#39
-      '      and LBZLS.YWSM like '#39'%%'#39
-      '      and DDZL.GSBH='#39'VA12'#39
-      '      and YWCP.SB='#39'1'#39
-      '      and DDZL.KHBH='#39'036'#39' '
-      '      and DDZL.DDGB='#39'GER'#39' '
       
-        'group by YWCP.DDBH,YWDD.YSBH,BDepartment.DepName,YWCP.KCBH,XXZL.' +
-        'Article,XXZL.XieMing,YWDD.ETD,LBZLS.YWSM,KFZL.KFJC,YWDD.Qty,YWBZ' +
-        'PO.CTS,xxzl.YSSM,KHPO'
-      'order by YWCP.DDBH ')
-    Left = 240
-    Top = 96
+        'SELECT DISTINCT DDBH, XH, CTS, MEMO FROM YWBZPOS WITH (NOLOCK) W' +
+        'HERE DDBH LIKE '#39'DN2508-0065%'#39') A GROUP BY A.DDBH) YWBZPO ON YWCP' +
+        '.DDBH = YWBZPO.DDBH'
+      'where DDZL.DDBH like '#39'DN2508-0065%'#39
+      '      and YWCP.KCBH like '#39'%'#39
+      '      and isnull(KFZL.KFJC,'#39#39') like '#39'%%'#39
+      '      and isnull(LBZLS.YWSM,'#39#39') like '#39'%%'#39
+      '      and DDZL.GSBH='#39'TBA'#39' '
+      
+        '      and IsNull(YWCP.SB,'#39#39')<>'#39#39' and convert(varchar,YWCP.Indate' +
+        ',111) <= '#39'2025/08/21'#39' '
+      
+        '      and YWCP.CARTONBAR not in (Select CARTONBAR from YWCP wher' +
+        'e SB='#39'3'#39' and convert(varchar,YWCP.EXEDATE,111) <='#39'2025/08/21'#39')'
+      
+        '    and YWCP.CARTONBAR not in (Select CARTONBAR from YWCP where ' +
+        'SB in ('#39'2'#39','#39'4'#39') and convert(varchar,IsNull(YWCP.OUTDATE,GetDate(' +
+        ')-7200),111) <='#39'2025/08/21'#39')'
+      'group by YWCP.DDBH,YWDD.YSBH,'
+      
+        '         XXZL.Article,XXZL.XieMing,YWDD.ETD,LBZLS.YWSM,KFZL.KFJC' +
+        ',YWDD.Qty,YWBZPO.CTS,XXZL.yssm,KHPO,YWBZPO.MEMO,Person'
+      'order by YWCP.DDBH')
+    Left = 256
+    Top = 224
     object Query1DDBH: TStringField
       FieldName = 'DDBH'
       FixedChar = True
@@ -769,16 +818,29 @@ object ScanStockDet: TScanStockDet
       FixedChar = True
       Size = 1
     end
+    object Query1POMEMO2: TStringField
+      FieldName = 'POMEMO'
+      Size = 10
+    end
+    object Query1SB: TStringField
+      FieldName = 'SB'
+      Size = 10
+    end
+    object Query1KVBH: TStringField
+      FieldName = 'KVBH'
+      FixedChar = True
+      Size = 5
+    end
   end
   object DS1: TDataSource
     DataSet = Query1
-    Left = 280
-    Top = 96
+    Left = 312
+    Top = 240
   end
   object PopupMenu1: TPopupMenu
     AutoHotkeys = maManual
-    Left = 184
-    Top = 96
+    Left = 208
+    Top = 232
     object Excel1: TMenuItem
       Caption = 'Excel'
       OnClick = Excel1Click

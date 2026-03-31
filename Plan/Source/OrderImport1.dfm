@@ -1,8 +1,8 @@
 object OrderImport: TOrderImport
   Left = 308
   Top = 232
-  Width = 947
-  Height = 577
+  Width = 1257
+  Height = 640
   Caption = 'OrderImport'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,8 +23,8 @@ object OrderImport: TOrderImport
   object Panel2: TPanel
     Left = 0
     Top = 65
-    Width = 939
-    Height = 481
+    Width = 1241
+    Height = 536
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -34,17 +34,17 @@ object OrderImport: TOrderImport
     ParentFont = False
     TabOrder = 0
     object Splitter1: TSplitter
-      Left = 704
+      Left = 1006
       Top = 65
       Width = 5
-      Height = 415
+      Height = 470
       Align = alRight
     end
     object DBGrideh1: TDBGridEh
       Left = 1
       Top = 65
-      Width = 703
-      Height = 415
+      Width = 1005
+      Height = 470
       Align = alClient
       DataSource = DS1
       Flat = False
@@ -231,7 +231,7 @@ object OrderImport: TOrderImport
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 937
+      Width = 1239
       Height = 64
       Align = alTop
       Font.Charset = DEFAULT_CHARSET
@@ -416,17 +416,17 @@ object OrderImport: TOrderImport
       end
     end
     object Panel4: TPanel
-      Left = 709
+      Left = 1011
       Top = 65
       Width = 229
-      Height = 415
+      Height = 470
       Align = alRight
       TabOrder = 2
       object DBGrideh2: TDBGridEh
         Left = 1
         Top = 41
         Width = 227
-        Height = 373
+        Height = 428
         Align = alClient
         DataSource = DS2
         EvenRowColor = clWindow
@@ -640,7 +640,7 @@ object OrderImport: TOrderImport
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 939
+    Width = 1241
     Height = 65
     Align = alTop
     TabOrder = 1
@@ -1080,6 +1080,15 @@ object OrderImport: TOrderImport
         3000333333333333377733333333333333333333333333333333}
       Layout = blGlyphTop
       NumGlyphs = 2
+    end
+    object SMDDSS1: TButton
+      Left = 816
+      Top = 8
+      Width = 75
+      Height = 49
+      Caption = 'SMDDSS'
+      TabOrder = 14
+      OnClick = SMDDSS1Click
     end
   end
   object SMDD: TQuery

@@ -1,6 +1,6 @@
 object SpecImport: TSpecImport
-  Left = 3
-  Top = 234
+  Left = 345
+  Top = 179
   Width = 1556
   Height = 500
   Caption = 'SpecImport'

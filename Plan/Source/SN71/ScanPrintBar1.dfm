@@ -1,6 +1,6 @@
 object ScanPrintBar: TScanPrintBar
-  Left = 280
-  Top = 172
+  Left = 533
+  Top = 255
   Width = 1045
   Height = 480
   Caption = 'ScanPrintBar'
@@ -886,6 +886,11 @@ object ScanPrintBar: TScanPrintBar
     object N2: TMenuItem
       Caption = 'Print BarCode'
       OnClick = N2Click
+    end
+    object SendBarCodeNew1: TMenuItem
+      Caption = 'Send QRCode'
+      Visible = False
+      OnClick = SendBarCodeNew1Click
     end
   end
   object SMDDS: TQuery

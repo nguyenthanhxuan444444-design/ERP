@@ -648,7 +648,7 @@ begin
   ImageBox.Visible := false;
   SearchDate := DTP1.Date;
   Building := CB_Building.Text;
-  Lean := Copy(CB_Lean.Text, 1, 8);
+  Lean := Copy(CB_Lean.Text, 1, 10);
 
   for i := 1 to StringGrid1.RowCount - 1 do
   begin
@@ -679,7 +679,7 @@ begin
     SQL.Clear;
     SQL.Add('SELECT BDepartment.DepName, BZDate, Qty FROM SCBZCL');
     SQL.Add('LEFT JOIN BDepartment ON BDepartment.ID = SCBZCL.DepNo');
-    SQL.Add('WHERE BDepartment.DepName = ''' + CB_Building.Text + '_G-' + Lean + ''' AND SCBZCL.GSBH = ''' + main.Edit2.Text + ''' AND SCBZCL.BZDate BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP1.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', EndOfTheMonth(DTP1.Date)) + '''');
+    SQL.Add('WHERE BDepartment.DepName = ''' + 'DT_G-' + CB_Building.Text + '-' + Lean + ''' AND SCBZCL.GSBH = ''' + main.Edit2.Text + ''' AND SCBZCL.BZDate BETWEEN ''' + FormatDateTime('yyyy/MM/dd', StartOfTheMonth(DTP1.Date)) + ''' AND ''' + FormatDateTime('yyyy/MM/dd', EndOfTheMonth(DTP1.Date)) + '''');
     Active := true;
 
     while not Eof do
@@ -695,7 +695,7 @@ begin
     SQL.Clear;
     SQL.Add('SELECT CONVERT(VARCHAR, CONVERT(SmallDateTime, SCRL.SCYEAR + ''/'' + SCRL.SCMONTH + ''/'' + SCRL.SCDay), 111) AS Date, SCRL.SCGS AS WorkingHours FROM SCRL');
     SQL.Add('LEFT JOIN BDepartment ON BDepartment.ID = SCRL.DepNO');
-    SQL.Add('WHERE SCRL.SCYEAR = ''' + FormatDateTime('yyyy', DTP1.Date) + ''' AND SCRL.SCMONTH = ''' + FormatDateTime('M', DTP1.Date) + ''' AND BDepartment.DepName = ''' + CB_Building.Text + '_G-' + Lean + '''');
+    SQL.Add('WHERE SCRL.SCYEAR = ''' + FormatDateTime('yyyy', DTP1.Date) + ''' AND SCRL.SCMONTH = ''' + FormatDateTime('M', DTP1.Date) + ''' AND BDepartment.DepName = ''' + 'DT_G-' + CB_Building.Text + '-' +  Lean + '''');
     SQL.Add('ORDER BY CONVERT(SmallDateTime, SCRL.SCYEAR + ''/'' + SCRL.SCMONTH + ''/'' + SCRL.SCDay)');
     Active := true;
   end;
@@ -2542,7 +2542,7 @@ begin
       eclapp.Columns.ColumnWidth := 7;
       eclapp.Columns[1].ColumnWidth := 5;
 
-      eclApp.Cells[1, 1] := Lean;
+      eclApp.Cells[1, 1] := Building + ' ' + Lean;
       eclApp.Cells[1, 1].Font.Size := 24;
       eclApp.Range[eclApp.Cells[1, 1], eclApp.Cells[1, StringGrid1.ColCount]].MergeCells := True;
       eclApp.Cells[2, 1] := 'Date';
@@ -2554,9 +2554,9 @@ begin
       begin
         eclApp.Cells[Row,     1] := 'LY';
         eclApp.Cells[Row + 1, 1] := 'RY';
-        eclApp.Cells[Row + 2, 1] := 'SKU';
+        eclApp.Cells[Row + 2, 1] := 'Last#';
         eclApp.Cells[Row + 3, 1] := 'BUY';
-        eclApp.Cells[Row + 4, 1] := 'Last#';
+        eclApp.Cells[Row + 4, 1] := 'SKU';//'Last#';
         eclApp.Cells[Row + 5, 1] := '數量/SL';
         eclApp.Cells[Row + 6, 1] := 'CSD';
         eclApp.Cells[Row + 7, 1] := '國家/N';

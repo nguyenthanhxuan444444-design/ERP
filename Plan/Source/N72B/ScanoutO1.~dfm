@@ -1,6 +1,6 @@
 object ScanoutO: TScanoutO
   Left = 261
-  Top = 273
+  Top = 343
   Width = 1671
   Height = 675
   Caption = 'Scan Out De'
@@ -293,44 +293,21 @@ object ScanoutO: TScanoutO
         EditButtons = <>
         FieldName = 'DDBH'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
         FieldName = 'XieMing'
         Footers = <>
-        ReadOnly = True
-        Width = 273
       end
       item
         EditButtons = <>
         FieldName = 'XXCC'
         Footers = <>
-        ReadOnly = True
       end
       item
-        Color = clCream
         EditButtons = <>
-        FieldName = 'QtyIn'
-        Footer.ValueType = fvtSum
+        FieldName = 'Codebar'
         Footers = <>
-        ReadOnly = True
-      end
-      item
-        Color = clYellow
-        EditButtons = <>
-        FieldName = 'QtyOut'
-        Footer.ValueType = fvtSum
-        Footers = <>
-        ReadOnly = True
-      end
-      item
-        Color = clInfoBk
-        EditButtons = <>
-        FieldName = 'TonKho'
-        Footer.ValueType = fvtSum
-        Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
@@ -339,9 +316,18 @@ object ScanoutO: TScanoutO
       end
       item
         EditButtons = <>
-        FieldName = 'Codebar'
+        FieldName = 'QtyIn'
         Footers = <>
-        ReadOnly = True
+      end
+      item
+        EditButtons = <>
+        FieldName = 'QtyOut'
+        Footers = <>
+      end
+      item
+        EditButtons = <>
+        FieldName = 'TonKho'
+        Footers = <>
       end>
   end
   object DepNo: TQuery
@@ -366,15 +352,17 @@ object ScanoutO: TScanoutO
     DatabaseName = 'DB'
     SQL.Strings = (
       
-        'SELECT distinct c.DDBH, d.XieMing, c.XXCC, a.QtyIn,a.QtyOut,a.Qt' +
-        'yin - ISNULL(a.qtyout, 0) AS TonKho,a.Codebar,a.Ma_Ke,a.ID'
-      'FROM SMZL_MAKE A '
-      'LEFT JOIN smddss C ON a.CODEBAR = c.CODEBAR '
-      'LEFT JOIN smdd D ON c.DDBH = d.DDBH '
-      'WHERE okCTS > 0 '
-      'AND c.GXLB = '#39'O'#39' '
-      'AND c.DDBH LIKE '#39'%JHS2504-755%'#39' '
-      'ORDER BY c.DDBH, c.XXCC, a.Ma_Ke')
+        'SELECT c.DDBH, d.XieMing, c.XXCC, a.Codebar, a.Ma_Ke, SUM(CASE W' +
+        'HEN a.Status = '#39'IN'#39' THEN a.Qty ELSE 0 END) AS QtyIn, SUM(CASE WH' +
+        'EN a.Status = '#39'OUT'#39' THEN a.Qty ELSE 0 END) AS QtyOut, SUM(CASE W' +
+        'HEN a.Status = '#39'IN'#39' THEN a.Qty ELSE -a.Qty END) AS TonKho FROM S' +
+        'MZL_MAKE A WITH (NOLOCK) LEFT JOIN smddss C WITH (NOLOCK) ON a.C' +
+        'ODEBAR = c.CODEBAR LEFT JOIN smdd D WITH (NOLOCK) ON c.DDBH = d.' +
+        'DDBH AND c.GXLB = d.GXLB WHERE c.okCTS > 0 AND c.GXLB = '#39'O'#39' '
+      'AND c.DDBH LIKE '#39'%HK2501-079%'#39' '
+      'GROUP BY c.DDBH, d.XieMing, c.XXCC, a.Codebar, a.Ma_Ke '
+      'ORDER BY c.DDBH, c.XXCC, a.Ma_Ke'
+      '')
     UpdateObject = UpScan
     Left = 272
     Top = 160
@@ -393,6 +381,15 @@ object ScanoutO: TScanoutO
       FixedChar = True
       Size = 6
     end
+    object ScanDataCodebar: TStringField
+      FieldName = 'Codebar'
+      FixedChar = True
+    end
+    object ScanDataMa_Ke: TStringField
+      FieldName = 'Ma_Ke'
+      FixedChar = True
+      Size = 10
+    end
     object ScanDataQtyIn: TIntegerField
       FieldName = 'QtyIn'
     end
@@ -401,18 +398,6 @@ object ScanoutO: TScanoutO
     end
     object ScanDataTonKho: TIntegerField
       FieldName = 'TonKho'
-    end
-    object ScanDataMa_Ke: TStringField
-      FieldName = 'Ma_Ke'
-      FixedChar = True
-      Size = 10
-    end
-    object ScanDataCodebar: TStringField
-      FieldName = 'Codebar'
-      FixedChar = True
-    end
-    object ScanDataID: TFloatField
-      FieldName = 'ID'
     end
   end
   object Qtemp1: TQuery

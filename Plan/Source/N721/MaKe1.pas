@@ -34,7 +34,7 @@ var
   MaKe: TMaKe;
 
 implementation
- uses ScanIn1, main1;
+ uses ScanIn1, main1, ScanMakeO1;
 {$R *.dfm}
 
 procedure TMaKe.FormDestroy(Sender: TObject);
@@ -44,7 +44,7 @@ end;
 
 procedure TMaKe.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-      action:=cafree;
+  action:=cafree;
 end;
 
 procedure TMaKe.Button1Click(Sender: TObject);
@@ -65,11 +65,11 @@ begin
   if query1.recordcount>0 then
   begin
     //±a¤JDepNO
-      ScanIn.Query1.active:=true;
-      if ScanIn.Query1.Locate('MAKE',copy(query1.FieldByName('MAKE').AsString,0,10),[]) then
+      ScanMakeO.Query1.active:=true;
+      if ScanMakeO.Query1.Locate('MAKE',copy(query1.FieldByName('MAKE').AsString,0,10),[]) then
       begin
-      ScanIn.edit4.Text:=query1.fieldbyname('MAKE').Value;
-      ScanIn.edit5.Text:=query1.fieldbyname('NAME').Value;
+      ScanMakeO.edit4.Text:=query1.fieldbyname('MAKE').Value;
+      ScanMakeO.edit5.Text:=query1.fieldbyname('NAME').Value;
       end;
     //
     close;

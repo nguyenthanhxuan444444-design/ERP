@@ -348,6 +348,12 @@ type
     Query3: TQuery;
     BitBtn2: TBitBtn;
     YPZLZLSDevType: TStringField;
+    Button11: TButton;
+    Label25: TLabel;
+    Label26: TLabel;
+    Edit14: TEdit;
+    Edit15: TEdit;
+    GC: TQuery;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -428,6 +434,7 @@ type
     procedure CheckBox2Click(Sender: TObject);
     procedure CheckStock1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
+    procedure Button11Click(Sender: TObject);
   private
     { Private declarations }
     procedure InsertKCCLDay();
@@ -2228,6 +2235,8 @@ begin
           eclApp.Cells(1,14):='VNPayID';
           eclApp.Cells(1,15):='recs';
           eclApp.Cells(1,16):='SampleLeadTime';
+          eclApp.Cells(1,17):='SR';
+          eclApp.Cells(1,18):='YPDH';
           Qry_Summary.First;
           j:=2;
           while   not   Qry_Summary.Eof   do
@@ -2255,6 +2264,7 @@ begin
                         eclApp.Cells(j,15):=Qry_Summary.FieldByName('recs').value;
                         eclApp.Cells(j,16):=Qry_Summary.FieldByName('sampleleadtime').value;
                         eclApp.Cells(j,17):=Qry_Article.FieldByName('devcode').value;
+                        eclApp.Cells(j,18):=Qry_Article.FieldByName('YPDH').value;
                      end;
                      Qry_Article.Next;
                      inc(j);
@@ -2569,6 +2579,9 @@ begin
           eclApp.Cells(1,6):='FD';
           eclApp.Cells(1,7):='EXT';
           eclApp.Cells(1,8):='Usage';
+          eclApp.Cells(1,9):='YPDH';
+          eclApp.Cells(1,10):='PurQty';
+          eclApp.Cells(1,11):='Qty';
           Qry_Summary.First;
           j:=2;
           while   not   Qry_Summary.Eof   do
@@ -2586,6 +2599,9 @@ begin
                         eclApp.Cells(j,5):=Qry_Article.FieldByName('pairs').value;
                         eclApp.Cells(j,6):=Qry_Article.FieldByName('FD').value;
                         eclApp.Cells(j,8):=Qry_Summary.FieldByName('CLSL').value;
+                        eclApp.Cells(j,9):=Qry_Article.FieldByName('YPDH').value;
+                        eclApp.Cells(j,10):=Qry_Article.FieldByName('CGQty').value;
+                        eclApp.Cells(j,11):=Qry_Article.FieldByName('CLSL').value;
                      end;
                      Qry_Article.Next;
                      inc(j);
@@ -2861,6 +2877,135 @@ begin
 
   finally
     List.Free;
+  end;
+end;
+
+procedure TSampleMerge.Button11Click(Sender: TObject);
+var
+  ExcelApp, Sheet: Variant;
+  i, Col, RowIdx: Integer;
+begin
+  with Query1 do
+  begin
+    Close;
+    SQL.Clear;
+    
+    // S? d?ng cách c?ng chu?i tr?c ti?p c?a b?n d? d?m b?o l?y dúng giá tr? 'VDK'
+    SQL.Add('SELECT YPZL.YPDH, YPZL.CLBH, YPZL.YWPM, YPZL.DWBH, CQDH, Sum(CLSL) as CLSL, okQty, CSBH,');
+    SQL.Add('ZSZL.ZSYWJC as BOM_Supplier, ZSZL_DEV.ZSDH_JG, ZSZL_DEV.ZSYWJC as JG_Supplier');
+    SQL.Add('FROM (');
+    SQL.Add('  SELECT YPZL.YPDH, YPZL.CLBH, YPZL.YWPM, YPZL.DWBH, YPZL.CQDH, YPZL.DEVCODE, YPZL.CLSL,');
+    SQL.Add('  isnull(JGZL.okQty,0) as okQty, isnull(JGZL.oldCLSL,0) as oldCLSL, CSBH FROM (');
+    SQL.Add('    SELECT YPZLS.YPDH, YPZLS.MJBH, YPZLS.Parent, YPZLS.DType, YPZLS.CLBH, YPZLS.CLSL,');
+    SQL.Add('    CLZL.YWPM, CLZL.DWBH, CLZL.CQDH, KFXXZL.Article, KFXXZL.XieMing, KFXXZL.DEVCODE,');
+    SQL.Add('    YPZL.Quantity, YPZL.USERDATE as CalDate, YPZL.GSDH as GSBH, YPZLS.CLZMLB, CSBH FROM (');
+    SQL.Add('      SELECT YPZLS.YPDH, YPZLS.MJBH, YPZLS.Parent, YPZLS.DType, YPZLS.CLBH, YPZLS.CLZMLB,');
+    SQL.Add('      Sum(YPZLS.CLSL) as CLSL, CSBH FROM (');
+    
+    // Kh?i UNION 1
+    SQL.Add('        SELECT ypzls.YPDH, ypzls.xh, ypzls.CLBH as MJBH, ypzls.CLBH as Parent, ''Assembly'' as DType,');
+    SQL.Add('        ypzls.CLBH, CEILING(ypzls.CLSL*YPZL.Quantity*100)/100 as CLSL, clzl.CLZMLB, YPZLS.CSBH');
+    SQL.Add('        FROM ypzls ypzls');
+    SQL.Add('        LEFT JOIN YPZL on YPZL.YPDH=YPZLS.YPDH');
+    SQL.Add('        LEFT JOIN clzl clzl ON ypzls.CLBH = clzl.cldh');
+    // Dùng cách c?a b?n d? l?y VDK
+    SQL.Add('        WHERE YPZL.GSDH = ''' + main.Edit2.Text + ''' and ypzls.YPDH like ''%'' and CLZL.CLDH like ''%''');
+    
+    SQL.Add('        UNION ALL');
+    
+    // Kh?i UNION 2
+    SQL.Add('        SELECT ypzls.YPDH, ypzls.xh, clzhzl.cldh as MJBH, ypzls.clbh as Parent, ''Gia cong'' as DType,');
+    SQL.Add('        clzhzl.CLDH1 as CLBH, Round((CEILING(YPZLS.CLSL*YPZL.Quantity*100)/100)*CLZHZL.SYL,2) as CLSL,');
+    SQL.Add('        clzl.CLZMLB, YPZLS.CSBH');
+    SQL.Add('        FROM ypzls ypzls');
+    SQL.Add('        LEFT JOIN YPZL on YPZL.YPDH=YPZLS.YPDH');
+    SQL.Add('        LEFT JOIN clzhzl ON ypzls.CLBH = CLZHZL.cldh');
+    SQL.Add('        LEFT JOIN clzl clzl ON CLZHZL.cldh1 = clzl.cldh');
+    SQL.Add('        WHERE YPZL.GSDH = ''' + main.Edit2.Text + ''' and ypzls.YPDH like ''%'' and CLZHZL.SYL>0 and CLZL.CLDH like ''%''');
+    
+    SQL.Add('        UNION ALL');
+    
+    // Kh?i Sub-query gia công
+    SQL.Add('        SELECT clzhzl2.YPDH, clzhzl2.XH, clzhzl.CLDH as MJBH, clzhzl2.Parent, clzhzl2.DType,');
+    SQL.Add('        clzhzl.CLDH1 as CLBH, Round(clzhzl2.CLSL*clzhzl.syl,2) as CLSL, clzl.clzmlb, clzhzl2.CSBH');
+    SQL.Add('        FROM (');
+    SQL.Add('          SELECT ypzls.YPDH, ypzls.xh, YPZLS.CLBH as Parent, ''Gia cong'' as DType,');
+    SQL.Add('          clzhzl.CLDH1 as CLBH, Round((CEILING(YPZLS.CLSL*YPZL.Quantity*100)/100)*CLZHZL.SYL,2) as CLSL, YPZLS.CSBH');
+    SQL.Add('          FROM ypzls ypzls');
+    SQL.Add('          LEFT JOIN YPZL on YPZL.YPDH=YPZLS.YPDH');
+    SQL.Add('          INNER JOIN clzhzl ON ypzls.CLBH = CLZHZL.cldh');
+    SQL.Add('          LEFT JOIN clzl clzl ON CLZHZL.cldh1 = clzl.cldh');
+    SQL.Add('          WHERE YPZL.GSDH = ''' + main.Edit2.Text + ''' and ypzls.YPDH like ''%'' and CLZHZL.SYL>0 and clzl.clzmlb=''Y''');
+    SQL.Add('        ) clzhzl2');
+    SQL.Add('        INNER JOIN clzhzl ON clzhzl2.CLBH = CLZHZL.cldh');
+    SQL.Add('        LEFT JOIN clzl clzl ON CLZHZL.cldh1 = clzl.cldh');
+    SQL.Add('        WHERE CLZL.CLDH like ''%''');
+    
+    SQL.Add('      ) YPZLS GROUP BY YPZLS.YPDH, YPZLS.MJBH, YPZLS.Parent, YPZLS.DType, YPZLS.CLBH, YPZLS.CLZMLB, CSBH');
+    SQL.Add('    ) YPZLS');
+    SQL.Add('    LEFT JOIN YPZL on YPZL.YPDH=YPZLS.YPDH');
+    SQL.Add('    LEFT JOIN KFXXZL on YPZL.XieXing=KFXXZL.XieXing and YPZL.SheHao=KFXXZL.SheHao');
+    SQL.Add('    LEFT JOIN CLZL on CLZL.CLDH=YPZLS.CLBH');
+    
+    // Ði?u ki?n l?c chính
+    SQL.Add('    WHERE YPZL.GSDH = ''' + main.Edit2.Text + '''');
+    SQL.Add('    AND KFXXZL.JiJie like ''' + Edit14.Text + '%'''); // T? thêm % cho LIKE
+    SQL.Add('    AND YPZL.KFJD = ''' + Edit15.Text + '''');
+    SQL.Add('    AND YPZLS.CLZMLB=''Y''');
+    SQL.Add('  ) YPZL');
+    
+    // JOIN JGZL
+    SQL.Add('  LEFT JOIN (');
+    SQL.Add('    SELECT JGZLSS.ZLBH, JGZLSS.CLBH, sum(JGZLSS.Qty) as okQty, sum(JGZLSS.CLSL) as oldCLSL');
+    SQL.Add('    FROM JGZLSS');
+    SQL.Add('    LEFT JOIN CLZL on CLZL.CLDH=JGZLSS.CLBH');
+    SQL.Add('    LEFT JOIN YPZL on YPZL.YPDH=JGZLSS.ZLBH');
+    SQL.Add('    LEFT JOIN KFXXZL on YPZL.XieXing=KFXXZL.XieXing and YPZL.SheHao=KFXXZL.Shehao');
+    SQL.Add('    WHERE YPZL.GSDH = ''' + main.Edit2.Text + '''');
+    SQL.Add('    AND KFXXZL.JiJie like ''' + Edit14.Text + '%''');
+    SQL.Add('    AND YPZL.KFJD = ''' + Edit15.Text + '''');
+    SQL.Add('    GROUP BY JGZLSS.ZLBH, JGZLSS.CLBH');
+    SQL.Add('  ) JGZL on JGZL.CLBH=YPZL.CLBH and JGZL.ZLBH=YPZL.YPDH');
+    SQL.Add(') YPZL');
+    
+    // JOIN NCC
+    SQL.Add('LEFT JOIN zszl ON zszl.zsdh = YPZL.CSBH');
+    SQL.Add('LEFT JOIN (');
+    SQL.Add('  SELECT ZSZL_DEV.ZSDH, ZSZL_DEV.ZSDH_JG, ZSZL.ZSYWJC as ZSYWJC');
+    SQL.Add('  FROM ZSZL LEFT JOIN ZSZL_DEV ON ZSZL.ZSDH=ZSZL_DEV.ZSDH_JG and ZSZL_DEV.GSBH = ''' + main.Edit2.Text + '''');
+    SQL.Add(') ZSZL_DEV ON ZSZL.ZSDH=ZSZL_DEV.ZSDH');
+    SQL.Add('GROUP BY YPZL.YPDH, YPZL.CLBH, YPZL.YWPM, YPZL.DWBH, YPZL.CQDH, okqty, CSBH, ZSZL.ZSYWJC, ZSZL_DEV.ZSDH_JG, ZSZL_DEV.ZSYWJC');
+
+    Open;
+  end;
+
+  // 3. XU?T EXCEL
+  if not Query1.Eof then
+  begin
+    try
+      ExcelApp := CreateOleObject('Excel.Application');
+      ExcelApp.Visible := True;
+      ExcelApp.Workbooks.Add;
+      Sheet := ExcelApp.ActiveSheet;
+      
+      // Header
+      for Col := 0 to Query1.FieldCount - 1 do
+        Sheet.Cells[1, Col + 1] := Query1.Fields[Col].FieldName;
+
+      // Data
+      RowIdx := 2;
+      Query1.First;
+      while not Query1.Eof do
+      begin
+        for Col := 0 to Query1.FieldCount - 1 do
+          Sheet.Cells[RowIdx, Col + 1] := Query1.Fields[Col].Value;
+        Inc(RowIdx);
+        Query1.Next;
+      end;
+      Sheet.Columns.AutoFit;
+    except
+      ShowMessage('Loi Excel!');
+    end;
   end;
 end;
 

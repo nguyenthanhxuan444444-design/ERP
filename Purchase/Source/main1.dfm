@@ -630,9 +630,13 @@ object main: Tmain
         Caption = 'N101 ESG CLBH'
         OnClick = SN101Click
       end
-      object N102CLBHWeight1: TMenuItem
+      object SN102: TMenuItem
         Caption = 'N102 CLBH_Weight'
-        OnClick = N102CLBHWeight1Click
+        OnClick = SN102Click
+      end
+      object SN103: TMenuItem
+        Caption = 'N103 ZSZL_ESG'
+        OnClick = SN103Click
       end
     end
   end

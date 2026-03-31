@@ -62,7 +62,7 @@ begin
     sql.add('where ID like '+''''+edit1.Text+'%'+'''');
     sql.add('      and Depname like '+''''+'%'+edit2.Text+'%'+'''');
     sql.add('      and ProYN='+''''+'1'+'''');
-    sql.add('      and IsNull(GXLB,'''')<>'''' ');
+    sql.add('      and IsNull(GXLB,'''')<>''''and yn= ''1'' ');
     if not Checkbox1.Checked then
     begin
       sql.add(' and GSBH='+''''+main.edit2.Text+'''');

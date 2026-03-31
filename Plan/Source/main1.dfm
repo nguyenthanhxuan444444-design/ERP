@@ -1,7 +1,7 @@
 object main: Tmain
   Left = 555
   Top = 194
-  Width = 902
+  Width = 1279
   Height = 673
   Caption = ' '
   Color = clBtnFace
@@ -23,7 +23,7 @@ object main: Tmain
   object Image1: TImage
     Left = 0
     Top = 0
-    Width = 886
+    Width = 1263
     Height = 578
     Align = alClient
     AutoSize = True
@@ -41,7 +41,7 @@ object main: Tmain
   object StatusBar1: TStatusBar
     Left = 0
     Top = 578
-    Width = 886
+    Width = 1263
     Height = 36
     Panels = <>
   end
@@ -53,6 +53,49 @@ object main: Tmain
     TabOrder = 2
     Text = 'GSBH'
     Visible = False
+  end
+  object Query1: TQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      'select *'
+      'from BLimits'
+      'where USERID=:userid'
+      'and MKID=:mkid'
+      'and GSBH=:GSBH')
+    Left = 56
+    Top = 40
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'userid'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'mkid'
+        ParamType = ptUnknown
+      end
+      item
+        DataType = ftUnknown
+        Name = 'GSBH'
+        ParamType = ptUnknown
+      end>
+  end
+  object BLimitHideQry: TQuery
+    DatabaseName = 'DB'
+    SQL.Strings = (
+      'select FORMID,YN'
+      'from BLimit'
+      'where BLimit.MKID=:mkid '
+      '')
+    Left = 56
+    Top = 72
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'mkid'
+        ParamType = ptUnknown
+      end>
   end
   object MainMenu1: TMainMenu
     AutoHotkeys = maManual
@@ -575,6 +618,10 @@ object main: Tmain
           Caption = 'N72B Scan Out De'
           OnClick = SN72BClick
         end
+        object SN72C: TMenuItem
+          Caption = 'N72C Scan Nhap Ma Ke Kho De'
+          OnClick = SN72CClick
+        end
       end
       object SN73: TMenuItem
         Caption = 'N73 Adjust Scan'
@@ -626,6 +673,10 @@ object main: Tmain
           Caption = 'N7807  IE Production Per Hour Output '#29986#33021#26178#27841#34920
           OnClick = SN7807Click
         end
+        object SN7808: TMenuItem
+          Caption = 'N7808 Report Kho De'
+          OnClick = SN7808Click
+        end
       end
     end
     object SN8: TMenuItem
@@ -660,48 +711,12 @@ object main: Tmain
         OnClick = SN93Click
       end
     end
-  end
-  object Query1: TQuery
-    DatabaseName = 'DB'
-    SQL.Strings = (
-      'select *'
-      'from BLimits'
-      'where USERID=:userid'
-      'and MKID=:mkid'
-      'and GSBH=:GSBH')
-    Left = 56
-    Top = 40
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'userid'
-        ParamType = ptUnknown
+    object SN2W: TMenuItem
+      Caption = 'N2W Hoa Chat'
+      object SN2W1: TMenuItem
+        Caption = 'N2W1 Pha Keo'
+        OnClick = SN2W1Click
       end
-      item
-        DataType = ftUnknown
-        Name = 'mkid'
-        ParamType = ptUnknown
-      end
-      item
-        DataType = ftUnknown
-        Name = 'GSBH'
-        ParamType = ptUnknown
-      end>
-  end
-  object BLimitHideQry: TQuery
-    DatabaseName = 'DB'
-    SQL.Strings = (
-      'select FORMID,YN'
-      'from BLimit'
-      'where BLimit.MKID=:mkid '
-      '')
-    Left = 56
-    Top = 72
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'mkid'
-        ParamType = ptUnknown
-      end>
+    end
   end
 end

@@ -1,8 +1,8 @@
 object SuppNew: TSuppNew
-  Left = 400
-  Top = 265
-  Width = 986
-  Height = 500
+  Left = 424
+  Top = 255
+  Width = 1411
+  Height = 584
   Caption = 'SuppNew'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,15 +23,15 @@ object SuppNew: TSuppNew
   object Panel2: TPanel
     Left = 0
     Top = 65
-    Width = 978
-    Height = 404
+    Width = 1395
+    Height = 480
     Align = alClient
     TabOrder = 0
     object DBGrid1: TDBGridEh
       Left = 1
       Top = 57
-      Width = 976
-      Height = 346
+      Width = 1393
+      Height = 422
       Align = alClient
       DataSource = DS1
       Flat = False
@@ -132,7 +132,7 @@ object SuppNew: TSuppNew
           Font.Name = 'MS Sans Serif'
           Font.Style = []
           Footers = <>
-          Title.Caption = 'Address'
+          Title.Caption = 'Fax'
           Title.Font.Charset = ANSI_CHARSET
           Title.Font.Color = clWindowText
           Title.Font.Height = -13
@@ -189,12 +189,29 @@ object SuppNew: TSuppNew
           Title.Font.Name = 'MS Sans Serif'
           Title.Font.Style = []
           Width = 66
+        end
+        item
+          EditButtons = <>
+          FieldName = 'fpdz'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          Footers = <>
+          Title.Caption = 'Address'
+          Title.Font.Charset = ANSI_CHARSET
+          Title.Font.Color = clWindowText
+          Title.Font.Height = -13
+          Title.Font.Name = 'MS Sans Serif'
+          Title.Font.Style = []
+          Width = 300
         end>
     end
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 976
+      Width = 1393
       Height = 56
       Align = alTop
       Font.Charset = DEFAULT_CHARSET
@@ -271,7 +288,7 @@ object SuppNew: TSuppNew
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 978
+    Width = 1395
     Height = 65
     Align = alTop
     TabOrder = 1
@@ -730,7 +747,7 @@ object SuppNew: TSuppNew
       FieldName = 'zsqm'
       Origin = 'DB.zszl.zsqm'
       FixedChar = True
-      Size = 50
+      Size = 255
     end
     object Query1zsjc: TStringField
       FieldName = 'zsjc'
@@ -747,7 +764,7 @@ object SuppNew: TSuppNew
       FieldName = 'fpdz'
       Origin = 'DB.zszl.fpdz'
       FixedChar = True
-      Size = 120
+      Size = 255
     end
     object Query1yjdz: TStringField
       FieldName = 'yjdz'

@@ -632,6 +632,11 @@ object main: Tmain
       end
       object N102CLBHWeight1: TMenuItem
         Caption = 'N102 CLBH_Weight'
+        OnClick = N102CLBHWeight1Click
+      end
+      object N103ZSZLESG1: TMenuItem
+        Caption = 'N103 ZSZL_ESG'
+        OnClick = N103ZSZLESG1Click
       end
     end
   end

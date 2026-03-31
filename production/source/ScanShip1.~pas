@@ -67,6 +67,8 @@ type
     Edit4: TEdit;
     ScanDataogw: TFloatField;
     ScanDataLPNBarCode: TStringField;
+    Label5: TLabel;
+    Edit5: TEdit;
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BB3Click(Sender: TObject);
@@ -267,7 +269,7 @@ try
                   sql.add('update YWCP');
                   sql.add('set EXEDATE='+''''+FormatDatetime('YYYY-MM-DD ',spdate.Date)+' '+FormatDateTime('HH:NN:SS',Time())+''''); //20140422修改紀錄時間
                   sql.add('    ,SB='+''''+'3'+'''');
-                  sql.add('    ,CON_NO='+''''+edit2.Text+'''');
+                  sql.add('    ,CON_NO=' + QuotedStr(Trim(Edit5.Text) + ';' + Trim(Edit2.Text)));
                   sql.add('    ,ogw='+floattostr(Scandata.fieldbyname('ogw').value));
                   sql.add('where CARTONBAR='+''''+CARTONBAR+'''');
                   execsql;
@@ -493,7 +495,7 @@ if key=#13 then
                 Scandata.last;
                 Scandata.append;
                 Scandata.fieldbyname('CARTONBAR').Value:=s;
-                Scandata.fieldbyname('DDBH').Value:=trim(copy(s,0,pos(' ',s)-1));
+                Scandata.fieldbyname('DDBH').Value:=ywcp.fieldbyname('DDBH').Value;
                 Scandata.fieldbyname('XH').Value:=YWCP.fieldbyname('XH').value;
                 Scandata.fieldbyname('Qty').Value:=YWCP.fieldbyname('Qty').Value;
                 scandata.fieldbyname('sgw').Value:=0;    //如果標準重量沒有設定, 則帶0進去

@@ -504,6 +504,8 @@ begin
   if SMZL.RecordCount>0 then
   begin
     SMZL.First;
+    // bo sung khoa an nut
+    UploadBtn.Enabled:=false;
     for i:=0 to SMZL.RecordCount-1 do
     begin
       //
@@ -606,6 +608,7 @@ begin
           Qtemp.sql.add('      and GXLB='''+ SMZL.fieldbyname('GXLB').Value+'''');
           Qtemp.sql.add('      and XXCC='''+ SMZL.fieldbyname('XXCC').Value+'''');
           Qtemp.sql.add('      and XH='''+ SMZL.fieldbyname('XH').Value+'''');
+          Qtemp.sql.add('      and CODEBAR='''+ SMZL.fieldbyname('CODEBAR').Value+'''');
           Qtemp.ExecSQL;
           //////////////////////////////////////////////
           if CheckBox1.Checked then
@@ -646,6 +649,8 @@ begin
     SMZL.Active:=true;
     SMDDSS_Init();
   end;
+  // bo sung khoa an nut
+    UploadBtn.Enabled:=true;
 end;
 
 procedure TScanIn.DBGridEh2GetCellParams(Sender: TObject;
@@ -669,7 +674,7 @@ end;
 procedure TScanIn.DBGridEh2CellClick(Column: TColumnEh);
 begin
     //var SelectedValue := DBGridEh1.DataSource.DataSet.FieldByName('DDBH').AsString;
-  if DBGridEh2.DataSource.DataSet.FieldByName('GXLB').AsString  <>'A' then panel2.Visible:= false;
+  if DBGridEh2.DataSource.DataSet.FieldByName('GXLB').AsString  ='A' then panel2.Visible:= true;
   // C?p nh?t truy v?n d? li?u c?a Grid2 d?a trên giá tr? dã ch?n
   Qtemp2.Close;
   Qtemp2.SQL.Text := 'select SMDDSS.DDBH, SMDDSS.GXLB, SMDDSS.XXCC, SMDDSS.okCTS from SMDDSS where SMDDSS.GXLB=''S'' and SMDDSS.DDBH = ''' + DBGridEh2.DataSource.DataSet.FieldByName('DDBH').AsString + ''' and SMDDSS.XXCC = ''' + DBGridEh2.DataSource.DataSet.FieldByName('XXCC').AsString + '''';

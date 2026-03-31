@@ -21,7 +21,7 @@ object ScanIn: TScanIn
   PixelsPerInch = 96
   TextHeight = 16
   object Splitter1: TSplitter
-    Left = 505
+    Left = 745
     Top = 89
     Width = 4
     Height = 614
@@ -87,6 +87,7 @@ object ScanIn: TScanIn
       Width = 56
       Height = 24
       Caption = 'Ma ke:'
+      Visible = False
     end
     object Label5: TLabel
       Left = 1024
@@ -94,6 +95,7 @@ object ScanIn: TScanIn
       Width = 67
       Height = 24
       Caption = 'Ten Ke:'
+      Visible = False
     end
     object Edit1: TEdit
       Left = 96
@@ -217,6 +219,7 @@ object ScanIn: TScanIn
       Height = 32
       ReadOnly = True
       TabOrder = 8
+      Visible = False
     end
     object Button1: TButton
       Left = 1224
@@ -225,6 +228,7 @@ object ScanIn: TScanIn
       Height = 33
       Caption = 'Ma Ke'
       TabOrder = 9
+      Visible = False
       OnClick = Button1Click
     end
     object Edit5: TEdit
@@ -234,6 +238,7 @@ object ScanIn: TScanIn
       Height = 32
       ReadOnly = True
       TabOrder = 10
+      Visible = False
     end
     object CheckBox1: TCheckBox
       Left = 1304
@@ -242,12 +247,13 @@ object ScanIn: TScanIn
       Height = 17
       Caption = 'Nhap kho de'
       TabOrder = 11
+      Visible = False
     end
   end
   object DBGridEh1: TDBGridEh
     Left = 0
     Top = 89
-    Width = 505
+    Width = 745
     Height = 614
     Align = alLeft
     Color = 14548991
@@ -366,9 +372,9 @@ object ScanIn: TScanIn
       end>
   end
   object DBGridEh2: TDBGridEh
-    Left = 509
+    Left = 749
     Top = 89
-    Width = 619
+    Width = 379
     Height = 614
     Align = alClient
     Color = 14548991
@@ -464,6 +470,7 @@ object ScanIn: TScanIn
     Align = alRight
     Caption = 'Panel2'
     TabOrder = 3
+    Visible = False
     object DBGridEh3: TDBGridEh
       Left = 1
       Top = 1

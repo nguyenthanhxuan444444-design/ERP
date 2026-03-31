@@ -26,7 +26,7 @@ object ScanBanDo: TScanBanDo
     Left = 0
     Top = 0
     Width = 810
-    Height = 412
+    Height = 411
     Align = alClient
     PopupMenu = PopupMenu
     Stretch = True

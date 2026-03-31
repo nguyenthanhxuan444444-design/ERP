@@ -1,6 +1,6 @@
 object Quotation: TQuotation
-  Left = 468
-  Top = 153
+  Left = 477
+  Top = 226
   Width = 1372
   Height = 806
   Caption = 'Quotation'
@@ -2410,6 +2410,7 @@ object Quotation: TQuotation
     end
     object BJDetSeason: TStringField
       FieldName = 'Season'
+      OnSetText = BJDetSeasonSetText
       FixedChar = True
       Size = 5
     end

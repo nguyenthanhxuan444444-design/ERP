@@ -908,7 +908,7 @@ begin
                       SQL.Add('left join MaterialCBDFilter on MaterialCBDFilter.CLBH=CLZL.CLDH ');
                       SQL.Add('where CLZL.CLDH='''+BJDet.fieldbyname('CLBH').AsString+''' ');
                       //funcObj.WriteErrorLog(sql.Text);
-                      showmessage(SQL.text);
+                     // showmessage(SQL.text);
                       Active:=true;
                     end;
                     //20180324 Check if Costing Price> Price 成本單價鎖定

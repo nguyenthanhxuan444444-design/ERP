@@ -1,6 +1,6 @@
 object ScanPrintBar: TScanPrintBar
-  Left = 184
-  Top = 193
+  Left = 280
+  Top = 172
   Width = 1045
   Height = 480
   Caption = 'ScanPrintBar'
@@ -668,7 +668,7 @@ object ScanPrintBar: TScanPrintBar
       '      and SMDD.SCMONTH='#39'09'#39
       'order by SMDD.DDBH,SMDD.SCCX '
       '')
-    Left = 432
+    Left = 440
     Top = 280
     object SMDDDDBH: TStringField
       FieldName = 'DDBH'
@@ -886,6 +886,10 @@ object ScanPrintBar: TScanPrintBar
     object N2: TMenuItem
       Caption = 'Print BarCode'
       OnClick = N2Click
+    end
+    object SendBarCodeNew1: TMenuItem
+      Caption = 'Send QRCode'
+      OnClick = SendBarCodeNew1Click
     end
   end
   object SMDDS: TQuery

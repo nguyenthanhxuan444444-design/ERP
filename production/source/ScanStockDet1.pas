@@ -63,8 +63,15 @@ type
     Query1KHPO: TStringField;
     Label16: TLabel;
     Query1Status: TStringField;
+    Query1SB: TStringField;
+    Query1POMEMO2: TStringField;
+    Query1KVBH: TStringField;
     Label15: TLabel;
+    Label17: TLabel;
     Edit5: TEdit;
+    Label18: TLabel;
+    Edit6: TEdit;
+    Label19: TLabel;
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Button1Click(Sender: TObject);
@@ -119,10 +126,21 @@ begin
     end;
   with query1 do
   begin
-    active:=false;
+    active := false;
     sql.Clear;
+    // B? sung cac l?nh SET ?? tranh l?i
+    SQL.Add('SET ANSI_NULLS ON');
+    SQL.Add('SET QUOTED_IDENTIFIER ON');
+    SQL.Add('SET CONCAT_NULL_YIELDS_NULL ON');
+    SQL.Add('SET ANSI_WARNINGS ON');
+    SQL.Add('SET ANSI_PADDING ON');
+    SQL.Add('SET ARITHABORT ON');
+
+
+    if SameText(Main.Edit2.Text, 'HBA') then
+    begin
     sql.add('select YWCP.DDBH,YWDD.YSBH,');
-    if checkBox2.Checked then   //顯示生產單位
+    if checkBox2.Checked then
     begin
       sql.add('     BDepartment.DepName,');
     end
@@ -130,22 +148,27 @@ begin
     begin
       sql.Add('     ''1'' as DepName,');
     end;
-    sql.Add('       XXZL.Article,max (YWCP.KCBH) as KCBH ');
+    sql.Add('       XXZL.Article,max (YWCP.KCBH) as KCBH,ISNULL(STUFF((SELECT '', '' + kv2.KVBH + ''('' + CAST(SUM(kv2.Qty) AS VARCHAR(10)) + '')''FROM YWCP kv2   ');
+    sql.Add(' WHERE kv2.DDBH = YWCP.DDBH AND SB=1 GROUP BY kv2.KVBH ');
+    sql.Add(' FOR XML PATH(''''), TYPE).value(''.'', ''VARCHAR(500)''),1,2,''''),''NO('' + CAST(SUM(YWCP.Qty) AS VARCHAR(10)) + '')'') AS KVBH    ');
+    sql.Add(' , Person as Status ');
     sql.Add('       ,XXZL.XieMing,YWDD.ETD,LBZLS.YWSM as Country,KFZL.KFJC,');
 
     sql.add('       YWDD.Qty,sum(YWCP.Qty) as okQty,YWDD.Qty-isnull(sum(YWCP.Qty),0) as LackQty,sum(YWDDSDZ.Qty) as DZQty,');
-    sql.add('       YWBZPO.CTS,count(YWCP.DDBH) as okCTS,YWBZPO.CTS-count(YWCP.DDBH) as LackCTS,max(YWCP.LastInDate) as LastInDate,max(YWCP.InDate) as InDate,XXZL.yssm,KHPO,'''' Status');
+    sql.add('       YWBZPO.CTS,count(YWCP.DDBH) as okCTS,YWBZPO.CTS-count(YWCP.DDBH) as LackCTS,max(YWCP.LastInDate) as LastInDate,max(YWCP.InDate) as InDate,XXZL.yssm,KHPO,');
+    sql.add('       STUFF((SELECT ''-'' + CAST(SB AS varchar(10))FROM (SELECT DISTINCT SB FROM YWCP cp2 WHERE cp2.DDBH = YWCP.DDBH) t FOR XML PATH(''''), TYPE).value(''.'', ''VARCHAR(8000)''),1,1,'''') AS SB,'''' Status,CONVERT(VARCHAR(8000), YWBZPO.MEMO) AS POMEMO');
     sql.add('from YWCP  with (nolock)');
     sql.add('left join YWDD  with (nolock) on YWDD.DDBH=YWCP.DDBH ');
     sql.add('left join (select CartonBar,sum(Qty) as Qty from YWDDSDZ ');
     sql.add('           group by CartonBar ) YWDDSDZ on YWDDSDZ.CartonBar=YWCP.CartonBar ');
     sql.add('left join DDZL  with (nolock) on YWDD.YSBH=DDZl.DDBH ');
     sql.add('left join XXZL  with (nolock) on DDZl.XieXing=XXZl.XieXing and DDZL.SheHao=XXZL.Shehao ');
-    sql.add('left join LBZLS  with (nolock) on LBZLS.LB='+''''+'06'+''''+' and LBZLS.LBDH=DDZL.DDGB');
+    sql.add('left join LBZLS  with (nolock) on LBZLS.LB='+''''+'13'+''''+' and LBZLS.LBDH=DDZL.Dest');
     sql.add('left join KFZL  with (nolock) on KFZL.KFDH=DDZL.KHBH ');
-    sql.add('left join (select YWBZPO.DDBH,sum(YWBZPO.CTS) as CTS ');
-    sql.add('           from (select distinct YWBZPOS.DDBH,YWBZPOS.XH,YWBZPOS.CTS from YWBZPOS  with (nolock) ) YWBZPO  ');
-    sql.add('           group by YWBZPO.DDBH) YWBZPO on YWCP.DDBH=YWBZPO.DDBH ');
+    sql.add('left join DDZL_PASS with (nolock) on YWCP.DDBH=DDZL_PASS.DDBH ');
+    sql.add('LEFT JOIN (SELECT A.DDBH,SUM(A.CTS) AS CTS,STUFF((SELECT ''/'' + B.MEMO FROM (SELECT DISTINCT DDBH, MEMO  ');
+    sql.add('FROM YWBZPOS WITH (NOLOCK)) B WHERE B.DDBH = A.DDBH FOR XML PATH(''''), TYPE).value(''.'', ''VARCHAR(MAX)''), 1, 1, '''') AS MEMO FROM ( ');
+    sql.add('SELECT DISTINCT DDBH, XH, CTS, MEMO FROM YWBZPOS WITH (NOLOCK) WHERE DDBH LIKE '''+edit1.Text+'%'') A GROUP BY A.DDBH) YWBZPO ON YWCP.DDBH = YWBZPO.DDBH');
     if checkBox2.Checked then
       sql.add('left join BDepartment on YWCP.DepNO = BDepartment.ID');
     sql.Add('where DDZL.DDBH like '''+edit1.Text+'%''');
@@ -155,30 +178,98 @@ begin
     sql.add('      and DDZL.GSBH='''+main.edit2.text+''' ');
     sql.add('      and IsNull(YWCP.SB,'''')<>'''' and convert(varchar,YWCP.Indate,111) <= '''+formatdatetime('yyyy/MM/dd',DTP.Date)+''' ');
     sql.add('      and YWCP.CARTONBAR not in (Select CARTONBAR from YWCP where SB=''3'' and convert(varchar,YWCP.EXEDATE,111) <='''+formatdatetime('yyyy/MM/dd',DTP.Date)+''')');
-    sql.Add('      and DDZL.KHPO like '''+edit5.Text+'%''');
     if checkbox1.checked=false then
     begin
-      sql.add('    and YWCP.CARTONBAR not in (Select CARTONBAR from YWCP where SB in (''2'',''4'')  and convert(varchar,IsNull(YWCP.OUTDATE,GetDate()-7200),111) <='''+formatdatetime('yyyy/MM/dd',DTP.Date)+''')');
+      sql.add('    and YWCP.CARTONBAR not in (Select CARTONBAR from YWCP where SB in (''2'',''4'') and convert(varchar,IsNull(YWCP.OUTDATE,GetDate()-7200),111) <='''+formatdatetime('yyyy/MM/dd',DTP.Date)+''')');
     end;
     sql.add('group by YWCP.DDBH,YWDD.YSBH,');
     if checkBox2.Checked then
       sql.add('     BDepartment.DepName,');
-    sql.add('         XXZL.Article,XXZL.XieMing,YWDD.ETD,LBZLS.YWSM,KFZL.KFJC,YWDD.Qty,YWBZPO.CTS,XXZL.yssm,KHPO');
+    sql.add('         XXZL.Article,XXZL.XieMing,YWDD.ETD,LBZLS.YWSM,KFZL.KFJC,YWDD.Qty,YWBZPO.CTS,XXZL.yssm,KHPO,YWBZPO.MEMO, Person');
     sql.add('order by YWCP.DDBH ');
-    //funcObj.WriteErrorLog(sql.Text);
-    //showmessage(SQL.Text);
-    active:=true;
+    // FuncObj.WriteErrorLog(sql.Text);
+      end
+     else
+     begin
+     sql.add('select YWCP.DDBH,YWDD.YSBH,');
+    if checkBox2.Checked then
+    begin
+      sql.add('     BDepartment.DepName,');
+    end
+    else
+    begin
+      sql.Add('     ''1'' as DepName,');
+    end;
+     sql.Add('       XXZL.Article,max (YWCP.KCBH) as KCBH,ISNULL(STUFF((SELECT '', '' + kv2.KVBH + ''('' + CAST(SUM(kv2.Qty) AS VARCHAR(10)) + '')''FROM YWCP kv2   ');
+    sql.Add(' WHERE kv2.DDBH = YWCP.DDBH AND SB=1 GROUP BY kv2.KVBH ');
+    sql.Add(' FOR XML PATH(''''), TYPE).value(''.'', ''VARCHAR(500)''),1,2,''''),''NO('' + CAST(SUM(YWCP.Qty) AS VARCHAR(10)) + '')'') AS KVBH    ');
+    sql.Add(' , '''' as Status ');
+    sql.Add('       ,XXZL.XieMing,YWDD.ETD,LBZLS.YWSM as Country,KFZL.KFJC,');
+
+    sql.add('       YWDD.Qty,sum(YWCP.Qty) as okQty,YWDD.Qty-isnull(sum(YWCP.Qty),0) as LackQty,sum(YWDDSDZ.Qty) as DZQty,');
+    sql.add('       YWBZPO.CTS,count(YWCP.DDBH) as okCTS,YWBZPO.CTS-count(YWCP.DDBH) as LackCTS,max(YWCP.LastInDate) as LastInDate,max(YWCP.InDate) as InDate,XXZL.yssm,KHPO,');
+    sql.add('       STUFF((SELECT ''-'' + CAST(SB AS varchar(10))FROM (SELECT DISTINCT SB FROM YWCP cp2 WHERE cp2.DDBH = YWCP.DDBH) t FOR XML PATH(''''), TYPE).value(''.'', ''VARCHAR(8000)''),1,1,'''') AS SB,ywcp.Status Status,CONVERT(VARCHAR(8000), YWBZPO.MEMO) AS POMEMO');
+    sql.add('from YWCP  with (nolock)');
+    sql.add('left join YWDD  with (nolock) on YWDD.DDBH=YWCP.DDBH ');
+    sql.add('left join (select CartonBar,sum(Qty) as Qty from YWDDSDZ ');
+    sql.add('           group by CartonBar ) YWDDSDZ on YWDDSDZ.CartonBar=YWCP.CartonBar ');
+    sql.add('left join DDZL  with (nolock) on YWDD.YSBH=DDZl.DDBH ');
+    sql.add('left join XXZL  with (nolock) on DDZl.XieXing=XXZl.XieXing and DDZL.SheHao=XXZL.Shehao ');
+    sql.add('left join LBZLS  with (nolock) on LBZLS.LB='+''''+'13'+''''+' and LBZLS.LBDH=DDZL.Dest');
+    sql.add('left join KFZL  with (nolock) on KFZL.KFDH=DDZL.KHBH ');
+    sql.add('--left join (SELECT DISTINCT SCBH , Result FROM WOPR_MA WITH (NOLOCK)) WOPR_MA on YWCP.DDBH=WOPR_MA.SCBH  ');
+    sql.add('LEFT JOIN (SELECT A.DDBH,SUM(A.CTS) AS CTS,STUFF((SELECT ''/'' + B.MEMO FROM (SELECT DISTINCT DDBH, MEMO  ');
+    sql.add('FROM YWBZPOS WITH (NOLOCK)) B WHERE B.DDBH = A.DDBH FOR XML PATH(''''), TYPE).value(''.'', ''VARCHAR(MAX)''), 1, 1, '''') AS MEMO FROM ( ');
+    sql.add('SELECT DISTINCT DDBH, XH, CTS, MEMO FROM YWBZPOS WITH (NOLOCK) WHERE DDBH LIKE '''+edit1.Text+'%'') A GROUP BY A.DDBH) YWBZPO ON YWCP.DDBH = YWBZPO.DDBH');
+    if checkBox2.Checked then
+      sql.add('left join BDepartment on YWCP.DepNO = BDepartment.ID');
+    sql.Add('where DDZL.DDBH like '''+edit1.Text+'%''');
+    sql.add('      and YWCP.KCBH like '''+edit2.Text+'%''');
+    sql.add('      and isnull(KFZL.KFJC,'''') like ''%'+edit3.text+'%''');
+    sql.add('      and isnull(LBZLS.YWSM,'''') like ''%'+edit4.text+'%''');
+    sql.add('      and DDZL.GSBH='''+main.edit2.text+''' ');
+    sql.add('      and IsNull(YWCP.SB,'''')<>'''' and convert(varchar,YWCP.Indate,111) <= '''+formatdatetime('yyyy/MM/dd',DTP.Date)+''' ');
+    sql.add('      and YWCP.CARTONBAR not in (Select CARTONBAR from YWCP where SB=''3'' and convert(varchar,YWCP.EXEDATE,111) <='''+formatdatetime('yyyy/MM/dd',DTP.Date)+''')');
+    if checkbox1.checked=false then
+    begin
+      sql.add('    and YWCP.CARTONBAR not in (Select CARTONBAR from YWCP where SB in (''2'',''4'') and convert(varchar,IsNull(YWCP.OUTDATE,GetDate()-7200),111) <='''+formatdatetime('yyyy/MM/dd',DTP.Date)+''')');
+    end;
+    sql.add('group by YWCP.DDBH,YWDD.YSBH,');
+    if checkBox2.Checked then
+      sql.add('     BDepartment.DepName,');
+    sql.add('         XXZL.Article,XXZL.XieMing,YWDD.ETD,LBZLS.YWSM,KFZL.KFJC,YWDD.Qty,YWBZPO.CTS,XXZL.yssm,KHPO,YWBZPO.MEMO,ywcp.Status--, Result');
+    sql.add('order by YWCP.DDBH ');
+    end;
+    //FuncObj.WriteErrorLog(sql.Text);
+    active := true;
+//  FuncObj.WriteErrorLog(sql.Text);
   end;
 end;
+
+
 
 procedure TScanStockDet.DBGridEh1GetCellParams(Sender: TObject;
   Column: TColumnEh; AFont: TFont; var Background: TColor;
   State: TGridDrawState);
+  var
+  fLastInDate: TField;
 begin
+  // 1. Lay truong ngay nhap cuoi cung
+  fLastInDate := Query1.FieldByName('LastInDate');
+
+  // 2. LOGIC TO MAU NEN VANG: Neu moi nhap trong vong 30 ngay gan day
+  // Now - 30 tuong ung voi 30 ngay truoc thoi diem hien tai
+  if (not fLastInDate.IsNull) and (fLastInDate.AsDateTime < (Now - 30)) then
+  begin
+    Background := clYellow;
+    AFont.Color := clBlack; // Dam bao chu den tren nen vang cho de doc
+  end;
+
   if query1.FieldByName('LackQty').value<=0 then
   begin
     dbgrideh1.canvas.font.color:=clBlue;
   end;
+
 end;
 
 procedure TScanStockDet.Excel1Click(Sender: TObject);
@@ -222,11 +313,19 @@ try
   while   not  query1.Eof   do
     begin
       eclApp.Cells(j,1):=j-1;
-      for   i:=1   to   query1.fieldcount   do
-        begin
-          eclApp.Cells(j,i+1):=query1.Fields[i-1].Value;
-          eclApp.Cells.Cells.item[j,i+1].font.size:='8';
-        end;
+     for i := 1 to query1.FieldCount do
+       begin
+         if SameText(query1.Fields[i-1].FieldName, 'SB') then
+           begin
+             eclApp.Cells.Item[j, i+1].NumberFormat := '@'; // 廧 ki?u Text
+            eclApp.Cells(j, i+1) := query1.Fields[i-1].AsString;
+          end
+          else
+           eclApp.Cells(j, i+1) := query1.Fields[i-1].AsString;
+
+           eclApp.Cells.Item[j, i+1].Font.Size := 8;
+          end;
+
       query1.Next;
       inc(j);
     end;
@@ -265,18 +364,67 @@ end;
 procedure TScanStockDet.DBGridEh1DrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumnEh;
   State: TGridDrawState);
+var
+  statusVal, sbVal: string;
+  sbField: TField;
 begin
-   if Column.FieldName = 'Status' then
-  begin
-    // 檢查 A 欄位的數值
-    if Query1.FieldByName('LackQty').AsFloat > 0 then
-      DBGridEh1.Canvas.Brush.Color := clYellow // 如果 A > 0，設定黃色底色
-    else
-      DBGridEh1.Canvas.Brush.Color := clBlue; // 否則設定藍色底色
+  statusVal := Trim(Query1.FieldByName('Status').AsString);
+  sbField := Query1.FieldByName('SB');
 
-    // 繪製單元格
+  if (sbField = nil) or sbField.IsNull then
+    sbVal := ''
+  else
+    sbVal := Trim(sbField.AsString);
+  if Column.FieldName = 'Status' then
+  begin
+    if (Query1.FieldByName('LackQty').AsFloat > 0)   then
+      DBGridEh1.Canvas.Brush.Color := clYellow
+    else
+      DBGridEh1.Canvas.Brush.Color := clBlue;
+    if DBGridEh1.Canvas.Brush.Color = clBlue then
+      DBGridEh1.Canvas.Font.Color := clBlue
+    else
+      DBGridEh1.Canvas.Font.Color := clYellow;
+
+    DBGridEh1.Canvas.FillRect(Rect);
     DBGridEh1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
-  end;
+  end
+  else if Column.FieldName = 'SB' then
+  begin
+    if SameText(sbVal, '1') and SameText(statusVal, 'P') then
+    begin
+      DBGridEh1.Canvas.Brush.Color := clGreen;
+      DBGridEh1.Canvas.Font.Color := clWhite;
+    end
+    else if SameText(sbVal, '1') then
+    begin
+      DBGridEh1.Canvas.Brush.Color := clWhite;
+      DBGridEh1.Canvas.Font.Color := clBlack;
+    end
+    else if (SameText(sbVal, '2') or SameText(sbVal, '1-2') or
+             SameText(sbVal, '2-4') or SameText(sbVal, '1-2-4')) then
+    begin
+      DBGridEh1.Canvas.Brush.Color := clRed;
+      DBGridEh1.Canvas.Font.Color := clWhite;
+    end
+    else if SameText(sbVal, '1-4') then
+    begin
+      DBGridEh1.Canvas.Brush.Color := clBlue;
+      DBGridEh1.Canvas.Font.Color := clWhite;
+    end
+    else
+    begin
+      DBGridEh1.Canvas.Brush.Color := clWindow;
+      DBGridEh1.Canvas.Font.Color := clWindowText;
+    end;
+
+    DBGridEh1.Canvas.FillRect(Rect);
+    DBGridEh1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+  end
+  else
+    DBGridEh1.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 end;
+
+
 
 end.

@@ -67,6 +67,8 @@ type
     Edit4: TEdit;
     ScanDataogw: TFloatField;
     ScanDataLPNBarCode: TStringField;
+    Label5: TLabel;
+    Edit5: TEdit;
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure BB3Click(Sender: TObject);
@@ -145,6 +147,11 @@ if edit2.text='' then
     showmessage('Pls key in Container NO first.');
     abort;
   end;
+     if edit5.text='' then
+      begin
+        showmessage('Pls key in Bien so xe .');
+        abort;
+      end;
 if messagedlg('You want import form TXT or key in by hand?',mtinformation,[mbyes,mbNo],0)=mrYes then
   begin
     if opendialog1.Execute then
@@ -267,7 +274,7 @@ try
                   sql.add('update YWCP');
                   sql.add('set EXEDATE='+''''+FormatDatetime('YYYY-MM-DD ',spdate.Date)+' '+FormatDateTime('HH:NN:SS',Time())+''''); //20140422­×§ï¬ö¿ý®É¶¡
                   sql.add('    ,SB='+''''+'3'+'''');
-                  sql.add('    ,CON_NO='+''''+edit2.Text+'''');
+                  sql.add('    ,CON_NO=' + QuotedStr(Trim(Edit5.Text) + ';' + Trim(Edit2.Text)));
                   sql.add('    ,ogw='+floattostr(Scandata.fieldbyname('ogw').value));
                   sql.add('where CARTONBAR='+''''+CARTONBAR+'''');
                   execsql;
@@ -339,6 +346,11 @@ if key=#13 then
     if edit2.text='' then
       begin
         showmessage('Pls key in Container NO first.');
+        abort;
+      end;
+      if edit5.text='' then
+      begin
+        showmessage('Pls key in Bien so xe.');
         abort;
       end;
     //

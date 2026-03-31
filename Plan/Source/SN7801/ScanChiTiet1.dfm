@@ -1,8 +1,8 @@
 object ScanChiTiet: TScanChiTiet
   Left = 464
   Top = 195
-  Width = 1044
-  Height = 480
+  Width = 1227
+  Height = 604
   Caption = 'ChiTietScan'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,7 +22,7 @@ object ScanChiTiet: TScanChiTiet
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1028
+    Width = 1211
     Height = 121
     Align = alTop
     TabOrder = 1
@@ -32,19 +32,6 @@ object ScanChiTiet: TScanChiTiet
       Width = 35
       Height = 16
       Caption = 'Size:'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -15
-      Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object Label1: TLabel
-      Left = 16
-      Top = 84
-      Width = 52
-      Height = 16
-      Caption = 'OrdNO:'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -15
@@ -111,7 +98,7 @@ object ScanChiTiet: TScanChiTiet
     object Panel2: TPanel
       Left = 1
       Top = 1
-      Width = 1026
+      Width = 1209
       Height = 64
       Align = alTop
       TabOrder = 3
@@ -557,8 +544,8 @@ object ScanChiTiet: TScanChiTiet
   object DBGrid: TDBGridEh
     Left = 0
     Top = 121
-    Width = 1028
-    Height = 320
+    Width = 1211
+    Height = 444
     Align = alClient
     DataSource = DS
     Flat = False

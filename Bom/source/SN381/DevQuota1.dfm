@@ -270,7 +270,7 @@ object DevQuota: TDevQuota
     Top = 65
     Width = 1283
     Height = 474
-    ActivePage = TabSheet3
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
     object TabSheet2: TTabSheet

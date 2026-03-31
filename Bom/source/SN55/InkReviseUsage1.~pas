@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DB, DBTables, GridsEh, DBGridEh, StdCtrls, Buttons, ExtCtrls,
-  Menus,Math,ComObj;
+  Menus,Math,ComObj,ShellAPI;
 
 type
   TInkReviseUsage = class(TForm)
@@ -362,70 +362,180 @@ begin
 end;
 
 procedure TInkReviseUsage.BB5Click(Sender: TObject);
-var i:integer;
-    CLSL:string;
-begin
-  KCLLSQry.Active:=false;
-  with query1 do
+var
+  i: Integer;
+  ExcelRow: Integer;
+  CLSL: string;
+  Errs: TStringList;
+  LogFile: string;
+
+  function IsDuplicateKeyBDE(E: EDBEngineError): Boolean;
+  var
+    s: string;
   begin
-    query1.first;
-    while not eof do
+    s := LowerCase(E.Message);
+    Result :=
+      (Pos('duplicate', s) > 0) or
+      (Pos('key violation', s) > 0) or
+      (Pos('primary key', s) > 0) or
+      (Pos('unique', s) > 0) or
+      (Pos('2627', s) > 0) or
+      (Pos('2601', s) > 0);
+  end;
+
+begin
+  Errs := TStringList.Create;
+  try
+    KCLLSQry.Active := False;
+
+    with Query1 do
     begin
-      case query1.updatestatus of
-        usinserted:
-        begin
-          Edit;
-          CLSL:=formatfloat('#0.00',fieldbyname('CLSL').AsFloat+0.0001);
-          UpdateQry.Active:=false;
-          UpdateQry.SQL.Clear;
-          UpdateQry.SQL.Add('Insert into ZLZLS2_YM (ZLBH, XH, BWBH, CSBH, MJBH, CLBH, ZMLB, SIZE, CLSL, USAGE, USERID, USERDATE, YN)');
-          if not importExcel.Visible then
-            UpdateQry.SQL.Add('values ('''+Query1.FieldByName('ZLBH').Value+''',''VN'',''ZZZZ'',NULL,''ZZZZZZZZZZ'','''+Query1.FieldByName('CLBH').Value+''',''N'',''ZZZZZZ'','+CLSL+',NULL,'''+main.Edit1.Text+''',getdate(),2)')
-             else
-          UpdateQry.SQL.Add('values ('''+Edit4.Text+''',''VN'',''ZZZZ'',NULL,''ZZZZZZZZZZ'','''+Query1.FieldByName('CLBH').Value+''',''N'',''ZZZZZZ'','+CLSL+',NULL,'''+main.Edit1.Text+''',getdate(),2)');
-          UpdateQry.ExecSQL;
-        end;
-        usmodified:
-        begin
-          if Query1.fieldbyname('YN').Value=0 then
+      First;
+      i := 0;
+
+      while not Eof do
+      begin
+        Inc(i);
+        ExcelRow := i + 3; // Excel bat dau tu dong 4
+
+        case UpdateStatus of
+          usInserted:
           begin
-            with UpdateQry do
-            begin
-                active:=false;
-                sql.Clear;
-                sql.add('insert into BDelRec ');
-                sql.add('(TableName ,TNO,CLBH,OldID,DelID,DelDate)');
-                sql.add('values (''ZLZLS2'','''+Query1.fieldbyname('ZLBH').Value+'''');
-                sql.add(','''+Query1.fieldbyname('CLBH').Value+''','''+Query1.fieldbyname('USERID').Value+''',');
-                sql.add(''''+main.Edit1.Text+''''+',getdate())');
-                execsql;
-                active:=false;
-            end;
-            UpdateSQL1.apply(ukdelete);
-          end else
-          begin
-            if query1.fieldbyname('CLSL').Value>=0 then
-            begin
-              UpdateQry.Active:=false;
-              UpdateQry.SQL.Clear;
-              UpdateQry.SQL.Add('Update ZLZLS2_YM Set CLSL='+formatfloat('#0.00',fieldbyname('CLSL').AsFloat+0.0001)+',UserID='''+main.Edit1.Text+''',UserDate=GetDate() where ZLBH='''+FieldByName('ZLBH').Value+''' and  BWBH='''+FieldByName('BWBH').Value+''' ');
-              UpdateQry.SQL.Add('        and  CLBH='''+FieldByName('CLBH').Value+''' and SIZE='''+FieldByName('SIZE').Value+''' and YN='''+FieldByName('YN').Value+''' ');
+            Edit;
+            CLSL := FormatFloat('#0.00', FieldByName('CLSL').AsFloat + 0.0001);
+
+            UpdateQry.Active := False;
+            UpdateQry.SQL.Clear;
+            UpdateQry.SQL.Add(
+              'Insert into ZLZLS2_YM ' +
+              '(ZLBH, XH, BWBH, CSBH, MJBH, CLBH, ZMLB, SIZE, CLSL, USAGE, USERID, USERDATE, YN)'
+            );
+
+            if not importExcel.Visible then
+              UpdateQry.SQL.Add(
+                'values (''' + FieldByName('ZLBH').AsString +
+                ''',''VN'',''ZZZZ'',NULL,''ZZZZZZZZZZ'',''' +
+                FieldByName('CLBH').AsString +
+                ''',''N'',''ZZZZZZ'',' + CLSL +
+                ',NULL,''' + main.Edit1.Text + ''',getdate(),2)'
+              )
+            else
+              UpdateQry.SQL.Add(
+                'values (''' + Edit4.Text +
+                ''',''VN'',''ZZZZ'',NULL,''ZZZZZZZZZZ'',''' +
+                FieldByName('CLBH').AsString +
+                ''',''N'',''ZZZZZZ'',' + CLSL +
+                ',NULL,''' + main.Edit1.Text + ''',getdate(),2)'
+              );
+
+            try
               UpdateQry.ExecSQL;
+            except
+              on E: EDBEngineError do
+              begin
+                if IsDuplicateKeyBDE(E) then
+                  Errs.Add(Format('Trung khoa o dong Excel: %d', [ExcelRow]));
+                // KHONG raise => bo qua, chay tiep
+              end;
+              on E: Exception do
+              begin
+                // Loi khac -> van bo qua & ghi log
+                Errs.Add(Format('Loi o dong Excel: %d | %s', [ExcelRow, E.Message]));
+              end;
+            end;
+          end;
+
+          usModified:
+          begin
+            if FieldByName('YN').Value = 0 then
+            begin
+              try
+                with UpdateQry do
+                begin
+                  Active := False;
+                  SQL.Clear;
+                  SQL.Add('insert into BDelRec ');
+                  SQL.Add('(TableName ,TNO,CLBH,OldID,DelID,DelDate)');
+                  SQL.Add('values (''ZLZLS2'',''' + FieldByName('ZLBH').AsString + '''');
+                  SQL.Add(',''' + FieldByName('CLBH').AsString + ''',''' + FieldByName('USERID').AsString + ''',');
+                  SQL.Add('''' + main.Edit1.Text + ''',getdate())');
+                  ExecSQL;
+                  Active := False;
+                end;
+
+                UpdateSQL1.Apply(ukDelete);
+              except
+                on E: Exception do
+                begin
+                  Errs.Add(Format('Loi (DELETE) o dong Excel: %d | %s', [ExcelRow, E.Message]));
+                end;
+              end;
+            end
+            else
+            begin
+              if FieldByName('CLSL').Value >= 0 then
+              begin
+                try
+                  UpdateQry.Active := False;
+                  UpdateQry.SQL.Clear;
+                  UpdateQry.SQL.Add(
+                    'Update ZLZLS2_YM Set CLSL=' +
+                    FormatFloat('#0.00', FieldByName('CLSL').AsFloat + 0.0001) +
+                    ',UserID=''' + main.Edit1.Text +
+                    ''',UserDate=GetDate() where ZLBH=''' +
+                    FieldByName('ZLBH').AsString +
+                    ''' and  BWBH=''' + FieldByName('BWBH').AsString + ''' '
+                  );
+                  UpdateQry.SQL.Add(
+                    'and  CLBH=''' + FieldByName('CLBH').AsString +
+                    ''' and SIZE=''' + FieldByName('SIZE').AsString +
+                    ''' and YN=''' + FieldByName('YN').AsString + ''' '
+                  );
+                  UpdateQry.ExecSQL;
+                except
+                  on E: Exception do
+                  begin
+                    Errs.Add(Format('Loi (UPDATE) o dong Excel: %d | %s', [ExcelRow, E.Message]));
+                  end;
+                end;
+              end;
             end;
           end;
         end;
+
+        Next;
       end;
-      Query1.Next;
+
+      Active := False;
+      CachedUpdates := False;
+      RequestLive := False;
+      Active := True;
     end;
-    active:=false;
-    cachedupdates:=false;
-    requestlive:=false;
-    active:=true;
+
+    BB5.Enabled := False;
+    BB6.Enabled := False;
+    KCLLSQry.Active := True;
+
+    // Ghi log file neu co loi
+    if Errs.Count > 0 then
+    begin
+    LogFile := ExtractFilePath(Application.ExeName) + 'SaveLog.txt';
+
+      Errs.Insert(0, 'SAVE LOG - ' + FormatDateTime('yyyy-mm-dd hh:nn:ss', Now));
+      Errs.Insert(1, '----------------------------------------------');
+
+      Errs.SaveToFile(LogFile);
+      // KHONG ShowMessage
+      
+    // Mo file log
+    ShellExecute(0, 'open', PChar(LogFile), nil, nil, SW_SHOWNORMAL);
+    end;
+
+  finally
+    Errs.Free;
   end;
-  BB5.enabled:=false;
-  BB6.Enabled:=false;
-  KCLLSQry.Active:=true;
 end;
+
 procedure TInkReviseUsage.DBGridEh1DrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumnEh;
   State: TGridDrawState);

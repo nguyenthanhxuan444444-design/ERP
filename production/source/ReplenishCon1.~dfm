@@ -1,6 +1,6 @@
 object ReplenishCon: TReplenishCon
-  Left = 439
-  Top = 194
+  Left = 597
+  Top = 148
   Width = 1267
   Height = 742
   Caption = 'ReplenishCon'
@@ -1057,6 +1057,7 @@ object ReplenishCon: TReplenishCon
     object N2: TMenuItem
       Caption = 'Check Quotation '#30475#26448#26009#22577#20729
       Enabled = False
+      OnClick = N2Click
     end
   end
 end

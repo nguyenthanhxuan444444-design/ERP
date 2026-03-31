@@ -51,7 +51,6 @@ type
     SMZLID: TStringField;
     SMDDSS: TQuery;
     SMZLDepNO: TStringField;
-    Label1: TLabel;
     BDelRec: TQuery;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -187,9 +186,14 @@ begin
 end;
 
 procedure TScanChiTiet.btnQueryClick(Sender: TObject);
+var
+  MinutesDiff: Double;
 begin
     ShowDetail();
-    if (main.edit1.Text=SMZL.FieldByName('USERID').AsString) and (formatdatetime('yyyy/MM/dd',SMZL.fieldbyname('ScanDate').AsDateTime)=formatdatetime('yyyy/MM/dd',NDate)) then
+    MinutesDiff := (Now - SMZL.FieldByName('ScanDate').AsDateTime) * 1440;
+
+      if (Main.Edit1.Text = SMZL.FieldByName('USERID').AsString) and (MinutesDiff <= 60) then
+      //if (main.edit1.Text=SMZL.FieldByName('USERID').AsString) and (formatdatetime('yyyy/MM/dd',SMZL.fieldbyname('ScanDate').AsDateTime)=formatdatetime('yyyy/MM/dd',NDate)) then
     begin
       btnModify.Enabled:=true;
       btnDelete.Enabled:=true;
@@ -366,13 +370,13 @@ begin
         sql.Add('              left join YWDD on YWDD.DDBH=YWCP.DDBH ');
         sql.Add('              left join DDZL on DDZL.DDBH=YWDD.YSBH ');
         sql.Add('              where  YWCP.InDate is not null ');
-        sql.Add('              and YWCP.SB<>''2''');
+        //sql.Add('              and YWCP.SB<>''2''');
         sql.Add('              and YWDD.YSBH like '+''''+SMZL.fieldbyname('YSBH').AsString+'%'+'''');
         sql.Add('              and ywbzpos.ddcc='+''''+SMZL.fieldbyname('XXCC').asstring+'''');
         sql.Add('              group by DDZL.DDBH ) SMDDSS_F on SMDDSS_F.DDBH=DDZL.DDBH ');
         sql.Add(' where DDZL.DDBH like '+''''+SMZL.fieldbyname('YSBH').AsString+'%'+'''');
         sql.Add(' group by DDZL.DDBH ');
-        //funcobj.WriteErrorLog(sql.Text);
+        funcobj.WriteErrorLog(sql.Text);
         Active:=true;
       end;
       If SMZL.FieldByName('GXLB').AsString= 'C' then

@@ -418,6 +418,234 @@ end;
 //
 
 procedure TScanAdjust2.BB5Click(Sender: TObject);
+var i, difQty, a, k: integer;
+    ScanTime: TDateTime;
+    RowsUpdated: integer;
+begin
+  // --- PHAN 1: XU LY DELETE (XOA) ---
+  if (GroupBox1.Visible = false) or (GroupBox2.Visible = true) then
+  begin
+    SMZL.First;
+    for i := 1 to SMZL.RecordCount do
+    begin
+      if SMZL.FieldByName('CTS').Value = '0' then
+      begin
+        // ===== KIEM TRA GIOI HAN 60 PHUT CHO DELETE =====
+        ScanTime := SMZL.FieldByName('ScanDate').AsDateTime;
+        if (Now - ScanTime) * 1440 > 60 then
+        begin
+          ShowMessage('Du lieu quet luc: ' + DateTimeToStr(ScanTime) + #13#10 + 
+                      'Da qua 60 phut, khong the Delete!');
+          Abort;
+        end;
+        // ================================================
+
+        if SMZL.RecordCount > 0 then
+        begin
+          with Qtemp do
+          begin
+            Active := false;
+            sql.Clear;
+            sql.Add(' select DDZL.DDBH,isnull(Sum(Qty_C),0) as Qty_C,isnull(Sum(Qty_S),0) as Qty_S,isnull(sum(Qty_A),0) as Qty_A,isnull(sum(Qty_F),0) as Qty_F ');
+            sql.Add(' from DDZL  ');
+            sql.Add(' left join (  select YSBH,isnull(sum(SMDDSS.Qty*SMDDSS.okCTS),0) as Qty_C ');
+            sql.Add('              from SMDDSS  left join SMDD ');
+            sql.Add('              on SMDDSS.DDBH=SMDD.DDBH and SMDDSS.GXLB=SMDD.GXLB ');
+            sql.Add('              where SMDDSS.DDBH like ' + '''' + SMZL.fieldbyname('YSBH').AsString + '%' + '''');
+            sql.Add('              and SMDDSS.gxlb = ''C''');
+            sql.Add('              and xxcc=' + '''' + SMZL.fieldbyname('XXCC').asstring + '''');
+            sql.Add('              group by YSBH) SMDDSS_C on SMDDSS_C.YSBH=DDZL.DDBH ');
+            sql.Add(' left join (  select YSBH,isnull(sum(SMDDSS.Qty*SMDDSS.okCTS),0) as Qty_S ');
+            sql.Add('              from SMDDSS  left join SMDD ');
+            sql.Add('              on SMDDSS.DDBH=SMDD.DDBH and SMDDSS.GXLB=SMDD.GXLB ');
+            sql.Add('              where SMDDSS.DDBH like ' + '''' + SMZL.fieldbyname('YSBH').AsString + '%' + '''');
+            sql.Add('              and SMDDSS.gxlb = ''S''');
+            sql.Add('              and xxcc=' + '''' + SMZL.fieldbyname('XXCC').asstring + '''');
+            sql.Add('              group by YSBH) SMDDSS_S on SMDDSS_S.YSBH=DDZL.DDBH  ');
+            sql.Add(' left join (  select YSBH,isnull(sum(SMDDSS.Qty*SMDDSS.okCTS),0) as Qty_A ');
+            sql.Add('              from SMDDSS  left join SMDD  ');
+            sql.Add('              on SMDDSS.DDBH=SMDD.DDBH and SMDDSS.GXLB=SMDD.GXLB ');
+            sql.Add('              where SMDDSS.DDBH like ' + '''' + SMZL.fieldbyname('YSBH').AsString + '%' + '''');
+            sql.Add('              and SMDDSS.gxlb = ''A''');
+            sql.Add('              and xxcc=' + '''' + SMZL.fieldbyname('XXCC').asstring + '''');
+            sql.Add('              group by YSBH) SMDDSS_A on SMDDSS_A.YSBH=DDZL.DDBH ');
+            sql.Add(' left join (	select DDZL.DDBH,sum(isnull(YWBZPOS.Qty,0)) as Qty_F ');
+            sql.Add('              from YWCP ');
+            sql.Add('              left join YWBZPOS on YWCP.DDBH=YWBZPOS.DDBH and YWCP.XH=YWBZPOS.XH ');
+            sql.Add('              left join YWDDS on YWDDS.DDBH=YWBZPOS.DDBH and YWDDS.DDCC=YWBZPOS.DDCC ');
+            sql.Add('              left join YWDD on YWDD.DDBH=YWCP.DDBH ');
+            sql.Add('              left join DDZL on DDZL.DDBH=YWDD.YSBH ');
+            sql.Add('              where  YWCP.InDate is not null ');
+            sql.Add('              and YWCP.SB<>''2''');
+            sql.Add('              and YWDD.YSBH like ' + '''' + SMZL.fieldbyname('YSBH').AsString + '%' + '''');
+            sql.Add('              and ywbzpos.ddcc=' + '''' + SMZL.fieldbyname('XXCC').asstring + '''');
+            sql.Add('              group by DDZL.DDBH ) SMDDSS_F on SMDDSS_F.DDBH=DDZL.DDBH ');
+            sql.Add(' where DDZL.DDBH like ' + '''' + SMZL.fieldbyname('YSBH').AsString + '%' + '''');
+            sql.Add(' group by DDZL.DDBH ');
+            Active := true;
+          end;
+
+          if SMZL.FieldByName('GXLB').AsString = 'C' then
+          begin
+            if (Qtemp.FieldByName('Qty_C').Value - (SMZL.fieldbyname('oldCTS').Value * SMZL.fieldbyname('Qty').Value) >= Qtemp.FieldByName('Qty_S').Value) then
+              Delete()
+            else begin
+              Showmessage('YSBH: ' + SMZL.fieldbyname('YSBH').AsString + ' ,Size: ' + SMZL.fieldbyname('XXCC').asstring + ' ,Qty_C: ' + Qtemp.fieldbyname('Qty_C').asstring + ' ,Qty_S: ' + Qtemp.fieldbyname('Qty_S').asstring + #13#10 + 'Qty_C < Qty_S. Khong the Delete!');
+              abort;
+            end;
+          end
+          else if SMZL.FieldByName('GXLB').AsString = 'S' then
+          begin
+            if (Qtemp.FieldByName('Qty_S').Value - (SMZL.fieldbyname('oldCTS').Value * SMZL.fieldbyname('Qty').Value) >= Qtemp.FieldByName('Qty_A').Value) then
+              Delete()
+            else begin
+              Showmessage('YSBH: ' + SMZL.fieldbyname('YSBH').AsString + ' ,Size: ' + SMZL.fieldbyname('XXCC').asstring + ' ,Qty_S: ' + Qtemp.fieldbyname('Qty_S').asstring + ' ,Qty_A: ' + Qtemp.fieldbyname('Qty_A').asstring + #13#10 + 'Qty_S < Qty_A. Khong the Delete!');
+              abort;
+            end;
+          end
+          else if SMZL.FieldByName('GXLB').AsString = 'A' then
+          begin
+            if (Qtemp.FieldByName('Qty_A').Value - (SMZL.fieldbyname('oldCTS').Value * SMZL.fieldbyname('Qty').Value) >= Qtemp.FieldByName('Qty_F').Value) then
+              Delete()
+            else begin
+              Showmessage('YSBH: ' + SMZL.fieldbyname('YSBH').AsString + ' ,Size: ' + SMZL.fieldbyname('XXCC').asstring + ' ,Qty_A: ' + Qtemp.fieldbyname('Qty_A').asstring + ' ,Qty_F: ' + Qtemp.fieldbyname('Qty_F').asstring + #13#10 + 'Qty_A < Qty_F. Khong the Delete!');
+              abort;
+            end;
+          end
+          else
+            Delete();
+        end;
+      end;
+      SMZL.Next;
+    end;
+  end;
+
+  // --- PHAN 2: XU LY TIMES (CAP NHAT GIO QUET) ---
+  if (CB1.Checked = true) and (sedtQty.Visible = true) then
+  begin
+    if (sedtQty.Text <> '') and (SMZL.RecordCount > 0) then
+    begin
+      if strtoint(sedtQty.Text) > SMZL.RecordCount then
+      begin
+        showmessage('Count_SMNO < Count_Depname, vui long nhap lai Count_SMNO!');
+        abort;
+      end;
+    end;
+
+    if sedtQty.Text = '' then a := SMZL.RecordCount else a := strtoint(sedtQty.Text);
+
+    SMZL.First;
+    SMZLold.First;
+    for k := 1 to a do
+    begin
+      // ===== KIEM TRA GIOI HAN 60 PHUT CHO UPDATE TIMES =====
+      ScanTime := SMZL.FieldByName('ScanDate').AsDateTime;
+      if (Now - ScanTime) * 1440 > 60 then
+      begin
+        ShowMessage('Ma SMNO: ' + SMZL.FieldByName('SMNO').AsString + ' da qua 60 phut, khong the Update!');
+        Abort;
+      end;
+      // =======================================================
+
+      SMZL.Edit;
+      SMZL.FieldByName('SCanDate').AsDateTime := Now;
+      SMZL.FieldByName('USERDATE').AsDateTime := Now;
+      SMZL.Post;
+      upSMZL.apply(ukmodify);
+
+      if SMZLold.RecordCount > 0 then
+      begin
+        if SMZLold.Locate('SMNO', SMZL.fieldbyname('SMNO').Value, []) then
+        begin
+          SMZLold.Edit;
+          SMZLold.FieldByName('SCanDate').AsDateTime := Now;
+          SMZLold.FieldByName('USERDATE').AsDateTime := Now;
+          SMZLold.Post;
+          upSMZLold.Apply(ukmodify);
+        end;
+      end;
+      SMZL.Next;
+    end;
+  end
+
+  // --- PHAN 3: CONVERT DEPNAME (CHUYEN DON VI) ---
+  else if (CB2.Checked = true) and (Edit4.Visible = true) then
+  begin
+    SMZL.First;
+    if (Edit5.Text) > (Edit6.Text) then begin showmessage('SMNO_Start phai nho hon SMNO_End!'); abort; end;
+    if (Edit5.Text = '') and (Edit6.Text <> '') then begin showmessage('Vui long nhap SMNO_Start!'); abort; end;
+    if (Edit1.Text = '') or (Edit4.Text = '') then begin showmessage('Vui long nhap Dep_Old va Dep_New!'); BB6.Click; abort; end;
+    
+    with Dep_New do
+    begin
+      Active := false;
+      sql.Clear;
+      sql.Add(' select ID from BDepartment where DepName = ' + '''' + Edit4.Text + '''');
+      Active := true;
+    end;
+    
+    if Dep_New.RecordCount = 0 then
+    begin
+      showmessage('Dep_New khong ton tai!');
+      BB6.Click;
+      abort;
+    end;
+
+    if (Dep_New.fieldbyname('ID').asstring <> '') then
+    begin
+      with Qtemp do
+      begin
+        Active := false;
+        sql.Clear;
+        sql.Add(' update SMZL ');
+        sql.Add(' set DepNO = ' + '''' + Dep_New.fieldbyname('ID').asstring + '''');
+        sql.Add(' from SMDDSS ');
+        sql.Add(' inner join SMZL on SMDDSS.CODEBAR = SMZL.CODEBAR ');
+        sql.Add(' inner join Bdepartment on SMZL.depno=Bdepartment.ID ');
+        sql.Add(' where ScanDate between ');
+        sql.add('           ''' + formatdatetime('yyyy/MM/dd', DTP1.Date) + ' ' + formatdatetime('HH:mm:ss', DTP2.Time) + '''');
+        sql.add('           and ' + '''' + formatdatetime('yyyy/MM/dd', DTP3.Date) + ' ' + formatdatetime('HH:mm:ss', DTP4.Time) + '''');
+        sql.Add(' and Bdepartment.DepName = ' + '''' + Edit1.Text + '''');
+        
+        if (Edit2.Text <> '') then sql.Add(' and DDBH like ' + '''' + Edit2.Text + '%' + '''');
+        sql.add(' and SMDDSS.GXLB =' + '''' + CBX4.Text + '''');
+        if CBX5.Text <> 'ALL' then sql.add(' and SMDDSS.XXCC =' + '''' + CBX5.Text + '''');
+        if (Edit5.Text <> '') and (Edit6.Text <> '') then 
+           sql.Add(' and SMNO between ''' + Edit5.text + ''' and ' + '''' + Edit6.text + '''');
+        
+        sql.Add(' and SMZL.SB is null ');
+
+        // ===== DIEU KIEN 60 PHUT TRONG SQL =====
+        sql.Add(' and DATEDIFF(MINUTE, SMZL.ScanDate, GETDATE()) BETWEEN 0 AND 60 ');
+
+        ExecSQL;
+        
+        // ===== THONG BAO CHO PHAN CONVERT DEPNAME =====
+        if RowsAffected > 0 then
+          ShowMessage('Da chuyen thanh cong ' + IntToStr(RowsAffected) + ' ban ghi!')
+        else
+          ShowMessage('Khong co ban ghi nao duoc chuyen! (Ly do: Qua 60 phut hoac khong co du lieu)');
+      end;
+    end;
+  end;
+
+  // --- PHAN CUOI: DON DEP GIAO DIEN (GIU NGUYEN CODE 1) ---
+  Button1.Click;
+  edtQtyDelete.Visible := false; edtQtyDelete.Clear;
+  lbQty.Visible := false; groupbox2.Visible := false;
+  DATE.Visible := false; TIME.Visible := false;
+  sedtQty.Visible := false; edit4.Visible := false;
+  edit5.Visible := false; edit6.Visible := false;
+  Label6.Visible := false; Label7.Visible := false;
+  Label9.Visible := false; Label10.Visible := false; Label11.Visible := false;
+  SMZL.active := false; SMZL.cachedupdates := false;
+  SMZL.requestlive := false; SMZL.active := true;
+  BB5.Enabled := false; BB6.Enabled := false;
+  GroupBox1.Visible := false; CB1.Visible := false; CB2.Visible := false;
+  edit7.Visible := false; edit8.Visible := false;
+end;
+{ // old
+procedure TScanAdjust2.BB5Click(Sender: TObject);
 var i,difQty,a,k:integer;
 begin
      //Delete
@@ -675,7 +903,8 @@ begin
    edit7.Visible:=false;
    edit8.Visible:=false;
 end;
-//
+//  }
+
 
 procedure TScanAdjust2.bbt6Click(Sender: TObject);
 var eclApp,WorkBook:olevariant;

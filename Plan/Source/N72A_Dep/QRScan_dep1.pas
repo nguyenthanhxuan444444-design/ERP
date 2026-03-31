@@ -61,7 +61,7 @@ begin
     sql.add('      and Depname like '+''''+'%'+edit2.Text+'%'+'''');
     sql.add('      and ProYN='+''''+'1'+'''');
     sql.add('      and IsNull(GXLB,'''')<>'''' ');
-    sql.add('      and gxlb=''C'' ');
+    sql.add('      and gxlb=''C'' and yn= ''1'' ');
     if not Checkbox1.Checked then
     begin
       sql.add(' and GSBH='+''''+main.edit2.Text+'''');

@@ -237,7 +237,12 @@ uses
   EntryPrice1 in 'source\SN25\EntryPrice1.pas' {EntryPrice},
   CheckQuotation1 in 'source\SN25\CheckQuotation1.pas' {CheckQuotation},
   QCcheckinbox1 in 'source\SN71\QCcheckinbox1.pas' {QCCheckinbox},
-  MassPro_PrintCard1 in 'source\SN5216\MassPro_PrintCard1.pas' {MassPro_PrintCard};
+  MassPro_PrintCard1 in 'source\SN5216\MassPro_PrintCard1.pas' {MassPro_PrintCard},
+  OrderProblem1 in 'source\SN5217\OrderProblem1.pas' {OrderProblem},
+  reason1 in 'source\SN5217\reason1.pas' {Reason},
+  ChangLocation1 in 'source\SN56\ChangLocation1.pas' {Changelocation},
+  KTPScanMove1 in 'source\SN571\KTPScanMove1.pas' {KTPScanMove},
+  MoveScanOut1 in 'source\SN572\MoveScanOut1.pas' {MoveScanOut};
 
 {$R *.res}
 

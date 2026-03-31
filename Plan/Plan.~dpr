@@ -248,7 +248,18 @@ uses
   PlanPage1 in 'Source\SN3I\PlanPage1.pas' {PlanPage},
   WeeklyShippingPlan1 in 'Source\SN3I\WeeklyShippingPlan1.pas' {WeeklyShippingPlan},
   AssemblyRYDlg1 in 'Source\SN3E\AssemblyRYDlg1.pas' {AssemblyRYDlg},
-  AssemblyCycleDlg1 in 'Source\SN3E\AssemblyCycleDlg1.pas' {AssemblyCycleDlg};
+  AssemblyCycleDlg1 in 'Source\SN3E\AssemblyCycleDlg1.pas' {AssemblyCycleDlg},
+  reason1 in 'Source\SN3F\reason1.pas' {Reason},
+  R_Hoachat_dp in 'Source\SN2W1\R_Hoachat_dp.pas' {R_hoachat},
+  ScanCheckW in 'Source\SN2W1\ScanCheckW.pas' {CheckScan},
+  Canchitiet in 'Source\SN2W1\Canchitiet.pas' {Chitiet},
+  CheckLean in 'Source\SN2W1\CheckLean.pas' {CheckLean1},
+  ScanMakeO1 in 'Source\SN72C\ScanMakeO1.pas' {ScanMakeO},
+  ReportMakeO1 in 'Source\SN7808\ReportMakeO1.pas' {ReportMaKeO},
+  ChangeInfoO1 in 'Source\SN7808\ChangeInfoO1.pas' {ChangeInfoO},
+  SMDDSS1 in 'Source\SN27\SMDDSS1.pas' {SMDDSS2},
+  Forluma1 in 'Source\SN2W1\Forluma1.pas' {Forluma},
+  QRLabel1 in 'Source\SN2W1\QRLabel1.pas' {QRLabel};
 
 {$R *.res}
 
@@ -272,6 +283,8 @@ begin
   Application.Title := 'Lai Yih ERP system--Plan';
   Application.CreateForm(TDM2, DM2);
   Application.CreateForm(Tmain, main);
+  Application.CreateForm(TQRLabel, QRLabel);
+  // Application.CreateForm(TReportMaKeO, ReportMaKeO);
   //login.Hide;
   //login.Free;
   Application.Run;

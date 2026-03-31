@@ -172,21 +172,6 @@ object QRScanIn_Dep: TQRScanIn_Dep
       Height = 28
       CharCase = ecUpperCase
       TabOrder = 2
-      Text = '_G'
-    end
-    object CheckBox1: TCheckBox
-      Left = 420
-      Top = 15
-      Width = 93
-      Height = 17
-      Caption = 'All'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'MS Sans Serif'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 3
     end
   end
   object DS1: TDataSource

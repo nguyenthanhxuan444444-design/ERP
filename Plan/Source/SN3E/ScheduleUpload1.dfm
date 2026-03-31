@@ -25,7 +25,7 @@ object ScheduleUpload: TScheduleUpload
     Top = 0
     Width = 1370
     Height = 615
-    ActivePage = TabSheet10
+    ActivePage = TabSheet7
     Align = alClient
     TabOrder = 0
     object TabSheet1: TTabSheet
@@ -397,7 +397,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 3
           OnChange = CB_Building_SChange
@@ -413,7 +413,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 4
         end
@@ -1229,7 +1229,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 2
           OnChange = CB_Building_GCDChange
@@ -1245,7 +1245,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 3
         end
@@ -1564,7 +1564,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 2
           OnChange = CB_Building_3DChange
@@ -1580,7 +1580,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 3
         end
@@ -3201,7 +3201,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 1
           OnChange = CB_Building_APChange
@@ -3217,7 +3217,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 2
         end
@@ -3655,7 +3655,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 2
           OnChange = CB_Building_HCChange
@@ -3671,7 +3671,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 3
         end
@@ -4283,7 +4283,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 3
           OnChange = CB_Building_SQChange
@@ -4299,7 +4299,7 @@ object ScheduleUpload: TScheduleUpload
           Font.Height = -13
           Font.Name = 'MS Sans Serif'
           Font.Style = []
-          ItemHeight = 16
+          ItemHeight = 0
           ParentFont = False
           TabOrder = 4
         end

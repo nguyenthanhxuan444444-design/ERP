@@ -188,6 +188,7 @@ type
   private
     Production_N511_CheckKCLLS_Info:String;
     Production_N511_CheckKCLLS:String;
+    procedure Load_CheckCartonbarTonghop(const DDBH, FirstCartonbar: string);
     { Private declarations }
     procedure ReadIni();
     Function CheckIsYPCP_CheckKCLLS(CARTONBAR:string;DDBH:String;Qty:integer;SB:String):Boolean; //20200928檢查領料完整才能成品倉滿箱入庫
@@ -797,7 +798,7 @@ end;
 //
 procedure TScanIn.Edit3KeyPress(Sender: TObject; var Key: Char);
 var
-  XH,Cartonbar,DDBH:string;
+  Msg,XH,Cartonbar,DDBH:string;
 begin
   if key=#13 then
   begin
@@ -903,7 +904,7 @@ begin
                 if (FirstInCheck.RecordCount = 0) and (main.Edit2.Text=GSDH_PD) then  //檢查該箱第一次掃描時是否有已完工數量
                 begin
                   //訊息: 訂單號 Go工段未掃描完成無法,無法掃描入庫
-                  showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho');
+                  showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho 1');
                   windows.beep(1500,500);
                   windows.beep(1500,500);
                   windows.beep(1500,500);
@@ -965,12 +966,47 @@ begin
                 if (main.Edit2.Text=GSDH_PD) and (Scancheck.FieldByName('ScanFG').Value = '0')and (ScanCheck.FieldByName('Flag').value<>'1') then  //20230523
                 begin
                   //訊息: 訂單號 Go工段未掃描完成無法,無法掃描入庫
-                  showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho ');
+                  showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho 2 ');
                   windows.beep(1500,500);
                   windows.beep(1500,500);
                   windows.beep(1500,500);
                   abort;
                 end;
+
+
+               /// YS 20260213
+                Load_CheckCartonbarTonghop(RYEdit.Text, Cartonbar);
+
+                if not FirstInCheck.IsEmpty then
+                  begin
+                    Msg := '';
+                    FirstInCheck.First;
+
+                     while not FirstInCheck.Eof do
+                      begin
+                      Msg := Msg +
+                      'Don hang ' + FirstInCheck.FieldByName('ysbh').AsString +
+                      ' size ' + FirstInCheck.FieldByName('size').AsString +
+                      ' Go scan ' + IntToStr(FirstInCheck.FieldByName('A_total').AsInteger) +
+                      ', ban scan ' + IntToStr(FirstInCheck.FieldByName('F_total').AsInteger) +
+                      #13#10;
+
+                      FirstInCheck.Next;
+                      end;
+
+                  ShowMessage(Msg);
+                  edit3.text:='';
+                  Windows.Beep(1500,500);
+                  Windows.Beep(1500,500);
+                  Windows.Beep(1500,500);
+                  Abort;
+                end;
+
+
+
+
+
+
                 //如果實際重量低於標準重量,無法掃描入庫
                 if ((main.Edit2.Text = 'VB1') or (main.Edit2.Text = 'VB7')) then
                 begin
@@ -1131,7 +1167,7 @@ begin
                 if (FirstInCheck.RecordCount = 0) and (main.Edit2.Text=GSDH_PD) then  //檢查該箱第一次掃描時是否有已完工數量
                 begin
                   //訊息: 訂單號 Go工段未掃描完成無法,無法掃描入庫
-                  showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho');
+                  showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho 3');
                   windows.beep(1500,500);
                   windows.beep(1500,500);
                   windows.beep(1500,500);
@@ -1192,7 +1228,7 @@ begin
                 //    and (Scancheck.FieldByName('ScanFG').Value = '0') and (ScanCheck.FieldByName('Flag').value<>'1')  then  //檢查外箱掃描鎖定，僅控管A12廠
                 if  (main.Edit2.Text=GSDH_PD) and (Scancheck.FieldByName('ScanFG').Value = '0') and (ScanCheck.FieldByName('Flag').value<>'1')  then  //20230523
                 begin
-                  showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho ');
+                  showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho 4 ');
                   //終止
                   if YWBZPOS.Active=true then
                   begin
@@ -1381,7 +1417,7 @@ begin
                       if (FirstInCheck.RecordCount = 0) and (main.Edit2.Text=GSDH_PD) then  //檢查該箱第一次掃描時是否有已完工數量
                       begin
                       //訊息: 訂單號 Go工段未掃描完成無法,無法掃描入庫
-                        showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho');
+                        showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho 5');
                         windows.beep(1500,500);
                         windows.beep(1500,500);
                         windows.beep(1500,500);
@@ -1444,7 +1480,7 @@ begin
                       //  and (Scancheck.FieldByName('ScanFG').Value = '0') and (ScanCheck.FieldByName('Flag').value<>'1') then  //檢查外箱掃描鎖定，僅控管A12廠
                       if  (main.Edit2.Text=GSDH_PD) and (Scancheck.FieldByName('ScanFG').Value = '0') and (ScanCheck.FieldByName('Flag').value<>'1')  then  //20230523
                       begin
-                        showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho ');
+                        showmessage('Don Hang '''+RYEdit.text+''' Cong Doan Go Hoan Thanh So Luong Khong Du, Khong The Scan Nhap Kho 6 ');
                         //終止
                         if YWBZPOS.Active=true then
                         begin
@@ -1877,4 +1913,122 @@ begin
   end;
 end;
 
+// YS 20260213
+procedure TScanIn.Load_CheckCartonbarTonghop(const DDBH, FirstCartonbar: string);
+var
+  CartonList: TStringList;
+  i: Integer;
+  s: string;
+begin
+  CartonList := TStringList.Create;
+  try
+    CartonList.Sorted := True;
+    CartonList.Duplicates := dupIgnore;
+
+    // 1) Add cartonbar scan v跢 tru?c
+    s := Trim(FirstCartonbar);
+    if s <> '' then
+      CartonList.Add(s);
+
+    // 2) L?y cartonbar t? dataset YWCP theo DDBH
+    YWCP.Filtered := False;
+    YWCP.Filter := 'DDBH=' + QuotedStr(DDBH);
+    YWCP.Filtered := True;
+
+    YWCP.First;
+    while not YWCP.Eof do
+    begin
+      s := Trim(YWCP.FieldByName('CARTONBAR').AsString);
+      if s <> '' then
+        CartonList.Add(s);
+      YWCP.Next;
+    end;
+
+    // t?t filter d? tr嫕h ?nh hu?ng ch? kh塶
+    YWCP.Filtered := False;
+
+    // 3) Build SQL + ch?y query
+    with FirstInCheck do
+    begin
+      Active := False;
+      SQL.Clear;
+
+      SQL.Add('DECLARE @cartonbar_list TABLE (cartonbar VARCHAR(50));');
+      SQL.Add('');
+
+      // insert list
+      if CartonList.Count > 0 then
+      begin
+        SQL.Add('INSERT INTO @cartonbar_list (cartonbar) VALUES');
+        for i := 0 to CartonList.Count - 1 do
+        begin
+          if i < CartonList.Count - 1 then
+            SQL.Add('(''' + CartonList[i] + '''),')
+          else
+            SQL.Add('(''' + CartonList[i] + ''');');
+        end;
+      end
+      else
+      begin
+        SQL.Add('INSERT INTO @cartonbar_list (cartonbar) VALUES ('''');');
+      end;
+
+      SQL.Add('');
+
+      // ====== MAIN SQL ======
+      SQL.Add(';WITH');
+      SQL.Add('DONHANG_NHAPKHO AS');
+      SQL.Add('(');
+      SQL.Add('    SELECT DISTINCT ddbh AS ysbh');
+      SQL.Add('    FROM ywcp');
+      SQL.Add('    WHERE cartonbar IN (SELECT cartonbar FROM @cartonbar_list)');
+      SQL.Add('      AND sb IS NULL');
+      SQL.Add('),');
+      SQL.Add('S_TONGHOP AS');
+      SQL.Add('(');
+      SQL.Add('    SELECT');
+      SQL.Add('        DH.ysbh,');
+      SQL.Add('        smddss.xxcc AS size,');
+      SQL.Add('        SUM(CASE WHEN smddss.gxlb = ''O'' THEN smddss.Qty * smddss.okcts ELSE 0 END) AS O_total,');
+      SQL.Add('        SUM(CASE WHEN smddss.gxlb = ''C'' THEN smddss.Qty * smddss.okcts ELSE 0 END) AS C_total,');
+      SQL.Add('        SUM(CASE WHEN smddss.gxlb = ''S'' THEN smddss.Qty * smddss.okcts ELSE 0 END) AS S_total,');
+      SQL.Add('        SUM(CASE WHEN smddss.gxlb = ''A'' THEN smddss.Qty * smddss.okcts ELSE 0 END) AS A_total');
+      SQL.Add('    FROM smddss');
+      SQL.Add('    INNER JOIN smdd on smdd.DDBH=smddss.DDBH and smdd.GXLB=smddss.GXLB');
+      SQL.Add('    INNER JOIN DONHANG_NHAPKHO DH ON smdd.YSBH = DH.ysbh');
+      SQL.Add('    GROUP BY DH.ysbh, smddss.xxcc');
+      SQL.Add('),');
+      SQL.Add('F_TOTAL AS');
+      SQL.Add('(');
+      SQL.Add('    SELECT');
+      SQL.Add('        ywcp.ddbh AS ysbh,');
+      SQL.Add('        YWBZPOS.DDCC AS size,');
+      SQL.Add('        SUM(YWBZPOS.qty) AS F_total');
+      SQL.Add('    FROM YWCP');
+      SQL.Add('    LEFT JOIN YWBZPOS');
+      SQL.Add('        ON YWBZPOS.DDBH = YWCP.DDBH');
+      SQL.Add('        AND YWBZPOS.XH = YWCP.XH');
+      SQL.Add('    WHERE ywcp.cartonbar IN (SELECT cartonbar FROM @cartonbar_list)');
+      SQL.Add('      AND ywcp.sb IS NULL');
+      SQL.Add('    GROUP BY ywcp.ddbh, YWBZPOS.DDCC');
+      SQL.Add(')');
+      SQL.Add('SELECT');
+      SQL.Add('    S.ysbh,');
+      SQL.Add('    S.size,');
+      SQL.Add('    S.A_total,');
+      SQL.Add('    ISNULL(F.F_total, 0) AS F_total');
+      SQL.Add('FROM S_TONGHOP S');
+      SQL.Add('LEFT JOIN F_TOTAL F');
+      SQL.Add('    ON F.ysbh = S.ysbh');
+      SQL.Add('    AND F.size = S.size');
+      SQL.Add('WHERE ISNULL(F.F_total, 0) > S.A_total');  // ? ch? l?y d犥g l?i
+      SQL.Add('ORDER BY S.ysbh, S.size;');
+
+      Active := True;
+    end;
+
+  finally
+    CartonList.Free;
+  end;
+end;
 end.

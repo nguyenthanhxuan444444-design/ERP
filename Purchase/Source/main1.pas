@@ -169,7 +169,8 @@ type
     SN3F: TMenuItem;
     N10ESG1: TMenuItem;
     SN101: TMenuItem;
-    N102CLBHWeight1: TMenuItem;
+    SN102: TMenuItem;
+    SN103: TMenuItem;
     procedure SN19Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -296,7 +297,8 @@ type
     procedure SN3EClick(Sender: TObject);
     procedure SN3FClick(Sender: TObject);
     procedure SN101Click(Sender: TObject);
-    procedure N102CLBHWeight1Click(Sender: TObject);
+    procedure SN102Click(Sender: TObject);
+    procedure SN103Click(Sender: TObject);
   private
     MKID:String;
     LanguageID:String;
@@ -354,7 +356,7 @@ uses
   MassMatMOQ1, ApplyPhom1, SupplierBPM1, RequestCheckStock1, SetCommonMat1,
   ForeCast_Purchase_Compare1, Apply_Purchase_Printing_Mold1,
   MaterialWovenList1, VLAReport1, PercenReport1, MaterialOnTimeArrivalRate1,
-  ESG_CLBH1, CLBH_Weight1;
+  ESG_CLBH1, CLBH_Weight1, ZSZL_ESG1;
                                
 
 {$R *.dfm}
@@ -1324,9 +1326,14 @@ begin
   showFm(Pointer(ESG), TESG, TMenuItem(Sender).Name);
 end;
 
-procedure Tmain.N102CLBHWeight1Click(Sender: TObject);
+procedure Tmain.SN102Click(Sender: TObject);
 begin
   showFm(Pointer(CLBH_Weight), TCLBH_Weight, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.SN103Click(Sender: TObject);
+begin
+  showFm(Pointer(ZSZL_ESG), TZSZL_ESG, TMenuItem(Sender).Name);
 end;
 
 end.

@@ -224,6 +224,7 @@ type
     procedure ITBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BDT6Click(Sender: TObject);
+    procedure BJDetSeasonSetText(Sender: TField; const Text: String);
   private
      GSBH_SFL:String;
     // CBDExchange:string;
@@ -1458,5 +1459,24 @@ begin
 end;
 
 
+procedure TQuotation.BJDetSeasonSetText(Sender: TField;
+  const Text: String);
+begin
+  Sender.Value:=Text;
+  with Qtemp do
+  begin
+    Active:=false;
+    SQL.Clear;
+    SQL.Add('select CWHL from MaterialCBDEx where season='''+Sender.AsString+'''');
+    Active:=true;
+    if RecordCount>0 then
+    begin
+      BJDet.Edit;
+      BJDet.FieldByName('CostingEx').Value:=FieldByName('CWHL').Value;
+      BJDet.Post;
+    end;
+    Active:=false;
+  end;
+end;
 
 end.

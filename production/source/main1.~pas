@@ -9,108 +9,113 @@ uses
 
 type
   Tmain = class(TForm)
-    MainMenu1: TMainMenu;
-    SN1: TMenuItem;
-    SN3: TMenuItem;
-    SN6: TMenuItem;
-    SN10: TMenuItem;
-    N1: TMenuItem;
-    SN31: TMenuItem;
-    SN33: TMenuItem;
-    SN11: TMenuItem;
     Image1: TImage;
     Edit1: TEdit;
+    StatusBar1: TStatusBar;
+    Query1: TQuery;
+    Edit2: TEdit;
+    BLimitHideQry: TQuery;
+    MainMenu1: TMainMenu;
+    SN1: TMenuItem;
+    SN11: TMenuItem;
     SN12: TMenuItem;
     SN13: TMenuItem;
     SN14: TMenuItem;
-    StatusBar1: TStatusBar;
     SN15: TMenuItem;
     SN16: TMenuItem;
-    SN2: TMenuItem;
-    SN21: TMenuItem;
-    SN22: TMenuItem;
-    SN211: TMenuItem;
-    SN212: TMenuItem;
     SN17: TMenuItem;
-    SN34: TMenuItem;
-    SN32: TMenuItem;
-    Query1: TQuery;
-    SN4: TMenuItem;
-    SN321: TMenuItem;
-    SN322: TMenuItem;
-    SN35: TMenuItem;
-    SN41: TMenuItem;
-    SN23: TMenuItem;
-    Edit2: TEdit;
-    SN36: TMenuItem;
-    SN37: TMenuItem;
-    SN39: TMenuItem;
-    SN311: TMenuItem;
-    SN312: TMenuItem;
-    SN38: TMenuItem;
-    SN5: TMenuItem;
-    SN511: TMenuItem;
-    SN512: TMenuItem;
-    SN513: TMenuItem;
-    SN514: TMenuItem;
-    SN51: TMenuItem;
-    SN52: TMenuItem;
-    SN313: TMenuItem;
-    SN5121: TMenuItem;
-    SN5122: TMenuItem;
-    SN521: TMenuItem;
-    SN522: TMenuItem;
-    SN523: TMenuItem;
-    SN524: TMenuItem;
-    SN525: TMenuItem;
-    SN5211: TMenuItem;
-    SN5212: TMenuItem;
-    SN5221: TMenuItem;
-    SN5223: TMenuItem;
-    SN5213: TMenuItem;
-    SN53: TMenuItem;
-    SN323: TMenuItem;
-    SN5214: TMenuItem;
-    SN5123: TMenuItem;
-    SN5215: TMenuItem;
-    SN515: TMenuItem;
-    SN324: TMenuItem;
-    SN24: TMenuItem;
-    SN25: TMenuItem;
-    SN54: TMenuItem;
-    SN61: TMenuItem;
-    SN62: TMenuItem;
     SN18: TMenuItem;
     SN19: TMenuItem;
-    SN516: TMenuItem;
-    SN526: TMenuItem;
+    N1: TMenuItem;
+    SN10: TMenuItem;
+    SN2: TMenuItem;
+    SN21: TMenuItem;
+    SN211: TMenuItem;
+    SN212: TMenuItem;
+    SN22: TMenuItem;
+    SN23: TMenuItem;
+    SN24: TMenuItem;
+    SN25: TMenuItem;
+    SN26: TMenuItem;
+    SN3: TMenuItem;
+    SN31: TMenuItem;
+    SN311: TMenuItem;
+    SN312: TMenuItem;
+    SN313: TMenuItem;
+    SN314: TMenuItem;
+    SN315: TMenuItem;
+    SN32: TMenuItem;
+    SN321: TMenuItem;
+    SN322: TMenuItem;
+    SN323: TMenuItem;
+    SN324: TMenuItem;
     SN3241: TMenuItem;
     SN3242: TMenuItem;
-    SN314: TMenuItem;
-    SN42: TMenuItem;
     SN325: TMenuItem;
-    SN43: TMenuItem;
-    SN44: TMenuItem;
-    SN45: TMenuItem;
-    SN46: TMenuItem;
     SN326: TMenuItem;
-    BLimitHideQry: TQuery;
-    SN5216: TMenuItem;
-    SN5131: TMenuItem;
-    SN5132: TMenuItem;
-    SN5241: TMenuItem;
-    SN5242: TMenuItem;
-    SN315: TMenuItem;
+    SN33: TMenuItem;
+    SN34: TMenuItem;
+    SN35: TMenuItem;
+    SN36: TMenuItem;
+    SN37: TMenuItem;
+    SN38: TMenuItem;
+    SN39: TMenuItem;
     SN3A1: TMenuItem;
     SN3A11: TMenuItem;
     SN3A12: TMenuItem;
     SN3A13: TMenuItem;
+    SN4: TMenuItem;
+    SN41: TMenuItem;
+    SN42: TMenuItem;
+    SN43: TMenuItem;
+    SN44: TMenuItem;
+    SN45: TMenuItem;
+    SN46: TMenuItem;
+    SN5: TMenuItem;
+    SN51: TMenuItem;
+    SN511: TMenuItem;
+    SN512: TMenuItem;
+    SN5121: TMenuItem;
+    SN5122: TMenuItem;
+    SN5123: TMenuItem;
+    SN513: TMenuItem;
+    SN5131: TMenuItem;
+    SN5132: TMenuItem;
+    SN514: TMenuItem;
+    SN515: TMenuItem;
+    SN516: TMenuItem;
+    SN52: TMenuItem;
+    SN521: TMenuItem;
+    SN5211: TMenuItem;
+    SN5212: TMenuItem;
+    SN5213: TMenuItem;
+    SN5214: TMenuItem;
+    SN5215: TMenuItem;
+    SN5216: TMenuItem;
+    SN5217: TMenuItem;
+    SN522: TMenuItem;
+    SN5221: TMenuItem;
+    SN5223: TMenuItem;
+    SN523: TMenuItem;
+    SN524: TMenuItem;
+    SN5241: TMenuItem;
+    SN5242: TMenuItem;
+    SN525: TMenuItem;
+    SN526: TMenuItem;
     SN527: TMenuItem;
-    SN55: TMenuItem;
     SN528: TMenuItem;
-    SN26: TMenuItem;
+    SN53: TMenuItem;
+    SN54: TMenuItem;
+    SN55: TMenuItem;
+    SN6: TMenuItem;
+    SN61: TMenuItem;
+    SN62: TMenuItem;
     SN7: TMenuItem;
     SN71: TMenuItem;
+    SN56: TMenuItem;
+    SN57: TMenuItem;
+    SN571: TMenuItem;
+    SN572: TMenuItem;
     procedure SN10Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -186,6 +191,11 @@ type
     procedure SN55Click(Sender: TObject);
     procedure SN528Click(Sender: TObject);
     procedure SN26Click(Sender: TObject);
+    procedure SN71Click(Sender: TObject);
+    procedure SN5217Click(Sender: TObject);
+    procedure SN56Click(Sender: TObject);
+    procedure SN571Click(Sender: TObject);
+    procedure SN572Click(Sender: TObject);
 
   private
     MKID:String;
@@ -230,7 +240,8 @@ uses Ontime1, OrderCheck1, DailyRep1, MonthRep1, Planoutput1, SpecPrint1,
   CutMachine1, DelOther_TSCD1, StockShoeMonth1, ScanReturn1, ScanReturnRep1,
   DelOther_KI1, LLNOConfirm1, LLNOConfirm21, LLNOConfirm31, scandata1,
   FGKeyInOrder1, InventoryTurnoverDays1, Replenish_Stamp1,
-  Scandata_Report1;
+  Scandata_Report1, QCcheckinbox1, OrderProblem1, ChangLocation1,
+  KTPScanMove1, MoveScanOut1;
 
 
 {$R *.dfm}
@@ -932,6 +943,31 @@ end;
 procedure Tmain.SN26Click(Sender: TObject);
 begin
   showFm(Pointer(Replenish_Stamp), TReplenish_Stamp, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.SN71Click(Sender: TObject);
+begin
+  showFm(Pointer(QCCheckinbox), TQCCheckinbox, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.SN5217Click(Sender: TObject);
+begin
+  showFm(Pointer(OrderProblem), TOrderProblem, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.SN56Click(Sender: TObject);
+begin
+  showFm(Pointer(Changelocation), TChangelocation, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.SN571Click(Sender: TObject);
+begin
+  showFm(Pointer(KTPScanMove), TKTPScanMove, TMenuItem(Sender).Name);
+end;
+
+procedure Tmain.SN572Click(Sender: TObject);
+begin
+  showFm(Pointer(MoveScanOut), TMoveScanOut, TMenuItem(Sender).Name);
 end;
 
 end.

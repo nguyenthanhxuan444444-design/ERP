@@ -99,6 +99,7 @@ type
     Splitter1: TSplitter;
     Label10: TLabel;
     Edit5: TEdit;
+    SendBarCodeNew1: TMenuItem;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -116,9 +117,11 @@ type
     procedure B3Click(Sender: TObject);
     procedure SMDDSSNewRecord(DataSet: TDataSet);
     procedure N2Click(Sender: TObject);
+    procedure SendBarCodeNew1Click(Sender: TObject);
   private
     { Private declarations }
     procedure SendBarCode(IsRefresh:boolean);
+    procedure SendBarCodeNew(IsRefresh:boolean);
     procedure InitCombo();
   public
     { Public declarations }
@@ -673,5 +676,180 @@ begin
       showmessage('Pls setup the program first. Abort');
     end;
 end;
+
+procedure TScanPrintBar.SendBarCodeNew1Click(Sender: TObject);
+var bm:Tbookmark;
+    bookmarklist:tbookmarklistEh;
+    i:integer;
+begin
+  //
+  SMDD.disablecontrols;
+  bm:=SMDD.getbookmark;
+  bookmarklist:=DBGridEh1.selectedrows;
+  //
+  if bookmarklist.count=0 then DBGridEh1.SelectedRows.CurrentRowSelected:= true;
+  if bookmarklist.count>0 then
+  begin
+    try
+      for i:=0 to bookmarklist.count-1 do
+      begin
+        SMDD.gotobookmark(pointer(bookmarklist[i]));
+        SMDDS.Active:=false;
+        SMDDS.Active:=true;
+        if i<bookmarklist.count-1 then
+          SendBarCodeNew(false)
+        else
+          SendBarCodeNew(true);
+      end;
+    finally
+      begin
+        SMDD.gotobookmark(bm);
+        SMDD.freebookmark(bm);
+        SMDD.enablecontrols;
+        showmessage('You have finish copy!');
+      end;
+    end;
+  end else
+  begin
+    SMDD.gotobookmark(bm);
+    SMDD.freebookmark(bm);
+    SMDD.enablecontrols;
+  end;
+  //
+end;
+procedure TScanPrintBar.SendBarCodeNew(IsRefresh: Boolean);
+var
+  p, CodeBar2: string;
+  CodeBar: Integer;
+  Q: Word;              // gi? l?i cho tuong thích lu?ng cu (th?c t? không còn dùng d? chia)
+  iPairs: Integer;      // s? dôi c?n t?o barcode (Qty)
+begin
+  // 1) Check PlanDate
+  if SMDD.FieldByName('PlanDate').IsNull then
+  begin
+    ShowMessage('Pls setup PlanDate first.');
+    Abort;
+  end;
+
+  // 2) Gi? l?i ph?n l?y p t? Edit3/Edit4 d? tránh ?nh hu?ng UI/flow cu
+  if ((SMDD.FieldByName('GXLB').Value = 'B') or
+      (SMDD.FieldByName('GXLB').Value = 'A') or
+      (SMDD.FieldByName('GXLB').Value = 'W')) then
+    p := Edit3.Text
+  else
+    p := Edit4.Text;
+
+  try
+    Q := StrToInt(p); // Q không còn dùng d? chia, nhung v?n parse d? gi? logic cu (n?u b?n mu?n b?, mình b? luôn du?c)
+  except
+    MessageDlg('Pairs is not right.', mtError, [mbOK], 0);
+    Abort;
+  end;
+
+  // 3) L?y CodeBar l?n nh?t r?i +1 => barcode b?t d?u
+  with Qtemp do
+  begin
+    Active := False;
+    SQL.Clear;
+    SQL.Add('select top 1 CodeBar from SMDDSS order by CodeBar DESC ');
+    Active := True;
+
+    if RecordCount = 0 then
+      CodeBar := 0
+    else
+      CodeBar := StrToInt(FieldByName('CodeBar').AsString);
+
+    Inc(CodeBar);
+    CodeBar2 := IntToStr(CodeBar);
+    while Length(CodeBar2) < 12 do
+      CodeBar2 := '0' + CodeBar2;
+  end;
+
+  // 4) Check dã có barcode / dã production / resend thì delete
+  with Qtemp do
+  begin
+    Active := False;
+    SQL.Clear;
+    SQL.Add('select * from SMDDSS ');
+    SQL.Add('where DDBH=' + QuotedStr(SMDD.FieldByName('DDBH').AsString));
+    SQL.Add('  and GXLB=' + QuotedStr(SMDD.FieldByName('GXLB').AsString));
+    SQL.Add('order by okCTS DESC');
+    Active := True;
+
+    if RecordCount > 0 then
+    begin
+      if FieldByName('okCTS').AsInteger > 0 then
+      begin
+        ShowMessage('Already production, pls contect with IT center.');
+        Abort;
+      end;
+
+      if MessageDlg('Already have barcode,need to resend?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      begin
+        Active := False;
+        SQL.Clear;
+        SQL.Add('delete SMDDSS ');
+        SQL.Add('where DDBH=' + QuotedStr(SMDD.FieldByName('DDBH').AsString));
+        SQL.Add('  and GXLB=' + QuotedStr(SMDD.FieldByName('GXLB').AsString));
+        ExecSQL;
+      end
+      else
+        Abort; // không resend thì d?ng luôn
+    end;
+  end;
+
+  // 5) T?o barcode: M?I ÐÔI = 1 BARCODE
+  //    V?i m?i dòng trong SMDDS, Qty bao nhiêu thì insert b?y nhiêu dòng, m?i dòng Qty=1, CTS=1.
+  while not SMDDS.Eof do
+  begin
+    iPairs := SMDDS.FieldByName('Qty').AsInteger;
+
+    while iPairs > 0 do
+    begin
+      with Qtemp do
+      begin
+        Active := False;
+        SQL.Clear;
+
+        SQL.Add('insert into SMDDSS ');
+        SQL.Add('(DDBH,GXLB,XXCC,XH,CODEBAR,Qty,CTS,okCTS,USERDATE,USERID,YN,ScanSDate,ScanEDate) ');
+        SQL.Add('values(' +
+                QuotedStr(SMDD.FieldByName('DDBH').AsString) + ',' +
+                QuotedStr(SMDD.FieldByName('GXLB').AsString) + ',' +
+                QuotedStr(SMDDS.FieldByName('XXCC').AsString) + ',' +
+                QuotedStr('1') + ',' +
+                QuotedStr(CodeBar2) + ',' +
+                '1,1,0,getdate(),' +
+                QuotedStr(Main.Edit1.Text) + ',' +
+                QuotedStr('1') + ',null,null)');
+
+        ExecSQL;
+      end;
+
+      // Next barcode
+      Inc(CodeBar);
+      CodeBar2 := IntToStr(CodeBar);
+      while Length(CodeBar2) < 12 do
+        CodeBar2 := '0' + CodeBar2;
+
+      Dec(iPairs);
+    end;
+
+    SMDDS.Next;
+  end;
+
+  // 6) Refresh dataset n?u c?n
+  if IsRefresh = True then
+  begin
+    with SMDDSS do
+    begin
+      Active := False;
+      CachedUpdates := False;
+      RequestLive := False;
+      Active := True;
+    end;
+  end;
+end;
+
 
 end.

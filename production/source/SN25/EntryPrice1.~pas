@@ -19,6 +19,10 @@ type
     Query1VNPrice: TCurrencyField;
     DS1: TDataSource;
     DBGridEh1: TDBGridEh;
+    Query2: TQuery;
+    Panel1: TPanel;
+    Label2: TLabel;
+    Label1: TLabel;
     procedure DBGridEh1DblClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -60,15 +64,28 @@ end;
 
 procedure TEntryPrice.FormCreate(Sender: TObject);
 begin
+    with query2 do
+      begin
+        //20141202　weston修改原本常發現異常CWHL=0
+        active:=false;
+        sql.Clear;
+        sql.add('select top 1 CWHL from CWHL '); //20150409 weston 修改每月固定匯率
+        sql.add('           order by HLYEAR DESC,HLMONTH DESC ');
+        active:=true;
+        if recordcount>0 then Label2.Caption:=FieldByName('CWHL').AsString;
+        active:=false;
+      end;
+
+
     with query1 do
     begin
       Active:=false;
       sql.clear;
-      sql.Add('select KCRK.GSBH, KCRKS.RKNO,KCRKS.CLBH,KCRKS.VNPrice,KCRKS.USPrice,KCRK.USERDATE ,KCRKS.RKSB from KCRKS ');
+      sql.Add('select KCRK.GSBH, KCRKS.RKNO,KCRKS.CLBH,KCRKS.VNPrice,ROUND(ISNULL(KCRKS.USPrice, KCRKS.VNPrice / ' + label2.Caption + '),4) as USPrice,KCRK.USERDATE ,KCRKS.RKSB from KCRKS ');
       sql.Add('left join KCRK on KCRKS.RKNO=KCRK.RKNO');
       sql.Add('where  KCRKS.CLBH='''+ReplenishCon.BLDet.FieldValues['CLBH']+''' ');
       sql.Add('UNION ALL  ');
-      sql.Add('select KCRK_2014.GSBH, KCRKS_2014.RKNO,KCRKS_2014.CLBH,KCRKS_2014.VNPrice,KCRKS_2014.USPrice,KCRK_2014.USERDATE ,KCRKS_2014.RKSB');
+      sql.Add('select KCRK_2014.GSBH, KCRKS_2014.RKNO,KCRKS_2014.CLBH,KCRKS_2014.VNPrice,ROUND(ISNULL(KCRKS_2014.USPrice, KCRKS_2014.VNPrice / ' + label2.Caption + '),4) as USPrice,KCRK_2014.USERDATE ,KCRKS_2014.RKSB');
       sql.Add('from KCRKS_2014');
       sql.Add('left join KCRK_2014 on KCRKS_2014.RKNO=KCRK_2014.RKNO');
       sql.Add('where  KCRKS_2014.CLBH='''+ReplenishCon.BLDet.FieldValues['CLBH']+'''');

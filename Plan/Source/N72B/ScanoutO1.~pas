@@ -27,24 +27,23 @@ type
     DS1: TDataSource;
     Qtemp: TQuery;
     ScanData: TQuery;
-    ScanDataDDBH: TStringField;
-    ScanDataXieMing: TStringField;
-    ScanDataXXCC: TStringField;
-    ScanDataQtyIn: TIntegerField;
-    ScanDataQtyOut: TIntegerField;
-    ScanDataTonKho: TIntegerField;
-    ScanDataMa_Ke: TStringField;
-    ScanDataCodebar: TStringField;
     Qtemp1: TQuery;
     PopupMenu1: TPopupMenu;
     Modify: TMenuItem;
     Save: TMenuItem;
     Cancel: TMenuItem;
     UpScan: TUpdateSQL;
-    ScanDataID: TFloatField;
     Button1: TButton;
     CB1: TCheckBox;
     Button3: TButton;
+    ScanDataDDBH: TStringField;
+    ScanDataXieMing: TStringField;
+    ScanDataXXCC: TStringField;
+    ScanDataCodebar: TStringField;
+    ScanDataMa_Ke: TStringField;
+    ScanDataQtyIn: TIntegerField;
+    ScanDataQtyOut: TIntegerField;
+    ScanDataTonKho: TIntegerField;
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Button4Click(Sender: TObject);
@@ -87,114 +86,132 @@ begin
 end;
 
 procedure TScanoutO.Button2Click(Sender: TObject);
+var
+  sWhere, sSqlMain: string;
 begin
-if not cb1.Checked then
+  // 1. Kiem tra dieu kien loc co ban
+  if (not cb1.Checked) and (Trim(edit3.Text) = '') then
   begin
-if edit3.Text='' then
-  begin
- ShowMessage('Don hang khong duoc de trong!');
- exit;
- end;
+    ShowMessage('Don hang khong duoc de trong!');
+    exit;
+  end;
+
+  // 2. Xay dung chuoi SQL truy van ton kho (IN - OUT)
+  // Chung ta dung sub-query de tinh tong theo tung Codebar va Ma_Ke truoc
+  sSqlMain := 
+    'SELECT c.DDBH, d.XieMing, c.XXCC, a.Codebar, a.Ma_Ke, ' +
+    'SUM(CASE WHEN a.Status = ''IN'' THEN a.Qty ELSE 0 END) AS QtyIn, ' +
+    'SUM(CASE WHEN a.Status = ''OUT'' THEN a.Qty ELSE 0 END) AS QtyOut, ' +
+    'SUM(CASE WHEN a.Status = ''IN'' THEN a.Qty ELSE -a.Qty END) AS TonKho ' +
+    'FROM SMZL_MAKE A WITH (NOLOCK) ' + // Ch?ng Deadlock
+    'LEFT JOIN smddss C WITH (NOLOCK) ON a.CODEBAR = c.CODEBAR ' +
+    'LEFT JOIN smdd D WITH (NOLOCK) ON c.DDBH = d.DDBH AND c.GXLB = d.GXLB ' +
+    'WHERE c.okCTS > 0 AND c.GXLB = ''O'' ';
+
+  // 3. Them cac dieu kien loc linh hoat
+  sWhere := '';
+  if not cb1.Checked then
+    sWhere := sWhere + 'AND c.DDBH LIKE ' + QuotedStr('%' + Trim(Edit3.Text) + '%') + ' ';
+  
+  if Trim(Edit4.Text) <> '' then
+    sWhere := sWhere + 'AND a.Ma_Ke LIKE ' + QuotedStr('%' + Trim(Edit4.Text) + '%') + ' ';
+
   with ScanData do
   begin
-  active:=false;
-  sql.Clear;
-  sql.Add('SELECT distinct c.DDBH, d.XieMing, c.XXCC, a.QtyIn,a.QtyOut,a.QtyIn - ISNULL(a.QtyOut, 0) AS TonKho,a.Codebar, a.Ma_Ke,a.ID');
-  sql.Add('FROM SMZL_MAKE A ');
-  sql.Add('LEFT JOIN smddss C ON a.CODEBAR = c.CODEBAR ');
-  sql.Add('LEFT JOIN smdd D ON c.DDBH = d.DDBH ');
-  sql.Add('WHERE okCTS > 0 ');
-  sql.Add('AND c.GXLB = ''O'' ');
-  sql.Add('AND c.DDBH LIKE ''%' + Trim(Edit3.Text) + '%'' ');
-  if  edit4.Text<>'' then sql.Add('AND a.Ma_Ke LIKE ''%' + Trim(Edit4.Text) + '%'' ');
-  sql.Add('ORDER BY c.DDBH, c.XXCC, a.Ma_Ke');
-  active:=true;
- // scandata.ExecSQL;
-  end;
-  end
-  else
-  begin
-   with ScanData do
-  begin
-  active:=false;
-  sql.Clear;
-  sql.Add('SELECT distinct c.DDBH, d.XieMing, c.XXCC, a.QtyIn,a.QtyOut,a.QtyIn - ISNULL(a.QtyOut, 0) AS TonKho,a.Codebar, a.Ma_Ke,a.ID');
-  sql.Add('FROM SMZL_MAKE A ');
-  sql.Add('LEFT JOIN smddss C ON a.CODEBAR = c.CODEBAR ');
-  sql.Add('LEFT JOIN smdd D ON c.DDBH = d.DDBH ');
-  sql.Add('WHERE okCTS > 0 ');
-  sql.Add('AND c.GXLB = ''O'' ');
-  sql.Add('and QtyIn-QtyOut>0');
-  if  edit4.Text<>'' then sql.Add('AND a.Ma_Ke LIKE ''%' + Trim(Edit4.Text) + '%'' ');
-  sql.Add('ORDER BY c.DDBH, c.XXCC, a.Ma_Ke');
-  active:=true;
- // scandata.ExecSQL;
-  end;
+    Active := False;
+    SQL.Clear;
+    SQL.Add(sSqlMain);
+    SQL.Add(sWhere);
+
+    // Gom nhom theo cac thong tin hien thi
+    SQL.Add('GROUP BY c.DDBH, d.XieMing, c.XXCC, a.Codebar, a.Ma_Ke ');
+
+    // Neu Checkbox duoc chon, chi hien thi nhung ma con ton kho
+    if cb1.Checked then
+      SQL.Add('HAVING SUM(CASE WHEN a.Status = ''IN'' THEN a.Qty ELSE -a.Qty END) > 0 ');
+
+    SQL.Add('ORDER BY c.DDBH, c.XXCC, a.Ma_Ke');
+
+    try
+      Active := True;
+    except
+      on E: Exception do
+        ShowMessage('Loi load du lieu ton kho: ' + E.Message);
+    end;
   end;
 end;
+
 procedure TScanoutO.Edit1KeyPress(Sender: TObject; var Key: Char);
 begin
-  if Key = #13 then  // Ki?m tra n?u nh?n Enter
+  if Key = #13 then // Ki?m tra khi nh?n Enter
   begin
-  if (edit1.text='') or (edit4.text='') or (edit2.text='') then
+    // 1. Ki?m tra d? li?u d?u vào
+    if (Trim(Edit1.Text) = '') or (Trim(Edit4.Text) = '') then
     begin
-    ShowMessage('du lieu trong hoac chua chon ma ke');
-        Exit;
+      ShowMessage('Vui lòng nh?p Mã v?ch và ch?n Mã k?!');
+      Exit;
     end;
-    with Qtemp do
-      begin
-        Active := False;
-        SQL.Clear;
-        sql.Add('SELECT distinct c.DDBH, d.XieMing, c.XXCC, a.QtyIn,a.QtyOut,a.QtyIn - ISNULL(a.QtyOut, 0) AS TonKho,a.Codebar, a.Ma_Ke,c.Qty');
-        sql.Add('FROM SMZL_MAKE A ');
-        sql.Add('LEFT JOIN smddss C ON a.CODEBAR = c.CODEBAR ');
-        sql.Add('LEFT JOIN smdd D ON c.DDBH = d.DDBH ');
-        sql.Add('WHERE c.CODEBAR='''+edit1.Text+'''');
-        sql.Add('and a.Ma_Ke='''+edit4.Text+'''');
-        sql.Add('ORDER BY c.DDBH, c.XXCC');
-        active:=true;
-        if Qtemp.FieldByName('TonKho').AsInteger - Qtemp.FieldByName('Qty').AsInteger  <0 then
-        begin
-          ShowMessage('Loi: ScanOutQty vuot qua ScanInQty!');
-          abort;
-          edit1.Text:='';
-        end;
-        if RecordCount = 0 then
-          begin
-          ShowMessage('Khong tim thay du lieu, vui long kiem tra MA KE!');
-          Abort; // D?ng thao tác ti?p theo
-        end;
 
-    with Qtemp1 do
-      begin
-        Active := False;
-        SQL.Clear;
-        Qtemp1.sql.Add('update SMZL_MAKE ');
-        Qtemp1.sql.add('set QtyOut = QtyOut + ' + IntToStr(Qtemp.FieldByName('Qty').AsInteger));
-        sql.Add('WHERE CODEBAR='''+edit1.Text+''' AND MA_KE = ''' + Edit4.Text + '''');
-        Qtemp1.ExecSQL;
+    with Qtemp do
+    begin
+      Close;
+      SQL.Clear;
+      
+      // --- PH?N SQL: X? LÝ L?I FLOAT (Msg 2748) ---
+      // Khai báo thêm bi?n chu?i d? ch?a giá tr? t?n kho khi báo l?i
+      SQL.Add('DECLARE @DonViQty FLOAT, @TonKhoHienTai FLOAT, @DepNO VARCHAR(50);');
+      SQL.Add('DECLARE @TonKhoStr VARCHAR(20);'); 
+
+      // L?y s? lu?ng m?i don v? (Qty) t? smddss
+      SQL.Add('SELECT @DonViQty = Qty FROM smddss WITH (NOLOCK) WHERE codebar = ' + QuotedStr(Edit1.Text) + ';');
+
+      // Tính t?n kho th?c t? trên K? này (IN - OUT)
+      SQL.Add('SELECT @TonKhoHienTai = ISNULL(SUM(CASE WHEN Status = ''IN'' THEN Qty ELSE -Qty END), 0), ');
+      SQL.Add('       @DepNO = MAX(DepNO) '); 
+      SQL.Add('FROM smzl_make WITH (NOLOCK) ');
+      SQL.Add('WHERE codebar = ' + QuotedStr(Edit1.Text) + ' AND ma_ke = ' + QuotedStr(Edit4.Text) + ';');
+
+      // Ki?m tra mã v?ch t?n t?i
+      SQL.Add('IF @DonViQty IS NULL ');
+      SQL.Add('BEGIN RAISERROR(''Ma vach khong ton tai trong smddss!'', 16, 1); RETURN; END;');
+
+      // Ki?m tra d? hàng d? xu?t và X? LÝ L?I FLOAT
+      SQL.Add('IF @TonKhoHienTai < @DonViQty ');
+      SQL.Add('BEGIN ');
+      SQL.Add('    SET @TonKhoStr = CAST(@TonKhoHienTai AS VARCHAR(20)); '); // Chuy?n Float sang Varchar
+      SQL.Add('    RAISERROR(''Loi: Ke nay khong du hang de xuat! (Ton hien tai: %s)'', 16, 1, @TonKhoStr); '); // Dùng %s
+      SQL.Add('    RETURN; ');
+      SQL.Add('END;');
+
+      // INSERT dòng nh?t ký OUT
+      SQL.Add('INSERT INTO smzl_make (codebar, ma_ke, Qty, Status, userid, userdate, DepNO) ');
+      SQL.Add('VALUES (' + QuotedStr(Edit1.Text) + ', ' + 
+                           QuotedStr(Edit4.Text) + ', @DonViQty, ''OUT'', ' + 
+                           QuotedStr(Main.Edit1.Text) + ', GETDATE(), @DepNO);');
+
+      try
+        ExecSQL;
+        
+        // Xóa ô nh?p sau khi thành công
+        Edit1.Text := '';
+        Edit1.SetFocus;
+        // Load l?i d? li?u Grid
+        Button2Click(Self);
+        
+      except
+        on E: Exception do
+        begin
+          ShowMessage(E.Message);
+          Edit1.SelectAll;
+          Edit1.SetFocus;
+        end;
       end;
-      end;
-      //xoa du lieu textbo1 va load lai du lieu
-      edit1.Text:='';
     end;
-      with ScanData do
-  begin
-  active:=false;
-  sql.Clear;
-  sql.Add('SELECT distinct c.DDBH, d.XieMing, c.XXCC, a.QtyIn,a.QtyOut,a.QtyIn - ISNULL(a.QtyOut, 0) AS TonKho,a.Codebar, a.Ma_Ke,a.ID');
-  sql.Add('FROM SMZL_MAKE A ');
-  sql.Add('LEFT JOIN smddss C ON a.CODEBAR = c.CODEBAR ');
-  sql.Add('LEFT JOIN smdd D ON c.DDBH = d.DDBH ');
-  sql.Add('WHERE okCTS > 0 ');
-  sql.Add('AND c.GXLB = ''O'' ');
-  sql.Add('AND c.DDBH LIKE ''%' + Trim(Edit3.Text) + '%'' ');
-  if  edit4.Text<>'' then sql.Add('AND a.Ma_Ke LIKE ''%' + Trim(Edit4.Text) + '%'' ');
-  sql.Add('ORDER BY c.DDBH, c.XXCC, a.Ma_Ke');
-  active:=true;
- // scandata.ExecSQL;
+    Key := #0;
   end;
 end;
+
+
 
 procedure TScanoutO.CancelClick(Sender: TObject);
 begin

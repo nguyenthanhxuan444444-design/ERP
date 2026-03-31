@@ -324,7 +324,8 @@ uses
   PercenReport1 in 'Source\SN3E\PercenReport1.pas' {PercenReport},
   MaterialOnTimeArrivalRate1 in 'Source\SN3F\MaterialOnTimeArrivalRate1.pas' {MaterialOnTimeArrivalRate},
   ESG_CLBH1 in 'Source\SN101\ESG_CLBH1.pas' {ESG},
-  CLBH_Weight1 in 'Source\SN102\CLBH_Weight1.pas' {CLBH_Weight};
+  CLBH_Weight1 in 'Source\SN102\CLBH_Weight1.pas' {CLBH_Weight},
+  ZSZL_ESG1 in 'Source\SN103\ZSZL_ESG1.pas' {ZSZL_ESG};
 
 {$R *.res}
 

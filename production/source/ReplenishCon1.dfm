@@ -1,6 +1,6 @@
 object ReplenishCon: TReplenishCon
-  Left = 439
-  Top = 194
+  Left = 597
+  Top = 148
   Width = 1267
   Height = 742
   Caption = 'ReplenishCon'

@@ -175,7 +175,7 @@ uses DM3,BOMM1, BOMVN1, PartType1, MaterialNew1, PARTNEW1, ProdRate1,
   ImportVNBOM1, VD3SpecialBOM1, OrderKhuonIn1, OrderDetailKhuonIn1,
   KhuonInInWarehouse1, KhuonInOutWarehouse1, KhuonInStockMonth1,
   KhuonInDeliver1, SOPProcessCapcity1, SKU_Price_BUYNO1, BOM_OrderList1,
-  CostingPriceList1,SKU_SA_CODE1,CostingCBD1, BOM_N385_LYS;
+  CostingPriceList1,SKU_SA_CODE1,CostingCBD1, BOM_N385_LYS, BomUsing1;
 
 {$R *.dfm}
 //
