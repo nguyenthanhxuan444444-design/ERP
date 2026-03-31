@@ -239,44 +239,7 @@ begin
         SQL.Add('  WHERE FORM_TABLE = ''KCLL_BC'' AND STATUS IN (''N'', ''Z'') AND FORM_PRESENTATION LIKE ''%' + StockOut_BC.QKCLL.FieldByName('LLNO').AsString + '%''');
         SQL.Add(') AS ApproveData');
         SQL.Add('WHERE RowID = 1');
-        //showmessage(sql.Text);
         Active := true;
-
-        if (QSignature.RecordCount > 0) and (QSignature.FieldByName('ApplicantID').IsNull and QSignature.FieldByName('QCID').IsNull and QSignature.FieldByName('SalesID').IsNull and
-        QSignature.FieldByName('PresidentID').IsNull) then
-        begin
-          Active := false;
-          SQL.Clear;
-          SQL.Add('SELECT   MAX(APPACCOUNT) AS ApplicantID, MAX(APPNAME) AS Applicant, ');
-	        SQL.Add(' MAX( CAST(BEGIN_TIME AS DATE)) AS ApplicantDate,  ');
-	        SQL.Add('MAX(CASE WHEN SITE_CODE = N''品管主管_QC_Manager''  THEN ACCOUNT END) AS QCID, ');
-	        SQL.Add('MAX(CASE WHEN SITE_CODE = N''品管主管_QC_Manager''  THEN NAME END) AS QC,  ');
-	        SQL.Add('MAX(CASE WHEN SITE_CODE = N''品管主管_QC_Manager'' THEN FINISH_TIME END) AS QCDate,');
-	        SQL.Add('MAX(CASE WHEN SITE_CODE = N''業務主管_Sales_Manager''  THEN ACCOUNT END) AS SalesID, ');
-	        SQL.Add('MAX(CASE WHEN SITE_CODE = N''業務主管_Sales_Manager'' THEN NAME END) AS Sales, ');
-	        SQL.Add('MAX(CASE WHEN SITE_CODE = N''業務主管_Sales_Manager'' THEN FINISH_TIME END) AS SalesDate,');
-	        SQL.Add('MAX(CASE WHEN SITE_CODE = N''EndFrom''  THEN ACCOUNT END) AS PresidentID,  ');
-	        SQL.Add('MAX(CASE WHEN SITE_CODE = N''EndFrom'' THEN NAME END) AS President, ');
-	        SQL.Add('MAX(CASE WHEN SITE_CODE = N''EndFrom'' THEN FINISH_TIME END) AS PresidentDate');
-	        SQL.Add('FROM OPENQUERY([UOFWEB],');
-	        SQL.Add('''SELECT TB_WKF_TASK.TASK_ID, TB_WKF_TASK_TRIGGER_RECORD.SITE_CODE, REPLACE(TB_EB_USER.ACCOUNT, ''''LYN'''', '''''''') ACCOUNT, TB_EB_USER.NAME, CAST(FINISH_TIME AS DATE) FINISH_TIME, GROUP_NAME, TITLE_NAME');
-          SQL.Add('''REPLACE(US.ACCOUNT, ''''LYN'''', '''''''') as APPACCOUNT, US.NAME as APPNAME, TB_WKF_TASK.BEGIN_TIME, COMMENT');
-	        SQL.Add('FROM [UOF].[dbo].TB_WKF_TASK TB_WKF_TASK');
-	        SQL.Add('LEFT JOIN [UOF].[dbo].TB_WKF_TASK_NODE TB_WKF_TASK_NODE ON TB_WKF_TASK.TASK_ID=TB_WKF_TASK_NODE.TASK_ID');
-	        SQL.Add('LEFT JOIN [UOF].[dbo].TB_WKF_TASK_NODE_SIGNER_INFO TB_WKF_TASK_NODE_SIGNER_INFO ON TB_WKF_TASK_NODE_SIGNER_INFO.SITE_ID=TB_WKF_TASK_NODE.SITE_ID AND TB_WKF_TASK_NODE.NODE_SEQ=TB_WKF_TASK_NODE_SIGNER_INFO.NODE_SEQ');
-	        SQL.Add('LEFT JOIN [UOF].[dbo].TB_EB_GROUP TB_EB_GROUP ON TB_WKF_TASK_NODE_SIGNER_INFO.GROUP_ID=TB_EB_GROUP.GROUP_ID');
-	        SQL.Add('LEFT JOIN [UOF].[dbo].TB_EB_EMPL_DEP TB_EB_EMPL_DEP ON TB_EB_EMPL_DEP.GROUP_ID=TB_EB_GROUP.GROUP_ID AND TB_EB_EMPL_DEP.USER_GUID=TB_WKF_TASK_NODE.ORIGINAL_SIGNER');
-	        SQL.Add('LEFT JOIN [UOF].[dbo].TB_EB_USER TB_EB_USER ON TB_EB_USER.USER_GUID=TB_WKF_TASK_NODE.ACTUAL_SIGNER');
-	        SQL.Add('LEFT JOIN [UOF].[dbo].TB_EB_USER US ON US.USER_GUID=TB_WKF_TASK.AGENT_USER');
-	        SQL.Add('LEFT JOIN [UOF].[dbo].TB_EB_JOB_TITLE TB_EB_JOB_TITLE ON TB_EB_JOB_TITLE.TITLE_ID=TB_EB_EMPL_DEP.TITLE_ID');
-	        SQL.Add('LEFT JOIN [UOF].[dbo].TB_WKF_TASK_TRIGGER_RECORD TB_WKF_TASK_TRIGGER_RECORD ON TB_WKF_TASK_TRIGGER_RECORD.TASK_ID = TB_WKF_TASK.TASK_ID AND TB_WKF_TASK_TRIGGER_RECORD.SITE_ID = TB_WKF_TASK_NODE_SIGNER_INFO.SITE_ID');
-	        SQL.Add('LEFT JOIN [UOF].[dbo].LYN_BCShoesSaleOut LYN_BCShoesSaleOut ON LYN_BCShoesSaleOut.LNO = TB_WKF_TASK.DOC_NBR ');
-          SQL.Add('WHERE ACTUAL_SIGNER IS NOT NULL AND LYN_BCShoesSaleOut.LLNO =  '''''+ StockOut_BC.QKCLL.FieldByName('LLNO').AsString + ''''' '' ');
-	        SQL.Add(') AS ApproveData');
-          //showmessage(sql.Text);
-          Active := true;
-        end;
-
 
         if (FieldByName('ApplicantID').AsString <> '') AND (FileExists('\\' + main.ServerIP + '\images\QC\' + FieldByName('ApplicantID').AsString + '.bmp')) then
         begin

@@ -415,8 +415,8 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       TabOrder = 16
     end
     object MenuCode: TEdit
-      Left = 792
-      Top = 72
+      Left = 600
+      Top = 88
       Width = 121
       Height = 28
       ReadOnly = True
@@ -437,6 +437,16 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
       Width = 121
       Height = 28
       TabOrder = 19
+    end
+    object Confirm: TButton
+      Left = 907
+      Top = 56
+      Width = 81
+      Height = 33
+      Caption = 'Confirm'
+      Enabled = False
+      TabOrder = 20
+      OnClick = ConfirmClick
     end
   end
   object DBGrid1: TDBGridEh
@@ -562,7 +572,6 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
         EditButtons = <>
         FieldName = 'USERDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
@@ -579,7 +588,6 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
         EditButtons = <>
         FieldName = 'SCFDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
@@ -590,7 +598,6 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
         EditButtons = <>
         FieldName = 'LCFDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
@@ -601,7 +608,6 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
         EditButtons = <>
         FieldName = 'DepInputDate'
         Footers = <>
-        ReadOnly = True
       end
       item
         EditButtons = <>
@@ -612,7 +618,6 @@ object DailyOutsourcingCheck: TDailyOutsourcingCheck
         EditButtons = <>
         FieldName = 'PreparedDate'
         Footers = <>
-        ReadOnly = True
       end>
   end
   object Query1: TQuery

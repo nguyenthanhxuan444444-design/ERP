@@ -548,7 +548,7 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
         EditButtons = <>
         FieldName = 'DDBH'
         Footers = <>
-        Width = 100
+        Width = 216
       end
       item
         EditButtons = <>
@@ -709,6 +709,19 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       Height = 56
       Align = alTop
       TabOrder = 1
+      object Label4: TLabel
+        Left = 256
+        Top = 16
+        Width = 29
+        Height = 16
+        Caption = 'Size:'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
+      end
       object BitBtn1: TBitBtn
         Left = 8
         Top = 0
@@ -869,6 +882,43 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
         Layout = blGlyphTop
         NumGlyphs = 2
       end
+      object edtSize: TEdit
+        Left = 296
+        Top = 16
+        Width = 121
+        Height = 21
+        TabOrder = 5
+      end
+      object btnQuery: TBitBtn
+        Left = 420
+        Top = 5
+        Width = 44
+        Height = 44
+        Caption = 'Query'
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 6
+        OnClick = btnQueryClick
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000130B0000130B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+          333333333333333FF3FF3333333333CC30003333333333773777333333333C33
+          3000333FF33337F33777339933333C3333333377F33337F3333F339933333C33
+          33003377333337F33377333333333C333300333F333337F33377339333333C33
+          3333337FF3333733333F33993333C33333003377FF33733333773339933C3333
+          330033377FF73F33337733339933C33333333FF377F373F3333F993399333C33
+          330077F377F337F33377993399333C33330077FF773337F33377399993333C33
+          33333777733337F333FF333333333C33300033333333373FF7773333333333CC
+          3000333333333377377733333333333333333333333333333333}
+        Layout = blGlyphTop
+        NumGlyphs = 2
+      end
     end
   end
   object Query1: TQuery
@@ -876,7 +926,8 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
     AfterScroll = Query1AfterScroll
     DatabaseName = 'DB'
     SQL.Strings = (
-      'select * from QC_EvaPainting')
+      'select * from QC_EvaPainting'
+      'where 2=2')
     UpdateObject = UpSQL1
     Left = 528
     Top = 312
@@ -893,11 +944,6 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
     end
     object Query1Supplier: TStringField
       FieldName = 'Supplier'
-      FixedChar = True
-      Size = 50
-    end
-    object Query1DDBH: TStringField
-      FieldName = 'DDBH'
       FixedChar = True
       Size = 50
     end
@@ -948,6 +994,11 @@ object IncomeMatEvaPainting: TIncomeMatEvaPainting
       FieldName = 'StyleName'
       FixedChar = True
       Size = 100
+    end
+    object Query1DDBH: TStringField
+      FieldName = 'DDBH'
+      FixedChar = True
+      Size = 1000
     end
   end
   object DS1: TDataSource

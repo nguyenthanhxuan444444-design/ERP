@@ -1,8 +1,8 @@
 object DailyReport: TDailyReport
-  Left = 276
-  Top = 233
-  Width = 1064
-  Height = 573
+  Left = 360
+  Top = 254
+  Width = 1156
+  Height = 656
   Caption = 'Daily Syn, Textile & Accessory'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,9 +22,9 @@ object DailyReport: TDailyReport
   TextHeight = 16
   object PageControl1: TPageControl
     Left = 0
-    Top = 89
-    Width = 1048
-    Height = 445
+    Top = 105
+    Width = 1140
+    Height = 512
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
@@ -33,8 +33,8 @@ object DailyReport: TDailyReport
       object DBGrid1: TDBGridEh
         Left = 0
         Top = 47
-        Width = 1040
-        Height = 367
+        Width = 1132
+        Height = 434
         Align = alClient
         DataSource = DS_DR
         Flat = False
@@ -304,7 +304,7 @@ object DailyReport: TDailyReport
       object Panel7: TPanel
         Left = 0
         Top = 0
-        Width = 1040
+        Width = 1132
         Height = 47
         Align = alTop
         TabOrder = 1
@@ -493,15 +493,15 @@ object DailyReport: TDailyReport
       object Panel2: TPanel
         Left = 0
         Top = 0
-        Width = 1040
-        Height = 414
+        Width = 1132
+        Height = 481
         Align = alClient
         TabOrder = 0
         object PageControl2: TPageControl
           Left = 1
           Top = 1
-          Width = 1038
-          Height = 412
+          Width = 1130
+          Height = 479
           ActivePage = TabSheet3
           Align = alClient
           TabOrder = 0
@@ -7317,8 +7317,8 @@ object DailyReport: TDailyReport
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1048
-    Height = 89
+    Width = 1140
+    Height = 105
     Align = alTop
     TabOrder = 1
     object Label4: TLabel
@@ -7560,8 +7560,8 @@ object DailyReport: TDailyReport
     object GroupBox1: TGroupBox
       Left = 699
       Top = -4
-      Width = 113
-      Height = 85
+      Width = 118
+      Height = 101
       TabOrder = 12
       object chkInspection: TCheckBox
         Left = 8
@@ -7602,6 +7602,14 @@ object DailyReport: TDailyReport
         Color = clRed
         ParentColor = False
         TabOrder = 3
+      end
+      object ckSettle: TCheckBox
+        Left = 8
+        Top = 80
+        Width = 105
+        Height = 17
+        Caption = 'NoSettlement'
+        TabOrder = 4
       end
     end
     object btnFeedBack: TBitBtn

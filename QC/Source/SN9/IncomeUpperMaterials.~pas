@@ -104,6 +104,7 @@ type
     procedure SetColumnsReadOnly;
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure bExcelClick(Sender: TObject);
+    procedure BB2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -459,7 +460,7 @@ begin
                 Query1.FieldByName('ReportID').Value := NewID;
                 Query1.FieldByName('USERID').Value := main.Edit1.Text;
                 Query1.FieldByName('YN').Value := 1;
-                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                 upsql1.apply(ukinsert);
               end;
             end;
@@ -477,28 +478,28 @@ begin
                  begin
                   Query1.Edit;
                   if DBGrid1.SelectedField.FieldName = 'PreparedID' then
-                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
+                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd', Now)
                   else if MenuCode.Text = 'N971' then
                     begin
                       Query1.FieldByName('USERID').Value := main.Edit1.Text;
-                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N975' then
                     begin
                       Query1.FieldByName('LabUID').Value := main.Edit1.Text;
-                      Query1.FieldByName('LabChgDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('LabChgDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N972' then
                     begin
-                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N973' then
                     begin
-                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N974' then
                     begin
-                      Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   upsql1.apply(ukmodify);
                  end;
@@ -580,6 +581,17 @@ var
   MaxHeight: Double;
   SigS, SigMS, SigL, SigP: Boolean;
 begin
+  AppDir := ExtractFilePath(Application.ExeName);
+
+  if not DirectoryExists(AppDir) then
+    ForceDirectories(AppDir);
+
+  SrcFile := '\\192.168.71.4\erp\lys_erp\A-QIP-WS001-01D.xlsx';
+  DstFile := IncludeTrailingPathDelimiter(AppDir) + 'A-QIP-WS001-01D.xlsx';
+
+  if not CopyFile(PChar(SrcFile), PChar(DstFile), False) then
+    ShowMessage('Copy file that bai');
+
   DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-01D.xlsx';
 
   StartRow := 5;
@@ -878,6 +890,23 @@ begin
     Query1.Next;
   end;
   Worksheet.Columns.AutoFit;
+end;
+
+procedure TIncomeUpperMaterial.BB2Click(Sender: TObject);
+begin
+if messagedlg('Are you sure you want to delete?',mtconfirmation,[mbYes,mbNo],0)<>mrYes then
+  begin
+    abort;
+  end;
+with query1 do
+  begin
+    cachedupdates:=true;
+    requestlive:=true;
+    edit;
+    fieldbyname('YN').Value:=0;
+  end;
+bb4.enabled:=true;
+bb5.enabled:=true;
 end;
 
 end.

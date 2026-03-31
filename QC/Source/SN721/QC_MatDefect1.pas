@@ -59,7 +59,8 @@ var
 
 implementation
 
-uses Main1, DailyReport1, LeatherSummary1, {RubberChemical1, (N17) } MatQcCheck1;
+uses Main1, DailyReport1, LeatherSummary1, {RubberChemical1, (N17) } MatQcCheck1,
+  MonthlyReportMaterials, SoleWeekReports;
 
 {$R *.dfm}
 
@@ -133,6 +134,34 @@ begin
         begin
             edit;
             fieldbyname('QC_Reason').AsString:=qry1.fieldbyname('CodeID').AsString + ',' + fieldbyname('QC_Reason').AsString;
+            fieldbyname('DefectName').AsString:=qry1.fieldbyname('DefectName').AsString + ',' + fieldbyname('DefectName').AsString;
+        end;
+        qry1.Delete;
+      end ;
+    end;
+
+    if assigned(MonthlyReportMaterial) then
+    begin
+      if MonthlyReportMaterial.Query2.RequestLive then
+      begin
+        with MonthlyReportMaterial.Query2 do
+        begin
+            edit;
+            fieldbyname('Defects').AsString:=qry1.fieldbyname('CodeID').AsString + ',' + fieldbyname('Defects').AsString;
+            fieldbyname('DefectName').AsString:=qry1.fieldbyname('DefectName').AsString + ',' + fieldbyname('DefectName').AsString;
+        end;
+        qry1.Delete;
+      end ;
+    end;
+
+    if assigned(RejectedMaterial) then
+    begin
+      if RejectedMaterial.Query1.RequestLive then
+      begin
+        with RejectedMaterial.Query1 do
+        begin
+            edit;
+            fieldbyname('DeReason').AsString:=qry1.fieldbyname('CodeID').AsString + ',' + fieldbyname('DeReason').AsString;
             fieldbyname('DefectName').AsString:=qry1.fieldbyname('DefectName').AsString + ',' + fieldbyname('DefectName').AsString;
         end;
         qry1.Delete;

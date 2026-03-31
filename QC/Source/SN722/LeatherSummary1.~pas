@@ -604,6 +604,7 @@ type
     EdSID: TEdit;
     edtDefects: TEdit;
     Label37: TLabel;
+    qry_GradePLevelMat: TStringField;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -785,6 +786,7 @@ type
       State: TGridDrawState);
     procedure Delete2Click(Sender: TObject);
     procedure PageControl5Change(Sender: TObject);
+    procedure DBGrid_GradePKeyPress(Sender: TObject; var Key: Char);
   private
     QCN722_ISO:String;
     { Private declarations }
@@ -2080,6 +2082,7 @@ begin
         Excel.ActiveSheet.Range['G6:H6'].Merge;
         Excel.ActiveSheet.Range['G7:H7'].Merge;
         Excel.ActiveSheet.Range['G8:H8'].Merge;
+        Excel.ActiveSheet.Range['C10:D10'].Merge;
         Excel.Cells(4,7):= qry_All.FieldByName('SupplierName').AsString;
         Excel.Cells(5,7):= strCgno;
         Excel.Cells(6,7):= qry_All.FieldByName('Qty').Value;
@@ -2094,8 +2097,8 @@ begin
 
         Excel.Cells(10,1):= 'So thu tu' + chr(10) + 'Sequence';
         Excel.Cells(10,2):= 'Phan co' + chr(10) + 'Neck';
-        Excel.Cells(10,3):= 'Phan vai' + chr(10) + 'Shoulder';
-        Excel.Cells(10,4):= 'Phan lung' + chr(10) + 'Back';
+        //Excel.Cells(10,3):= 'Phan vai' + chr(10) + 'Shoulder';
+        Excel.Cells(10,3):= 'Phan lung' + chr(10) + 'Back';
         Excel.Cells(10,5):= 'Phan bung' + chr(10) + 'Belly';
         Excel.Cells(10,6):= 'Phan mong' + chr(10) + 'Butt';
         Excel.Cells(10,7):= 'Trung binh' + chr(10) + 'Average';
@@ -2116,11 +2119,18 @@ begin
         j:=11;
         while not qry_Soft.Eof do
         begin
-            for i:=0 to DBGrid_Soft.FieldCount - 4 do
+            {for i:=0 to DBGrid_Soft.FieldCount - 4  do
             begin
                 Excel.Cells(j,i+1):= DBGrid_Soft.Fields[i].Value;
-            end;
-
+            end;}
+            Excel.ActiveSheet.Range['C' + IntToStr(j) + ':D' + IntToStr(j)].Merge;
+            Excel.Cells(j,1):= DBGrid_Soft.Fields[0].Value;
+            Excel.Cells(j,2):= DBGrid_Soft.Fields[1].Value;
+            Excel.Cells(j,3):= DBGrid_Soft.Fields[2].Value;
+            Excel.Cells(j,5):= DBGrid_Soft.Fields[3].Value;
+            Excel.Cells(j,6):= DBGrid_Soft.Fields[4].Value;
+            Excel.Cells(j,7):= DBGrid_Soft.Fields[5].Value;
+            Excel.Cells(j,8):= DBGrid_Soft.Fields[6].Value;
 
             for m:=1 to 4 do
             begin
@@ -2427,6 +2437,7 @@ begin
         Excel.ActiveSheet.Range['G6:H6'].Merge;
         Excel.ActiveSheet.Range['G7:H7'].Merge;
         Excel.ActiveSheet.Range['G8:H8'].Merge;
+        Excel.ActiveSheet.Range['C10:D10'].Merge;
         Excel.Cells(4,7):= qry_All.FieldByName('SupplierName').AsString;
         Excel.Cells(5,7):= strCgno;
         Excel.Cells(6,7):= qry_All.FieldByName('Qty').Value;
@@ -2441,8 +2452,8 @@ begin
 
         Excel.Cells(10,1):= 'So thu tu' + chr(10) + 'Sequence';
         Excel.Cells(10,2):= 'Phan co' + chr(10) + 'Neck';
-        Excel.Cells(10,3):= 'Phan vai' + chr(10) + 'Shoulder';
-        Excel.Cells(10,4):= 'Phan lung' + chr(10) + 'Back';
+        //Excel.Cells(10,3):= 'Phan vai' + chr(10) + 'Shoulder';
+        Excel.Cells(10,3):= 'Phan lung' + chr(10) + 'Back';
         Excel.Cells(10,5):= 'Phan bung' + chr(10) + 'Belly';
         Excel.Cells(10,6):= 'Phan mong' + chr(10) + 'Butt';
         Excel.Cells(10,7):= 'Trung binh' + chr(10) + 'Average';
@@ -2463,10 +2474,18 @@ begin
         j:=11;
         while not qry_thick.Eof do
         begin
-            for i:=0 to DBGrid_thick.FieldCount - 4 do
+            {for i:=0 to DBGrid_thick.FieldCount - 4 do
             begin
                 Excel.Cells(j,i+1):= DBGrid_thick.Fields[i].Value;
-            end;
+            end;}
+            Excel.ActiveSheet.Range['C' + IntToStr(j) + ':D' + IntToStr(j)].Merge;
+            Excel.Cells(j,1):= DBGrid_thick.Fields[0].Value;
+            Excel.Cells(j,2):= DBGrid_thick.Fields[1].Value;
+            Excel.Cells(j,3):= DBGrid_thick.Fields[2].Value;
+            Excel.Cells(j,5):= DBGrid_thick.Fields[3].Value;
+            Excel.Cells(j,6):= DBGrid_thick.Fields[4].Value;
+            Excel.Cells(j,7):= DBGrid_thick.Fields[5].Value;
+            Excel.Cells(j,8):= DBGrid_thick.Fields[6].Value;
 
 
             for m:=1 to 4 do
@@ -3391,7 +3410,7 @@ begin
     begin
         active:=false;
         sql.Clear;
-        sql.Add('select Leather_GradeP.No_ID, Leather_GradeP.Sequence, Leather_GradeP.Package,');
+        sql.Add('select Leather_GradeP.No_ID, Leather_GradeP.LevelMat, Leather_GradeP.Sequence, Leather_GradeP.Package,');
         sql.Add('   Leather_GradeP.SP, isnull(Leather_GradeP.AcQty,0)AcQty,isnull(Leather_GradeP.DeQty,0)DeQty,');
         sql.Add('   Leather_GradeP.Defects, Leather_GradeP.YN, Leather_GradeP.UserID,');
         sql.Add('   Leather_GradeP.UserDate, Leather_GradeP.Inspector, Leather_GradeP.DeCode,Leather_GradeP.Grade,Leather_GradeP.Remark');
@@ -6134,6 +6153,13 @@ begin
     PageControl5.TabIndex:=0;
     abort;
   end;
+end;
+
+procedure TLeatherSummary.DBGrid_GradePKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if (DBGrid_GradeP.SelectedField.FieldName = 'LevelMat') then
+    Key := #0;
 end;
 
 end.

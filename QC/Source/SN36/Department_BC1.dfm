@@ -1,6 +1,6 @@
 object Department_BC: TDepartment_BC
-  Left = 581
-  Top = 297
+  Left = 599
+  Top = 223
   Width = 491
   Height = 413
   BorderIcons = [biSystemMenu]

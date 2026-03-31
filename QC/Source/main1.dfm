@@ -585,6 +585,18 @@ object main: Tmain
           OnClick = SN994Click
         end
       end
+      object SN9A: TMenuItem
+        Caption = 'N9A Rejected Material'
+        OnClick = SN9AClick
+      end
+      object SN9B: TMenuItem
+        Caption = 'N9B Monthly Report Material'
+        OnClick = SN9BClick
+      end
+      object SN9C: TMenuItem
+        Caption = 'N9C Non Conforming Material'
+        OnClick = SN9CClick
+      end
     end
   end
   object Query1: TQuery

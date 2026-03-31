@@ -103,6 +103,7 @@ type
     EdSID: TEdit;
     Label11: TLabel;
     edtDefects: TEdit;
+    ckSettle: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -257,6 +258,8 @@ begin
 
         if chkNotesting.Checked then
             sql.Add('   and isnull(Lab_Check,'''') = '''' ');
+        if ckSettle.Checked then
+            SQL.Add('and mc.Settlement is null ');
         if chkInspection.Checked or chkpass.Checked or chkFail.Checked then
         begin
             sql.Add('   and (1=2');
@@ -467,6 +470,60 @@ end;
 
 procedure TDailyReport.UploadReportGL1Click(Sender: TObject);
 var
+  SaveFN, SourceFile, DestDir, DestFile: string;
+begin
+  if not qry_DR.Active then Exit;
+
+  if not OpenDialog1.Execute then Exit;
+  if OpenDialog1.FileName = '' then Exit;
+
+  SourceFile := OpenDialog1.FileName;
+  SaveFN := ExtractFileName(SourceFile);
+
+  // duong dan dich
+  DestDir := '\\192.168.71.11\upload-QC\';
+  DestFile := DestDir + SaveFN;
+
+  // kiem tra thu muc ton tai
+  if not DirectoryExists(DestDir) then
+  begin
+    ShowMessage('Khong tim thay thu muc');
+    Exit;
+  end;
+
+  // kiem tra file da ton tai
+  if FileExists(DestFile) then
+  begin
+    if MessageDlg('File da ton tai. Ghi de?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
+      Exit;
+  end;
+
+  // copy file
+  if not CopyFile(PChar(SourceFile), PChar(DestFile), False) then
+  begin
+    ShowMessage('Copy file that bai.');
+    Exit;
+  end;
+
+  // cap nhat database
+  with Query1 do
+  begin
+    Active := False;
+    SQL.Clear;
+    SQL.Add('update MaterialQCCheck ');
+    SQL.Add('set File_Name=''' + SaveFN + ''',');
+    SQL.Add('QC_UserID=''' + main.Edit1.Text + ''',');
+    SQL.Add('QC_Date=GetDate() ');
+    SQL.Add('where No_ID=' + qry_DR.FieldByName('NO_ID').AsString);
+    ExecSQL;
+  end;
+
+  ShowMessage('Upload thanh cong');
+
+  qry_DR.Active := False;
+  qry_DR.Active := True;
+end;
+{var
    UploadObj: TFileTransClient;
    SaveFN,Response,FileString:String;
    IsActionUpload:boolean;
@@ -517,15 +574,47 @@ begin
         qry_DR.Active:=TRUE;
       end;
       UploadObj.Free;
-
-
     end;
   end;
 
-end;
+end;}
 
 procedure TDailyReport.DownloadReportGL1Click(Sender: TObject);
-  function GetFileName(oFile,sFile:String):string;
+var
+  SourceFile, DestFile: string;
+begin
+  if qry_DR.FieldByName('File_Name').IsNull then Exit;
+
+  SaveDialog1.FileName := qry_DR.FieldByName('File_Name').AsString;
+
+  if not SaveDialog1.Execute then Exit;
+
+  SourceFile := '\\192.168.71.11\upload-QC\' +
+                qry_DR.FieldByName('File_Name').AsString;
+
+  DestFile := SaveDialog1.FileName;
+
+  // kiem tra file nguon
+  if not FileExists(SourceFile) then
+  begin
+    ShowMessage('Khong tim thay file tren server');
+    Exit;
+  end;
+
+  // kiem tra file dich
+  if FileExists(DestFile) then
+  begin
+    if MessageDlg('File da ton tai. Ghi de?', mtConfirmation, [mbYes, mbNo], 0) = mrNo then
+      Exit;
+  end;
+
+  // copy file
+  if CopyFile(PChar(SourceFile), PChar(DestFile), False) then
+    ShowMessage('Download file OK')
+  else
+    ShowMessage('Download file error');
+end;
+{  function GetFileName(oFile,sFile:String):string;
   begin
     result:=ChangeFileExt(ExtractFileName(sFile),'')+ExtractFileExt(oFile);
   end;
@@ -540,7 +629,7 @@ begin
     begin
         UploadObj := TFileTransClient.Create();
         ms := TMemoryStream.Create;
-        ms.LoadFromStream(UploadObj.down(qry_DR.fieldByName('File_Name').AsString,'QC\'+main.Edit2.Text+'\Mat\', GetFileName(qry_DR.fieldByName('File_Name').AsString,savedialog1.FileName) ));
+        ms.LoadFromStream(UploadObj.down(qry_DR.fieldByName('File_Name').AsString,'D:\QC\'+main.Edit2.Text+'\Mat\', GetFileName(qry_DR.fieldByName('File_Name').AsString,savedialog1.FileName) ));
         if ms.Size > 0 then  //fail
         begin
            showmessage('Download file OK')
@@ -553,10 +642,53 @@ begin
     end;
   end;
 
-end;
+end;}
 
 procedure TDailyReport.DeleteReportGL1Click(Sender: TObject);
 var
+  FilePath: string;
+begin
+  if qry_DR.FieldByName('File_Name').IsNull then Exit;
+
+  if MessageDlg('You want to delete guarantee letter?', mtConfirmation, [mbYes, mbNo], 0) <> mrYes then
+    Exit;
+
+  FilePath := '\\192.168.71.11\upload-QC\' +
+              qry_DR.FieldByName('File_Name').AsString;
+
+  // kiem tra file ton tai
+  if not FileExists(FilePath) then
+  begin
+    ShowMessage('Khong tim thay file tren server');
+    Exit;
+  end;
+
+  // xoa file
+  if not DeleteFile(PChar(FilePath)) then
+  begin
+    ShowMessage('Delete file error');
+    Exit;
+  end;
+
+  // cap nhat database
+  with Query1 do
+  begin
+    Active := False;
+    SQL.Clear;
+    SQL.Add('update MaterialQCCheck ');
+    SQL.Add('set File_Name=null,');
+    SQL.Add('QC_UserID=''' + main.Edit1.Text + ''',');
+    SQL.Add('QC_Date=GetDate() ');
+    SQL.Add('where No_ID=' + qry_DR.FieldByName('NO_ID').AsString);
+    ExecSQL;
+  end;
+
+  ShowMessage('Delete file OK');
+
+  qry_DR.Active := False;
+  qry_DR.Active := True;
+end;
+{var
    UploadObj: TFileTransClient;
    SaveFN,Response:String;
 begin
@@ -590,7 +722,7 @@ begin
             qry_DR.Active:=TRUE;
          end;
      end;
-end;
+end;}
 
 procedure TDailyReport.btnFeedBackClick(Sender: TObject);
 begin

@@ -308,61 +308,6 @@ begin
         SQL.Add('WHERE RowID = 1');
         Active := true;
 
-        //if (QSignature.RecordCount = 0) then
-        if (QSignature.RecordCount > 0) and (QSignature.FieldByName('ApplicantID').IsNull and QSignature.FieldByName('SupervisorID').IsNull and QSignature.FieldByName('ManagerID').IsNull and
-        QSignature.FieldByName('SupervisorQCID').IsNull and QSignature.FieldByName('ManagerQCID').IsNull) then
-          begin
-            Active := false;
-            SQL.Clear;
-            SQL.Add('SELECT   ');
-            SQL.Add('    MAX(APPACCOUNT) AS ApplicantID, ');
-            SQL.Add('    MAX(APPNAME) AS Applicant, ');
-            SQL.Add('    MAX(CAST(BEGIN_TIME AS DATE)) AS ApplicantDate,');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''Supervisor'' THEN ACCOUNT END) AS SupervisorID, ');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''Supervisor'' THEN NAME END) AS Supervisor, ');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''Supervisor'' THEN FINISH_TIME END) AS SupervisorDate,');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''Manager'' THEN ACCOUNT END) AS ManagerID,');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''Manager'' THEN NAME END) AS Manager,');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''Manager'' THEN FINISH_TIME END) AS ManagerDate,');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''QC_Supervisor'' THEN ACCOUNT END) AS SupervisorQCID, ');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''QC_Supervisor'' THEN NAME END) AS SupervisorQC,');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''QC_Supervisor'' THEN FINISH_TIME END) AS SupervisorQCDate,');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''EndFrom'' THEN ACCOUNT END) AS ManagerQCID,');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''EndFrom'' THEN NAME END) AS ManagerQC, ');
-            SQL.Add('    MAX(CASE WHEN SITE_CODE = N''EndFrom'' THEN FINISH_TIME END) AS ManagerQCDate');
-            SQL.Add('FROM OPENQUERY([UOFWEB],');
-            SQL.Add('    ''SELECT ');
-            SQL.Add('        TB_WKF_TASK.TASK_ID, ');
-            SQL.Add('        TB_WKF_TASK_TRIGGER_RECORD.SITE_CODE, ');
-            SQL.Add('        REPLACE(TB_EB_USER.ACCOUNT, ''''LYN'''', '''''''') AS ACCOUNT, ');
-            SQL.Add('        CAST([UOF].[dbo].fSignsToNoSigns(TB_EB_USER.NAME) AS VARCHAR(200)) as NAME, ');
-            SQL.Add('        CAST(FINISH_TIME AS DATE) AS FINISH_TIME, ');
-            SQL.Add('        GROUP_NAME, ');
-            SQL.Add('        TITLE_NAME, ');
-            SQL.Add('        REPLACE(US.ACCOUNT, ''''LYN'''', '''''''') AS APPACCOUNT, ');
-            SQL.Add('        CAST([UOF].[dbo].fSignsToNoSigns(US.NAME) AS VARCHAR(200)) as APPNAME, ');
-            SQL.Add('        TB_WKF_TASK.BEGIN_TIME, ');
-            SQL.Add('        COMMENT');
-            SQL.Add('    FROM [UOF].[dbo].TB_WKF_TASK TB_WKF_TASK');
-            SQL.Add('    LEFT JOIN [UOF].[dbo].TB_WKF_TASK_NODE TB_WKF_TASK_NODE ON TB_WKF_TASK.TASK_ID = TB_WKF_TASK_NODE.TASK_ID');
-            SQL.Add('    LEFT JOIN [UOF].[dbo].TB_WKF_TASK_NODE_SIGNER_INFO TB_WKF_TASK_NODE_SIGNER_INFO ON TB_WKF_TASK_NODE_SIGNER_INFO.SITE_ID = TB_WKF_TASK_NODE.SITE_ID ');
-            SQL.Add('        AND TB_WKF_TASK_NODE.NODE_SEQ = TB_WKF_TASK_NODE_SIGNER_INFO.NODE_SEQ');
-            SQL.Add('    LEFT JOIN [UOF].[dbo].TB_EB_GROUP TB_EB_GROUP ON TB_WKF_TASK_NODE_SIGNER_INFO.GROUP_ID = TB_EB_GROUP.GROUP_ID');
-            SQL.Add('    LEFT JOIN [UOF].[dbo].TB_EB_EMPL_DEP TB_EB_EMPL_DEP ON TB_EB_EMPL_DEP.GROUP_ID = TB_EB_GROUP.GROUP_ID ');
-            SQL.Add('        AND TB_EB_EMPL_DEP.USER_GUID = TB_WKF_TASK_NODE.ORIGINAL_SIGNER');
-            SQL.Add('    LEFT JOIN [UOF].[dbo].TB_EB_USER TB_EB_USER ON TB_EB_USER.USER_GUID = TB_WKF_TASK_NODE.ACTUAL_SIGNER');
-            SQL.Add('    LEFT JOIN [UOF].[dbo].TB_EB_USER US ON US.USER_GUID = TB_WKF_TASK.AGENT_USER');
-            SQL.Add('    LEFT JOIN [UOF].[dbo].TB_EB_JOB_TITLE TB_EB_JOB_TITLE ON TB_EB_JOB_TITLE.TITLE_ID = TB_EB_EMPL_DEP.TITLE_ID');
-            SQL.Add('    LEFT JOIN [UOF].[dbo].TB_WKF_TASK_TRIGGER_RECORD TB_WKF_TASK_TRIGGER_RECORD ON TB_WKF_TASK_TRIGGER_RECORD.TASK_ID = TB_WKF_TASK.TASK_ID ');
-            SQL.Add('        AND TB_WKF_TASK_TRIGGER_RECORD.SITE_ID = TB_WKF_TASK_NODE_SIGNER_INFO.SITE_ID');
-            SQL.Add('    LEFT JOIN [UOF].[dbo].LYN_BCShoesIn LYN_BCShoesIn ON LYN_BCShoesIn.LNO = TB_WKF_TASK.DOC_NBR ');
-            SQL.Add('    WHERE ACTUAL_SIGNER IS NOT NULL ');
-            SQL.Add('        AND LYN_BCShoesIn.RKNO = ''''' + StockIn_BC.QKCRK.FieldByName('RKNO').AsString + '''''');
-            SQL.Add('    '') AS ApproveData');
-            //ShowMessage(SQL.Text);
-            Active := true;
-          end;
-
         if (FieldByName('ApplicantID').AsString <> '') AND (FileExists('\\' + main.ServerIP + '\images\QC\' + FieldByName('ApplicantID').AsString + '.bmp')) then
         begin
           ApplicantName.Visible := false;
@@ -394,7 +339,7 @@ begin
         end
         else begin
           ManagerSign.Visible := false;
-          ManagerName.Lines.Add(FieldByName('Manager').AsString);
+          ManagerName.Lines.Add(FieldByName('Applicant').AsString);
           ManagerName.Height := 17 * ManagerName.Lines.Count;
           ManagerName.Top := (70 - ManagerName.Height) DIV 2 + 27;
         end;

@@ -141,7 +141,7 @@ object LeatherSummary: TLeatherSummary
     end
     object Label36: TLabel
       Left = 563
-      Top = 14
+      Top = 8
       Width = 46
       Height = 16
       Alignment = taRightJustify
@@ -149,8 +149,8 @@ object LeatherSummary: TLeatherSummary
       Caption = 'SID'
     end
     object Label37: TLabel
-      Left = 595
-      Top = 39
+      Left = 565
+      Top = 31
       Width = 46
       Height = 16
       Caption = 'Defects'
@@ -434,15 +434,15 @@ object LeatherSummary: TLeatherSummary
     end
     object EdSID: TEdit
       Left = 614
-      Top = 9
+      Top = 4
       Width = 62
       Height = 24
       TabOrder = 20
     end
     object edtDefects: TEdit
-      Left = 595
-      Top = 56
-      Width = 81
+      Left = 614
+      Top = 30
+      Width = 62
       Height = 24
       CharCase = ecUpperCase
       TabOrder = 21
@@ -855,6 +855,7 @@ object LeatherSummary: TLeatherSummary
             TitleFont.Style = []
             UseMultiTitle = True
             OnGetCellParams = DBGrid_GradePGetCellParams
+            OnKeyPress = DBGrid_GradePKeyPress
             Columns = <
               item
                 Color = clSkyBlue
@@ -884,6 +885,19 @@ object LeatherSummary: TLeatherSummary
                 Footer.ValueType = fvtStaticText
                 Footers = <>
                 Title.Caption = 'Actual Qty'
+              end
+              item
+                EditButtons = <>
+                FieldName = 'LevelMat'
+                Footers = <>
+                PickList.Strings = (
+                  'I'
+                  'II'
+                  'III'
+                  'IV'
+                  'V'
+                  'VI')
+                Width = 66
               end
               item
                 EditButtons = <>
@@ -2091,14 +2105,6 @@ object LeatherSummary: TLeatherSummary
             end
             item
               EditButtons = <>
-              FieldName = 'Shoulder'
-              Footer.FieldName = 'Shoulder'
-              Footer.ValueType = fvtSum
-              Footers = <>
-              Title.Caption = 'Phan vai Shoulder'
-            end
-            item
-              EditButtons = <>
               FieldName = 'Back'
               Footer.FieldName = 'Back'
               Footer.ValueType = fvtSum
@@ -2418,7 +2424,7 @@ object LeatherSummary: TLeatherSummary
       object Splitter5: TSplitter
         Left = 881
         Top = 0
-        Height = 253
+        Height = 245
         Color = clSkyBlue
         ParentColor = False
       end
@@ -2426,7 +2432,7 @@ object LeatherSummary: TLeatherSummary
         Left = 0
         Top = 0
         Width = 881
-        Height = 253
+        Height = 245
         Align = alLeft
         Caption = 'Panel16'
         TabOrder = 0
@@ -2635,7 +2641,7 @@ object LeatherSummary: TLeatherSummary
           Left = 1
           Top = 48
           Width = 879
-          Height = 204
+          Height = 196
           Align = alClient
           DataSource = DS_thick
           Flat = False
@@ -2683,14 +2689,6 @@ object LeatherSummary: TLeatherSummary
               Footers = <>
               Title.Caption = 'Phan co Neck'
               Width = 70
-            end
-            item
-              EditButtons = <>
-              FieldName = 'Shoulder'
-              Footer.FieldName = 'Shoulder'
-              Footer.ValueType = fvtSum
-              Footers = <>
-              Title.Caption = 'Phan vai Shoulder'
             end
             item
               EditButtons = <>
@@ -2763,14 +2761,14 @@ object LeatherSummary: TLeatherSummary
       object Panel17: TPanel
         Left = 884
         Top = 0
-        Width = 361
-        Height = 253
+        Width = 353
+        Height = 245
         Align = alClient
         TabOrder = 1
         object Panel18: TPanel
           Left = 1
           Top = 1
-          Width = 359
+          Width = 351
           Height = 47
           Align = alTop
           TabOrder = 0
@@ -2952,8 +2950,8 @@ object LeatherSummary: TLeatherSummary
         object DBGrid_RT: TDBGridEh
           Left = 1
           Top = 48
-          Width = 359
-          Height = 204
+          Width = 351
+          Height = 196
           Align = alClient
           DataSource = DS_RT
           Flat = False
@@ -19372,7 +19370,7 @@ object LeatherSummary: TLeatherSummary
               Width = 89
               Height = 24
               Color = 13041606
-              ItemHeight = 16
+              ItemHeight = 0
               TabOrder = 7
             end
             object Button2: TButton
@@ -22391,28 +22389,97 @@ object LeatherSummary: TLeatherSummary
     DatabaseName = 'DB'
     DataSource = DS_All
     SQL.Strings = (
+      'SELECT  Leather_Softness.No_ID,'
+      '        Leather_Softness.Sequence,'
+      '        Leather_Softness.Neck,'
+      '        Leather_Softness.Shoulder,'
+      '        Leather_Softness.Back,'
+      '        Leather_Softness.Belly,'
+      '        Leather_Softness.Butt,'
+      '        Leather_Softness.YN,'
+      '        Leather_Softness.UserID,'
+      '        Leather_Softness.UserDate,'
+      '        Leather_Softness.Inspector,'
+      ''
+      '        CONVERT(NUMERIC(18,2),'
+      '            CASE '
+      '                WHEN Leather_Softness.Shoulder IS NULL THEN'
+      '                    ( ISNULL(Leather_Softness.Neck,0)'
+      '                    + ISNULL(Leather_Softness.Back,0)'
+      '                    + ISNULL(Leather_Softness.Belly,0)'
+      '                    + ISNULL(Leather_Softness.Butt,0)'
+      '                    ) / 4.0'
+      '                ELSE'
+      '                    ( ISNULL(Leather_Softness.Neck,0)'
+      '                    + ISNULL(Leather_Softness.Shoulder,0)'
+      '                    + ISNULL(Leather_Softness.Back,0)'
+      '                    + ISNULL(Leather_Softness.Belly,0)'
+      '                    + ISNULL(Leather_Softness.Butt,0)'
+      '                    ) / 5.0'
+      '            END'
+      '        ) AS Average,'
+      ''
+      '        Leather_QC.Standard_Softness,'
+      '        LEFT(Leather_QC.Standard_Softness,3)  AS SMin,'
+      '        RIGHT(Leather_QC.Standard_Softness,3) AS SMax,'
+      ''
+      '        CASE '
       
-        'SELECT Leather_Softness.No_ID,Sequence,Neck,Shoulder,Back,Belly,' +
-        'Butt,Leather_Softness.YN,Leather_Softness.UserID,Leather_Softnes' +
-        's.UserDate,Inspector'
+        '            WHEN ISNULL(Leather_QC.Standard_Softness,'#39#39') = '#39#39' TH' +
+        'EN NULL'
+      '            ELSE'
+      '                CASE '
+      '                    WHEN CONVERT(NUMERIC(18,2),'
+      '                        CASE '
       
-        #9#9',convert(numeric(18,2),(isnull(Neck,0)+ isnull(Shoulder,0) + i' +
-        'snull(Back,0) + isnull(Belly,0) + isnull(Butt,0))/5) as Average'
+        '                            WHEN Leather_Softness.Shoulder IS NU' +
+        'LL THEN'
       
-        #9#9',Standard_Softness,left(Standard_Softness,3) as SMin,right(Sta' +
-        'ndard_Softness,3) as SMax'
-      #9#9',case when isnull(Standard_Softness,'#39#39')= '#39#39' then null'
+        '                                ( ISNULL(Leather_Softness.Neck,0' +
+        ')'
       
-        #9#9'  else (case when convert(numeric(18,2),(isnull(Neck,0)+ isnul' +
-        'l(Shoulder,0) + isnull(Back,0) + isnull(Belly,0) + isnull(Butt,0' +
-        '))/5) between left(Standard_Softness,3) and right(Standard_Softn' +
-        'ess,3) then '#39'Pass'#39' else '#39'Fail'#39' end) end Result'
+        '                                + ISNULL(Leather_Softness.Back,0' +
+        ')'
       
-        'FROM Leather_Softness left join Leather_QC on Leather_QC.No_ID=L' +
-        'eather_Softness.No_ID'
+        '                                + ISNULL(Leather_Softness.Belly,' +
+        '0)'
       
-        'where Leather_Softness.No_ID=:No_ID AND Leather_QC.Standard_Soft' +
-        'ness <> '#39'N/A'#39)
+        '                                + ISNULL(Leather_Softness.Butt,0' +
+        ')'
+      '                                ) / 4.0'
+      '                            ELSE'
+      
+        '                                ( ISNULL(Leather_Softness.Neck,0' +
+        ')'
+      
+        '                                + ISNULL(Leather_Softness.Should' +
+        'er,0)'
+      
+        '                                + ISNULL(Leather_Softness.Back,0' +
+        ')'
+      
+        '                                + ISNULL(Leather_Softness.Belly,' +
+        '0)'
+      
+        '                                + ISNULL(Leather_Softness.Butt,0' +
+        ')'
+      '                                ) / 5.0'
+      '                        END'
+      '                    )'
+      '                    BETWEEN LEFT(Leather_QC.Standard_Softness,3)'
+      
+        '                        AND RIGHT(Leather_QC.Standard_Softness,3' +
+        ')'
+      '                    THEN '#39'Pass'#39
+      '                    ELSE '#39'Fail'#39
+      '                END'
+      '        END AS Result'
+      ''
+      'FROM Leather_Softness'
+      'LEFT JOIN Leather_QC'
+      '       ON Leather_QC.No_ID = Leather_Softness.No_ID'
+      'WHERE Leather_Softness.No_ID = :No_ID'
+      '  AND Leather_QC.Standard_Softness <> '#39'N/A'#39)
     UpdateObject = Upd_Soft
     Left = 572
     Top = 430
@@ -22528,29 +22595,98 @@ object LeatherSummary: TLeatherSummary
     DatabaseName = 'DB'
     DataSource = DS_All
     SQL.Strings = (
+      'SELECT  Leather_thickness.No_ID,'
+      '        Leather_thickness.Sequence,'
+      '        Leather_thickness.Neck,'
+      '        Leather_thickness.Shoulder,'
+      '        Leather_thickness.Back,'
+      '        Leather_thickness.Belly,'
+      '        Leather_thickness.Butt,'
+      '        Leather_thickness.YN,'
+      '        Leather_thickness.UserID,'
+      '        Leather_thickness.UserDate,'
+      '        Leather_thickness.Inspector,'
+      ''
+      '        CONVERT(NUMERIC(18,2),'
+      '            CASE '
+      '                WHEN Leather_thickness.Shoulder IS NULL THEN'
+      '                    ( ISNULL(Leather_thickness.Neck,0)'
+      '                    + ISNULL(Leather_thickness.Back,0)'
+      '                    + ISNULL(Leather_thickness.Belly,0)'
+      '                    + ISNULL(Leather_thickness.Butt,0)'
+      '                    ) / 4.0'
+      '                ELSE'
+      '                    ( ISNULL(Leather_thickness.Neck,0)'
+      '                    + ISNULL(Leather_thickness.Shoulder,0)'
+      '                    + ISNULL(Leather_thickness.Back,0)'
+      '                    + ISNULL(Leather_thickness.Belly,0)'
+      '                    + ISNULL(Leather_thickness.Butt,0)'
+      '                    ) / 5.0'
+      '            END'
+      '        ) AS Average,'
+      ''
+      '        LEFT(clzl.YWPM,3) AS SMin,'
+      '        SUBSTRING(clzl.YWPM,5,3) AS SMax,'
+      ''
+      '        CASE '
+      '            WHEN ISNULL(clzl.YWPM,'#39#39') = '#39#39' THEN NULL'
+      '            ELSE'
+      '                CASE '
+      '                    WHEN CONVERT(NUMERIC(18,2),'
+      '                        CASE '
       
-        'SELECT Leather_thickness.No_ID,Sequence,Neck,Shoulder,Back,Belly' +
-        ',Butt,Leather_thickness.YN,Leather_thickness.UserID,Leather_thic' +
-        'kness.UserDate,Inspector'
+        '                            WHEN Leather_thickness.Shoulder IS N' +
+        'ULL THEN'
       
-        #9#9',convert(numeric(18,2),(isnull(Neck,0)+ isnull(Shoulder,0) + i' +
-        'snull(Back,0) + isnull(Belly,0) + isnull(Butt,0))/5) as Average'
-      #9#9',left(clzl.YWPM,3) as SMin,substring(clzl.YWPM,5,3) as SMax'
-      #9#9',case when isnull(clzl.YWPM,'#39#39')= '#39#39' then null'
+        '                                ( ISNULL(Leather_thickness.Neck,' +
+        '0)'
       
-        #9#9'  else (case when convert(numeric(18,2),(isnull(Neck,0)+ isnul' +
-        'l(Shoulder,0) + isnull(Back,0) + isnull(Belly,0) + isnull(Butt,0' +
-        '))/5) '
+        '                                + ISNULL(Leather_thickness.Back,' +
+        '0)'
       
-        #9#9#9#9' between left(clzl.YWPM,3) and (case when isnumeric(substrin' +
-        'g(clzl.YWPM,5,3)) = 1 then substring(clzl.YWPM,5,3) else left(cl' +
-        'zl.YWPM,3) end) '
-      #9#9#9#9'then '#39'Pass'#39' else '#39'Fail'#39' end) end Result'
+        '                                + ISNULL(Leather_thickness.Belly' +
+        ',0)'
       
-        'FROM Leather_thickness left join Leather_QC on Leather_QC.No_ID=' +
-        'Leather_thickness.No_ID'
-      #9#9#9#9#9#9'left join clzl on clzl.CLDH = Leather_QC.CLBH'
-      'where Leather_thickness.No_ID=:No_ID')
+        '                                + ISNULL(Leather_thickness.Butt,' +
+        '0)'
+      '                                ) / 4.0'
+      '                            ELSE'
+      
+        '                                ( ISNULL(Leather_thickness.Neck,' +
+        '0)'
+      
+        '                                + ISNULL(Leather_thickness.Shoul' +
+        'der,0)'
+      
+        '                                + ISNULL(Leather_thickness.Back,' +
+        '0)'
+      
+        '                                + ISNULL(Leather_thickness.Belly' +
+        ',0)'
+      
+        '                                + ISNULL(Leather_thickness.Butt,' +
+        '0)'
+      '                                ) / 5.0'
+      '                        END'
+      '                    )'
+      '                    BETWEEN LEFT(clzl.YWPM,3)'
+      '                        AND CASE '
+      
+        '                                WHEN ISNUMERIC(SUBSTRING(clzl.YW' +
+        'PM,5,3)) = 1'
+      '                                THEN SUBSTRING(clzl.YWPM,5,3)'
+      '                                ELSE LEFT(clzl.YWPM,3)'
+      '                            END'
+      '                    THEN '#39'Pass'#39
+      '                    ELSE '#39'Fail'#39
+      '                END'
+      '        END AS Result'
+      'FROM Leather_thickness'
+      'LEFT JOIN Leather_QC'
+      '       ON Leather_QC.No_ID = Leather_thickness.No_ID'
+      'LEFT JOIN clzl'
+      '       ON clzl.CLDH = Leather_QC.CLBH'
+      'WHERE Leather_thickness.No_ID = :No_ID')
     UpdateObject = Upd_thick
     Left = 612
     Top = 430
@@ -22780,8 +22916,8 @@ object LeatherSummary: TLeatherSummary
     SQL.Strings = (
       ''
       
-        'select Leather_GradeP.No_ID, Leather_GradeP.Sequence, Leather_Gr' +
-        'adeP.Package,'
+        'select Leather_GradeP.No_ID, Leather_GradeP.LevelMat, Leather_Gr' +
+        'adeP.Sequence, Leather_GradeP.Package,'
       
         '       Leather_GradeP.SP, isnull(Leather_GradeP.AcQty,0) - isnul' +
         'l(Grade7.AcQty,0) AcQty, isnull(Leather_GradeP.DeQty,0) - isnull' +
@@ -22813,7 +22949,7 @@ object LeatherSummary: TLeatherSummary
       
         #9#9#9#9#9#9#9#9#9'AND Grade7.Sequence = Leather_GradeP.Sequence AND Grade' +
         '7.Grade = Leather_GradeP.Grade'#9#9
-      'where 1=2'
+      'where 1=5'
       '')
     UpdateObject = Upd_GradeP
     Left = 130
@@ -22830,6 +22966,11 @@ object LeatherSummary: TLeatherSummary
       FieldName = 'AcQty'
       Origin = 'DB.Leather_GradeD.AcQty'
       currency = False
+    end
+    object qry_GradePLevelMat: TStringField
+      FieldName = 'LevelMat'
+      FixedChar = True
+      Size = 5
     end
     object CurrencyField7: TCurrencyField
       FieldName = 'DeQty'
@@ -22904,6 +23045,7 @@ object LeatherSummary: TLeatherSummary
       'update Leather_GradeP set'
       'Sequence=:Sequence'
       ',Package=:Package'
+      ',LevelMat=:LevelMat'
       ',AcQty=:AcQty'
       ',DeQty=:DeQty'
       ',Defects=:Defects'
@@ -22918,11 +23060,11 @@ object LeatherSummary: TLeatherSummary
         'ackage and SP=:old_SP')
     InsertSQL.Strings = (
       
-        'INSERT INTO Leather_GradeP  (No_ID,Package,Sequence,AcQty,DeQty,' +
-        'Defects,YN,UserID,UserDate,Inspector,DeCode,SP,Remark)'
+        'INSERT INTO Leather_GradeP  (No_ID,Package,LevelMat,Sequence,AcQ' +
+        'ty,DeQty,Defects,YN,UserID,UserDate,Inspector,DeCode,SP,Remark)'
       
-        '     VALUES (:No_ID,:Package,:Sequence,:AcQty,:DeQty,:Defects,:Y' +
-        'N,:UserID,getdate(),:Inspector,:DeCode,:SP,:Remark)')
+        '     VALUES (:No_ID,:Package,:LevelMat,:Sequence,:AcQty,:DeQty,:' +
+        'Defects,:YN,:UserID,getdate(),:Inspector,:DeCode,:SP,:Remark)')
     DeleteSQL.Strings = (
       'delete from Leather_GradeP'
       

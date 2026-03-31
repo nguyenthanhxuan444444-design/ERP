@@ -354,7 +354,7 @@ begin
                 Query1.Edit;
                 Query1.FieldByName('ReportID').Value := NewID;
                 Query1.FieldByName('USERID').Value := main.Edit1.Text;
-                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                 Query1.FieldByName('YN').Value := 1;
                 upsql1.apply(ukinsert);
               end;
@@ -373,23 +373,23 @@ begin
                  begin
                   Query1.Edit;
                   if DBGrid1.SelectedField.FieldName = 'PreparedID' then
-                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
+                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd', Now)
                   else if MenuCode.Text = 'N991' then
                     begin
                       Query1.FieldByName('USERID').Value := main.Edit1.Text;
-                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N992' then
                     begin
-                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N993' then
                     begin
-                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N994' then
                     begin
-                      Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   upsql1.apply(ukmodify);
                  end;
@@ -437,11 +437,23 @@ procedure THumidityCheck.bExFClick(Sender: TObject);
 var
   ExcelApp, Workbook, Worksheet, borderRange: OleVariant;
   StartRow, InsertRow: Integer;
-  DuongDanFile, SaveFile, s: string;
+  DuongDanFile, SaveFile, s, AppDir, SrcFile, DstFile: string;
   i, p: Integer;
   MaxHeight: Double;
   SigS, SigMS, SigL, SigP: Boolean;
 begin
+
+  AppDir := ExtractFilePath(Application.ExeName);
+
+  if not DirectoryExists(AppDir) then
+    ForceDirectories(AppDir);
+
+  SrcFile := '\\192.168.71.4\erp\lys_erp\A-QIP-008C.xlsx';
+  DstFile := IncludeTrailingPathDelimiter(AppDir) + 'A-QIP-008C.xlsx';
+
+  if not CopyFile(PChar(SrcFile), PChar(DstFile), False) then
+    ShowMessage('Copy file that bai');
+
   DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-008C.xlsx';
 
   StartRow := 5;

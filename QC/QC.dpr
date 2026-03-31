@@ -158,7 +158,10 @@ uses
   ProduceMatFailure in 'Source\SN9\ProduceMatFailure.pas' {ProducMatFailure},
   IncomeUpperMaterials in 'Source\SN9\IncomeUpperMaterials.pas' {IncomeUpperMaterial},
   LeatherMatInspections in 'Source\SN9\LeatherMatInspections.pas' {LeatherMatInspection},
-  HumidityChecks in 'Source\SN9\HumidityChecks.pas' {HumidityCheck};
+  HumidityChecks in 'Source\SN9\HumidityChecks.pas' {HumidityCheck},
+  SoleWeekReports in 'Source\SN9\SoleWeekReports.pas' {RejectedMaterial},
+  MonthlyReportMaterials in 'Source\SN9\MonthlyReportMaterials.pas' {MonthlyReportMaterial},
+  NonConformingMaterials in 'Source\SN9\NonConformingMaterials.pas' {NonConformingMaterial};
 
 {$R *.res}
 

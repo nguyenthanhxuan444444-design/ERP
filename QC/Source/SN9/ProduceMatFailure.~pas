@@ -104,6 +104,7 @@ type
     procedure UpImageClick(Sender: TObject);
     procedure InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
   const FieldName: string; Row, Column: Integer);
+    procedure BB2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -120,7 +121,7 @@ uses main1;
 {$R *.dfm}
 
 
-procedure TProducMatFailure.InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
+{procedure TProducMatFailure.InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
   const FieldName: string; Row, Column: Integer);
 var
   Pic: OleVariant;
@@ -171,8 +172,71 @@ begin
   // Can duoi
   Pic.Left := CellLeft + (CellWidth - Pic.Width) / 2;
   Pic.Top  := CellTop + (CellHeight * 0.03);
-  //Pic.Top := CellTop + (CellHeight - Pic.Height) - (CellHeight * 0.03);
+end;}
+
+procedure TProducMatFailure.InsertImageToExcel(Worksheet: OleVariant; Query: TQuery;
+  const FieldName: string; Row, Column: Integer);
+var
+  Pic: OleVariant;
+  Rg: OleVariant;
+  CellLeft, CellTop, CellWidth, CellHeight: Double;
+  origW, origH, newW, newH: Double;
+  ImagePath: string;
+begin
+  // Duong anh trong field
+  ImagePath := Trim(Query.FieldByName(FieldName).AsString);
+
+  // Neu rong thi khong lam gi
+  if ImagePath = '' then
+    Exit;
+
+  // Neu file khong ton tai thi exit
+  if not FileExists(ImagePath) then
+    Exit;
+
+  // Chen anh
+  Pic := Worksheet.Pictures.Insert(ImagePath);
+
+  // Lay vung merge cua o
+  Rg := Worksheet.Cells[Row, Column].MergeArea;
+
+  CellLeft   := Rg.Left;
+  CellTop    := Rg.Top;
+  CellWidth  := Rg.Width;
+  CellHeight := Rg.Height;
+
+  // Kich thuoc goc cua anh
+  origW := Pic.Width;
+  origH := Pic.Height;
+
+  // Scale theo chieu ngang nhu cu
+  newW := CellWidth * 0.95;
+  newH := newW * (origH / origW);
+
+  if newH > CellHeight * 0.95 then
+  begin
+    newH := CellHeight * 0.95;
+    newW := newH * (origW / origH);
+  end;
+
+  // Gioi han anh chi nam trong nua tren cua vung merge
+  if newH > (CellHeight / 2) * 0.95 then
+  begin
+    newH := (CellHeight / 2) * 0.95;
+    newW := newH * (origW / origH);
+  end;
+
+  Pic.Width  := newW;
+  Pic.Height := newH;
+
+  // Canh giua theo chieu ngang
+  Pic.Left := CellLeft + (CellWidth - Pic.Width) / 2;
+
+  // Canh giua trong nua tren
+  Pic.Top := CellTop + ((CellHeight / 2) - Pic.Height) / 2;
 end;
+
+
 
 
 function TProducMatFailure.GetUsernameByID(const AID: string): string;
@@ -423,7 +487,7 @@ begin
 
         //ghi noi dung textbox
         TB := Worksheet.Shapes.Item('TextBox 3');
-        TB.TextFrame.Characters.Text := StringReplace(Query1.FieldByName('VisualCheck').AsString, '_', #13#10, [rfReplaceAll]);
+        TB.TextFrame.Characters.Text := StringReplace(Query1.FieldByName('VisualCheck').AsString, ';', #13#10, [rfReplaceAll]);
       end;
 
     cur := Trim(Worksheet.Cells[r[i], c[i]].Value);
@@ -434,13 +498,15 @@ begin
   end;
 
 
-  //dien PO
+  //dien PO, xuong dong neu gap _
   begin
     s := edtDDBH.Text;
     s := StringReplace(s, '_', Chr(10), [rfReplaceAll]);
     Worksheet.Cells[7, 3].WrapText := True;
     Worksheet.Cells[7, 3].Value := s;
   end;
+
+
 
 
   //Kiem tra ky KCS Super
@@ -718,7 +784,7 @@ begin
                 Query1.Edit;
                 Query1.FieldByName('ReportID').Value := NewID;
                 Query1.FieldByName('USERID').Value := main.Edit1.Text;
-                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                 Query1.FieldByName('YN').Value := 1;
                 upsql1.apply(ukinsert);
               end;
@@ -739,24 +805,24 @@ begin
                   if MenuCode.Text = 'N961' then
                     begin
                       Query1.FieldByName('USERID').Value := main.Edit1.Text;
-                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N962' then
                     begin
                       Query1.FieldByName('PurID').Value := main.Edit1.Text;
-                      Query1.FieldByName('PurDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('PurDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N963' then
                     begin
-                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N964' then
                     begin
-                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N965' then
                     begin
-                      Query1.FieldByName('WMSCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('WMSCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   upsql1.apply(ukmodify);
                  end;
@@ -889,6 +955,23 @@ begin
         ShowMessage('Loi khi upload: ' + E.Message);
     end;
   end;
+end;
+
+procedure TProducMatFailure.BB2Click(Sender: TObject);
+begin
+if messagedlg('Are you sure you want to delete?',mtconfirmation,[mbYes,mbNo],0)<>mrYes then
+  begin
+    abort;
+  end;
+with query1 do
+  begin
+    cachedupdates:=true;
+    requestlive:=true;
+    edit;
+    fieldbyname('YN').Value:=0;
+  end;
+bb4.enabled:=true;
+bb5.enabled:=true;
 end;
 
 end.

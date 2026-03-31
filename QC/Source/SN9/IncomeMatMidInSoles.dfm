@@ -96,6 +96,13 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       Height = 20
       Caption = 'StandardHard:'
     end
+    object Label10: TLabel
+      Left = 512
+      Top = 8
+      Width = 35
+      Height = 20
+      Caption = 'Size:'
+    end
     object BB1: TBitBtn
       Left = 0
       Top = 144
@@ -517,7 +524,7 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       TabOrder = 25
     end
     object btCopy: TButton
-      Left = 336
+      Left = 366
       Top = 144
       Width = 73
       Height = 49
@@ -525,6 +532,22 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
       TabOrder = 26
       Visible = False
       OnClick = btCopyClick
+    end
+    object btnCfm: TButton
+      Left = 290
+      Top = 144
+      Width = 75
+      Height = 49
+      Caption = 'Confirm'
+      TabOrder = 27
+      OnClick = btnCfmClick
+    end
+    object edtSize: TEdit
+      Left = 568
+      Top = 8
+      Width = 121
+      Height = 28
+      TabOrder = 28
     end
   end
   object DBGrid1: TDBGridEh
@@ -768,12 +791,14 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
         FieldName = 'LabID'
         Footers = <>
         Title.Caption = 'LabTest '#29289#24615#27298#28204'|LabID'
+        Width = 200
       end
       item
         EditButtons = <>
         FieldName = 'LabResult'
         Footers = <>
         Title.Caption = 'LabTest '#29289#24615#27298#28204'|'#28204#35430#32080#26524'LabTestResult'
+        Width = 200
       end
       item
         EditButtons = <>
@@ -841,7 +866,7 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
     AfterOpen = Query1AfterOpen
     DatabaseName = 'DB'
     SQL.Strings = (
-      'select * from QC_MidInSole where 1=3'
+      'select * from QC_MidInSole where 1=2'
       '')
     UpdateObject = UpSQL1
     Left = 448
@@ -962,14 +987,6 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
     object Query1SendDate: TDateTimeField
       FieldName = 'SendDate'
     end
-    object Query1LabID: TStringField
-      FieldName = 'LabID'
-      FixedChar = True
-    end
-    object Query1LabResult: TStringField
-      FieldName = 'LabResult'
-      FixedChar = True
-    end
     object Query1Reject: TStringField
       FieldName = 'Reject'
       FixedChar = True
@@ -1019,6 +1036,16 @@ object IncomeMatMidInSole: TIncomeMatMidInSole
     end
     object Query1PreparedDate: TDateTimeField
       FieldName = 'PreparedDate'
+    end
+    object Query1LabID: TStringField
+      FieldName = 'LabID'
+      FixedChar = True
+      Size = 200
+    end
+    object Query1LabResult: TStringField
+      FieldName = 'LabResult'
+      FixedChar = True
+      Size = 200
     end
   end
   object DS1: TDataSource

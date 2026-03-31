@@ -95,6 +95,8 @@ type
     Query1PreparedID: TStringField;
     Query1PreparedDate: TDateTimeField;
     QSig: TQuery;
+    Label10: TLabel;
+    edtSize: TEdit;
     procedure Button1Click(Sender: TObject);
     function NewID: string;
     function GetUsernameByID(const AID: string): string;
@@ -117,6 +119,7 @@ type
     procedure DBGrid1GetCellParams(Sender: TObject; Column: TColumnEh;
       AFont: TFont; var Background: TColor; State: TGridDrawState);
     procedure btCopyClick(Sender: TObject);
+    function SheetExists(WB: Variant; SheetName: string): Boolean;
   private
     { Private declarations }
   public
@@ -131,6 +134,20 @@ implementation
 uses main1;
 
 {$R *.dfm}
+function TIncomeMatRubberOutsoles.SheetExists(WB: Variant; SheetName: string): Boolean;
+var
+  i: Integer;
+begin
+  Result := False;
+  for i := 1 to WB.Worksheets.Count do
+  begin
+    if WB.Worksheets[i].Name = SheetName then
+    begin
+      Result := True;
+      Exit;
+    end;
+  end;
+end;
 
 procedure TIncomeMatRubberOutsoles.SetColumnsReadOnly;
 begin
@@ -379,6 +396,9 @@ begin
       SQL.Add('and CAST(USERDate as DATE) = '''+FormatDateTime('yyyy-mm-dd', dtpUSERDate.Date)+''' ');
     if edtStyle.Text <> '' then
       SQL.Add('and XieMing like ''%'+edtStyle.Text+'%'' ');
+    if edtSize.Text <> '' then
+      SQL.Add('and Size = '''+edtSize.Text+''' ');
+    SQL.Add(' order by ReportID ');
     Active := true;
   end;
 end;
@@ -465,23 +485,23 @@ begin
                  begin
                   Query1.Edit;
                   if DBGrid1.SelectedField.FieldName = 'PreparedID' then
-                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now)
+                    Query1.FieldByName('PreparedDate').Value := FormatDateTime('yyyy-mm-dd', Now)
                   else if MenuCode.Text = 'N931' then
                     begin
                       Query1.FieldByName('USERID').Value := main.Edit1.Text;
-                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('USERDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N933' then
                     begin
-                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('SCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N934' then
                     begin
-                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('LCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   if MenuCode.Text = 'N935' then
                     begin
-                      Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd hh:nn:ss', Now);
+                      Query1.FieldByName('MSCFDate').Value := FormatDateTime('yyyy-mm-dd', Now);
                     end;
                   upsql1.apply(ukmodify);
                  end;
@@ -586,7 +606,7 @@ end;
 
 procedure TIncomeMatRubberOutsoles.bExcelClick(Sender: TObject);
 var
-  ExcelApp, Workbook, Worksheet: OleVariant;
+  ExcelApp, Workbook, Worksheet, CurWS: OleVariant;
   Row, Col: Integer;
 begin
   ExcelApp := CreateOleObject('Excel.Application');
@@ -612,13 +632,25 @@ end;
 
 procedure TIncomeMatRubberOutsoles.bExFClick(Sender: TObject);
 var
-  ExcelApp, Workbook, Worksheet, borderRange: OleVariant;
+  ExcelApp, Workbook, Worksheet, borderRange, CurWS: OleVariant;
   StartRow, InsertRow: Integer;
-  DuongDanFile, SaveFile, s: string;
+  DuongDanFile, SaveFile, curSize, lastSize, s, AppDir, SrcFile, DstFile: string;
   i, p: Integer;
   MaxHeight: Double;
   SigS, SigMS, SigL, SigP: Boolean;
 begin
+
+  AppDir := ExtractFilePath(Application.ExeName);
+
+  if not DirectoryExists(AppDir) then
+    ForceDirectories(AppDir);
+
+  SrcFile := '\\192.168.71.4\erp\lys_erp\A-QIP-WS001-03D.xlsx';
+  DstFile := IncludeTrailingPathDelimiter(AppDir) + 'A-QIP-WS001-03D.xlsx';
+
+  if not CopyFile(PChar(SrcFile), PChar(DstFile), False) then
+    ShowMessage('Copy file that bai');
+
   DuongDanFile := ExtractFilePath(ParamStr(0)) + 'A-QIP-WS001-03D.xlsx';
 
   StartRow := 10;
@@ -726,6 +758,7 @@ begin
 
   while not Query1.Eof do
   begin
+
     Worksheet.Rows[Format('%d:%d', [InsertRow, InsertRow])].Insert;
 
     borderRange := Worksheet.Range[Format('A%d:S%d', [InsertRow, InsertRow])];
